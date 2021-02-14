@@ -1,3 +1,6 @@
+mod compiler;
+
 fn main() {
-    println!("Hello, world!");
+    let mut lexer = compiler::Lexer::new("(test 1 2 3)".to_string());
+    println!("{:?}", lexer.lex())
 }
