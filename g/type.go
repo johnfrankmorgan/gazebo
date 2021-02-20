@@ -39,13 +39,14 @@ var (
 	TypeNumber       *Type
 	TypeString       *Type
 	TypeList         *Type
+	TypeMap          *Type
 	TypeInternalFunc *Type
 	TypeFunc         *Type
 	TypeInternal     *Type
 )
 
 func init() {
-	for _, init := range []func(){initbase, initnil, initbool, initnumber, initstring, initlist} {
+	for _, init := range []func(){initbase, initnil, initbool, initnumber, initstring, initlist, initmap} {
 		init()
 	}
 

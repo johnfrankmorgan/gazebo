@@ -1,0 +1,10 @@
+(let m (map))
+
+(set m "test" 500)
+(println (inspect m))
+
+(set m "test2" 200)
+(debug m)
+
+(println m["test"] m["test2"])
+(println m[.test] m[.test2])

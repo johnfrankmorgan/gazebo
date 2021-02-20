@@ -59,6 +59,17 @@ func EnsureList(value Object) *ObjectList {
 	return value.(*ObjectList)
 }
 
+// EnsureMap asserts that an Object is an ObjectMap
+func EnsureMap(value Object) *ObjectMap {
+	errors.ErrRuntime.Expect(
+		value.Type() == TypeMap,
+		"expected type Map got %s",
+		value.Type().Name,
+	)
+
+	return value.(*ObjectMap)
+}
+
 // EnsureInternalFunc asserts that an Object is an ObjectInternalFunc
 func EnsureInternalFunc(value Object) *ObjectInternalFunc {
 	errors.ErrRuntime.Expect(
@@ -115,4 +126,22 @@ func ToInt(object Object) int {
 // Invoke calls an Object
 func Invoke(object Object, args Args) Object {
 	return object.Call(Protocols.Invoke, args)
+}
+
+// ParentCall calls the method on an object's parent
+func ParentCall(object Object, method string, args Args) Object {
+	errors.ErrRuntime.Expect(
+		object.Type().Parent != nil,
+		"type %s has no parent",
+		object.Type().Name,
+	)
+
+	errors.ErrRuntime.Expect(
+		object.Type().Parent.Implements(method),
+		"%s does not implement method %s",
+		object.Type().Parent.Name,
+		method,
+	)
+
+	return object.Type().Parent.Resolve(method)(object, args)
 }

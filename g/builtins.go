@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"math"
 	"reflect"
+
+	"github.com/kr/pretty"
 )
 
 func _protocolmethods() []string {
@@ -63,6 +65,14 @@ func Builtins() map[string]Object {
 			return NewObjectBool(args.Self().Type() == TypeNil)
 		}),
 
+		"debug": NewObjectInternalFunc(func(args Args) Object {
+			for _, arg := range args {
+				pretty.Printf("%# v", arg)
+			}
+
+			return NewObjectNil()
+		}),
+
 		"println": NewObjectInternalFunc(func(args Args) Object {
 			fmt.Println(args.Values()...)
 			return NewObjectNil()
@@ -72,6 +82,10 @@ func Builtins() map[string]Object {
 			format, args := args.SelfWithArgs()
 			fmt.Printf(EnsureString(format).String(), args.Values()...)
 			return NewObjectNil()
+		}),
+
+		"map": NewObjectInternalFunc(func(_ Args) Object {
+			return NewObjectMap()
 		}),
 	})
 }

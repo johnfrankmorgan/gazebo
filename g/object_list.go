@@ -34,6 +34,11 @@ func (m *ObjectList) Append(objects ...Object) {
 	m.value = append(m.value, objects...)
 }
 
+// Set sets the value at an index
+func (m *ObjectList) Set(index int, value Object) {
+	m.value[index] = value
+}
+
 // Index returns the Object at the provided index
 func (m *ObjectList) Index(index int) Object {
 	return m.value[index]

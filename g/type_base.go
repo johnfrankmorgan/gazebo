@@ -1,11 +1,16 @@
 package g
 
 import (
+	"bytes"
+	"encoding/gob"
 	"fmt"
+	"hash/maphash"
 	"reflect"
 
 	"github.com/johnfrankmorgan/gazebo/errors"
 )
+
+var _hash maphash.Hash
 
 func initbase() {
 	TypeBase = &Type{
@@ -91,6 +96,20 @@ func initbase() {
 				self.Attributes().Delete(name)
 
 				return NewObjectNil()
+			}),
+
+			Protocols.Hash: Method(func(self Object, _ Args) Object {
+				var buff bytes.Buffer
+
+				defer _hash.Reset()
+
+				err := gob.NewEncoder(&buff).Encode(self.Value())
+				errors.ErrRuntime.ExpectNil(err, "%v", err)
+
+				_, err = _hash.Write(buff.Bytes())
+				errors.ErrRuntime.ExpectNil(err, "%v", err)
+
+				return NewObjectNumber(float64(_hash.Sum64()))
 			}),
 		},
 	}

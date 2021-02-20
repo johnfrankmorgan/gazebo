@@ -20,6 +20,7 @@ var Protocols = struct {
 	GetAttr     string
 	SetAttr     string
 	DelAttr     string
+	Hash        string
 }{
 	ToBool:      "?",
 	ToString:    "str",
@@ -39,4 +40,5 @@ var Protocols = struct {
 	GetAttr:     "get",
 	SetAttr:     "set",
 	DelAttr:     "del",
+	Hash:        "#",
 }
