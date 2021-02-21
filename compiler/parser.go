@@ -3,51 +3,57 @@ package compiler
 import (
 	"strings"
 
+	"github.com/johnfrankmorgan/gazebo/assert"
 	"github.com/johnfrankmorgan/gazebo/debug"
 	"github.com/johnfrankmorgan/gazebo/errors"
 )
 
-func parse(source string) *sexpr {
+func parse(source string) expression {
 	tokens := tokenize(source)
 
 	if debug.Enabled() {
 		tokens.dump()
 	}
 
-	expr, _ := _parse(tokens)
-	return expr
-}
-
-func _parse(tokens tokens) (*sexpr, int) {
 	parser := parser{tokens: tokens}
-	expr := parser.parse()
-	return expr, parser.position
+
+	return parser.parse()
 }
 
-type sexpr struct {
-	children []*sexpr
-	token    token
-}
+func dumpexpression(expr expression, depth int) {
+	indent := strings.Repeat("  ", depth)
 
-func (m *sexpr) dump(depth int) {
-	indent := strings.Repeat(" ", depth*2)
+	limit := func(str string, count int) string {
+		if len(str) > count {
+			return str[:count]
+		}
 
-	if m.atom() || m.token.is(tkbracketopen, tkbracketclose) {
-		debug.Printf("%s%s(%v)\n", indent, m.token.typ.name(), m.token.value)
-		return
+		return str
 	}
 
-	debug.Printf("%s(\n", indent)
+	switch expr := expr.(type) {
+	case *binary:
+		debug.Printf("BIN  %s%s %s {\n", indent, expr.op.value, expr.op.typ.name())
+		dumpexpression(expr.left, depth+1)
+		dumpexpression(expr.right, depth+1)
+		debug.Printf("/BIN %s}\n", indent)
 
-	for _, expr := range m.children {
-		expr.dump(depth + 1)
+	case *unary:
+		debug.Printf("UNY  %s%s %s {\n", indent, expr.op.value, expr.op.typ.name())
+		dumpexpression(expr.right, depth+1)
+		debug.Printf("/UNY %s}\n", indent)
+
+	case *literal:
+		debug.Printf("LIT  %s%s %s\n", indent, limit(expr.token.value, 10), expr.token.typ.name())
+
+	case *group:
+		debug.Printf("GRP  %s() {\n", indent)
+		dumpexpression(expr.expr, depth+1)
+		debug.Printf("/GRP %s}\n", indent)
+
+	default:
+		assert.Unreached("unknown expression type %T", expr)
 	}
-
-	debug.Printf("%s)\n", indent)
-}
-
-func (m *sexpr) atom() bool {
-	return m.token.atom()
 }
 
 type parser struct {
@@ -55,17 +61,25 @@ type parser struct {
 	position int
 }
 
-func (m *parser) unexpectedeof() *sexpr {
-	errors.ErrEOF.Panic("unexpected eof at token offset %d", m.position)
+func (m *parser) unexpectedeof() expression {
+	errors.ErrEOF.Panic(
+		"unexpected eof at token offset %d, token %#v",
+		m.position,
+		m.peek(),
+	)
 	return nil
 }
 
 func (m *parser) finished() bool {
-	return m.position >= len(m.tokens)
+	return m.peek().is(tkeof)
 }
 
 func (m *parser) peek() token {
 	return m.tokens[m.position]
+}
+
+func (m *parser) prev() token {
+	return m.tokens[m.position-1]
 }
 
 func (m *parser) next() token {
@@ -74,68 +88,108 @@ func (m *parser) next() token {
 	return token
 }
 
-func (m *parser) subexpr(start int, opener, closer tokentype) []token {
-	errors.ErrParse.Expect(
-		m.tokens[start].is(opener),
-		"parse error: expected token type %s, got %s",
-		opener.name(),
-		m.tokens[start].typ.name(),
-	)
+func (m *parser) check(typ ...tokentype) bool {
+	if m.finished() {
+		return false
+	}
 
-	depth := 0
+	token := m.peek()
 
-	for idx, token := range m.tokens[start:] {
-		if token.is(opener) {
-			depth++
-		} else if token.is(closer) {
-			depth--
-			if depth == 0 {
-				return m.tokens[start+1 : start+idx]
-			}
+	for _, typ := range typ {
+		if token.is(typ) {
+			return true
 		}
 	}
 
-	errors.ErrEOF.Panic("expecting %s near token offset %d", closer.name(), start)
-	return nil
+	return false
 }
 
-func (m *parser) parse() *sexpr {
-	expr := new(sexpr)
+func (m *parser) match(typ ...tokentype) bool {
+	if m.check(typ...) {
+		m.next()
+		return true
+	}
 
-	for !m.finished() {
-		token := m.next()
+	return false
+}
 
-		if token.is(tkwhitespace, tkcomment) {
-			continue
+func (m *parser) expect(typ ...tokentype) {
+	if !m.match(typ...) {
+		names := make([]string, len(typ))
+
+		for i, typ := range typ {
+			names[i] = typ.name()
 		}
 
-		if token.is(tkbracketopen) {
-			subexpr, pos := _parse(m.subexpr(m.position-1, tkbracketopen, tkbracketclose))
-			children := []*sexpr{&sexpr{token: token}}
-			children = append(children, subexpr.children...)
-			children = append(children, &sexpr{token: m.tokens[m.position+pos]})
+		errors.ErrParse.Panic(
+			"expected %s, got %s",
+			strings.Join(names, ", "),
+			m.peek().typ.name(),
+		)
+	}
+}
 
-			expr.children = append(expr.children, &sexpr{
-				children: children,
-			})
+func (m *parser) expression() expression {
+	return m.equality()
+}
 
-			m.position += pos + 1
-			continue
+func (m *parser) binary(next func() expression, expected ...tokentype) expression {
+	expr := next()
+
+	for m.match(expected...) {
+		expr = &binary{
+			op:    m.prev(),
+			left:  expr,
+			right: next(),
 		}
-
-		if !token.is(tkparenopen) {
-			expr.children = append(expr.children, &sexpr{
-				token: token,
-			})
-
-			continue
-		}
-
-		subexpr, pos := _parse(m.subexpr(m.position-1, tkparenopen, tkparenclose))
-		expr.children = append(expr.children, subexpr)
-
-		m.position += pos + 1
 	}
 
 	return expr
+}
+
+func (m *parser) equality() expression {
+	return m.binary(m.comparison, tkequalequal, tkbangequal)
+}
+
+func (m *parser) comparison() expression {
+	return m.binary(m.addition, tkgreater, tkgreaterequal, tkless, tklessequal)
+}
+
+func (m *parser) addition() expression {
+	return m.binary(m.multiplication, tkplus, tkminus)
+}
+
+func (m *parser) multiplication() expression {
+	return m.binary(m.unary, tkstar, tkslash)
+}
+
+func (m *parser) unary() expression {
+	if m.match(tkbang, tkminus) {
+		return &unary{op: m.prev(), right: m.unary()}
+	}
+
+	return m.primary()
+}
+
+func (m *parser) primary() expression {
+	if m.match(tkident, tkstring, tknumber) {
+		return &literal{token: m.prev()}
+	}
+
+	if m.match(tkparenopen) {
+		expr := m.expression()
+		m.expect(tkparenclose)
+		return &group{expr: expr}
+	}
+
+	errors.ErrParse.Panic(
+		"unexpected %s %s",
+		m.peek().typ.name(),
+		m.peek().value,
+	)
+	return nil
+}
+
+func (m *parser) parse() expression {
+	return m.expression()
 }

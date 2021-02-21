@@ -3,20 +3,9 @@ package g
 import (
 	"fmt"
 	"math"
-	"reflect"
+
+	"github.com/johnfrankmorgan/gazebo/protocols"
 )
-
-func _protocolmethods() []string {
-	var methods []string
-
-	value := reflect.ValueOf(Protocols)
-
-	for i := 0; i < value.NumField(); i++ {
-		methods = append(methods, value.Field(i).String())
-	}
-
-	return methods
-}
 
 // Builtins returns all of the builtin objects in gazebo
 func Builtins() map[string]Object {
@@ -28,7 +17,7 @@ func Builtins() map[string]Object {
 	}
 
 	wrapmethods := func(builtins map[string]Object) map[string]Object {
-		for _, method := range _protocolmethods() {
+		for _, method := range protocols.All() {
 			builtins[method] = methodcall(method)
 		}
 

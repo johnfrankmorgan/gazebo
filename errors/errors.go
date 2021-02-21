@@ -9,6 +9,7 @@ import (
 var (
 	ErrEOF     *Error = &Error{prefix: "unexpected eof"}
 	ErrParse   *Error = &Error{prefix: "parse error"}
+	ErrCompile *Error = &Error{prefix: "compile error"}
 	ErrRuntime *Error = &Error{prefix: "runtime error"}
 )
 

@@ -12,6 +12,7 @@ import (
 	"github.com/johnfrankmorgan/gazebo/debug"
 	"github.com/johnfrankmorgan/gazebo/errors"
 	"github.com/johnfrankmorgan/gazebo/g"
+	"github.com/johnfrankmorgan/gazebo/protocols"
 	"github.com/johnfrankmorgan/gazebo/vm"
 )
 
@@ -86,9 +87,6 @@ func (m *repl) loop() {
 		}
 
 		line = strings.TrimSpace(line)
-		if !strings.HasPrefix(line, "(") || !strings.HasSuffix(line, ")") {
-			line = fmt.Sprintf("(%s)", line)
-		}
 
 		code, err := compiler.Compile(line)
 		if err == errors.ErrEOF {
@@ -107,7 +105,7 @@ func (m *repl) loop() {
 		}
 
 		if result != nil && result.Type() != g.TypeNil {
-			fmt.Printf("%v\n", result.Call(g.Protocols.Inspect, nil).Value())
+			fmt.Printf("%v\n", result.Call(protocols.Inspect, nil).Value())
 		}
 
 		m.reset()

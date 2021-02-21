@@ -4,6 +4,7 @@ import (
 	"strconv"
 
 	"github.com/johnfrankmorgan/gazebo/errors"
+	"github.com/johnfrankmorgan/gazebo/protocols"
 )
 
 func initstring() {
@@ -11,22 +12,22 @@ func initstring() {
 		Name:   "String",
 		Parent: TypeBase,
 		Methods: Methods{
-			Protocols.ToBool: Method(func(self Object, _ Args) Object {
+			protocols.Bool: Method(func(self Object, _ Args) Object {
 				return NewObjectBool(EnsureString(self).Len() > 0)
 			}),
 
-			Protocols.ToNumber: Method(func(self Object, _ Args) Object {
+			protocols.Number: Method(func(self Object, _ Args) Object {
 				value, err := strconv.ParseFloat(EnsureString(self).String(), 64)
 				errors.ErrRuntime.ExpectNil(err, err.Error())
 
 				return NewObjectNumber(value)
 			}),
 
-			Protocols.Len: Method(func(self Object, _ Args) Object {
+			protocols.Len: Method(func(self Object, _ Args) Object {
 				return NewObjectNumber(float64(EnsureString(self).Len()))
 			}),
 
-			Protocols.Index: Method(func(self Object, args Args) Object {
+			protocols.Index: Method(func(self Object, args Args) Object {
 				index := ToInt(args.Self())
 				return NewObjectString(EnsureString(self).String()[index : index+1])
 			}),

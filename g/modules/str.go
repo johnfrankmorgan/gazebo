@@ -6,6 +6,7 @@ import (
 
 	"github.com/johnfrankmorgan/gazebo/assert"
 	"github.com/johnfrankmorgan/gazebo/g"
+	"github.com/johnfrankmorgan/gazebo/protocols"
 )
 
 var strfuncs = map[string]interface{}{
@@ -32,7 +33,7 @@ func wrapfunction(f interface{}) g.Func {
 		converted := make([]reflect.Value, len(args))
 
 		for i, arg := range args {
-			str := g.EnsureString(arg.Call(g.Protocols.ToString, nil)).String()
+			str := g.EnsureString(arg.Call(protocols.String, nil)).String()
 			converted[i] = reflect.ValueOf(str)
 		}
 

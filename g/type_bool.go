@@ -1,15 +1,17 @@
 package g
 
+import "github.com/johnfrankmorgan/gazebo/protocols"
+
 func initbool() {
 	TypeBool = &Type{
 		Name:   "Bool",
 		Parent: TypeBase,
 		Methods: Methods{
-			Protocols.ToBool: Method(func(self Object, _ Args) Object {
+			protocols.Bool: Method(func(self Object, _ Args) Object {
 				return NewObjectBool(EnsureBool(self).Bool())
 			}),
 
-			Protocols.ToNumber: Method(func(self Object, _ Args) Object {
+			protocols.Number: Method(func(self Object, _ Args) Object {
 				if EnsureBool(self).Bool() {
 					return NewObjectNumber(1)
 				}

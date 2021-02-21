@@ -7,6 +7,7 @@ import (
 	"github.com/johnfrankmorgan/gazebo/errors"
 	"github.com/johnfrankmorgan/gazebo/g"
 	"github.com/johnfrankmorgan/gazebo/g/modules"
+	"github.com/johnfrankmorgan/gazebo/protocols"
 )
 
 // VM is the structure responsible for running code and keeping track of state
@@ -164,12 +165,12 @@ func (m *VM) run(code compiler.Code) g.Object {
 		case op.IndexGet:
 			index := m.stack.pop()
 			value := m.stack.pop()
-			m.stack.push(value.Call(g.Protocols.Index, g.Args{index}))
+			m.stack.push(value.Call(protocols.Index, g.Args{index}))
 
 		case op.AttributeGet:
 			value := m.stack.pop()
 			attr := g.NewObjectString(ins.Arg.(string))
-			m.stack.push(value.Call(g.Protocols.GetAttr, g.Args{attr}))
+			m.stack.push(value.Call(protocols.GetAttr, g.Args{attr}))
 
 		default:
 			assert.Unreached("unknown instruction: 0x%02x (%s) %#v", int(ins.Opcode), ins.Opcode.Name(), ins)

@@ -6,6 +6,7 @@ import (
 
 	"github.com/johnfrankmorgan/gazebo/errors"
 	"github.com/johnfrankmorgan/gazebo/g"
+	"github.com/johnfrankmorgan/gazebo/protocols"
 )
 
 // Types used by the time module
@@ -100,33 +101,33 @@ var Time = &Module{
 			Name:   "time.Time",
 			Parent: g.TypeBase,
 			Methods: g.Methods{
-				g.Protocols.ToString: func(self g.Object, _ g.Args) g.Object {
+				protocols.String: func(self g.Object, _ g.Args) g.Object {
 					return g.NewObjectString(EnsureTime(self).Time().String())
 				},
 
-				g.Protocols.ToNumber: func(self g.Object, _ g.Args) g.Object {
+				protocols.Number: func(self g.Object, _ g.Args) g.Object {
 					return g.NewObjectNumber(float64(EnsureTime(self).Time().Unix()))
 				},
 
-				g.Protocols.Add: func(self g.Object, args g.Args) g.Object {
+				protocols.Add: func(self g.Object, args g.Args) g.Object {
 					return NewObjectTime(
 						EnsureTime(self).Time().Add(EnsureDuration(args.Self()).Duration()),
 					)
 				},
 
-				g.Protocols.Sub: func(self g.Object, args g.Args) g.Object {
+				protocols.Sub: func(self g.Object, args g.Args) g.Object {
 					return NewObjectTime(
 						EnsureTime(self).Time().Add(-EnsureDuration(args.Self()).Duration()),
 					)
 				},
 
-				g.Protocols.LessThan: func(self g.Object, args g.Args) g.Object {
+				protocols.LessThan: func(self g.Object, args g.Args) g.Object {
 					return g.NewObjectBool(
 						EnsureTime(self).Time().Before(EnsureTime(args.Self()).Time()),
 					)
 				},
 
-				g.Protocols.GreaterThan: func(self g.Object, args g.Args) g.Object {
+				protocols.GreaterThan: func(self g.Object, args g.Args) g.Object {
 					return g.NewObjectBool(
 						EnsureTime(self).Time().After(EnsureTime(args.Self()).Time()),
 					)
@@ -154,37 +155,37 @@ var Time = &Module{
 			Name:   "time.Duration",
 			Parent: g.TypeBase,
 			Methods: g.Methods{
-				g.Protocols.ToString: func(self g.Object, _ g.Args) g.Object {
+				protocols.String: func(self g.Object, _ g.Args) g.Object {
 					return g.NewObjectString(EnsureDuration(self).Duration().String())
 				},
 
-				g.Protocols.ToBool: func(self g.Object, _ g.Args) g.Object {
+				protocols.Bool: func(self g.Object, _ g.Args) g.Object {
 					return g.NewObjectBool(EnsureDuration(self).Duration() != 0)
 				},
 
-				g.Protocols.ToNumber: func(self g.Object, _ g.Args) g.Object {
+				protocols.Number: func(self g.Object, _ g.Args) g.Object {
 					return g.NewObjectNumber(float64(EnsureDuration(self).Duration().Seconds()))
 				},
 
-				g.Protocols.Add: func(self g.Object, args g.Args) g.Object {
+				protocols.Add: func(self g.Object, args g.Args) g.Object {
 					return NewObjectDuration(
 						EnsureDuration(self).Duration() + EnsureDuration(args.Self()).Duration(),
 					)
 				},
 
-				g.Protocols.Sub: func(self g.Object, args g.Args) g.Object {
+				protocols.Sub: func(self g.Object, args g.Args) g.Object {
 					return NewObjectDuration(
 						EnsureDuration(self).Duration() - EnsureDuration(args.Self()).Duration(),
 					)
 				},
 
-				g.Protocols.LessThan: func(self g.Object, args g.Args) g.Object {
+				protocols.LessThan: func(self g.Object, args g.Args) g.Object {
 					return g.NewObjectBool(
 						EnsureDuration(self).Duration() < EnsureDuration(args.Self()).Duration(),
 					)
 				},
 
-				g.Protocols.GreaterThan: func(self g.Object, args g.Args) g.Object {
+				protocols.GreaterThan: func(self g.Object, args g.Args) g.Object {
 					return g.NewObjectBool(
 						EnsureDuration(self).Duration() > EnsureDuration(args.Self()).Duration(),
 					)

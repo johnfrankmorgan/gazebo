@@ -1,5 +1,7 @@
 package g
 
+import "github.com/johnfrankmorgan/gazebo/protocols"
+
 // Type represents the type of gazebo values
 type Type struct {
 	Name    string
@@ -53,7 +55,7 @@ func init() {
 		Name:   "InternalFunc",
 		Parent: TypeBase,
 		Methods: Methods{
-			Protocols.Invoke: Method(func(self Object, args Args) Object {
+			protocols.Invoke: Method(func(self Object, args Args) Object {
 				return EnsureInternalFunc(self).Func()(args)
 			}),
 		},

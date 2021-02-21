@@ -1,11 +1,13 @@
 package g
 
+import "github.com/johnfrankmorgan/gazebo/protocols"
+
 func initnil() {
 	TypeNil = &Type{
 		Name:   "Nil",
 		Parent: TypeBase,
 		Methods: Methods{
-			Protocols.ToBool: Method(func(_ Object, _ Args) Object {
+			protocols.Bool: Method(func(_ Object, _ Args) Object {
 				return NewObjectBool(false)
 			}),
 		},

@@ -2,6 +2,7 @@ package g
 
 import (
 	"github.com/johnfrankmorgan/gazebo/errors"
+	"github.com/johnfrankmorgan/gazebo/protocols"
 )
 
 // EnsureNil asserts that an Object is an ObjectNil
@@ -94,25 +95,25 @@ func EnsureInternal(value Object) *ObjectInternal {
 
 // IsTruthy determines if the provided Object is truthy
 func IsTruthy(object Object) bool {
-	return EnsureBool(object.Call(Protocols.ToBool, nil)).Bool()
+	return EnsureBool(object.Call(protocols.Bool, nil)).Bool()
 }
 
 // ToString returns an Object's string value
 func ToString(object Object) string {
-	return EnsureString(object.Call(Protocols.ToString, nil)).String()
+	return EnsureString(object.Call(protocols.String, nil)).String()
 }
 
 // ToFloat returns an Object's float value
 func ToFloat(object Object) float64 {
-	return EnsureNumber(object.Call(Protocols.ToNumber, nil)).Float()
+	return EnsureNumber(object.Call(protocols.Number, nil)).Float()
 }
 
 // ToInt returns an Object's int value
 func ToInt(object Object) int {
-	return EnsureNumber(object.Call(Protocols.ToNumber, nil)).Int()
+	return EnsureNumber(object.Call(protocols.Number, nil)).Int()
 }
 
 // Invoke calls an Object
 func Invoke(object Object, args Args) Object {
-	return object.Call(Protocols.Invoke, args)
+	return object.Call(protocols.Invoke, args)
 }
