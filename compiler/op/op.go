@@ -26,6 +26,7 @@ const (
 	MakeList
 	IndexGet
 	AttributeGet
+	NoOp
 )
 
 // Ins creates an Instruction for an Opcode
@@ -50,6 +51,7 @@ func (op Opcode) Name() string {
 		MakeList:       "op.MakeList",
 		IndexGet:       "op.IndexGet",
 		AttributeGet:   "op.AttributeGet",
+		NoOp:           "op.NoOp",
 	}
 
 	if name, ok := names[op]; ok {

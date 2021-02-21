@@ -89,3 +89,9 @@ func (m *load) compile() Code {
 
 	return code
 }
+
+type pass struct{}
+
+func (m *pass) compile() Code {
+	return Code{op.NoOp.Ins(nil)}
+}

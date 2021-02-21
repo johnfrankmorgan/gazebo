@@ -67,6 +67,7 @@ const (
 	tkfun
 	tklet
 	tkload
+	tkpass
 	tkparenopen
 	tkparenclose
 	tkbraceopen
@@ -106,6 +107,7 @@ func (m tokentype) name() string {
 		tkfun:          "tkfun",
 		tklet:          "tklet",
 		tkload:         "tkload",
+		tkpass:         "tkpass",
 		tkparenopen:    "tkparenopen",
 		tkparenclose:   "tkparenclose",
 		tkbraceopen:    "tkbraceopen",
@@ -145,6 +147,7 @@ var keywords = map[string]tokentype{
 	"fun":    tkfun,
 	"let":    tklet,
 	"load":   tkload,
+	"pass":   tkpass,
 }
 
 type token struct {

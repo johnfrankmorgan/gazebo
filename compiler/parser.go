@@ -1,7 +1,6 @@
 package compiler
 
 import (
-	"fmt"
 	"strings"
 
 	"github.com/johnfrankmorgan/gazebo/debug"
@@ -145,14 +144,13 @@ func (m *parser) unary() expression {
 }
 
 func (m *parser) funcall() expression {
-	expr := m.primary()
+	expr := m.fundef()
 
 	for !m.finished() {
 		if !m.match(tkparenopen) {
 			break
 		}
 
-		fmt.Println("here")
 		funcall := &funcall{name: expr}
 		expr = funcall
 
@@ -174,6 +172,32 @@ func (m *parser) funcall() expression {
 	}
 
 	return expr
+}
+
+func (m *parser) fundef() expression {
+	if !m.match(tkfun) {
+		return m.primary()
+	}
+
+	fundef := &fundef{args: []string{}}
+
+	if m.match(tkparenopen) {
+		for !m.finished() {
+			if m.match(tkparenclose) {
+				break
+			}
+
+			arg := m.expect(tkident)
+			fundef.args = append(fundef.args, arg.value)
+
+			if !m.check(tkparenclose) {
+				m.expect(tkcomma)
+			}
+		}
+	}
+
+	fundef.body = m.statement()
+	return fundef
 }
 
 func (m *parser) primary() expression {
@@ -200,6 +224,10 @@ func (m *parser) statement() statement {
 	case tkeof:
 		m.unexpectedeof()
 		return nil
+
+	case tkpass:
+		m.next()
+		return &pass{}
 
 	case tkbraceopen:
 		return m.block()

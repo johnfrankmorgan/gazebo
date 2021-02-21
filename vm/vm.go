@@ -101,6 +101,14 @@ func (m *VM) run(code compiler.Code) g.Object {
 			case g.TypeFunc:
 				fun := g.EnsureFunc(fun)
 
+				errors.ErrRuntime.ExpectLen(
+					fun.Params(),
+					len(args),
+					"expected %d args, got %d",
+					len(fun.Params()),
+					len(args),
+				)
+
 				vmenv := m.env
 				env := &env{
 					parent: fun.Env().(*env),
@@ -171,6 +179,9 @@ func (m *VM) run(code compiler.Code) g.Object {
 			value := m.stack.pop()
 			attr := g.NewObjectString(ins.Arg.(string))
 			m.stack.push(value.Call(protocols.GetAttr, g.Args{attr}))
+
+		case op.NoOp:
+			//
 
 		default:
 			assert.Unreached("unknown instruction: 0x%02x (%s) %#v", int(ins.Opcode), ins.Opcode.Name(), ins)

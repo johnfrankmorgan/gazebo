@@ -95,3 +95,16 @@ func (m *funcall) compile() Code {
 
 	return append(code, op.CallFunc.Ins(argc))
 }
+
+type fundef struct {
+	args []string
+	body statement
+}
+
+func (m *fundef) compile() Code {
+	return Code{
+		op.PushValue.Ins(m.args),
+		op.PushValue.Ins(m.body.compile()),
+		op.MakeFunc.Ins(len(m.args)),
+	}
+}
