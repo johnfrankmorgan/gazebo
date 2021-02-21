@@ -2,7 +2,6 @@ package compiler
 
 import (
 	"github.com/johnfrankmorgan/gazebo/compiler/op"
-	"github.com/johnfrankmorgan/gazebo/errors"
 )
 
 type statement interface {
@@ -18,14 +17,26 @@ func (m *exprstmt) compile() Code {
 }
 
 type assign struct {
-	name token
+	name string
 	expr expression
 }
 
 func (m *assign) compile() Code {
-	errors.ErrCompile.Expect(m.name.is(tkident), "expected tkident, got %s", m.name.typ.name())
+	return append(m.expr.compile(), op.StoreName.Ins(m.name))
+}
 
-	return append(m.expr.compile(), op.StoreName.Ins(m.name.value))
+type unlet struct {
+	names []string
+}
+
+func (m *unlet) compile() Code {
+	code := Code{}
+
+	for _, name := range m.names {
+		code = append(code, op.RemoveName.Ins(name))
+	}
+
+	return code
 }
 
 type block struct {

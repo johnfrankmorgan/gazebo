@@ -253,8 +253,6 @@ func (m *parser) primary() expression {
 }
 
 func (m *parser) statement() statement {
-	defer m.match(tksemicolon)
-
 	switch m.peek().typ {
 	case tkeof:
 		m.unexpectedeof()
@@ -274,11 +272,17 @@ func (m *parser) statement() statement {
 	case tklet:
 		return m.assignment()
 
+	case tkunlet:
+		return m.unlet()
+
 	case tkif:
 		return m.ifstatement()
 
 	case tkwhile:
 		return m.while()
+
+	case tkfor:
+		return m.forstmt()
 
 	case tkload:
 		return m.load()
@@ -318,9 +322,25 @@ func (m *parser) assignment() statement {
 	expr := m.expression()
 
 	return &assign{
-		name: name,
+		name: name.value,
 		expr: expr,
 	}
+}
+
+func (m *parser) unlet() statement {
+	var stmt unlet
+
+	m.expect(tkunlet)
+
+	for !m.finished() {
+		if !m.check(tkident) {
+			break
+		}
+
+		stmt.names = append(stmt.names, m.next().value)
+	}
+
+	return &stmt
 }
 
 func (m *parser) ifstatement() statement {
@@ -347,6 +367,39 @@ func (m *parser) while() statement {
 	return &while{
 		condition: condition,
 		body:      body,
+	}
+}
+
+func (m *parser) forstmt() statement {
+	m.expect(tkfor)
+
+	hasparen := m.match(tkparenopen)
+
+	init := m.statement()
+	m.expect(tksemicolon)
+	cond := m.expression()
+	m.expect(tksemicolon)
+	incr := m.statement()
+
+	if hasparen {
+		m.expect(tkparenclose)
+	}
+
+	body := m.statement()
+
+	return &block{
+		statements: []statement{
+			init,
+			&while{
+				condition: cond,
+				body: &block{
+					statements: []statement{
+						body,
+						incr,
+					},
+				},
+			},
+		},
 	}
 }
 

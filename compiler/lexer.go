@@ -57,8 +57,10 @@ const (
 	tkelse
 	tkreturn
 	tkwhile
+	tkfor
 	tkfun
 	tklet
+	tkunlet
 	tkload
 	tkpass
 	tkparenopen
@@ -101,8 +103,10 @@ func (m tokentype) name() string {
 		tkelse:         "tkelse",
 		tkreturn:       "tkreturn",
 		tkwhile:        "tkwhile",
+		tkfor:          "tkfor",
 		tkfun:          "tkfun",
 		tklet:          "tklet",
+		tkunlet:        "tkunlet",
 		tkload:         "tkload",
 		tkpass:         "tkpass",
 		tkparenopen:    "tkparenopen",
@@ -145,8 +149,10 @@ var keywords = map[string]tokentype{
 	"else":   tkelse,
 	"return": tkreturn,
 	"while":  tkwhile,
+	"for":    tkfor,
 	"fun":    tkfun,
 	"let":    tklet,
+	"unlet":  tkunlet,
 	"load":   tkload,
 	"pass":   tkpass,
 }

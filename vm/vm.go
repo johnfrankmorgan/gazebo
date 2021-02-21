@@ -85,6 +85,10 @@ loop:
 			name := ins.Arg.(string)
 			m.stack.push(m.env.lookup(name))
 
+		case op.RemoveName:
+			name := ins.Arg.(string)
+			m.env.remove(name)
+
 		case op.CallFunc:
 			argc := ins.Arg.(int)
 			args := make(g.Args, argc)

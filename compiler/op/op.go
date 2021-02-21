@@ -16,6 +16,7 @@ const (
 	LoadConst
 	StoreName
 	LoadName
+	RemoveName
 	CallFunc
 	RelJump
 	RelJumpIfTrue
@@ -42,6 +43,7 @@ func (op Opcode) Name() string {
 		LoadConst:      "op.LoadConst",
 		StoreName:      "op.StoreName",
 		LoadName:       "op.LoadName",
+		RemoveName:     "op.RemoveName",
 		CallFunc:       "op.CallFunc",
 		RelJump:        "op.RelJump",
 		RelJumpIfTrue:  "op.RelJumpIfTrue",

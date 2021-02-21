@@ -48,3 +48,9 @@ func (m *env) assign(name string, value g.Object) {
 	errors.ErrRuntime.Panic("undefined name: %s", name)
 	return
 }
+
+func (m *env) remove(name string) {
+	if env := m.resolve(name); env != nil {
+		env.values.Delete(name)
+	}
+}
