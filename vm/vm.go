@@ -64,6 +64,7 @@ func (m *VM) Run(code compiler.Code) (value g.Object, err error) {
 func (m *VM) run(code compiler.Code) g.Object {
 	var pc int
 
+loop:
 	for pc < len(code) {
 		ins := code[pc]
 		pc++
@@ -182,6 +183,9 @@ func (m *VM) run(code compiler.Code) g.Object {
 
 		case op.NoOp:
 			//
+
+		case op.Return:
+			break loop
 
 		default:
 			assert.Unreached("unknown instruction: 0x%02x (%s) %#v", int(ins.Opcode), ins.Opcode.Name(), ins)

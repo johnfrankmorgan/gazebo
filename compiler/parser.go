@@ -229,6 +229,10 @@ func (m *parser) statement() statement {
 		m.next()
 		return &pass{}
 
+	case tkreturn:
+		m.next()
+		return &returnstmt{expr: m.expression()}
+
 	case tkbraceopen:
 		return m.block()
 

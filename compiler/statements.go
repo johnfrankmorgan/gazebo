@@ -95,3 +95,11 @@ type pass struct{}
 func (m *pass) compile() Code {
 	return Code{op.NoOp.Ins(nil)}
 }
+
+type returnstmt struct {
+	expr expression
+}
+
+func (m *returnstmt) compile() Code {
+	return append(m.expr.compile(), op.Return.Ins(nil))
+}

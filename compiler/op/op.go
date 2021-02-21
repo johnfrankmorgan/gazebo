@@ -27,6 +27,7 @@ const (
 	IndexGet
 	AttributeGet
 	NoOp
+	Return
 )
 
 // Ins creates an Instruction for an Opcode
@@ -52,6 +53,7 @@ func (op Opcode) Name() string {
 		IndexGet:       "op.IndexGet",
 		AttributeGet:   "op.AttributeGet",
 		NoOp:           "op.NoOp",
+		Return:         "op.Return",
 	}
 
 	if name, ok := names[op]; ok {
