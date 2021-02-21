@@ -79,9 +79,13 @@ const (
 	tkbang
 	tkbangequal
 	tkplus
+	tkplusequal
 	tkminus
+	tkminusequal
 	tkstar
+	tkstarequal
 	tkslash
+	tkslashequal
 	tkless
 	tklessequal
 	tkgreater
@@ -119,9 +123,13 @@ func (m tokentype) name() string {
 		tkbang:         "tkbang",
 		tkbangequal:    "tkbangequal",
 		tkplus:         "tkplus",
+		tkplusequal:    "tkplusequal",
 		tkminus:        "tkminus",
+		tkminusequal:   "tkminusequal",
 		tkstar:         "tkstar",
+		tkstarequal:    "tkstarequal",
 		tkslash:        "tkslash",
+		tkslashequal:   "tkslashequal",
 		tkless:         "tkless",
 		tklessequal:    "tklessequal",
 		tkgreater:      "tkgreater",
@@ -366,16 +374,16 @@ func (m *lexer) lex() token {
 		return m.token(tkbracketclose)
 
 	case '+':
-		return m.token(tkplus)
+		return m.ifmatch('=', tkplusequal, tkplus)
 
 	case '-':
-		return m.token(tkminus)
+		return m.ifmatch('=', tkminusequal, tkminus)
 
 	case '*':
-		return m.token(tkstar)
+		return m.ifmatch('=', tkstarequal, tkstar)
 
 	case '/':
-		return m.token(tkslash)
+		return m.ifmatch('=', tkslashequal, tkslash)
 
 	case '=':
 		return m.ifmatch('=', tkequalequal, tkequal)

@@ -16,12 +16,59 @@ func parse(source string) []statement {
 
 	parser := parser{tokens: tokens}
 
+	parser.sugar()
+
 	return parser.parse()
 }
 
 type parser struct {
 	tokens   tokens
 	position int
+}
+
+func (m *parser) reset() {
+	m.position = 0
+}
+
+func (m *parser) sugar() {
+	tokens := tokens{}
+
+	for !m.finished() {
+		tk := m.peek()
+
+		if !tk.is(tkplusequal, tkminusequal, tkstarequal, tkslashequal) {
+			tokens = append(tokens, m.next())
+			continue
+		}
+
+		prev := m.prev()
+		m.next()
+
+		errors.ErrParse.Expect(
+			prev.is(tkident),
+			"%s must be preceded by tkident",
+			tk.typ.name(),
+		)
+
+		ops := map[tokentype]string{
+			tkplus:  "+",
+			tkminus: "-",
+			tkstar:  "*",
+			tkslash: "/",
+		}
+
+		tokens = append(
+			tokens,
+			token{typ: tkequal, value: "="},
+			prev,
+			token{typ: tk.typ - 1, value: ops[tk.typ-1]},
+		)
+	}
+
+	tokens = append(tokens, token{typ: tkeof})
+
+	m.reset()
+	m.tokens = tokens
 }
 
 func (m *parser) unexpectedeof() {
