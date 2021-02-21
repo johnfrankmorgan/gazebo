@@ -1,5 +1,0 @@
-(load str http)
-
-(let response (http.get "https://www.google.com"))
-(println (index (get response "body") 0))
-(println (get response "status"))

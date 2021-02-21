@@ -44,8 +44,6 @@ func (m *unary) compile() Code {
 	code = append(code, m.right.compile()...)
 
 	return append(code, op.CallFunc.Ins(1))
-
-	return append(code, op.LoadName.Ins(fun), op.CallFunc.Ins(1))
 }
 
 type literal struct {

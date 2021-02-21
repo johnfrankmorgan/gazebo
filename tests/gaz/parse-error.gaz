@@ -1,0 +1,20 @@
+// PARSE ERROR
+
+for (let i = 0; i < 100; let i += 1) {
+  println(i)
+}
+
+while true {
+  // do something
+}
+
+if (false == nil) {
+  {{}}
+  unlet i
+
+  load str
+}
+
+let thing = str.contains?()
+
+if {}

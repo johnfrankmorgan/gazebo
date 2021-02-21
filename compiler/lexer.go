@@ -5,7 +5,6 @@ import (
 	"strings"
 	"unicode/utf8"
 
-	"github.com/johnfrankmorgan/gazebo/assert"
 	"github.com/johnfrankmorgan/gazebo/debug"
 	"github.com/johnfrankmorgan/gazebo/errors"
 )
@@ -162,11 +161,6 @@ type token struct {
 	value string
 }
 
-func (m token) atom() bool {
-	assert.Unreached()
-	return false
-}
-
 func (m token) is(types ...tokentype) bool {
 	for _, typ := range types {
 		if m.typ == typ {
@@ -232,7 +226,7 @@ func (m *lexer) isalpha(ch rune) bool {
 }
 
 func (m *lexer) isidentchar(ch rune) bool {
-	if ch >= 0x1f600 { // > 😀
+	if ch >= 0x1f600 { // >= 😀
 		return true
 	}
 
@@ -382,6 +376,10 @@ func (m *lexer) lex() token {
 		return m.ifmatch('=', tkstarequal, tkstar)
 
 	case '/':
+		if m.match('/') {
+			return m.line(tkcomment)
+		}
+
 		return m.ifmatch('=', tkslashequal, tkslash)
 
 	case '=':
@@ -395,9 +393,6 @@ func (m *lexer) lex() token {
 
 	case '>':
 		return m.ifmatch('=', tkgreaterequal, tkgreater)
-
-	case '#':
-		return m.line(tkcomment)
 
 	case '"':
 		return m.lstring()

@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"github.com/johnfrankmorgan/gazebo/compiler"
+	"github.com/johnfrankmorgan/gazebo/debug"
 	"github.com/johnfrankmorgan/gazebo/errors"
 	"github.com/johnfrankmorgan/gazebo/vm"
 	"github.com/stretchr/testify/assert"
@@ -15,6 +16,9 @@ import (
 const TestScripts = "../tests/gaz"
 
 func TestGazScripts(t *testing.T) {
+	debug.Enable()
+	defer debug.Disable()
+
 	scripts, err := ioutil.ReadDir(TestScripts)
 	if err != nil {
 		t.Error(err)
@@ -32,13 +36,13 @@ func TestGazScripts(t *testing.T) {
 			source = bytes.TrimSpace(source)
 
 			switch true {
-			case bytes.HasPrefix(source, []byte("; EOF ERROR")):
+			case bytes.HasPrefix(source, []byte("// EOF ERROR")):
 				expect = errors.ErrEOF
 
-			case bytes.HasPrefix(source, []byte("; PARSE ERROR")):
+			case bytes.HasPrefix(source, []byte("// PARSE ERROR")):
 				expect = errors.ErrParse
 
-			case bytes.HasPrefix(source, []byte("; RUNTIME ERROR")):
+			case bytes.HasPrefix(source, []byte("// RUNTIME ERROR")):
 				expect = errors.ErrRuntime
 			}
 

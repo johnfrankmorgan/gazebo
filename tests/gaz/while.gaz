@@ -1,8 +1,0 @@
-(let i 10)
-(
-  while (> i 0) (
-    (println "i:" i)
-    (let i (- i 1))
-  )
-)
-(println "done!")

@@ -1,6 +1,0 @@
-(let s "test")
-(set s "attribute" (list (1 2 3)))
-(println (inspect s[.attribute]))
-(println)
-(printf "%#v" s[.attribute])
-(println)

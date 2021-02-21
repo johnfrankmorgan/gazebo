@@ -1,2 +1,0 @@
-(printf "My name is %s and I am %d years old\n" "Test" 102)
-(printf "Floats: %f %.4f\n" 3.14 4.3234)

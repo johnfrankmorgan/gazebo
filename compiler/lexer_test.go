@@ -14,7 +14,7 @@ func TestTokenize(t *testing.T) {
 	defer debug.Disable()
 
 	source := `
-		# this is a comment
+		// this is a comment
 		if (true) {
 			return "test"[0.0];
 		}
@@ -22,23 +22,18 @@ func TestTokenize(t *testing.T) {
 	`
 
 	expected := []tokentype{
-		tkcomment,
-		tknewline,
 		tkif,
 		tkparenopen,
 		tkident,
 		tkparenclose,
 		tkbraceopen,
-		tknewline,
 		tkreturn,
 		tkstring,
 		tkbracketopen,
 		tknumber,
 		tkbracketclose,
 		tksemicolon,
-		tknewline,
 		tkbraceclose,
-		tknewline,
 		tkbang,
 		tkequal,
 		tkbangequal,

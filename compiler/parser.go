@@ -333,6 +333,10 @@ func (m *parser) unlet() statement {
 	m.expect(tkunlet)
 
 	for !m.finished() {
+		if m.match(tksemicolon) {
+			break
+		}
+
 		if !m.check(tkident) {
 			break
 		}

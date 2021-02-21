@@ -1,7 +1,5 @@
-; ERROR EOF
-(println "test")
-(println 1)
-(println 2)
-(if true (+ 1 2) (
-  (println 123
-))
+// EOF ERROR
+
+let 😃 = fun {
+  return "test
+}

@@ -15,15 +15,17 @@ func init() {
 	var err error
 
 	source := `
-		(let N 20)
-		(fun fib (n) (
-			if (< n 2) (
-				(+ n 0)
-			) (
-				(+ (fib (- n 2)) (fib (- n 1)))
-			)
-		))
-		(fib N)
+		let N = 20
+
+		let fib = fun (n) {
+			if (n < 2) {
+				return n
+			}
+
+			return fib(n-1) + fib(n-2)
+		}
+
+		fib(N)
 	`
 
 	code, err = compiler.Compile(source)
