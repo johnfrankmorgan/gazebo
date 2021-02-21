@@ -176,6 +176,9 @@ func (m *parser) statement() statement {
 
 	case tkif:
 		return m.ifstatement()
+
+	case tkwhile:
+		return m.while()
 	}
 
 	stmt := &exprstmt{expr: m.expression()}
@@ -240,10 +243,26 @@ func (m *parser) ifstatement() statement {
 	return &ifstmt{condition: condition, truestmt: truestmt, falsestmt: falsestmt}
 }
 
+func (m *parser) while() statement {
+	m.expect(tkwhile)
+
+	condition := m.expression()
+	body := m.statement()
+
+	return &while{
+		condition: condition,
+		body:      body,
+	}
+}
+
 func (m *parser) parse() []statement {
 	statements := []statement{}
 
 	for !m.finished() {
+		if m.match(tknewline) {
+			continue
+		}
+
 		statements = append(statements, m.statement())
 	}
 

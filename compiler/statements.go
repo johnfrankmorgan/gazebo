@@ -63,3 +63,15 @@ func (m *ifstmt) compile() Code {
 	code := append(condition, falsecode...)
 	return append(code, truecode...)
 }
+
+type while struct {
+	condition expression
+	body      statement
+}
+
+func (m *while) compile() Code {
+	body := m.body.compile()
+	cond := append(m.condition.compile(), op.RelJumpIfFalse.Ins(len(body)+1))
+	body = append(body, op.RelJump.Ins(-len(body)-len(cond)-1))
+	return append(cond, body...)
+}
