@@ -1,8 +1,6 @@
 package modules
 
 import (
-	"fmt"
-
 	"github.com/johnfrankmorgan/gazebo/g"
 )
 
@@ -15,20 +13,52 @@ func All() map[string]*Module {
 	}
 }
 
-// Module defines g.Object values
+var TypeModule *g.Type
+
+func init() {
+	TypeModule = &g.Type{
+		Name:    "Module",
+		Parent:  g.TypeBase,
+		Methods: g.Methods{},
+	}
+}
+
+type ObjectModule struct {
+	g.PartialObject
+	value      *Module
+	attributes g.Attributes
+}
+
+func (m *ObjectModule) Value() interface{} {
+	return m.value
+}
+
+func (m *ObjectModule) Call(method string, args g.Args) g.Object {
+	return m.CallMethod(m, method, args)
+}
+
+func (m *ObjectModule) Attributes() *g.Attributes {
+	return &m.attributes
+}
+
 type Module struct {
 	Name   string
 	Init   func(*Module)
 	Values map[string]g.Object
 }
 
-// Load loads a Module's values into a g.Attributes
-func (m *Module) Load(attrs *g.Attributes) {
-	if m.Init != nil {
-		m.Init(m)
+func (m *Module) Load() g.Object {
+	m.Init(m)
+
+	object := &ObjectModule{
+		value: m,
 	}
 
+	object.SetType(TypeModule)
+
 	for name, value := range m.Values {
-		attrs.Set(fmt.Sprintf("%s.%s", m.Name, name), value)
+		object.attributes.Set(name, value)
 	}
+
+	return object
 }

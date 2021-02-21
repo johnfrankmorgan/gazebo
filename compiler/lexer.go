@@ -51,6 +51,7 @@ const (
 	tknewline
 	tkwhitespace
 	tksemicolon
+	tkdot
 	tkcomma
 	tkif
 	tkelse
@@ -97,6 +98,7 @@ func (m tokentype) name() string {
 		tknewline:      "tknewline",
 		tkwhitespace:   "tkwhitespace",
 		tksemicolon:    "tksemicolon",
+		tkdot:          "tkdot",
 		tkcomma:        "tkcomma",
 		tkif:           "tkif",
 		tkelse:         "tkelse",
@@ -234,7 +236,7 @@ func (m *lexer) isidentchar(ch rune) bool {
 		return true
 	}
 
-	for _, identch := range ".!?@_" {
+	for _, identch := range "!?@_" {
 		if identch == ch {
 			return true
 		}
@@ -344,6 +346,9 @@ func (m *lexer) lex() token {
 	switch ch {
 	case ';':
 		return m.token(tksemicolon)
+
+	case '.':
+		return m.token(tkdot)
 
 	case ',':
 		return m.token(tkcomma)

@@ -163,7 +163,7 @@ loop:
 
 			errors.ErrRuntime.Expect(ok, "undefined module: %s", name)
 
-			module.Load(&m.env.values)
+			m.env.define(name, module.Load())
 
 		case op.MakeList:
 			length := ins.Arg.(int)

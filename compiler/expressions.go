@@ -106,3 +106,12 @@ func (m *fundef) compile() Code {
 		op.MakeFunc.Ins(len(m.args)),
 	}
 }
+
+type attributelookup struct {
+	expr expression
+	name string
+}
+
+func (m *attributelookup) compile() Code {
+	return append(m.expr.compile(), op.AttributeGet.Ins(m.name))
+}

@@ -209,7 +209,7 @@ func (m *parser) funcall() expression {
 
 func (m *parser) fundef() expression {
 	if !m.match(tkfun) {
-		return m.primary()
+		return m.attributelookup()
 	}
 
 	fundef := &fundef{args: []string{}}
@@ -231,6 +231,19 @@ func (m *parser) fundef() expression {
 
 	fundef.body = m.statement()
 	return fundef
+}
+
+func (m *parser) attributelookup() expression {
+	expr := m.primary()
+
+	for m.match(tkdot) {
+		expr = &attributelookup{
+			expr: expr,
+			name: m.expect(tkident).value,
+		}
+	}
+
+	return expr
 }
 
 func (m *parser) primary() expression {
@@ -276,7 +289,7 @@ func (m *parser) statement() statement {
 		return m.unlet()
 
 	case tkif:
-		return m.ifstatement()
+		return m.ifstmt()
 
 	case tkwhile:
 		return m.while()
@@ -347,7 +360,7 @@ func (m *parser) unlet() statement {
 	return &stmt
 }
 
-func (m *parser) ifstatement() statement {
+func (m *parser) ifstmt() statement {
 	var falsestmt statement
 
 	m.expect(tkif)

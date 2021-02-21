@@ -17,6 +17,10 @@ func initbase() {
 				return NewObjectBool(true)
 			}),
 
+			protocols.Not: Method(func(self Object, _ Args) Object {
+				return NewObjectBool(!IsTruthy(self))
+			}),
+
 			protocols.String: Method(func(self Object, _ Args) Object {
 				return NewObjectString(fmt.Sprintf("%v", self.Value()))
 			}),
