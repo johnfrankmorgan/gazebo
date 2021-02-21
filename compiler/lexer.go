@@ -25,7 +25,7 @@ func tokenize(source string) tokens {
 			})
 		}
 
-		if !tk.is(tkwhitespace, tkcomment) {
+		if !tk.is(tkwhitespace, tkcomment, tknewline) {
 			tokens = append(tokens, tk)
 		}
 

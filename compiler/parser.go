@@ -298,8 +298,6 @@ func (m *parser) statement() statement {
 
 	stmt := &exprstmt{expr: m.expression()}
 
-	m.expect(tknewline, tksemicolon)
-
 	return stmt
 }
 
@@ -309,10 +307,6 @@ func (m *parser) block() statement {
 	m.expect(tkbraceopen)
 
 	for !m.finished() {
-		if m.match(tknewline) {
-			continue
-		}
-
 		if m.match(tkbraceclose) {
 			return &block{
 				statements: statements,
@@ -334,8 +328,6 @@ func (m *parser) assignment() statement {
 	m.expect(tkequal)
 
 	expr := m.expression()
-
-	m.expect(tknewline, tksemicolon)
 
 	return &assign{
 		name: name,
