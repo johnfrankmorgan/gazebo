@@ -75,3 +75,17 @@ func (m *while) compile() Code {
 	body = append(body, op.RelJump.Ins(-len(body)-len(cond)-1))
 	return append(cond, body...)
 }
+
+type load struct {
+	modules []string
+}
+
+func (m *load) compile() Code {
+	code := Code{}
+
+	for _, module := range m.modules {
+		code = append(code, op.LoadModule.Ins(module))
+	}
+
+	return code
+}

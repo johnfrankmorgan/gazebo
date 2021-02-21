@@ -1,6 +1,7 @@
 package compiler
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/johnfrankmorgan/gazebo/debug"
@@ -140,7 +141,39 @@ func (m *parser) unary() expression {
 		return &unary{op: m.prev(), right: m.unary()}
 	}
 
-	return m.primary()
+	return m.funcall()
+}
+
+func (m *parser) funcall() expression {
+	expr := m.primary()
+
+	for !m.finished() {
+		if !m.match(tkparenopen) {
+			break
+		}
+
+		fmt.Println("here")
+		funcall := &funcall{name: expr}
+		expr = funcall
+
+		for !m.finished() {
+			if m.match(tkparenclose) {
+				break
+			}
+
+			funcall.args = append(funcall.args, m.expression())
+
+			if !m.check(tkparenclose) {
+				m.expect(tkcomma)
+			}
+		}
+
+		if m.match(tkparenclose) {
+			break
+		}
+	}
+
+	return expr
 }
 
 func (m *parser) primary() expression {
@@ -179,6 +212,9 @@ func (m *parser) statement() statement {
 
 	case tkwhile:
 		return m.while()
+
+	case tkload:
+		return m.load()
 	}
 
 	stmt := &exprstmt{expr: m.expression()}
@@ -253,6 +289,22 @@ func (m *parser) while() statement {
 		condition: condition,
 		body:      body,
 	}
+}
+
+func (m *parser) load() statement {
+	var modules []string
+
+	m.expect(tkload)
+
+	for !m.finished() {
+		if !m.match(tkident) {
+			break
+		}
+
+		modules = append(modules, m.prev().value)
+	}
+
+	return &load{modules: modules}
 }
 
 func (m *parser) parse() []statement {

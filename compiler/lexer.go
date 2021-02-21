@@ -59,12 +59,14 @@ const (
 	tknewline
 	tkwhitespace
 	tksemicolon
+	tkcomma
 	tkif
 	tkelse
 	tkreturn
 	tkwhile
 	tkfun
 	tklet
+	tkload
 	tkparenopen
 	tkparenclose
 	tkbraceopen
@@ -96,12 +98,14 @@ func (m tokentype) name() string {
 		tknewline:      "tknewline",
 		tkwhitespace:   "tkwhitespace",
 		tksemicolon:    "tksemicolon",
+		tkcomma:        "tkcomma",
 		tkif:           "tkif",
 		tkelse:         "tkelse",
 		tkreturn:       "tkreturn",
 		tkwhile:        "tkwhile",
 		tkfun:          "tkfun",
 		tklet:          "tklet",
+		tkload:         "tkload",
 		tkparenopen:    "tkparenopen",
 		tkparenclose:   "tkparenclose",
 		tkbraceopen:    "tkbraceopen",
@@ -140,6 +144,7 @@ var keywords = map[string]tokentype{
 	"while":  tkwhile,
 	"fun":    tkfun,
 	"let":    tklet,
+	"load":   tkload,
 }
 
 type token struct {
@@ -225,7 +230,7 @@ func (m *lexer) isidentchar(ch rune) bool {
 		return true
 	}
 
-	for _, identch := range "!?@_" {
+	for _, identch := range ".!?@_" {
 		if identch == ch {
 			return true
 		}
@@ -335,6 +340,9 @@ func (m *lexer) lex() token {
 	switch ch {
 	case ';':
 		return m.token(tksemicolon)
+
+	case ',':
+		return m.token(tkcomma)
 
 	case '(':
 		return m.token(tkparenopen)

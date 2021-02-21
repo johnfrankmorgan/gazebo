@@ -4,6 +4,7 @@ import (
 	"github.com/johnfrankmorgan/gazebo/compiler/op"
 	"github.com/johnfrankmorgan/gazebo/debug"
 	"github.com/johnfrankmorgan/gazebo/errors"
+	"github.com/kr/pretty"
 )
 
 type compiler interface {
@@ -42,6 +43,10 @@ func Compile(source string) (code Code, err error) {
 
 	for _, stmt := range parse(source) {
 		code = append(code, stmt.compile()...)
+
+		if debug.Enabled() {
+			debug.Printf("%s", pretty.Sprintf("%# v", stmt))
+		}
 	}
 
 	if debug.Enabled() {

@@ -78,3 +78,20 @@ type group struct {
 func (m *group) compile() Code {
 	return m.expr.compile()
 }
+
+type funcall struct {
+	name expression
+	args []expression
+}
+
+func (m *funcall) compile() Code {
+	code := m.name.compile()
+	argc := 0
+
+	for _, arg := range m.args {
+		code = append(code, arg.compile()...)
+		argc++
+	}
+
+	return append(code, op.CallFunc.Ins(argc))
+}
