@@ -3,23 +3,8 @@ package compiler
 import (
 	"strings"
 
-	"github.com/johnfrankmorgan/gazebo/debug"
 	"github.com/johnfrankmorgan/gazebo/errors"
 )
-
-func parse(source string) []statement {
-	tokens := tokenize(source)
-
-	if debug.Enabled() {
-		tokens.dump()
-	}
-
-	parser := parser{tokens: tokens}
-
-	parser.sugar()
-
-	return parser.parse()
-}
 
 type parser struct {
 	tokens   tokens
@@ -31,6 +16,8 @@ func (m *parser) reset() {
 }
 
 func (m *parser) sugar() {
+	defer m.reset()
+
 	tokens := tokens{}
 
 	for !m.finished() {
@@ -67,7 +54,6 @@ func (m *parser) sugar() {
 
 	tokens = append(tokens, token{typ: tkeof})
 
-	m.reset()
 	m.tokens = tokens
 }
 
@@ -267,6 +253,8 @@ func (m *parser) primary() expression {
 }
 
 func (m *parser) statement() statement {
+	defer m.match(tksemicolon)
+
 	switch m.peek().typ {
 	case tkeof:
 		m.unexpectedeof()
@@ -379,13 +367,12 @@ func (m *parser) load() statement {
 }
 
 func (m *parser) parse() []statement {
+	m.reset()
+	m.sugar()
+
 	statements := []statement{}
 
 	for !m.finished() {
-		if m.match(tknewline) {
-			continue
-		}
-
 		statements = append(statements, m.statement())
 	}
 

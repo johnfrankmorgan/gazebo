@@ -41,16 +41,29 @@ func Compile(source string) (code Code, err error) {
 		panic(recovered)
 	}()
 
-	for _, stmt := range parse(source) {
-		code = append(code, stmt.compile()...)
+	parser := parser{tokens: tokenize(source)}
 
-		if debug.Enabled() {
-			debug.Printf("%s", pretty.Sprintf("%# v", stmt))
-		}
+	if debug.Enabled() {
+		debug.Printf("TOKENS\n")
+		parser.tokens.dump()
+		debug.Printf("\n")
+	}
+
+	ast := parser.parse()
+
+	if debug.Enabled() {
+		debug.Printf("AST\n")
+		debug.Printf("%s\n\n", pretty.Sprintf("%# v", ast))
+	}
+
+	for _, stmt := range ast {
+		code = append(code, stmt.compile()...)
 	}
 
 	if debug.Enabled() {
+		debug.Printf("BYTECODE\n")
 		code.dump()
+		debug.Printf("\n")
 	}
 
 	return code, nil

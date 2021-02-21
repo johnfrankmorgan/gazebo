@@ -18,13 +18,6 @@ func tokenize(source string) tokens {
 	for {
 		tk := lexer.lex()
 
-		if tk.is(tkeof) {
-			tokens = append(tokens, token{
-				typ:   tknewline,
-				value: "\n",
-			})
-		}
-
 		if !tk.is(tkwhitespace, tkcomment, tknewline) {
 			tokens = append(tokens, tk)
 		}

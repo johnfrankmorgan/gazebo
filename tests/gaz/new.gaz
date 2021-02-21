@@ -2,13 +2,13 @@ load time
 
 let 🚀 = fun (countdown) {
   while countdown > 0 {
-    println(countdown)
-    let countdown -= 1
+    println(countdown);
+    let countdown -= 1;
 
-    time.sleep(200)
+    time.sleep(200);
   }
 
-  println("blast off! 🚀")
-}
+  println("blast off! 🚀");
+};
 
-🚀(10)
+🚀(10);
