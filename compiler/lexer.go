@@ -16,13 +16,20 @@ func tokenize(source string) tokens {
 	lexer := lexer{source: []byte(strings.TrimSpace(source))}
 
 	for {
-		token := lexer.lex()
+		tk := lexer.lex()
 
-		if !token.is(tkwhitespace) {
-			tokens = append(tokens, token)
+		if tk.is(tkeof) {
+			tokens = append(tokens, token{
+				typ:   tknewline,
+				value: "\n",
+			})
 		}
 
-		if token.is(tkeof) {
+		if !tk.is(tkwhitespace) {
+			tokens = append(tokens, tk)
+		}
+
+		if tk.is(tkeof) {
 			break
 		}
 	}
@@ -56,9 +63,8 @@ const (
 	tkelse
 	tkreturn
 	tkwhile
-	tklet
-	tkvar
 	tkfun
+	tklet
 	tkparenopen
 	tkparenclose
 	tkbraceopen
@@ -94,9 +100,8 @@ func (m tokentype) name() string {
 		tkelse:         "tkelse",
 		tkreturn:       "tkreturn",
 		tkwhile:        "tkwhile",
-		tklet:          "tklet",
-		tkvar:          "tkvar",
 		tkfun:          "tkfun",
+		tklet:          "tklet",
 		tkparenopen:    "tkparenopen",
 		tkparenclose:   "tkparenclose",
 		tkbraceopen:    "tkbraceopen",
@@ -133,9 +138,8 @@ var keywords = map[string]tokentype{
 	"else":   tkelse,
 	"return": tkreturn,
 	"while":  tkwhile,
-	"let":    tklet,
-	"var":    tkvar,
 	"fun":    tkfun,
+	"let":    tklet,
 }
 
 type token struct {

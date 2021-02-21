@@ -86,12 +86,11 @@ func (m *repl) loop() {
 			break
 		}
 
-		line = strings.TrimSpace(line)
+		m.buffer.WriteString(line + "\n")
 
-		code, err := compiler.Compile(line)
+		code, err := compiler.Compile(m.buffer.String())
 		if err == errors.ErrEOF {
 			m.more = true
-			m.buffer.WriteByte(' ')
 			continue
 		} else if err != nil {
 			m.errorln(err)

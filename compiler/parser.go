@@ -3,12 +3,11 @@ package compiler
 import (
 	"strings"
 
-	"github.com/johnfrankmorgan/gazebo/assert"
 	"github.com/johnfrankmorgan/gazebo/debug"
 	"github.com/johnfrankmorgan/gazebo/errors"
 )
 
-func parse(source string) expression {
+func parse(source string) []statement {
 	tokens := tokenize(source)
 
 	if debug.Enabled() {
@@ -20,62 +19,33 @@ func parse(source string) expression {
 	return parser.parse()
 }
 
-func dumpexpression(expr expression, depth int) {
-	indent := strings.Repeat("  ", depth)
-
-	limit := func(str string, count int) string {
-		if len(str) > count {
-			return str[:count]
-		}
-
-		return str
-	}
-
-	switch expr := expr.(type) {
-	case *binary:
-		debug.Printf("BIN  %s%s %s {\n", indent, expr.op.value, expr.op.typ.name())
-		dumpexpression(expr.left, depth+1)
-		dumpexpression(expr.right, depth+1)
-		debug.Printf("/BIN %s}\n", indent)
-
-	case *unary:
-		debug.Printf("UNY  %s%s %s {\n", indent, expr.op.value, expr.op.typ.name())
-		dumpexpression(expr.right, depth+1)
-		debug.Printf("/UNY %s}\n", indent)
-
-	case *literal:
-		debug.Printf("LIT  %s%s %s\n", indent, limit(expr.token.value, 10), expr.token.typ.name())
-
-	case *group:
-		debug.Printf("GRP  %s() {\n", indent)
-		dumpexpression(expr.expr, depth+1)
-		debug.Printf("/GRP %s}\n", indent)
-
-	default:
-		assert.Unreached("unknown expression type %T", expr)
-	}
-}
-
 type parser struct {
 	tokens   tokens
 	position int
 }
 
-func (m *parser) unexpectedeof() expression {
+func (m *parser) unexpectedeof() {
 	errors.ErrEOF.Panic(
 		"unexpected eof at token offset %d, token %#v",
 		m.position,
 		m.peek(),
 	)
-	return nil
 }
 
 func (m *parser) finished() bool {
 	return m.peek().is(tkeof)
 }
 
-func (m *parser) peek() token {
-	return m.tokens[m.position]
+func (m *parser) peek(pos ...int) token {
+	if len(pos) == 0 {
+		pos = []int{0}
+	}
+
+	if m.position+pos[0] >= len(m.tokens) {
+		return token{typ: tkinvalid}
+	}
+
+	return m.tokens[m.position+pos[0]]
 }
 
 func (m *parser) prev() token {
@@ -113,7 +83,7 @@ func (m *parser) match(typ ...tokentype) bool {
 	return false
 }
 
-func (m *parser) expect(typ ...tokentype) {
+func (m *parser) expect(typ ...tokentype) token {
 	if !m.match(typ...) {
 		names := make([]string, len(typ))
 
@@ -122,11 +92,13 @@ func (m *parser) expect(typ ...tokentype) {
 		}
 
 		errors.ErrParse.Panic(
-			"expected %s, got %s",
+			"expected one of (%s), got %s",
 			strings.Join(names, ", "),
 			m.peek().typ.name(),
 		)
 	}
+
+	return m.prev()
 }
 
 func (m *parser) expression() expression {
@@ -190,6 +162,69 @@ func (m *parser) primary() expression {
 	return nil
 }
 
-func (m *parser) parse() expression {
-	return m.expression()
+func (m *parser) statement() statement {
+	var stmt statement
+
+	switch m.peek().typ {
+	case tkeof:
+		m.unexpectedeof()
+
+	case tkbraceopen:
+		stmt = m.block()
+
+	case tklet:
+		stmt = m.assignment()
+
+	default:
+		stmt = &exprstmt{expr: m.expression()}
+	}
+
+	m.expect(tksemicolon, tknewline)
+	return stmt
+}
+
+func (m *parser) block() statement {
+	var statements []statement
+
+	m.expect(tkbraceopen)
+
+	for !m.finished() {
+		if m.match(tknewline) {
+			continue
+		}
+
+		if m.match(tkbraceclose) {
+			return &block{
+				statements: statements,
+			}
+		}
+
+		statements = append(statements, m.statement())
+	}
+
+	m.unexpectedeof()
+	return nil
+}
+
+func (m *parser) assignment() statement {
+	m.expect(tklet)
+
+	name := m.expect(tkident)
+
+	m.expect(tkequal)
+
+	return &assign{
+		name: name,
+		expr: m.expression(),
+	}
+}
+
+func (m *parser) parse() []statement {
+	statements := []statement{}
+
+	for !m.finished() {
+		statements = append(statements, m.statement())
+	}
+
+	return statements
 }

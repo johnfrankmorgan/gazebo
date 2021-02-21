@@ -6,6 +6,10 @@ import (
 	"github.com/johnfrankmorgan/gazebo/errors"
 )
 
+type compiler interface {
+	compile() Code
+}
+
 type Code []op.Instruction
 
 func (m Code) dump() {
@@ -36,13 +40,9 @@ func Compile(source string) (code Code, err error) {
 		panic(recovered)
 	}()
 
-	expr := parse(source)
-
-	if debug.Enabled() {
-		dumpexpression(expr, 0)
+	for _, stmt := range parse(source) {
+		code = append(code, stmt.compile()...)
 	}
-
-	code = expr.compile()
 
 	if debug.Enabled() {
 		code.dump()

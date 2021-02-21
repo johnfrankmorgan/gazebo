@@ -45,6 +45,10 @@ func initbase() {
 				return NewObjectBool(true)
 			}),
 
+			protocols.NotEqual: Method(func(self Object, args Args) Object {
+				return NewObjectBool(!EnsureBool(self.Call(protocols.Equal, args)).Bool())
+			}),
+
 			protocols.HasAttr: Method(func(self Object, args Args) Object {
 				name := EnsureString(args.Self()).String()
 				if self.Attributes().Has(name) {

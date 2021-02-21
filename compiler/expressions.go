@@ -9,7 +9,7 @@ import (
 )
 
 type expression interface {
-	compile() Code
+	compiler
 }
 
 type binary struct {
