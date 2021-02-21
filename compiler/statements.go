@@ -44,10 +44,22 @@ func (m *block) compile() Code {
 
 type ifstmt struct {
 	condition expression
-	truebody  statement
-	falsebody statement
+	truestmt  statement
+	falsestmt statement
 }
 
 func (m *ifstmt) compile() Code {
-	return nil
+	truecode := m.truestmt.compile()
+	falsecode := Code{}
+
+	if m.falsestmt != nil {
+		falsecode = m.falsestmt.compile()
+	}
+
+	falsecode = append(falsecode, op.RelJump.Ins(len(truecode)))
+
+	condition := append(m.condition.compile(), op.RelJumpIfTrue.Ins(len(falsecode)))
+
+	code := append(condition, falsecode...)
+	return append(code, truecode...)
 }

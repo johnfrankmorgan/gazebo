@@ -163,23 +163,25 @@ func (m *parser) primary() expression {
 }
 
 func (m *parser) statement() statement {
-	var stmt statement
-
 	switch m.peek().typ {
 	case tkeof:
 		m.unexpectedeof()
+		return nil
 
 	case tkbraceopen:
-		stmt = m.block()
+		return m.block()
 
 	case tklet:
-		stmt = m.assignment()
+		return m.assignment()
 
-	default:
-		stmt = &exprstmt{expr: m.expression()}
+	case tkif:
+		return m.ifstatement()
 	}
 
-	m.expect(tksemicolon, tknewline)
+	stmt := &exprstmt{expr: m.expression()}
+
+	m.expect(tknewline, tksemicolon)
+
 	return stmt
 }
 
@@ -213,10 +215,29 @@ func (m *parser) assignment() statement {
 
 	m.expect(tkequal)
 
+	expr := m.expression()
+
+	m.expect(tknewline, tksemicolon)
+
 	return &assign{
 		name: name,
-		expr: m.expression(),
+		expr: expr,
 	}
+}
+
+func (m *parser) ifstatement() statement {
+	var falsestmt statement
+
+	m.expect(tkif)
+
+	condition := m.expression()
+	truestmt := m.statement()
+
+	if m.match(tkelse) {
+		falsestmt = m.statement()
+	}
+
+	return &ifstmt{condition: condition, truestmt: truestmt, falsestmt: falsestmt}
 }
 
 func (m *parser) parse() []statement {
