@@ -115,3 +115,17 @@ type attributelookup struct {
 func (m *attributelookup) compile() Code {
 	return append(m.expr.compile(), op.AttributeGet.Ins(m.name))
 }
+
+type list struct {
+	expressions []expression
+}
+
+func (m *list) compile() Code {
+	code := Code{}
+
+	for _, expr := range m.expressions {
+		code = append(code, expr.compile()...)
+	}
+
+	return append(code, op.MakeList.Ins(len(m.expressions)))
+}

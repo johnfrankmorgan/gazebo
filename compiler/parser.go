@@ -236,6 +236,10 @@ func (m *parser) fundef() expression {
 }
 
 func (m *parser) primary() expression {
+	if m.match(tkbracketopen) {
+		return m.list()
+	}
+
 	if m.match(tkident, tkstring, tknumber) {
 		return &literal{token: m.prev()}
 	}
@@ -252,6 +256,26 @@ func (m *parser) primary() expression {
 		m.peek().value,
 	)
 	return nil
+}
+
+func (m *parser) list() expression {
+	expr := &list{}
+
+	for !m.finished() {
+		if m.check(tkbracketclose) {
+			break
+		}
+
+		expr.expressions = append(expr.expressions, m.expression())
+
+		if !m.check(tkbracketclose) {
+			m.expect(tkcomma)
+		}
+	}
+
+	m.expect(tkbracketclose)
+
+	return expr
 }
 
 func (m *parser) statement() statement {

@@ -17,4 +17,11 @@ while (i > 0) {
   pass
 }
 
+let list = [
+  1, 2, 3, 4,
+  5, 6, 7, 8,
+]
+
+println(list.index(0))
+
 unlet i;

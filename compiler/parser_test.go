@@ -14,5 +14,5 @@ func TestParser(t *testing.T) {
 	assert.Nil(err)
 
 	parser := parser{tokens: tokenize(string(source))}
-	assert.Len(parser.parse(), 6)
+	assert.Len(parser.parse(), 8)
 }
