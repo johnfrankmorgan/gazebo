@@ -15,6 +15,10 @@ func initnumber() {
 				return NewObjectNumber(EnsureNumber(self).Float())
 			}),
 
+			protocols.Inverse: Method(func(self Object, _ Args) Object {
+				return NewObjectNumber(-EnsureNumber(self).Float())
+			}),
+
 			protocols.Add: Method(func(self Object, args Args) Object {
 				result := EnsureNumber(self).Float()
 

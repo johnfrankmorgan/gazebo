@@ -179,28 +179,30 @@ func (m *parser) unary() expression {
 func (m *parser) funcall() expression {
 	expr := m.fundef()
 
-	for !m.finished() {
-		if !m.match(tkparenopen) {
+	for {
+		if !m.check(tkparenopen, tkdot) {
 			break
 		}
 
-		funcall := &funcall{name: expr}
-		expr = funcall
+		if m.match(tkparenopen) {
+			funcall := &funcall{name: expr}
 
-		for !m.finished() {
-			if m.match(tkparenclose) {
-				break
+			for !m.check(tkparenclose) {
+				funcall.args = append(funcall.args, m.expression())
+				if !m.check(tkparenclose) {
+					m.expect(tkcomma)
+				}
 			}
 
-			funcall.args = append(funcall.args, m.expression())
-
-			if !m.check(tkparenclose) {
-				m.expect(tkcomma)
-			}
+			m.expect(tkparenclose)
+			expr = funcall
 		}
 
-		if m.match(tkparenclose) {
-			break
+		if m.match(tkdot) {
+			expr = &attributelookup{
+				name: m.expect(tkident).value,
+				expr: expr,
+			}
 		}
 	}
 
@@ -209,7 +211,7 @@ func (m *parser) funcall() expression {
 
 func (m *parser) fundef() expression {
 	if !m.match(tkfun) {
-		return m.attributelookup()
+		return m.primary()
 	}
 
 	fundef := &fundef{args: []string{}}
@@ -231,19 +233,6 @@ func (m *parser) fundef() expression {
 
 	fundef.body = m.statement()
 	return fundef
-}
-
-func (m *parser) attributelookup() expression {
-	expr := m.primary()
-
-	for m.match(tkdot) {
-		expr = &attributelookup{
-			expr: expr,
-			name: m.expect(tkident).value,
-		}
-	}
-
-	return expr
 }
 
 func (m *parser) primary() expression {
