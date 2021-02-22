@@ -236,7 +236,7 @@ func (m *lexer) isidentchar(ch rune) bool {
 		return true
 	}
 
-	for _, identch := range "!?@_" {
+	for _, identch := range "!?@_$" {
 		if identch == ch {
 			return true
 		}

@@ -29,8 +29,8 @@ func All() []string {
 }
 
 const (
-	Not              = "!"
-	Bool             = "?"
+	Not              = "not!"
+	Bool             = "truthy?"
 	String           = "str"
 	Number           = "num"
 	Invoke           = "invoke"

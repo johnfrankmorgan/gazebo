@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/johnfrankmorgan/gazebo/debug"
+	"github.com/johnfrankmorgan/gazebo/protocols"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -57,4 +58,17 @@ func TestTokenize(t *testing.T) {
 	}
 
 	assert.Equal(expected, got)
+}
+
+func TestProtocolMethodsAreValidIdentifiers(t *testing.T) {
+	for _, protocol := range protocols.All() {
+		t.Run(protocol, func(t *testing.T) {
+			assert := assert.New(t)
+			tokens := tokenize(protocol)
+
+			assert.Len(tokens, 2)
+			assert.True(tokens[0].is(tkident))
+			assert.True(tokens[1].is(tkeof))
+		})
+	}
 }
