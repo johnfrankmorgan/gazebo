@@ -25,11 +25,11 @@ func (m *assign) compile() Code {
 	return append(m.expr.compile(), op.StoreName.Ins(m.name))
 }
 
-type unlet struct {
+type unset struct {
 	names []string
 }
 
-func (m *unlet) compile() Code {
+func (m *unset) compile() Code {
 	code := Code{}
 
 	for _, name := range m.names {

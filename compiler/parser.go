@@ -251,9 +251,10 @@ func (m *parser) primary() expression {
 	}
 
 	errors.ErrParse.Panic(
-		"unexpected %s %s",
+		"unexpected %s %s near token offset %d",
 		m.peek().typ.name(),
 		m.peek().value,
+		m.position,
 	)
 	return nil
 }
@@ -284,6 +285,11 @@ func (m *parser) statement() statement {
 		m.unexpectedeof()
 		return nil
 
+	case tkident:
+		if m.peek(1).is(tkequal) {
+			return m.assignment()
+		}
+
 	case tkpass:
 		m.next()
 		return &pass{}
@@ -295,11 +301,8 @@ func (m *parser) statement() statement {
 	case tkbraceopen:
 		return m.block()
 
-	case tklet:
-		return m.assignment()
-
-	case tkunlet:
-		return m.unlet()
+	case tkunset:
+		return m.unset()
 
 	case tkif:
 		return m.ifstmt()
@@ -339,8 +342,6 @@ func (m *parser) block() statement {
 }
 
 func (m *parser) assignment() statement {
-	m.expect(tklet)
-
 	name := m.expect(tkident)
 
 	m.expect(tkequal)
@@ -353,10 +354,10 @@ func (m *parser) assignment() statement {
 	}
 }
 
-func (m *parser) unlet() statement {
-	var stmt unlet
+func (m *parser) unset() statement {
+	var stmt unset
 
-	m.expect(tkunlet)
+	m.expect(tkunset)
 
 	for !m.finished() {
 		if m.match(tksemicolon) {
@@ -457,6 +458,7 @@ func (m *parser) parse() []statement {
 
 	for !m.finished() {
 		statements = append(statements, m.statement())
+		m.match(tksemicolon)
 	}
 
 	return statements

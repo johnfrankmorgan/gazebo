@@ -59,8 +59,7 @@ const (
 	tkwhile
 	tkfor
 	tkfun
-	tklet
-	tkunlet
+	tkunset
 	tkload
 	tkpass
 	tkparenopen
@@ -106,8 +105,7 @@ func (m tokentype) name() string {
 		tkwhile:        "tkwhile",
 		tkfor:          "tkfor",
 		tkfun:          "tkfun",
-		tklet:          "tklet",
-		tkunlet:        "tkunlet",
+		tkunset:        "tkunset",
 		tkload:         "tkload",
 		tkpass:         "tkpass",
 		tkparenopen:    "tkparenopen",
@@ -152,8 +150,7 @@ var keywords = map[string]tokentype{
 	"while":  tkwhile,
 	"for":    tkfor,
 	"fun":    tkfun,
-	"let":    tklet,
-	"unlet":  tkunlet,
+	"unset":  tkunset,
 	"load":   tkload,
 	"pass":   tkpass,
 }

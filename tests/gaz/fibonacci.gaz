@@ -1,20 +1,20 @@
 load time
 
-let a = 0
-let b = 1
-let tmp = 0
+a = 0
+b = 1
+tmp = 0
 
-let start = time.now()
+start = time.now()
 
-for (let i = 0; i < 20; let i += 1) {
-  let tmp = b
-  let b = a + b
-  let a = tmp
+for (i = 0; i < 20; i += 1) {
+  tmp = b
+  b = a + b
+  a = tmp
 }
 
-let time_taken = time.since(start)
+time_taken = time.since(start)
 
 println("20th Fibonacci number:", tmp)
 println("Took", time_taken)
 
-unlet tmp a b start
+unset tmp a b start

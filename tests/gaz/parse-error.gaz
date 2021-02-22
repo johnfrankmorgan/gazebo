@@ -1,6 +1,6 @@
 // PARSE ERROR
 
-for (let i = 0; i < 100; let i += 1) {
+for (i = 0; i < 100; i += 1) {
   println(i)
 }
 
@@ -10,11 +10,11 @@ while true {
 
 if (false == nil) {
   {{}}
-  unlet i
+  unset i
 
   load str
 }
 
-let thing = str.contains?()
+thing = str.contains?()
 
 if {}

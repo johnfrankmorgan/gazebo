@@ -1,5 +1,5 @@
 // EOF ERROR
 
-let 😃 = fun {
+😃 = fun {
   return "test
 }
