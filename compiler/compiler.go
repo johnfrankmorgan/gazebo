@@ -52,6 +52,10 @@ func Compile(source string) (code Code, err error) {
 	ast := parser.parse()
 
 	if debug.Enabled() {
+		debug.Printf("DESUGARED\n")
+		parser.tokens.dump()
+		debug.Printf("\n")
+
 		debug.Printf("AST\n")
 		debug.Printf("%s\n\n", pretty.Sprintf("%# v", ast))
 	}

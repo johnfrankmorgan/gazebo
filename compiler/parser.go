@@ -15,7 +15,7 @@ func (m *parser) reset() {
 	m.position = 0
 }
 
-func (m *parser) sugar() {
+func (m *parser) desugar() {
 	defer m.reset()
 
 	tokens := tokens{}
@@ -23,10 +23,24 @@ func (m *parser) sugar() {
 	for !m.finished() {
 		tk := m.peek()
 
+		if tk.is(tkfun) && m.peek(1).is(tkident) {
+			// rewrite function definition statement into assignment
+
+			m.next()
+			name := m.expect(tkident)
+
+			tokens = append(tokens, name, token{typ: tkequal, value: "="}, tk)
+
+			continue
+		}
+
 		if !tk.is(tkplusequal, tkminusequal, tkstarequal, tkslashequal) {
 			tokens = append(tokens, m.next())
 			continue
 		}
+
+		// rewrite compound assignment into simple assignment
+		// i += 1  ->  i = i + 1
 
 		prev := m.prev()
 		m.next()
@@ -452,7 +466,7 @@ func (m *parser) load() statement {
 
 func (m *parser) parse() []statement {
 	m.reset()
-	m.sugar()
+	m.desugar()
 
 	statements := []statement{}
 
