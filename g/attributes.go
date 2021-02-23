@@ -27,7 +27,7 @@ func (m *Attributes) Get(name string) Object {
 		return m.values[name]
 	}
 
-	return NewObjectNil()
+	return nil
 }
 
 // Set sets an attribute's value

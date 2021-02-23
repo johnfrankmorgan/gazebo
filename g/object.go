@@ -1,80 +1,48 @@
 package g
 
 import (
+	"reflect"
+
 	"github.com/johnfrankmorgan/gazebo/assert"
-	"github.com/johnfrankmorgan/gazebo/errors"
 )
 
-// Object is the type of all values in gazebo
 type Object interface {
-	Type() *Type
+	Attrs
 	Value() interface{}
-	Call(string, Args) Object
-	Attributes() *Attributes
 }
 
-// NewObject creates a new Object for the provided Go value
-func NewObject(value interface{}) Object {
-	switch value := value.(type) {
-	case nil:
-		return NewObjectNil()
+type ObjectHelper struct {
+	Attrs map[string]Object
+}
 
-	case bool:
-		return NewObjectBool(value)
+func (m *ObjectHelper) Method(object Object, name string) Object {
+	method := reflect.ValueOf(object).MethodByName("G_" + name)
 
-	case int:
-		return NewObjectNumber(float64(value))
-
-	case float64:
-		return NewObjectNumber(value)
-
-	case string:
-		return NewObjectString(value)
-
-	case []Object:
-		return NewObjectList(value)
-
-	case func(Args) Object:
-		return NewObjectInternalFunc(Func(value))
+	if method.IsValid() {
+		return NewBoundMethod(method)
 	}
 
-	assert.Unreached("Could not infer type for %T %v", value, value)
 	return nil
 }
 
-// PartialObject is a partial Object implementation
-type PartialObject struct {
-	typ        *Type
-	attributes Attributes
+func (m *ObjectHelper) HasAttr(object Object, name string) bool {
+	assert.Unreached()
+	return false
 }
 
-// Type returns the object's underlying Type
-func (m *PartialObject) Type() *Type {
-	return m.typ
+func (m *ObjectHelper) GetAttr(object Object, name string) Object {
+	if method := m.Method(object, name); method != nil {
+		return method
+	}
+
+	assert.Unreached()
+	return nil
 }
 
-// Attributes returns the Object's attributes
-func (m *PartialObject) Attributes() *Attributes {
-	return &m.attributes
+func (m *ObjectHelper) SetAttr(object Object, name string, value Object) {
+	assert.Unreached()
 }
 
-func (m *PartialObject) call(self Object, method string, args Args) Object {
-	errors.ErrRuntime.Expect(
-		m.typ.Implements(method),
-		"type %s does not implement %s",
-		m.typ.Name,
-		method,
-	)
-
-	return m.typ.Resolve(method)(self, args)
-}
-
-// CallMethod is an exported method that wraps PartialObject.call
-func (m *PartialObject) CallMethod(self Object, method string, args Args) Object {
-	return m.call(self, method, args)
-}
-
-// SetType is an exported method to allow modules to set an Object's type
-func (m *PartialObject) SetType(typ *Type) {
-	m.typ = typ
+func (m *ObjectHelper) DelAttr(object Object, name string) {
+	assert.Unreached()
 }
