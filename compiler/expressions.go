@@ -58,7 +58,8 @@ func (m *exprliteral) compile() Code {
 		return Code{op.LoadConst.Ins(value)}
 
 	case tkstring:
-		value := m.token.value[1 : len(m.token.value)-1]
+		value, err := strconv.Unquote(m.token.value)
+		errors.ErrCompile.ExpectNil(err, "%v", err)
 		return Code{op.LoadConst.Ins(value)}
 
 	case tkident:

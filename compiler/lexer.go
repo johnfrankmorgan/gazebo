@@ -264,8 +264,7 @@ func (m *lexer) line(typ tokentype) token {
 
 func (m *lexer) lstring() token {
 	for !m.finished() {
-		if m.peek() == '"' {
-			m.next()
+		if m.match('"') {
 			return m.token(tkstring)
 		}
 
