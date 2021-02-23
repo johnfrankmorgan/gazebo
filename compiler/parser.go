@@ -328,9 +328,19 @@ func (m *parser) statement() statement {
 		return m.load()
 	}
 
-	stmt := &stmtexpr{expr: m.expression()}
+	expr := m.expression()
 
-	return stmt
+	if getattr, ok := expr.(*exprgetattr); ok {
+		if m.match(tkequal) {
+			return &stmtsetattr{
+				expr:  getattr.expr,
+				name:  getattr.name,
+				value: m.expression(),
+			}
+		}
+	}
+
+	return &stmtexpr{expr: expr}
 }
 
 func (m *parser) block() statement {

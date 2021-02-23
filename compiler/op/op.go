@@ -27,6 +27,7 @@ const (
 	MakeList
 	IndexGet
 	AttributeGet
+	AttributeSet
 	NoOp
 	Return
 )
@@ -54,6 +55,7 @@ func (op Opcode) Name() string {
 		MakeList:       "op.MakeList",
 		IndexGet:       "op.IndexGet",
 		AttributeGet:   "op.AttributeGet",
+		AttributeSet:   "op.AttributeSet",
 		NoOp:           "op.NoOp",
 		Return:         "op.Return",
 	}

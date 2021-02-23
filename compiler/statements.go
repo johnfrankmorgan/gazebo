@@ -114,3 +114,15 @@ type stmtreturn struct {
 func (m *stmtreturn) compile() Code {
 	return append(m.expr.compile(), op.Return.Ins(nil))
 }
+
+type stmtsetattr struct {
+	expr  expression
+	name  string
+	value expression
+}
+
+func (m *stmtsetattr) compile() Code {
+	code := m.expr.compile()
+	code = append(code, m.value.compile()...)
+	return append(code, op.AttributeSet.Ins(m.name))
+}

@@ -185,6 +185,12 @@ loop:
 			attr := g.NewObjectString(ins.Arg.(string))
 			m.stack.push(value.Call(protocols.GetAttr, g.Args{attr}))
 
+		case op.AttributeSet:
+			value := m.stack.pop()
+			object := m.stack.pop()
+			attr := g.NewObjectString(ins.Arg.(string))
+			m.stack.push(object.Call(protocols.SetAttr, g.Args{attr, value}))
+
 		case op.NoOp:
 			//
 
