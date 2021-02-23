@@ -42,20 +42,7 @@ func New(argv ...string) *VM {
 
 // Run runs the provided code
 func (m *VM) Run(code compiler.Code) (value g.Object, err error) {
-	defer func() {
-		recovered := recover()
-
-		if recovered == nil {
-			return
-		}
-
-		if gerr, ok := recovered.(*errors.Error); ok {
-			err = gerr
-			return
-		}
-
-		panic(recovered)
-	}()
+	defer errors.Handle(&err)
 
 	value = m.run(code)
 	return

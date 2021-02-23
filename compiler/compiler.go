@@ -26,20 +26,7 @@ func (m Code) dump() {
 }
 
 func Compile(source string) (code Code, err error) {
-	defer func() {
-		recovered := recover()
-
-		if recovered == nil {
-			return
-		}
-
-		if gerr, ok := recovered.(*errors.Error); ok {
-			err = gerr
-			return
-		}
-
-		panic(recovered)
-	}()
+	defer errors.Handle(&err)
 
 	parser := parser{tokens: tokenize(source)}
 

@@ -13,6 +13,22 @@ var (
 	ErrRuntime *Error = &Error{prefix: "runtime error"}
 )
 
+// Handle sets err if a recoverable error occurs
+func Handle(err *error) {
+	recovered := recover()
+
+	if recovered == nil {
+		return
+	}
+
+	if gerr, ok := recovered.(*Error); ok {
+		*err = gerr
+		return
+	}
+
+	panic(recovered)
+}
+
 // Error is an error implementation
 type Error struct {
 	prefix  string
