@@ -51,12 +51,16 @@ func TestGazScripts(t *testing.T) {
 			if expect != nil && err != errors.ErrRuntime {
 				assert.ErrorIs(err, expect)
 				expect = nil
+			} else {
+				assert.Nil(err)
 			}
 
 			_, err = vm.New().Run(code)
 			if expect != nil {
 				assert.ErrorIs(err, expect)
 			}
+
+			assert.Nil(err)
 		})
 	}
 }
