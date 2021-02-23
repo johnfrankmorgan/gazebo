@@ -12,13 +12,13 @@ type expression interface {
 	compiler
 }
 
-type binary struct {
+type exprbinary struct {
 	op    token
 	left  expression
 	right expression
 }
 
-func (m *binary) compile() Code {
+func (m *exprbinary) compile() Code {
 	fun, ok := protocols.BinaryOperators[m.op.value]
 	errors.ErrCompile.Expect(ok, "unknown binary operator %s %s", m.op.value, m.op.typ.name())
 
@@ -30,12 +30,12 @@ func (m *binary) compile() Code {
 	return append(code, op.CallFunc.Ins(2))
 }
 
-type unary struct {
+type exprunary struct {
 	op    token
 	right expression
 }
 
-func (m *unary) compile() Code {
+func (m *exprunary) compile() Code {
 	fun, ok := protocols.UnaryOperators[m.op.value]
 	errors.ErrCompile.Expect(ok, "unknown unary operator %s %s", m.op.value, m.op.typ.name())
 
@@ -46,11 +46,11 @@ func (m *unary) compile() Code {
 	return append(code, op.CallFunc.Ins(1))
 }
 
-type literal struct {
+type exprliteral struct {
 	token token
 }
 
-func (m *literal) compile() Code {
+func (m *exprliteral) compile() Code {
 	switch m.token.typ {
 	case tknumber:
 		value, err := strconv.ParseFloat(m.token.value, 64)
@@ -69,20 +69,20 @@ func (m *literal) compile() Code {
 	return nil
 }
 
-type group struct {
+type exprgroup struct {
 	expr expression
 }
 
-func (m *group) compile() Code {
+func (m *exprgroup) compile() Code {
 	return m.expr.compile()
 }
 
-type funcall struct {
+type exprfuncall struct {
 	name expression
 	args []expression
 }
 
-func (m *funcall) compile() Code {
+func (m *exprfuncall) compile() Code {
 	code := m.name.compile()
 	argc := 0
 
@@ -94,12 +94,12 @@ func (m *funcall) compile() Code {
 	return append(code, op.CallFunc.Ins(argc))
 }
 
-type fundef struct {
+type exprfun struct {
 	args []string
 	body statement
 }
 
-func (m *fundef) compile() Code {
+func (m *exprfun) compile() Code {
 	return Code{
 		op.PushValue.Ins(m.args),
 		op.PushValue.Ins(m.body.compile()),
@@ -107,20 +107,20 @@ func (m *fundef) compile() Code {
 	}
 }
 
-type attributelookup struct {
+type exprgetattr struct {
 	expr expression
 	name string
 }
 
-func (m *attributelookup) compile() Code {
+func (m *exprgetattr) compile() Code {
 	return append(m.expr.compile(), op.AttributeGet.Ins(m.name))
 }
 
-type list struct {
+type exprlist struct {
 	expressions []expression
 }
 
-func (m *list) compile() Code {
+func (m *exprlist) compile() Code {
 	code := Code{}
 
 	for _, expr := range m.expressions {

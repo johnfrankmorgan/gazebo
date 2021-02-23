@@ -156,7 +156,7 @@ func (m *parser) binary(next func() expression, expected ...tokentype) expressio
 	expr := next()
 
 	for m.match(expected...) {
-		expr = &binary{
+		expr = &exprbinary{
 			op:    m.prev(),
 			left:  expr,
 			right: next(),
@@ -184,7 +184,7 @@ func (m *parser) multiplication() expression {
 
 func (m *parser) unary() expression {
 	if m.match(tkbang, tkminus) {
-		return &unary{op: m.prev(), right: m.unary()}
+		return &exprunary{op: m.prev(), right: m.unary()}
 	}
 
 	return m.funcall()
@@ -193,13 +193,9 @@ func (m *parser) unary() expression {
 func (m *parser) funcall() expression {
 	expr := m.fundef()
 
-	for {
-		if !m.check(tkparenopen, tkdot) {
-			break
-		}
-
+	for m.check(tkparenopen, tkdot) {
 		if m.match(tkparenopen) {
-			funcall := &funcall{name: expr}
+			funcall := &exprfuncall{name: expr}
 
 			for !m.check(tkparenclose) {
 				funcall.args = append(funcall.args, m.expression())
@@ -213,7 +209,7 @@ func (m *parser) funcall() expression {
 		}
 
 		if m.match(tkdot) {
-			expr = &attributelookup{
+			expr = &exprgetattr{
 				name: m.expect(tkident).value,
 				expr: expr,
 			}
@@ -228,7 +224,7 @@ func (m *parser) fundef() expression {
 		return m.primary()
 	}
 
-	fundef := &fundef{args: []string{}}
+	expr := &exprfun{args: []string{}}
 
 	if m.match(tkparenopen) {
 		for !m.finished() {
@@ -237,7 +233,7 @@ func (m *parser) fundef() expression {
 			}
 
 			arg := m.expect(tkident)
-			fundef.args = append(fundef.args, arg.value)
+			expr.args = append(expr.args, arg.value)
 
 			if !m.check(tkparenclose) {
 				m.expect(tkcomma)
@@ -245,8 +241,9 @@ func (m *parser) fundef() expression {
 		}
 	}
 
-	fundef.body = m.statement()
-	return fundef
+	expr.body = m.statement()
+
+	return expr
 }
 
 func (m *parser) primary() expression {
@@ -255,13 +252,13 @@ func (m *parser) primary() expression {
 	}
 
 	if m.match(tkident, tkstring, tknumber) {
-		return &literal{token: m.prev()}
+		return &exprliteral{token: m.prev()}
 	}
 
 	if m.match(tkparenopen) {
 		expr := m.expression()
 		m.expect(tkparenclose)
-		return &group{expr: expr}
+		return &exprgroup{expr: expr}
 	}
 
 	errors.ErrParse.Panic(
@@ -274,7 +271,7 @@ func (m *parser) primary() expression {
 }
 
 func (m *parser) list() expression {
-	expr := &list{}
+	expr := &exprlist{}
 
 	for !m.finished() {
 		if m.check(tkbracketclose) {
@@ -306,11 +303,11 @@ func (m *parser) statement() statement {
 
 	case tkpass:
 		m.next()
-		return &pass{}
+		return &stmtpass{}
 
 	case tkreturn:
 		m.next()
-		return &returnstmt{expr: m.expression()}
+		return &stmtreturn{expr: m.expression()}
 
 	case tkbraceopen:
 		return m.block()
@@ -331,7 +328,7 @@ func (m *parser) statement() statement {
 		return m.load()
 	}
 
-	stmt := &exprstmt{expr: m.expression()}
+	stmt := &stmtexpr{expr: m.expression()}
 
 	return stmt
 }
@@ -343,7 +340,7 @@ func (m *parser) block() statement {
 
 	for !m.finished() {
 		if m.match(tkbraceclose) {
-			return &block{
+			return &stmtblock{
 				statements: statements,
 			}
 		}
@@ -362,14 +359,14 @@ func (m *parser) assignment() statement {
 
 	expr := m.expression()
 
-	return &assign{
+	return &stmtassign{
 		name: name.value,
 		expr: expr,
 	}
 }
 
 func (m *parser) unset() statement {
-	var stmt unset
+	var stmt stmtunset
 
 	m.expect(tkunset)
 
@@ -400,7 +397,7 @@ func (m *parser) ifstmt() statement {
 		falsestmt = m.statement()
 	}
 
-	return &ifstmt{condition: condition, truestmt: truestmt, falsestmt: falsestmt}
+	return &stmtif{condition: condition, truestmt: truestmt, falsestmt: falsestmt}
 }
 
 func (m *parser) while() statement {
@@ -409,7 +406,7 @@ func (m *parser) while() statement {
 	condition := m.expression()
 	body := m.statement()
 
-	return &while{
+	return &stmtwhile{
 		condition: condition,
 		body:      body,
 	}
@@ -432,12 +429,12 @@ func (m *parser) forstmt() statement {
 
 	body := m.statement()
 
-	return &block{
+	return &stmtblock{
 		statements: []statement{
 			init,
-			&while{
+			&stmtwhile{
 				condition: cond,
-				body: &block{
+				body: &stmtblock{
 					statements: []statement{
 						body,
 						incr,
@@ -461,7 +458,7 @@ func (m *parser) load() statement {
 		modules = append(modules, m.prev().value)
 	}
 
-	return &load{modules: modules}
+	return &stmtload{modules: modules}
 }
 
 func (m *parser) parse() []statement {
