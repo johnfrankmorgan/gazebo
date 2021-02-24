@@ -124,5 +124,5 @@ type stmtsetattr struct {
 func (m *stmtsetattr) compile() Code {
 	code := m.expr.compile()
 	code = append(code, m.value.compile()...)
-	return append(code, op.AttributeSet.Ins(m.name))
+	return append(code, op.SetAttr.Ins(m.name))
 }

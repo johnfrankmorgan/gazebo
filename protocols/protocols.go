@@ -2,10 +2,10 @@ package protocols
 
 func All() []string {
 	return []string{
-		Not,
-		Bool,
 		String,
 		Number,
+		Bool,
+		Not,
 		Invoke,
 		Inspect,
 		Inverse,
@@ -29,10 +29,10 @@ func All() []string {
 }
 
 const (
-	Not              = "not!"
-	Bool             = "truthy?"
 	String           = "str"
 	Number           = "num"
+	Bool             = "bool"
+	Not              = "not"
 	Invoke           = "invoke"
 	Inspect          = "inspect"
 	Inverse          = "inverse"
@@ -40,12 +40,12 @@ const (
 	Sub              = "sub"
 	Mul              = "mul"
 	Div              = "div"
-	Equal            = "eq?"
-	NotEqual         = "neq?"
-	GreaterThan      = "gt?"
-	GreaterThanEqual = "gte?"
-	LessThan         = "lt?"
-	LessThanEqual    = "lte?"
+	Equal            = "eq"
+	NotEqual         = "neq"
+	GreaterThan      = "gt"
+	GreaterThanEqual = "gte"
+	LessThan         = "lt"
+	LessThanEqual    = "lte"
 	Index            = "index"
 	Len              = "len"
 	HasAttr          = "has"

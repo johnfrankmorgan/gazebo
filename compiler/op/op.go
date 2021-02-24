@@ -26,8 +26,8 @@ const (
 	LoadModule
 	MakeList
 	IndexGet
-	AttributeGet
-	AttributeSet
+	GetAttr
+	SetAttr
 	NoOp
 	Return
 )
@@ -54,8 +54,8 @@ func (op Opcode) Name() string {
 		LoadModule:     "op.LoadModule",
 		MakeList:       "op.MakeList",
 		IndexGet:       "op.IndexGet",
-		AttributeGet:   "op.AttributeGet",
-		AttributeSet:   "op.AttributeSet",
+		GetAttr:        "op.GetAttr",
+		SetAttr:        "op.SetAttr",
 		NoOp:           "op.NoOp",
 		Return:         "op.Return",
 	}

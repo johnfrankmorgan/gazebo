@@ -1,6 +1,8 @@
 package vm
 
 import (
+	"os"
+
 	"github.com/johnfrankmorgan/gazebo/assert"
 	"github.com/johnfrankmorgan/gazebo/compiler"
 	"github.com/johnfrankmorgan/gazebo/compiler/op"
@@ -17,6 +19,11 @@ type VM struct {
 // New creates a new VM
 func New(argv ...string) *VM {
 	env := new(env)
+
+	env.define("out", g.NewWriter(os.Stdout))
+	env.define("nil", g.NewNil())
+	env.define("true", g.NewBool(true))
+	env.define("false", g.NewBool(false))
 
 	return &VM{
 		stack: new(stack),
@@ -69,7 +76,7 @@ loop:
 			fun := m.stack.pop()
 			m.stack.push(fun.(g.Callable).Call(args))
 
-		case op.AttributeGet:
+		case op.GetAttr:
 			name := ins.Arg.(string)
 			object := m.stack.pop()
 			m.stack.push(object.GetAttr(name))

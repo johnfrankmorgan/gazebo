@@ -22,6 +22,18 @@ func (m *BoundMethod) Value() interface{} {
 	return nil
 }
 
+func (m *BoundMethod) CallMethod(name string, args *Args) Object {
+	assert.Unreached()
+	return nil
+}
+
 func (m *BoundMethod) Call(args *Args) Object {
-	return m.value.Call(args.ReflectValues())[0].Interface().(Object)
+	ret := m.value.Call(args.ReflectValues())
+	if len(ret) == 0 {
+		return NewNil()
+	}
+
+	assert.Len(ret, 1)
+
+	return ret[0].Interface().(Object)
 }

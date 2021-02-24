@@ -11,6 +11,8 @@ import (
 	"github.com/johnfrankmorgan/gazebo/compiler"
 	"github.com/johnfrankmorgan/gazebo/debug"
 	"github.com/johnfrankmorgan/gazebo/errors"
+	"github.com/johnfrankmorgan/gazebo/g"
+	"github.com/johnfrankmorgan/gazebo/protocols"
 	"github.com/johnfrankmorgan/gazebo/vm"
 )
 
@@ -101,8 +103,8 @@ func (m *repl) loop() {
 			m.errorln(err)
 		}
 
-		if result != nil {
-			fmt.Printf("%# v\n", result)
+		if result != nil && result.Value() != nil {
+			fmt.Printf("%s\n", result.CallMethod(protocols.String, &g.Args{}))
 		}
 
 		m.reset()

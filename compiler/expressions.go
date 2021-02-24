@@ -22,9 +22,8 @@ func (m *exprbinary) compile() Code {
 	fun, ok := protocols.BinaryOperators[m.op.value]
 	errors.ErrCompile.Expect(ok, "unknown binary operator %s %s", m.op.value, m.op.typ.name())
 
-	code := Code{op.LoadName.Ins(fun)}
-
-	code = append(code, m.left.compile()...)
+	code := m.left.compile()
+	code = append(code, op.GetAttr.Ins(fun))
 	code = append(code, m.right.compile()...)
 
 	return append(code, op.CallFunc.Ins(2))
@@ -39,9 +38,8 @@ func (m *exprunary) compile() Code {
 	fun, ok := protocols.UnaryOperators[m.op.value]
 	errors.ErrCompile.Expect(ok, "unknown unary operator %s %s", m.op.value, m.op.typ.name())
 
-	code := Code{op.LoadName.Ins(fun)}
-
-	code = append(code, m.right.compile()...)
+	code := m.right.compile()
+	code = append(code, op.GetAttr.Ins(fun))
 
 	return append(code, op.CallFunc.Ins(1))
 }
@@ -114,7 +112,7 @@ type exprgetattr struct {
 }
 
 func (m *exprgetattr) compile() Code {
-	return append(m.expr.compile(), op.AttributeGet.Ins(m.name))
+	return append(m.expr.compile(), op.GetAttr.Ins(m.name))
 }
 
 type exprlist struct {
