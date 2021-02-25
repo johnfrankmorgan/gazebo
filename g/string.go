@@ -1,6 +1,7 @@
 package g
 
 import (
+	"bytes"
 	"fmt"
 	"strconv"
 
@@ -10,8 +11,7 @@ import (
 var _ Object = &String{}
 
 type String struct {
-	Partial
-	h     ObjectHelper
+	Base
 	value string
 }
 
@@ -33,30 +33,14 @@ func (m *String) String() string {
 	return m.value
 }
 
-func (m *String) CallMethod(name string, args *Args) Object {
-	return m.h.CallMethod(m, name, args)
-}
-
-func (m *String) HasAttr(name string) bool {
-	return m.h.HasAttr(m, name)
-}
-
-func (m *String) GetAttr(name string) Object {
-	return m.h.GetAttr(m, name)
-}
-
-func (m *String) SetAttr(name string, value Object) {
-	m.h.SetAttr(m, name, value)
-}
-
-func (m *String) DelAttr(name string) {
-	m.h.DelAttr(m, name)
+func (m *String) Len() int {
+	return len(m.value)
 }
 
 // GAZEBO STRING OBJECT METHODS
 
 func (m *String) G_str() *String {
-	return &String{value: m.value}
+	return NewString(m.value)
 }
 
 func (m *String) G_num() *Number {
@@ -71,4 +55,25 @@ func (m *String) G_bool() *Bool {
 
 func (m *String) G_not() *Bool {
 	return NewBool(!m.G_bool().Bool())
+}
+
+func (m *String) G_len() *Number {
+	return NewNumber(float64(m.Len()))
+}
+
+func (m *String) G_inverse() Object {
+	var (
+		buff   bytes.Buffer
+		length = m.Len()
+	)
+
+	for i := 0; i < length; i++ {
+		buff.WriteByte(m.value[length-i-1])
+	}
+
+	return NewString(buff.String())
+}
+
+func (m *String) G_add(other Object) Object {
+	return NewString(m.value + other.G_str().String())
 }

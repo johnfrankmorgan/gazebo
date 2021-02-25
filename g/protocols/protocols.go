@@ -16,13 +16,11 @@ func All() []string {
 		GreaterThanEqual,
 		LessThan,
 		LessThanEqual,
-		Index,
-		Len,
 		HasAttr,
 		GetAttr,
 		SetAttr,
 		DelAttr,
-		Invoke,
+		Len,
 		Inverse,
 	}
 }
@@ -32,6 +30,8 @@ const (
 	Number           = "num"
 	Bool             = "bool"
 	Not              = "not"
+	Len              = "len"
+	Inverse          = "inverse"
 	Add              = "add"
 	Sub              = "sub"
 	Mul              = "mul"
@@ -42,14 +42,10 @@ const (
 	GreaterThanEqual = "gte"
 	LessThan         = "lt"
 	LessThanEqual    = "lte"
-	Index            = "index"
-	Len              = "len"
-	HasAttr          = "has"
-	GetAttr          = "get"
-	SetAttr          = "set"
-	DelAttr          = "del"
-	Invoke           = "invoke"
-	Inverse          = "inverse"
+	HasAttr          = "hasattr"
+	GetAttr          = "getattr"
+	SetAttr          = "setattr"
+	DelAttr          = "delattr"
 )
 
 var BinaryOperators = map[string]string{

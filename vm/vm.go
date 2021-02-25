@@ -89,6 +89,13 @@ loop:
 			object := m.stack.pop()
 			m.stack.push(object.GetAttr(name))
 
+		case op.SetAttr:
+			name := ins.Arg.(string)
+			value := m.stack.pop()
+			object := m.stack.pop()
+			object.SetAttr(name, value)
+			m.stack.push(g.NewNil())
+
 		case op.Return:
 			break loop
 

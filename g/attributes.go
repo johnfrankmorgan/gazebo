@@ -13,16 +13,12 @@ func (m *Attributes) init() {
 
 // Has returns whether an attribute exists
 func (m *Attributes) Has(name string) bool {
-	m.init()
-
 	_, ok := m.values[name]
 	return ok
 }
 
 // Get returns an attribute
 func (m *Attributes) Get(name string) Object {
-	m.init()
-
 	if m.Has(name) {
 		return m.values[name]
 	}
@@ -39,7 +35,5 @@ func (m *Attributes) Set(name string, value Object) {
 
 // Delete deletes an attribute
 func (m *Attributes) Delete(name string) {
-	m.init()
-
 	delete(m.values, name)
 }

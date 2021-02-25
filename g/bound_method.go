@@ -9,8 +9,7 @@ import (
 var _ Object = &BoundMethod{}
 
 type BoundMethod struct {
-	Partial
-	h     ObjectHelper
+	Base
 	value reflect.Value
 	self  Object
 	name  string
@@ -27,30 +26,9 @@ func (m *BoundMethod) Value() interface{} {
 	return nil
 }
 
-func (m *BoundMethod) HasAttr(name string) bool {
-	return m.h.HasAttr(m, name)
-}
-
-func (m *BoundMethod) GetAttr(name string) Object {
-	return m.h.GetAttr(m, name)
-}
-
-func (m *BoundMethod) SetAttr(name string, value Object) {
-	m.h.SetAttr(m, name, value)
-}
-
-func (m *BoundMethod) DelAttr(name string) {
-	m.h.DelAttr(m, name)
-}
-
-func (m *BoundMethod) CallMethod(name string, args *Args) Object {
-	assert.Unreached()
-	return nil
-}
-
 func (m *BoundMethod) Call(args *Args) Object {
 	if !m.value.IsValid() {
-		m.value = m.h.Method(m.self, m.name).value
+		m.value = m.Method(m.self, m.name).value
 	}
 
 	ret := m.value.Call(args.ReflectValues())

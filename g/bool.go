@@ -3,8 +3,7 @@ package g
 var _ Object = &Bool{}
 
 type Bool struct {
-	Partial
-	h     ObjectHelper
+	Base
 	value bool
 }
 
@@ -20,26 +19,6 @@ func (m *Bool) Value() interface{} {
 
 func (m *Bool) Bool() bool {
 	return m.value
-}
-
-func (m *Bool) CallMethod(name string, args *Args) Object {
-	return m.h.CallMethod(m, name, args)
-}
-
-func (m *Bool) HasAttr(name string) bool {
-	return m.h.HasAttr(m, name)
-}
-
-func (m *Bool) GetAttr(name string) Object {
-	return m.h.GetAttr(m, name)
-}
-
-func (m *Bool) SetAttr(name string, value Object) {
-	m.h.SetAttr(m, name, value)
-}
-
-func (m *Bool) DelAttr(name string) {
-	m.h.DelAttr(m, name)
 }
 
 // GAZEBO BOOL OBJECT METHODS

@@ -12,8 +12,7 @@ import (
 var _ Object = &Writer{}
 
 type Writer struct {
-	Partial
-	h   ObjectHelper
+	Base
 	out io.Writer
 }
 
@@ -25,26 +24,6 @@ func NewWriter(out io.Writer) *Writer {
 
 func (m *Writer) Value() interface{} {
 	return m.out
-}
-
-func (m *Writer) CallMethod(name string, args *Args) Object {
-	return m.h.CallMethod(m, name, args)
-}
-
-func (m *Writer) HasAttr(name string) bool {
-	return m.h.HasAttr(m, name)
-}
-
-func (m *Writer) GetAttr(name string) Object {
-	return m.h.GetAttr(m, name)
-}
-
-func (m *Writer) SetAttr(name string, value Object) {
-	m.h.SetAttr(m, name, value)
-}
-
-func (m *Writer) DelAttr(name string) {
-	m.h.DelAttr(m, name)
 }
 
 // GAZEBO WRITER OBJECT METHODS
