@@ -35,7 +35,7 @@ func (m *Base) Method(object Object, name string) *BoundMethod {
 
 func (m *Base) CallMethod(name string, args *Args) Object {
 	if method := m.Method(m.self, name); method != nil {
-		return method.Call(args)
+		return method.G_invoke(args)
 	}
 
 	m.unimplemented(name)
@@ -162,4 +162,9 @@ func (m *Base) G_setattr(name, value Object) Object {
 func (m *Base) G_delattr(name Object) Object {
 	m.DelAttr(name.G_str().String())
 	return NewNil()
+}
+
+func (m *Base) G_invoke(_ *Args) Object {
+	m.unimplemented(protocols.Invoke)
+	return nil
 }

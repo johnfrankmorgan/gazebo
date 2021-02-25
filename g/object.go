@@ -59,4 +59,5 @@ type Protocols interface {
 	G_getattr(Object) Object
 	G_setattr(Object, Object) Object
 	G_delattr(Object) Object
+	G_invoke(*Args) Object
 }

@@ -2,10 +2,6 @@ package g
 
 import "reflect"
 
-type Callable interface {
-	Call(*Args) Object
-}
-
 type Args struct {
 	Values []Object
 }

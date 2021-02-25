@@ -82,7 +82,7 @@ loop:
 			}
 
 			fun := m.stack.pop()
-			m.stack.push(fun.(g.Callable).Call(args))
+			m.stack.push(fun.G_invoke(args))
 
 		case op.GetAttr:
 			name := ins.Arg.(string)

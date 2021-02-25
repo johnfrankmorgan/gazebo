@@ -22,6 +22,7 @@ func All() []string {
 		DelAttr,
 		Len,
 		Inverse,
+		Invoke,
 	}
 }
 
@@ -46,6 +47,7 @@ const (
 	GetAttr          = "getattr"
 	SetAttr          = "setattr"
 	DelAttr          = "delattr"
+	Invoke           = "invoke"
 )
 
 var BinaryOperators = map[string]string{

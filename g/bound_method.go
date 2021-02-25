@@ -11,8 +11,6 @@ var _ Object = &BoundMethod{}
 type BoundMethod struct {
 	Base
 	value reflect.Value
-	self  Object
-	name  string
 }
 
 func NewBoundMethod(value reflect.Value) *BoundMethod {
@@ -22,21 +20,16 @@ func NewBoundMethod(value reflect.Value) *BoundMethod {
 }
 
 func (m *BoundMethod) Value() interface{} {
-	assert.Unreached()
-	return nil
+	return m.value
 }
 
-func (m *BoundMethod) Call(args *Args) Object {
-	if !m.value.IsValid() {
-		m.value = m.Method(m.self, m.name).value
-	}
-
+func (m *BoundMethod) G_invoke(args *Args) Object {
 	ret := m.value.Call(args.ReflectValues())
 	if len(ret) == 0 {
 		return NewNil()
 	}
 
-	assert.Len(ret, 1)
+	assert.Len(ret, 1, "too many return values from %v", m.value)
 
 	return ret[0].Interface().(Object)
 }
