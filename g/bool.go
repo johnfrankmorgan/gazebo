@@ -3,12 +3,15 @@ package g
 var _ Object = &Bool{}
 
 type Bool struct {
+	Partial
 	h     ObjectHelper
 	value bool
 }
 
 func NewBool(value bool) *Bool {
-	return &Bool{value: value}
+	object := &Bool{value: value}
+	object.self = object
+	return object
 }
 
 func (m *Bool) Value() interface{} {

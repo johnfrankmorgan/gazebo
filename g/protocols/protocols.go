@@ -6,9 +6,6 @@ func All() []string {
 		Number,
 		Bool,
 		Not,
-		Invoke,
-		Inspect,
-		Inverse,
 		Add,
 		Sub,
 		Mul,
@@ -25,6 +22,8 @@ func All() []string {
 		GetAttr,
 		SetAttr,
 		DelAttr,
+		Invoke,
+		Inverse,
 	}
 }
 
@@ -33,9 +32,6 @@ const (
 	Number           = "num"
 	Bool             = "bool"
 	Not              = "not"
-	Invoke           = "invoke"
-	Inspect          = "inspect"
-	Inverse          = "inverse"
 	Add              = "add"
 	Sub              = "sub"
 	Mul              = "mul"
@@ -52,6 +48,8 @@ const (
 	GetAttr          = "get"
 	SetAttr          = "set"
 	DelAttr          = "del"
+	Invoke           = "invoke"
+	Inverse          = "inverse"
 )
 
 var BinaryOperators = map[string]string{

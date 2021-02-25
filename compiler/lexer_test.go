@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"github.com/johnfrankmorgan/gazebo/debug"
-	"github.com/johnfrankmorgan/gazebo/protocols"
+	"github.com/johnfrankmorgan/gazebo/g/protocols"
 	"github.com/stretchr/testify/assert"
 )
 

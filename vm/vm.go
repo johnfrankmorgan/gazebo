@@ -12,8 +12,9 @@ import (
 
 // VM is the structure responsible for running code and keeping track of state
 type VM struct {
-	stack *stack
-	env   *env
+	stack     *stack
+	env       *env
+	errhandle bool
 }
 
 // New creates a new VM
@@ -26,14 +27,21 @@ func New(argv ...string) *VM {
 	env.define("false", g.NewBool(false))
 
 	return &VM{
-		stack: new(stack),
-		env:   env,
+		stack:     new(stack),
+		env:       env,
+		errhandle: true,
 	}
+}
+
+func (m *VM) DisableErrorHandling() {
+	m.errhandle = false
 }
 
 // Run runs the provided code
 func (m *VM) Run(code compiler.Code) (value g.Object, err error) {
-	defer errors.Handle(&err)
+	if m.errhandle {
+		defer errors.Handle(&err)
+	}
 
 	value = m.run(code)
 	return
@@ -49,7 +57,7 @@ loop:
 
 		switch ins.Opcode {
 		case op.LoadConst:
-			m.stack.push(g.NewString(ins.Arg.(string)))
+			m.stack.push(g.NewObject(ins.Arg))
 
 		case op.StoreName:
 			name := ins.Arg.(string)

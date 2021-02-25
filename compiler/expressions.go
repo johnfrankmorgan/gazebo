@@ -5,7 +5,7 @@ import (
 
 	"github.com/johnfrankmorgan/gazebo/compiler/op"
 	"github.com/johnfrankmorgan/gazebo/errors"
-	"github.com/johnfrankmorgan/gazebo/protocols"
+	"github.com/johnfrankmorgan/gazebo/g/protocols"
 )
 
 type expression interface {
@@ -26,7 +26,7 @@ func (m *exprbinary) compile() Code {
 	code = append(code, op.GetAttr.Ins(fun))
 	code = append(code, m.right.compile()...)
 
-	return append(code, op.CallFunc.Ins(2))
+	return append(code, op.CallFunc.Ins(1))
 }
 
 type exprunary struct {
@@ -41,7 +41,7 @@ func (m *exprunary) compile() Code {
 	code := m.right.compile()
 	code = append(code, op.GetAttr.Ins(fun))
 
-	return append(code, op.CallFunc.Ins(1))
+	return append(code, op.CallFunc.Ins(0))
 }
 
 type exprliteral struct {

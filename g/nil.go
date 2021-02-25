@@ -3,12 +3,14 @@ package g
 var _ Object = &Nil{}
 
 type Nil struct {
-	AttrsNoOp
+	Partial
 	h ObjectHelper
 }
 
 func NewNil() *Nil {
-	return &Nil{}
+	object := &Nil{}
+	object.self = object
+	return object
 }
 
 func (m *Nil) Value() interface{} {

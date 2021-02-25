@@ -1,58 +1,45 @@
 package g
 
-import (
-	"reflect"
-
-	"github.com/johnfrankmorgan/gazebo/errors"
-)
+import "github.com/johnfrankmorgan/gazebo/assert"
 
 type Object interface {
-	Attrs
 	Value() interface{}
 	CallMethod(name string, args *Args) Object
+	Attrs
+	Protocols
 }
 
-type ObjectHelper struct {
-	Attrs map[string]Object
-}
+func NewObject(value interface{}) Object {
+	switch value := value.(type) {
+	case nil:
+		return NewNil()
 
-func (m *ObjectHelper) Method(object Object, name string) *BoundMethod {
-	method := reflect.ValueOf(object).MethodByName("G_" + name)
+	case bool:
+		return NewBool(value)
 
-	if method.IsValid() {
-		return NewBoundMethod(method)
+	case int:
+		return NewNumber(float64(value))
+
+	case float64:
+		return NewNumber(value)
+
+	case string:
+		return NewString(value)
 	}
 
+	assert.Unreached("type %T cannot be coerced into an object: %v", value, value)
 	return nil
 }
 
-func (m *ObjectHelper) CallMethod(object Object, name string, args *Args) Object {
-	if method := m.Method(object, name); method != nil {
-		return method.Call(args)
-	}
-
-	errors.ErrRuntime.Panic("undefined method: %s", name)
-	return nil
-}
-
-func (m *ObjectHelper) HasAttr(object Object, name string) bool {
-	errors.ErrRuntime.Panic("not implemented: HasAttr")
-	return false
-}
-
-func (m *ObjectHelper) GetAttr(object Object, name string) Object {
-	if method := m.Method(object, name); method != nil {
-		return method
-	}
-
-	errors.ErrRuntime.Panic("not implemented: GetAttr")
-	return nil
-}
-
-func (m *ObjectHelper) SetAttr(object Object, name string, value Object) {
-	errors.ErrRuntime.Panic("not implemented: SetAttr")
-}
-
-func (m *ObjectHelper) DelAttr(object Object, name string) {
-	errors.ErrRuntime.Panic("not implemented: DelAttr")
+type Protocols interface {
+	G_str() *String
+	G_num() *Number
+	G_bool() *Bool
+	G_not() *Bool
+	G_eq(Object) *Bool
+	G_neq(Object) *Bool
+	G_gt(Object) *Bool
+	G_gte(Object) *Bool
+	G_lt(Object) *Bool
+	G_lte(Object) *Bool
 }

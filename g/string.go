@@ -1,6 +1,7 @@
 package g
 
 import (
+	"fmt"
 	"strconv"
 
 	"github.com/johnfrankmorgan/gazebo/errors"
@@ -9,13 +10,19 @@ import (
 var _ Object = &String{}
 
 type String struct {
-	AttrsNoOp
+	Partial
 	h     ObjectHelper
 	value string
 }
 
 func NewString(value string) *String {
-	return &String{value: value}
+	object := &String{value: value}
+	object.self = object
+	return object
+}
+
+func NewStringf(format string, args ...interface{}) *String {
+	return NewString(fmt.Sprintf(format, args...))
 }
 
 func (m *String) Value() interface{} {

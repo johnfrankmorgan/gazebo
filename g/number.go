@@ -8,12 +8,15 @@ import (
 var _ Object = &Number{}
 
 type Number struct {
+	Partial
 	h     ObjectHelper
 	value float64
 }
 
 func NewNumber(value float64) *Number {
-	return &Number{value: value}
+	object := &Number{value: value}
+	object.self = object
+	return object
 }
 
 func (m *Number) Value() interface{} {

@@ -12,12 +12,18 @@ import (
 	"github.com/johnfrankmorgan/gazebo/debug"
 	"github.com/johnfrankmorgan/gazebo/errors"
 	"github.com/johnfrankmorgan/gazebo/g"
-	"github.com/johnfrankmorgan/gazebo/protocols"
+	"github.com/johnfrankmorgan/gazebo/g/protocols"
 	"github.com/johnfrankmorgan/gazebo/vm"
 )
 
+var (
+	debugging *bool
+	errhandle *bool
+)
+
 func main() {
-	debugging := flag.Bool("d", false, "enable debugging")
+	debugging = flag.Bool("d", false, "enable debugging")
+	errhandle = flag.Bool("e", true, "enable error handling")
 
 	flag.Parse()
 
@@ -59,7 +65,12 @@ func newrepl() *repl {
 	rl, err := readline.New("")
 	assert.Nil(err)
 
-	return &repl{vm: vm.New(), rl: rl}
+	repl := &repl{vm: vm.New(), rl: rl}
+	if !*errhandle {
+		repl.vm.DisableErrorHandling()
+	}
+
+	return repl
 }
 
 func (m *repl) errorln(err error) {

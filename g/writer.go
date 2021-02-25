@@ -5,19 +5,22 @@ import (
 	"io"
 
 	"github.com/johnfrankmorgan/gazebo/errors"
-	"github.com/johnfrankmorgan/gazebo/protocols"
+	"github.com/johnfrankmorgan/gazebo/g/protocols"
 	"github.com/kr/pretty"
 )
 
 var _ Object = &Writer{}
 
 type Writer struct {
+	Partial
 	h   ObjectHelper
 	out io.Writer
 }
 
 func NewWriter(out io.Writer) *Writer {
-	return &Writer{out: out}
+	object := &Writer{out: out}
+	object.self = object
+	return object
 }
 
 func (m *Writer) Value() interface{} {
