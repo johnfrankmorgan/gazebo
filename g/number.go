@@ -79,3 +79,19 @@ func (m *Number) G_mul(other Object) Object {
 func (m *Number) G_div(other Object) Object {
 	return NewNumber(m.value / other.G_num().value)
 }
+
+func (m *Number) G_gt(other Object) *Bool {
+	return NewBool(m.value > other.G_num().Float())
+}
+
+func (m *Number) G_gte(other Object) *Bool {
+	return NewBool(m.value >= other.G_num().Float())
+}
+
+func (m *Number) G_lt(other Object) *Bool {
+	return NewBool(m.value < other.G_num().Float())
+}
+
+func (m *Number) G_lte(other Object) *Bool {
+	return NewBool(m.value <= other.G_num().Float())
+}
