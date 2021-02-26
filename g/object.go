@@ -11,7 +11,7 @@ func NewObject(value interface{}) Object {
 		return NewBool(value)
 
 	case int:
-		return NewNumber(float64(value))
+		return NewNumberFromInt(value)
 
 	case float64:
 		return NewNumber(value)

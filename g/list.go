@@ -77,7 +77,7 @@ func (m *List) Contains(value Object) bool {
 	return false
 }
 
-// GAZEBO LIST OBJECT METHODS
+// GAZEBO LIST OBJECT PROTOCOLS
 
 func (m *List) G_str() *String {
 	var (
@@ -105,7 +105,7 @@ func (m *List) G_bool() *Bool {
 }
 
 func (m *List) G_len() *Number {
-	return NewNumber(float64(m.Len()))
+	return NewNumberFromInt(m.Len())
 }
 
 func (m *List) G_inverse() Object {
@@ -142,6 +142,8 @@ func (m *List) G_set(index, value Object) {
 func (m *List) G_contains(value Object) *Bool {
 	return NewBool(m.Contains(value))
 }
+
+// GAZEBO LIST OBJECT METHODS
 
 func (m *List) G_append(values ...Object) *List {
 	return m.Append(values...)

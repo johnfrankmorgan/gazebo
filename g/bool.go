@@ -21,7 +21,7 @@ func (m *Bool) Bool() bool {
 	return m.value
 }
 
-// GAZEBO BOOL OBJECT METHODS
+// GAZEBO BOOL OBJECT PROTOCOLS
 
 func (m *Bool) G_repr() *String {
 	return m.G_str()

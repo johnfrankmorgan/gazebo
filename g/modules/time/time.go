@@ -28,12 +28,14 @@ func (m *Time) Time() time.Time {
 	return m.value
 }
 
-// GAZEBO TIME OBJECT METHODS
+// GAZEBO TIME OBJECT PROTOCOLS
 
 func (m *Time) G_str() *g.String {
 	format := m.GetAttr("default_format").G_str()
 	return m.G_format(format)
 }
+
+// GAZEBO TIME OBJECT METHODS
 
 func (m *Time) G_format(format *g.String) *g.String {
 	return g.NewString(m.value.Format(format.String()))

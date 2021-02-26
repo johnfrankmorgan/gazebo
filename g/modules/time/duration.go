@@ -30,7 +30,7 @@ func (m *Duration) Duration() time.Duration {
 	return time.Duration(m.Int64())
 }
 
-// GAZEBO DURATION OBJECT METHODS
+// GAZEBO DURATION OBJECT PROTOCOLS
 
 func (m *Duration) G_repr() *g.String {
 	return m.Number.Base.G_repr()

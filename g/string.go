@@ -29,7 +29,6 @@ func NewStringf(format string, args ...interface{}) *String {
 func (m *String) Value() interface{} {
 	return m.value
 }
-
 func (m *String) String() string {
 	return m.value
 }
@@ -38,7 +37,7 @@ func (m *String) Len() int {
 	return len(m.value)
 }
 
-// GAZEBO STRING OBJECT METHODS
+// GAZEBO STRING OBJECT PROTOCOLS
 
 func (m *String) G_repr() *String {
 	return NewStringf("%q", m.value)
@@ -59,7 +58,7 @@ func (m *String) G_bool() *Bool {
 }
 
 func (m *String) G_len() *Number {
-	return NewNumber(float64(m.Len()))
+	return NewNumberFromInt(m.Len())
 }
 
 func (m *String) G_inverse() Object {
@@ -81,4 +80,27 @@ func (m *String) G_add(other Object) Object {
 
 func (m *String) G_contains(value Object) *Bool {
 	return NewBool(strings.Contains(m.value, value.G_str().String()))
+}
+
+// GAZEBO STRING OBJECT METHODS
+
+func (m *String) G_lower() *String {
+	return NewString(strings.ToLower(m.value))
+}
+
+func (m *String) G_upper() *String {
+	return NewString(strings.ToUpper(m.value))
+}
+
+func (m *String) G_find(value Object) *Number {
+	index := strings.Index(m.value, value.G_str().String())
+	return NewNumberFromInt(index)
+}
+
+func (m *String) G_replace(find, replace Object) *String {
+	return NewString(strings.ReplaceAll(
+		m.value,
+		find.G_str().String(),
+		replace.G_str().String(),
+	))
 }

@@ -18,6 +18,10 @@ func NewNumber(value float64) *Number {
 	return object
 }
 
+func NewNumberFromInt(value int) *Number {
+	return NewNumber(float64(value))
+}
+
 func (m *Number) Value() interface{} {
 	return m.value
 }
@@ -38,7 +42,7 @@ func (m *Number) Int64() int64 {
 	return int64(m.value)
 }
 
-// GAZEBO NUMBER OBJECT METHODS
+// GAZEBO NUMBER OBJECT PROTOCOLS
 
 func (m *Number) G_repr() *String {
 	return m.G_str()

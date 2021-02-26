@@ -16,7 +16,7 @@ func (m *Nil) Value() interface{} {
 	return nil
 }
 
-// GAZEBO NIL OBJECT METHODS
+// GAZEBO NIL OBJECT PROTOCOLS
 
 func (m *Nil) G_repr() *String {
 	return m.G_str()

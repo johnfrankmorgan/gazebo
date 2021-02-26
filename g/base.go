@@ -73,7 +73,7 @@ func (m *Base) DelAttr(name string) {
 	m.attrs.Delete(name)
 }
 
-// PROTOCOL METHODS
+// PROTOCOLS
 
 func (m *Base) G_repr() *String {
 	return NewStringf("<%T>(%v)", m.self, m.self)
