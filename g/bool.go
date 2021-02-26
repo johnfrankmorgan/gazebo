@@ -23,6 +23,10 @@ func (m *Bool) Bool() bool {
 
 // GAZEBO BOOL OBJECT METHODS
 
+func (m *Bool) G_repr() *String {
+	return m.G_str()
+}
+
 func (m *Bool) G_str() *String {
 	if m.value {
 		return NewString("true")

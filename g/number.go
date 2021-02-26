@@ -40,6 +40,10 @@ func (m *Number) Int64() int64 {
 
 // GAZEBO NUMBER OBJECT METHODS
 
+func (m *Number) G_repr() *String {
+	return m.G_str()
+}
+
 func (m *Number) G_str() *String {
 	if m.IsInt() {
 		return NewString(strconv.FormatInt(m.Int64(), 10))

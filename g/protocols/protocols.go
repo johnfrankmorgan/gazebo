@@ -2,6 +2,7 @@ package protocols
 
 func All() []string {
 	return []string{
+		Represention,
 		String,
 		Number,
 		Bool,
@@ -27,6 +28,7 @@ func All() []string {
 }
 
 const (
+	Represention     = "repr"
 	String           = "str"
 	Number           = "num"
 	Bool             = "bool"

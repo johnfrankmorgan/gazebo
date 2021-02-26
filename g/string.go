@@ -39,6 +39,10 @@ func (m *String) Len() int {
 
 // GAZEBO STRING OBJECT METHODS
 
+func (m *String) G_repr() *String {
+	return NewStringf("%q", m.value)
+}
+
 func (m *String) G_str() *String {
 	return NewString(m.value)
 }

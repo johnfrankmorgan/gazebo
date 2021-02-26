@@ -71,8 +71,12 @@ func (m *Base) DelAttr(name string) {
 
 // PROTOCOL METHODS
 
-func (m *Base) G_str() *String {
+func (m *Base) G_repr() *String {
 	return NewStringf("<%T>(%v)", m.self, m.self)
+}
+
+func (m *Base) G_str() *String {
+	return m.self.G_repr()
 }
 
 func (m *Base) G_num() *Number {

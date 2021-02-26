@@ -18,6 +18,10 @@ func (m *Nil) Value() interface{} {
 
 // GAZEBO NIL OBJECT METHODS
 
+func (m *Nil) G_repr() *String {
+	return m.G_str()
+}
+
 func (m *Nil) G_str() *String {
 	return NewString("nil")
 }

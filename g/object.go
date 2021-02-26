@@ -42,6 +42,7 @@ type Attrs interface {
 }
 
 type Protocols interface {
+	G_repr() *String
 	G_str() *String
 	G_num() *Number
 	G_bool() *Bool

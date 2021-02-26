@@ -88,7 +88,7 @@ func (m *List) G_str() *String {
 	buff.WriteString("[ ")
 
 	for i, value := range m.All() {
-		buff.WriteString(value.G_str().String())
+		buff.WriteString(value.G_repr().String())
 
 		if i < length-1 {
 			buff.WriteString(", ")
