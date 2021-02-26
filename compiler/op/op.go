@@ -15,9 +15,9 @@ const (
 	Invalid Opcode = iota
 	PushValue
 	LoadConst
-	StoreName
-	LoadName
-	RemoveName
+	GetName
+	SetName
+	DelName
 	CallFunc
 	RelJump
 	RelJumpIfTrue
@@ -46,9 +46,9 @@ func (op Opcode) Name() string {
 	names := map[Opcode]string{
 		Invalid:        "op.Invalid",
 		LoadConst:      "op.LoadConst",
-		StoreName:      "op.StoreName",
-		LoadName:       "op.LoadName",
-		RemoveName:     "op.RemoveName",
+		GetName:        "op.GetName",
+		SetName:        "op.SetName",
+		DelName:        "op.DelName",
 		CallFunc:       "op.CallFunc",
 		RelJump:        "op.RelJump",
 		RelJumpIfTrue:  "op.RelJumpIfTrue",
@@ -60,6 +60,7 @@ func (op Opcode) Name() string {
 		IndexGet:       "op.IndexGet",
 		GetAttr:        "op.GetAttr",
 		SetAttr:        "op.SetAttr",
+		DelAttr:        "op.DelAttr",
 		NoOp:           "op.NoOp",
 		Return:         "op.Return",
 	}

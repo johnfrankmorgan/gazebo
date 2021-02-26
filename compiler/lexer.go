@@ -59,7 +59,7 @@ const (
 	tkwhile
 	tkfor
 	tkfun
-	tkunset
+	tkdel
 	tkload
 	tkpass
 	tkin
@@ -108,7 +108,7 @@ func (m tokentype) name() string {
 		tkwhile:        "tkwhile",
 		tkfor:          "tkfor",
 		tkfun:          "tkfun",
-		tkunset:        "tkunset",
+		tkdel:          "tkdel",
 		tkload:         "tkload",
 		tkpass:         "tkpass",
 		tkin:           "tkin",
@@ -156,7 +156,7 @@ var keywords = map[string]tokentype{
 	"while":  tkwhile,
 	"for":    tkfor,
 	"fun":    tkfun,
-	"unset":  tkunset,
+	"del":    tkdel,
 	"load":   tkload,
 	"pass":   tkpass,
 	"in":     tkin,

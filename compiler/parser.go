@@ -330,8 +330,8 @@ func (m *parser) statement() statement {
 	case tkbraceopen:
 		return m.block()
 
-	case tkunset:
-		return m.unset()
+	case tkdel:
+		return m.del()
 
 	case tkif:
 		return m.ifstmt()
@@ -393,24 +393,31 @@ func (m *parser) assignment() statement {
 	}
 }
 
-func (m *parser) unset() statement {
-	var stmt stmtunset
+func (m *parser) del() statement {
+	m.expect(tkdel)
 
-	m.expect(tkunset)
+	expr := m.expression()
 
-	for !m.finished() {
-		if m.match(tksemicolon) {
-			break
+	switch expr := expr.(type) {
+	case *exprliteral:
+		errors.ErrParse.Expect(
+			expr.token.is(tkident),
+			"expected tkident, got %s: %q",
+			expr.token.typ.name(),
+			expr.token.value,
+		)
+
+		return &stmtdel{name: expr.token.value}
+
+	case *exprgetattr:
+		return &stmtdelattr{
+			expr: expr.expr,
+			name: expr.name,
 		}
-
-		if !m.check(tkident) {
-			break
-		}
-
-		stmt.names = append(stmt.names, m.next().value)
 	}
 
-	return &stmt
+	errors.ErrParse.Panic("failed to parse expression: %v", expr)
+	return nil
 }
 
 func (m *parser) ifstmt() statement {

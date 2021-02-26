@@ -59,7 +59,11 @@ loop:
 		case op.LoadConst:
 			m.stack.push(g.NewObject(ins.Arg))
 
-		case op.StoreName:
+		case op.GetName:
+			name := ins.Arg.(string)
+			m.stack.push(m.env.lookup(name))
+
+		case op.SetName:
 			name := ins.Arg.(string)
 			if m.env.defined(name) {
 				m.env.assign(name, m.stack.pop())
@@ -67,9 +71,9 @@ loop:
 				m.env.define(name, m.stack.pop())
 			}
 
-		case op.LoadName:
+		case op.DelName:
 			name := ins.Arg.(string)
-			m.stack.push(m.env.lookup(name))
+			m.env.remove(name)
 
 		case op.RelJump:
 			pc += ins.Arg.(int)
@@ -104,8 +108,12 @@ loop:
 			name := ins.Arg.(string)
 			value := m.stack.pop()
 			object := m.stack.pop()
-			object.G_setattr(g.NewString(name), value)
-			m.stack.push(g.NewNil())
+			m.stack.push(object.G_setattr(g.NewString(name), value))
+
+		case op.DelAttr:
+			name := ins.Arg.(string)
+			object := m.stack.pop()
+			m.stack.push(object.G_delattr(g.NewString(name)))
 
 		case op.MakeList:
 			length := ins.Arg.(int)

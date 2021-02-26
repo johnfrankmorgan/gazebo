@@ -61,7 +61,7 @@ func (m *exprliteral) compile() Code {
 		return Code{op.LoadConst.Ins(value)}
 
 	case tkident:
-		return Code{op.LoadName.Ins(m.token.value)}
+		return Code{op.GetName.Ins(m.token.value)}
 	}
 
 	errors.ErrCompile.Panic("unknown literal: %s %s", m.token.typ.name(), m.token.value)

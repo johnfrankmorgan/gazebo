@@ -22,21 +22,24 @@ type stmtassign struct {
 }
 
 func (m *stmtassign) compile() Code {
-	return append(m.expr.compile(), op.StoreName.Ins(m.name))
+	return append(m.expr.compile(), op.SetName.Ins(m.name))
 }
 
-type stmtunset struct {
-	names []string
+type stmtdel struct {
+	name string
 }
 
-func (m *stmtunset) compile() Code {
-	code := Code{}
+func (m *stmtdel) compile() Code {
+	return Code{op.DelName.Ins(m.name)}
+}
 
-	for _, name := range m.names {
-		code = append(code, op.RemoveName.Ins(name))
-	}
+type stmtdelattr struct {
+	expr expression
+	name string
+}
 
-	return code
+func (m *stmtdelattr) compile() Code {
+	return append(m.expr.compile(), op.DelAttr.Ins(m.name))
 }
 
 type stmtblock struct {
