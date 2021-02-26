@@ -85,7 +85,7 @@ func (m *Base) G_bool() *Bool {
 }
 
 func (m *Base) G_not() *Bool {
-	return NewBool(!m.G_bool().Bool())
+	return NewBool(!m.self.G_bool().Bool())
 }
 
 func (m *Base) G_len() *Number {
@@ -123,7 +123,7 @@ func (m *Base) G_eq(other Object) *Bool {
 }
 
 func (m *Base) G_neq(other Object) *Bool {
-	return NewBool(!m.G_eq(other).Bool())
+	return NewBool(!m.self.G_eq(other).Bool())
 }
 
 func (m *Base) G_gt(other Object) *Bool {

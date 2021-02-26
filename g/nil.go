@@ -29,7 +29,3 @@ func (m *Nil) G_num() *Number {
 func (m *Nil) G_bool() *Bool {
 	return NewBool(false)
 }
-
-func (m *Nil) G_not() *Bool {
-	return NewBool(true)
-}

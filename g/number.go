@@ -30,7 +30,11 @@ func (m *Number) Float() float64 {
 	return m.value
 }
 
-func (m *Number) Int() int64 {
+func (m *Number) Int() int {
+	return int(m.value)
+}
+
+func (m *Number) Int64() int64 {
 	return int64(m.value)
 }
 
@@ -38,7 +42,7 @@ func (m *Number) Int() int64 {
 
 func (m *Number) G_str() *String {
 	if m.IsInt() {
-		return NewString(strconv.FormatInt(m.Int(), 10))
+		return NewString(strconv.FormatInt(m.Int64(), 10))
 	}
 
 	return NewString(strconv.FormatFloat(m.value, 'g', -1, 64))
@@ -50,10 +54,6 @@ func (m *Number) G_num() *Number {
 
 func (m *Number) G_bool() *Bool {
 	return NewBool(m.value != 0)
-}
-
-func (m *Number) G_not() *Bool {
-	return NewBool(!m.G_bool().Bool())
 }
 
 func (m *Number) G_inverse() Object {

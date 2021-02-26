@@ -53,10 +53,6 @@ func (m *String) G_bool() *Bool {
 	return NewBool(m.value != "")
 }
 
-func (m *String) G_not() *Bool {
-	return NewBool(!m.G_bool().Bool())
-}
-
 func (m *String) G_len() *Number {
 	return NewNumber(float64(m.Len()))
 }

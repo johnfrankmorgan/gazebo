@@ -18,6 +18,9 @@ func NewObject(value interface{}) Object {
 
 	case string:
 		return NewString(value)
+
+	case []Object:
+		return NewList(value)
 	}
 
 	assert.Unreached("type %T cannot be coerced into an object: %v", value, value)

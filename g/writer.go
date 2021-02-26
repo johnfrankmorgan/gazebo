@@ -5,7 +5,6 @@ import (
 	"io"
 
 	"github.com/johnfrankmorgan/gazebo/errors"
-	"github.com/johnfrankmorgan/gazebo/g/protocols"
 	"github.com/kr/pretty"
 )
 
@@ -32,7 +31,7 @@ func (m *Writer) G_println(args ...Object) {
 	iargs := make([]interface{}, len(args))
 
 	for i, arg := range args {
-		iargs[i] = arg.CallMethod(protocols.String, &Args{})
+		iargs[i] = arg.G_str().String()
 	}
 
 	_, err := fmt.Fprintln(m.out, iargs...)

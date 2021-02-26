@@ -73,12 +73,10 @@ loop:
 
 		case op.CallFunc:
 			argc := ins.Arg.(int)
-			args := &g.Args{
-				Values: make([]g.Object, argc),
-			}
+			args := g.NewArgs(make([]g.Object, argc))
 
 			for i := 0; i < argc; i++ {
-				args.Values[argc-i-1] = m.stack.pop()
+				args.Set(argc-i-1, m.stack.pop())
 			}
 
 			fun := m.stack.pop()
@@ -95,6 +93,16 @@ loop:
 			object := m.stack.pop()
 			object.SetAttr(name, value)
 			m.stack.push(g.NewNil())
+
+		case op.MakeList:
+			length := ins.Arg.(int)
+			values := make([]g.Object, length)
+
+			for i := 0; i < length; i++ {
+				values[length-i-1] = m.stack.pop()
+			}
+
+			m.stack.push(g.NewList(values))
 
 		case op.Return:
 			break loop
