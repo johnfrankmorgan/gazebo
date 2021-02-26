@@ -102,6 +102,23 @@ func (m *Base) G_inverse() Object {
 	return nil
 }
 
+func (m *Base) G_and(other Object) *Bool {
+	return NewBool(m.self.G_bool().Bool() && other.G_bool().Bool())
+}
+
+func (m *Base) G_or(other Object) Object {
+	if m.self.G_bool().Bool() {
+		return m.self
+	}
+
+	return other
+}
+
+func (m *Base) G_contains(_ Object) *Bool {
+	m.unimplemented(protocols.Contains)
+	return nil
+}
+
 func (m *Base) G_add(_ Object) Object {
 	m.unimplemented(protocols.Add)
 	return nil
@@ -170,10 +187,5 @@ func (m *Base) G_delattr(name *String) Object {
 
 func (m *Base) G_invoke(_ *Args) Object {
 	m.unimplemented(protocols.Invoke)
-	return nil
-}
-
-func (m *Base) G_contains(_ Object) *Bool {
-	m.unimplemented(protocols.Contains)
 	return nil
 }

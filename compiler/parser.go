@@ -149,7 +149,7 @@ func (m *parser) expect(typ ...tokentype) token {
 }
 
 func (m *parser) expression() expression {
-	return m.contains()
+	return m.logical()
 }
 
 func (m *parser) binary(next func() expression, expected ...tokentype) expression {
@@ -164,6 +164,10 @@ func (m *parser) binary(next func() expression, expected ...tokentype) expressio
 	}
 
 	return expr
+}
+
+func (m *parser) logical() expression {
+	return m.binary(m.contains, tkand, tkor)
 }
 
 func (m *parser) contains() expression {

@@ -7,6 +7,9 @@ func All() []string {
 		Number,
 		Bool,
 		Not,
+		And,
+		Or,
+		Contains,
 		Add,
 		Sub,
 		Mul,
@@ -24,7 +27,6 @@ func All() []string {
 		Len,
 		Inverse,
 		Invoke,
-		Contains,
 	}
 }
 
@@ -36,6 +38,9 @@ const (
 	Not              = "not"
 	Len              = "len"
 	Inverse          = "inverse"
+	And              = "and"
+	Or               = "or"
+	Contains         = "contains"
 	Add              = "add"
 	Sub              = "sub"
 	Mul              = "mul"
@@ -51,21 +56,22 @@ const (
 	SetAttr          = "setattr"
 	DelAttr          = "delattr"
 	Invoke           = "invoke"
-	Contains         = "contains"
 )
 
 var BinaryOperators = map[string]string{
-	"+":  Add,
-	"-":  Sub,
-	"*":  Mul,
-	"/":  Div,
-	"==": Equal,
-	"!=": NotEqual,
-	">":  GreaterThan,
-	">=": GreaterThanEqual,
-	"<":  LessThan,
-	"<=": LessThanEqual,
-	"in": Contains,
+	"and": And,
+	"or":  Or,
+	"in":  Contains,
+	"+":   Add,
+	"-":   Sub,
+	"*":   Mul,
+	"/":   Div,
+	"==":  Equal,
+	"!=":  NotEqual,
+	">":   GreaterThan,
+	">=":  GreaterThanEqual,
+	"<":   LessThan,
+	"<=":  LessThanEqual,
 }
 
 var UnaryOperators = map[string]string{

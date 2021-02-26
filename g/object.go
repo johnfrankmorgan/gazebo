@@ -49,6 +49,9 @@ type Protocols interface {
 	G_not() *Bool
 	G_len() *Number
 	G_inverse() Object
+	G_and(Object) *Bool
+	G_or(Object) Object
+	G_contains(Object) *Bool
 	G_add(Object) Object
 	G_sub(Object) Object
 	G_mul(Object) Object
@@ -64,5 +67,4 @@ type Protocols interface {
 	G_setattr(*String, Object) Object
 	G_delattr(*String) Object
 	G_invoke(*Args) Object
-	G_contains(Object) *Bool
 }
