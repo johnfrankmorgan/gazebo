@@ -119,6 +119,14 @@ func (m *List) G_inverse() Object {
 	return NewList(list)
 }
 
+func (m *List) G_getattr(name *String) Object {
+	if name.String() == "length" {
+		return m.G_len()
+	}
+
+	return m.Base.G_getattr(name)
+}
+
 func (m *List) G_has(index Object) *Bool {
 	return NewBool(m.Has(index.G_num().Int()))
 }

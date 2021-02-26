@@ -71,6 +71,19 @@ loop:
 			name := ins.Arg.(string)
 			m.stack.push(m.env.lookup(name))
 
+		case op.RelJump:
+			pc += ins.Arg.(int)
+
+		case op.RelJumpIfTrue:
+			if m.stack.pop().G_bool().Bool() {
+				pc += ins.Arg.(int)
+			}
+
+		case op.RelJumpIfFalse:
+			if m.stack.pop().G_not().Bool() {
+				pc += ins.Arg.(int)
+			}
+
 		case op.CallFunc:
 			argc := ins.Arg.(int)
 			args := g.NewArgs(make([]g.Object, argc))
@@ -85,13 +98,13 @@ loop:
 		case op.GetAttr:
 			name := ins.Arg.(string)
 			object := m.stack.pop()
-			m.stack.push(object.GetAttr(name))
+			m.stack.push(object.G_getattr(g.NewString(name)))
 
 		case op.SetAttr:
 			name := ins.Arg.(string)
 			value := m.stack.pop()
 			object := m.stack.pop()
-			object.SetAttr(name, value)
+			object.G_setattr(g.NewString(name), value)
 			m.stack.push(g.NewNil())
 
 		case op.MakeList:

@@ -150,21 +150,21 @@ func (m *Base) G_lte(other Object) *Bool {
 	return nil
 }
 
-func (m *Base) G_hasattr(name Object) *Bool {
-	return NewBool(m.HasAttr(name.G_str().String()))
+func (m *Base) G_hasattr(name *String) *Bool {
+	return NewBool(m.HasAttr(name.String()))
 }
 
-func (m *Base) G_getattr(name Object) Object {
-	return m.GetAttr(name.G_str().String())
+func (m *Base) G_getattr(name *String) Object {
+	return m.GetAttr(name.String())
 }
 
-func (m *Base) G_setattr(name, value Object) Object {
-	m.SetAttr(name.G_str().String(), value)
+func (m *Base) G_setattr(name *String, value Object) Object {
+	m.SetAttr(name.String(), value)
 	return NewNil()
 }
 
-func (m *Base) G_delattr(name Object) Object {
-	m.DelAttr(name.G_str().String())
+func (m *Base) G_delattr(name *String) Object {
+	m.DelAttr(name.String())
 	return NewNil()
 }
 

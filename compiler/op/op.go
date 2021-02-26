@@ -13,6 +13,7 @@ type Opcode int
 // Enumeration of available opcodes
 const (
 	Invalid Opcode = iota
+	PushValue
 	LoadConst
 	StoreName
 	LoadName
@@ -21,15 +22,18 @@ const (
 	RelJump
 	RelJumpIfTrue
 	RelJumpIfFalse
-	PushValue
 	MakeFunc
-	LoadModule
 	MakeList
 	IndexGet
 	GetAttr
 	SetAttr
-	NoOp
+	DelAttr
+	GetIndex
+	SetIndex
+	DelIndex
 	Return
+	LoadModule
+	NoOp
 )
 
 // Ins creates an Instruction for an Opcode

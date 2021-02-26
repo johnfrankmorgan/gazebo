@@ -59,9 +59,9 @@ type Protocols interface {
 	G_gte(Object) *Bool
 	G_lt(Object) *Bool
 	G_lte(Object) *Bool
-	G_hasattr(Object) *Bool
-	G_getattr(Object) Object
-	G_setattr(Object, Object) Object
-	G_delattr(Object) Object
+	G_hasattr(*String) *Bool
+	G_getattr(*String) Object
+	G_setattr(*String, Object) Object
+	G_delattr(*String) Object
 	G_invoke(*Args) Object
 }
