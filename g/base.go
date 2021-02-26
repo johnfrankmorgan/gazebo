@@ -130,22 +130,22 @@ func (m *Base) G_neq(other Object) *Bool {
 	return NewBool(!m.self.G_eq(other).Bool())
 }
 
-func (m *Base) G_gt(other Object) *Bool {
+func (m *Base) G_gt(_ Object) *Bool {
 	m.unimplemented(protocols.GreaterThan)
 	return nil
 }
 
-func (m *Base) G_gte(other Object) *Bool {
+func (m *Base) G_gte(_ Object) *Bool {
 	m.unimplemented(protocols.GreaterThanEqual)
 	return nil
 }
 
-func (m *Base) G_lt(other Object) *Bool {
+func (m *Base) G_lt(_ Object) *Bool {
 	m.unimplemented(protocols.LessThan)
 	return nil
 }
 
-func (m *Base) G_lte(other Object) *Bool {
+func (m *Base) G_lte(_ Object) *Bool {
 	m.unimplemented(protocols.LessThanEqual)
 	return nil
 }
@@ -170,5 +170,10 @@ func (m *Base) G_delattr(name *String) Object {
 
 func (m *Base) G_invoke(_ *Args) Object {
 	m.unimplemented(protocols.Invoke)
+	return nil
+}
+
+func (m *Base) G_contains(_ Object) *Bool {
+	m.unimplemented(protocols.Contains)
 	return nil
 }

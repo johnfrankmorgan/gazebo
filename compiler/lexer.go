@@ -62,6 +62,7 @@ const (
 	tkunset
 	tkload
 	tkpass
+	tkin
 	tkparenopen
 	tkparenclose
 	tkbraceopen
@@ -108,6 +109,7 @@ func (m tokentype) name() string {
 		tkunset:        "tkunset",
 		tkload:         "tkload",
 		tkpass:         "tkpass",
+		tkin:           "tkin",
 		tkparenopen:    "tkparenopen",
 		tkparenclose:   "tkparenclose",
 		tkbraceopen:    "tkbraceopen",
@@ -153,6 +155,7 @@ var keywords = map[string]tokentype{
 	"unset":  tkunset,
 	"load":   tkload,
 	"pass":   tkpass,
+	"in":     tkin,
 }
 
 type token struct {

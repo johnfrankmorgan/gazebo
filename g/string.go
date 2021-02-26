@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"strconv"
+	"strings"
 
 	"github.com/johnfrankmorgan/gazebo/errors"
 )
@@ -76,4 +77,8 @@ func (m *String) G_inverse() Object {
 
 func (m *String) G_add(other Object) Object {
 	return NewString(m.value + other.G_str().String())
+}
+
+func (m *String) G_contains(value Object) *Bool {
+	return NewBool(strings.Contains(m.value, value.G_str().String()))
 }

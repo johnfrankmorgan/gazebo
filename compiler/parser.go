@@ -149,7 +149,7 @@ func (m *parser) expect(typ ...tokentype) token {
 }
 
 func (m *parser) expression() expression {
-	return m.equality()
+	return m.contains()
 }
 
 func (m *parser) binary(next func() expression, expected ...tokentype) expression {
@@ -160,6 +160,20 @@ func (m *parser) binary(next func() expression, expected ...tokentype) expressio
 			op:    m.prev(),
 			left:  expr,
 			right: next(),
+		}
+	}
+
+	return expr
+}
+
+func (m *parser) contains() expression {
+	expr := m.equality()
+
+	if m.match(tkin) {
+		return &exprbinary{
+			op:    m.prev(),
+			left:  m.expression(),
+			right: expr,
 		}
 	}
 
@@ -262,7 +276,7 @@ func (m *parser) primary() expression {
 	}
 
 	errors.ErrParse.Panic(
-		"unexpected %s %s near token offset %d",
+		"unexpected %s %q near token offset %d",
 		m.peek().typ.name(),
 		m.peek().value,
 		m.position,

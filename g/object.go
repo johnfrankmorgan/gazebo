@@ -64,4 +64,5 @@ type Protocols interface {
 	G_setattr(*String, Object) Object
 	G_delattr(*String) Object
 	G_invoke(*Args) Object
+	G_contains(Object) *Bool
 }

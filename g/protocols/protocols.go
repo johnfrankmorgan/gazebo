@@ -24,6 +24,7 @@ func All() []string {
 		Len,
 		Inverse,
 		Invoke,
+		Contains,
 	}
 }
 
@@ -50,6 +51,7 @@ const (
 	SetAttr          = "setattr"
 	DelAttr          = "delattr"
 	Invoke           = "invoke"
+	Contains         = "contains"
 )
 
 var BinaryOperators = map[string]string{
@@ -63,6 +65,7 @@ var BinaryOperators = map[string]string{
 	">=": GreaterThanEqual,
 	"<":  LessThan,
 	"<=": LessThanEqual,
+	"in": Contains,
 }
 
 var UnaryOperators = map[string]string{
