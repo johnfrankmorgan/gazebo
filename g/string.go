@@ -18,7 +18,7 @@ type String struct {
 
 func NewString(value string) *String {
 	object := &String{value: value}
-	object.self = object
+	object.SetSelf(object)
 	return object
 }
 

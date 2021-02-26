@@ -8,7 +8,7 @@ type Nil struct {
 
 func NewNil() *Nil {
 	object := &Nil{}
-	object.self = object
+	object.SetSelf(object)
 	return object
 }
 

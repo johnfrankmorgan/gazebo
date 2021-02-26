@@ -14,7 +14,7 @@ type Number struct {
 
 func NewNumber(value float64) *Number {
 	object := &Number{value: value}
-	object.self = object
+	object.SetSelf(object)
 	return object
 }
 

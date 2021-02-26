@@ -55,14 +55,14 @@ func (op Opcode) Name() string {
 		RelJumpIfFalse: "op.RelJumpIfFalse",
 		PushValue:      "op.PushValue",
 		MakeFunc:       "op.MakeFunc",
-		LoadModule:     "op.LoadModule",
 		MakeList:       "op.MakeList",
 		IndexGet:       "op.IndexGet",
 		GetAttr:        "op.GetAttr",
 		SetAttr:        "op.SetAttr",
 		DelAttr:        "op.DelAttr",
-		NoOp:           "op.NoOp",
 		Return:         "op.Return",
+		LoadModule:     "op.LoadModule",
+		NoOp:           "op.NoOp",
 	}
 
 	if name, ok := names[op]; ok {

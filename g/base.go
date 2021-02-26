@@ -31,6 +31,10 @@ func (m *Base) Method(object Object, name string) *BoundMethod {
 	return nil
 }
 
+func (m *Base) SetSelf(self Object) {
+	m.self = self
+}
+
 // OBJECT METHODS
 
 func (m *Base) CallMethod(name string, args *Args) Object {

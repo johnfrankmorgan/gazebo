@@ -15,7 +15,7 @@ type BoundMethod struct {
 
 func NewBoundMethod(value reflect.Value) *BoundMethod {
 	object := &BoundMethod{value: value}
-	object.self = object
+	object.SetSelf(object)
 	return object
 }
 

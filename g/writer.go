@@ -17,7 +17,7 @@ type Writer struct {
 
 func NewWriter(out io.Writer) *Writer {
 	object := &Writer{out: out}
-	object.self = object
+	object.SetSelf(object)
 	return object
 }
 

@@ -8,12 +8,15 @@ import (
 	"github.com/johnfrankmorgan/gazebo/compiler/op"
 	"github.com/johnfrankmorgan/gazebo/errors"
 	"github.com/johnfrankmorgan/gazebo/g"
+	"github.com/johnfrankmorgan/gazebo/g/modules"
+	"github.com/johnfrankmorgan/gazebo/g/modules/time"
 )
 
 // VM is the structure responsible for running code and keeping track of state
 type VM struct {
 	stack     *stack
 	env       *env
+	modules   map[string]modules.Module
 	errhandle bool
 }
 
@@ -26,11 +29,17 @@ func New(argv ...string) *VM {
 	env.define("true", g.NewBool(true))
 	env.define("false", g.NewBool(false))
 
-	return &VM{
+	vm := &VM{
 		stack:     new(stack),
 		env:       env,
 		errhandle: true,
+		modules:   make(map[string]modules.Module),
 	}
+
+	time := time.NewTimeModule()
+	vm.modules[time.Name()] = time
+
+	return vm
 }
 
 func (m *VM) DisableErrorHandling() {
@@ -127,6 +136,12 @@ loop:
 
 		case op.Return:
 			break loop
+
+		case op.LoadModule:
+			name := ins.Arg.(string)
+			mod, ok := m.modules[name]
+			errors.ErrRuntime.Expect(ok, "undefined module %q", name)
+			m.env.define(name, mod)
 
 		case op.NoOp:
 			//

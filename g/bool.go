@@ -9,7 +9,7 @@ type Bool struct {
 
 func NewBool(value bool) *Bool {
 	object := &Bool{value: value}
-	object.self = object
+	object.SetSelf(object)
 	return object
 }
 

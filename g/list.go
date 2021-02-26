@@ -11,7 +11,7 @@ type List struct {
 
 func NewList(value []Object) *List {
 	object := &List{value: value}
-	object.self = object
+	object.SetSelf(object)
 	return object
 }
 
