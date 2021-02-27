@@ -9,7 +9,13 @@ type Args struct {
 }
 
 func NewArgs(value []Object) *Args {
-	return &Args{List: *NewList(value)}
+	object := &Args{List: *NewList(value)}
+	object.SetSelf(object)
+	return object
+}
+
+func NewVarArgs(values ...Object) *Args {
+	return NewArgs(values)
 }
 
 func (m *Args) ReflectValues() []reflect.Value {

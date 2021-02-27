@@ -35,7 +35,7 @@ func (m *Func) Value() interface{} {
 
 func (m *Func) G_invoke(args *g.Args) g.Object {
 	errors.ErrRuntime.Expect(
-		args.Len() == len(m.params),
+		args.Len() >= len(m.params),
 		"expected %d arguments, got %d",
 		len(m.params),
 		args.Len(),

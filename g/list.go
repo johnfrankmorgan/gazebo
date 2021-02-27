@@ -15,6 +15,10 @@ func NewList(value []Object) *List {
 	return object
 }
 
+func NewListSized(size int) *List {
+	return NewList(make([]Object, size))
+}
+
 func (m *List) Value() interface{} {
 	return m.value
 }
@@ -109,14 +113,16 @@ func (m *List) G_len() *Number {
 }
 
 func (m *List) G_inverse() Object {
-	length := m.Len()
-	list := make([]Object, length)
+	var (
+		length = m.Len()
+		list   = NewListSized(length)
+	)
 
 	for i, object := range m.value {
-		list[length-i-1] = object
+		list.Set(length-i-1, object)
 	}
 
-	return NewList(list)
+	return list
 }
 
 func (m *List) G_getattr(name *String) Object {
@@ -163,4 +169,26 @@ func (m *List) G_until(index Object) *List {
 
 func (m *List) G_slice(start, end Object) *List {
 	return m.Slice(start.G_num().Int(), end.G_num().Int())
+}
+
+func (m *List) G_filter(cb Object) *List {
+	list := NewList(nil)
+
+	for i, obj := range m.All() {
+		if cb.G_invoke(NewVarArgs(obj, NewNumberFromInt(i))).G_bool().Bool() {
+			list.Append(obj)
+		}
+	}
+
+	return list
+}
+
+func (m *List) G_map(cb Object) *List {
+	list := NewListSized(m.Len())
+
+	for i, obj := range m.All() {
+		list.Set(i, cb.G_invoke(NewVarArgs(obj, NewNumberFromInt(i))))
+	}
+
+	return list
 }

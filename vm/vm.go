@@ -134,13 +134,13 @@ loop:
 
 		case op.MakeList:
 			length := ins.Arg.(int)
-			values := make([]g.Object, length)
+			list := g.NewListSized(length)
 
 			for i := 0; i < length; i++ {
-				values[length-i-1] = m.stack.pop()
+				list.Set(length-i-1, m.stack.pop())
 			}
 
-			m.stack.push(g.NewList(values))
+			m.stack.push(list)
 
 		case op.Return:
 			break loop
