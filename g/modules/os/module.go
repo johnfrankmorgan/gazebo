@@ -40,7 +40,7 @@ func (m *OSModule) Stat(file string) *Stat {
 		return nil
 	}
 
-	errors.ErrRuntime.ExpectNil(err, "%v", err)
+	errors.ErrRuntime.ExpectNilError(err)
 
 	return NewStat(filepath.Dir(file), info)
 }
@@ -89,7 +89,7 @@ func (m *OSModule) G_isdir(path g.Object) *g.Bool {
 
 func (m *OSModule) G_mkdir(path g.Object) {
 	err := os.Mkdir(path.G_str().String(), os.ModeDir)
-	errors.ErrRuntime.ExpectNil(err, "%v", err)
+	errors.ErrRuntime.ExpectNilError(err)
 }
 
 func (m *OSModule) G_open(path g.Object, mode g.Object) g.Object {
@@ -102,7 +102,7 @@ func (m *OSModule) G_open(path g.Object, mode g.Object) g.Object {
 	switch mode.G_str().String() {
 	case "r":
 		f, err := os.Open(file)
-		errors.ErrRuntime.ExpectNil(err, "%v", err)
+		errors.ErrRuntime.ExpectNilError(err)
 		return g.NewReader(f)
 
 	case "w":
@@ -117,7 +117,7 @@ func (m *OSModule) G_open(path g.Object, mode g.Object) g.Object {
 	}
 
 	f, err := os.OpenFile(file, flag, os.FileMode(perm))
-	errors.ErrRuntime.ExpectNil(err, "%v", err)
+	errors.ErrRuntime.ExpectNilError(err)
 
 	return g.NewWriter(f)
 }
@@ -126,7 +126,7 @@ func (m *OSModule) G_listdir(path g.Object) g.Object {
 	directory := path.G_str().String()
 
 	infos, err := ioutil.ReadDir(directory)
-	errors.ErrRuntime.ExpectNil(err, "%v", err)
+	errors.ErrRuntime.ExpectNilError(err)
 
 	list := g.NewListSized(len(infos))
 	for i, info := range infos {

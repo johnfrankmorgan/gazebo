@@ -43,6 +43,6 @@ func (m *Reader) G_readln() Object {
 	}
 
 	text := scanner.Text()
-	errors.ErrRuntime.ExpectNil(scanner.Err(), "%v", scanner.Err())
+	errors.ErrRuntime.ExpectNilError(scanner.Err())
 	return NewString(text)
 }

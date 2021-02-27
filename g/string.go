@@ -49,7 +49,7 @@ func (m *String) G_str() *String {
 
 func (m *String) G_num() *Number {
 	value, err := strconv.ParseFloat(m.value, 64)
-	errors.ErrRuntime.ExpectNil(err, "%v", err)
+	errors.ErrRuntime.ExpectNilError(err)
 	return NewNumber(value)
 }
 

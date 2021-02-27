@@ -83,3 +83,8 @@ func (m *Error) ExpectAtLeast(value interface{}, length int, args ...interface{}
 func (m *Error) ExpectNil(value interface{}, args ...interface{}) {
 	m.Expect(value == nil, args...)
 }
+
+// ExpectNilError panics if its argument is not nil
+func (m *Error) ExpectNilError(err error) {
+	m.Expect(err == nil, "%v", err)
+}

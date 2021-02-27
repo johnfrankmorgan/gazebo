@@ -52,12 +52,12 @@ func (m *exprliteral) compile() Code {
 	switch m.token.typ {
 	case tknumber:
 		value, err := strconv.ParseFloat(m.token.value, 64)
-		errors.ErrCompile.ExpectNil(err, "%v", err)
+		errors.ErrCompile.ExpectNilError(err)
 		return Code{op.LoadConst.Ins(value)}
 
 	case tkstring:
 		value, err := strconv.Unquote(m.token.value)
-		errors.ErrCompile.ExpectNil(err, "%v", err)
+		errors.ErrCompile.ExpectNilError(err)
 		return Code{op.LoadConst.Ins(value)}
 
 	case tkident:

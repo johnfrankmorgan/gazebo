@@ -58,7 +58,7 @@ func (m *Writer) G_printf(format Object, args ...Object) {
 	}
 
 	_, err := m.Printf(format.G_str().String(), iargs...)
-	errors.ErrRuntime.ExpectNil(err, "%v", err)
+	errors.ErrRuntime.ExpectNilError(err)
 }
 
 func (m *Writer) G_println(args ...Object) {
@@ -69,10 +69,10 @@ func (m *Writer) G_println(args ...Object) {
 	}
 
 	_, err := m.Println(iargs...)
-	errors.ErrRuntime.ExpectNil(err, "%v", err)
+	errors.ErrRuntime.ExpectNilError(err)
 }
 
 func (m *Writer) G_debugln(arg Object) {
 	_, err := pretty.Fprintf(m, "%# v\n", arg)
-	errors.ErrRuntime.ExpectNil(err, "%v", err)
+	errors.ErrRuntime.ExpectNilError(err)
 }
