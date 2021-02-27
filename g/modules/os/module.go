@@ -93,3 +93,33 @@ func (m *OSModule) G_mkdir(path g.Object) {
 	err := os.Mkdir(path.G_str().String(), os.ModeDir)
 	errors.ErrRuntime.ExpectNil(err, "%v", err)
 }
+
+func (m *OSModule) G_open(path g.Object, mode g.Object) g.Object {
+	var (
+		flag int
+		perm = 0644
+		file = path.G_str().String()
+	)
+
+	switch mode.G_str().String() {
+	case "r":
+		f, err := os.Open(file)
+		errors.ErrRuntime.ExpectNil(err, "%v", err)
+		return g.NewReader(f)
+
+	case "w":
+		flag = os.O_WRONLY | os.O_CREATE | os.O_TRUNC
+
+	case "a":
+		flag = os.O_WRONLY | os.O_CREATE | os.O_APPEND
+
+	default:
+		errors.ErrRuntime.Panic("unknown mode: %q", mode.G_str().String())
+		return nil
+	}
+
+	f, err := os.OpenFile(file, flag, os.FileMode(perm))
+	errors.ErrRuntime.ExpectNil(err, "%v", err)
+
+	return g.NewWriter(f)
+}

@@ -31,6 +31,12 @@ func (m *Writer) Write(buff []byte) (int, error) {
 
 // GAZEBO WRITER OBJECT METHODS
 
+func (m *Writer) G_close() {
+	closer, ok := m.out.(io.Closer)
+	errors.ErrRuntime.Expect(ok, "type %T cannot be closed", m.out)
+	closer.Close()
+}
+
 func (m *Writer) G_printf(format Object, args ...Object) {
 	iargs := make([]interface{}, len(args))
 

@@ -30,6 +30,12 @@ func (m *Reader) Read(buff []byte) (int, error) {
 
 // GAZEBO READER OBJECT METHODS
 
+func (m *Reader) G_close() {
+	closer, ok := m.in.(io.Closer)
+	errors.ErrRuntime.Expect(ok, "type %T cannot be closed", m.in)
+	closer.Close()
+}
+
 func (m *Reader) G_readln() Object {
 	scanner := bufio.NewScanner(m)
 	if !scanner.Scan() {
