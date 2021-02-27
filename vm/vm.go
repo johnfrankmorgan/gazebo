@@ -65,6 +65,9 @@ loop:
 		pc++
 
 		switch ins.Opcode {
+		case op.PushValue:
+			m.stack.push(NewInternalObject(ins.Arg))
+
 		case op.LoadConst:
 			m.stack.push(g.NewObject(ins.Arg))
 
@@ -123,6 +126,11 @@ loop:
 			name := ins.Arg.(string)
 			object := m.stack.pop()
 			m.stack.push(object.G_delattr(g.NewString(name)))
+
+		case op.MakeFunc:
+			code := m.stack.pop().Value().(compiler.Code)
+			params := m.stack.pop().Value().([]string)
+			m.stack.push(NewFunc(m, m.env, params, code))
 
 		case op.MakeList:
 			length := ins.Arg.(int)
