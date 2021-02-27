@@ -3,6 +3,7 @@ package g
 import (
 	"bytes"
 	"fmt"
+	"regexp"
 	"strconv"
 	"strings"
 
@@ -103,4 +104,25 @@ func (m *String) G_replace(find, replace Object) *String {
 		find.G_str().String(),
 		replace.G_str().String(),
 	))
+}
+
+func (m *String) G_empty() *Bool {
+	return NewBool(m.Len() == 0)
+}
+
+func (m *String) G_from(index Object) *String {
+	return NewString(m.value[index.G_num().Int():])
+}
+
+func (m *String) G_until(index Object) *String {
+	return NewString(m.value[:index.G_num().Int()])
+}
+
+func (m *String) G_slice(start, end Object) *String {
+	return NewString(m.value[start.G_num().Int():end.G_num().Int()])
+}
+
+func (m *String) G_numeric() *Bool {
+	regex := regexp.MustCompile(`^[0-9]+(\.[0-9]+)?$`)
+	return NewBool(regex.MatchString(m.value))
 }

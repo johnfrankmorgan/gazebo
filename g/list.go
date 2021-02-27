@@ -161,6 +161,10 @@ func (m *List) G_prepend(values ...Object) *List {
 	return m.Prepend(values...)
 }
 
+func (m *List) G_empty() *Bool {
+	return NewBool(m.Empty())
+}
+
 func (m *List) G_from(index Object) *List {
 	return m.From(index.G_num().Int())
 }

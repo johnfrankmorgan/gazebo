@@ -24,6 +24,12 @@ func (m *Base) unimplemented(name string) {
 
 func (m *Base) Method(object Object, name string) *BoundMethod {
 	rvalue := reflect.ValueOf(object)
+	length := len(name)
+
+	if name[length-1] == '?' {
+		name = name[:length-1]
+	}
+
 	method := rvalue.MethodByName("G_" + name)
 
 	if method.IsValid() {

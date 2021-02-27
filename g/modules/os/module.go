@@ -91,7 +91,12 @@ func (m *OSModule) G_isdir(path g.Object) *g.Bool {
 }
 
 func (m *OSModule) G_mkdir(path g.Object) {
-	err := os.Mkdir(path.G_str().String(), os.ModeDir)
+	err := os.Mkdir(path.G_str().String(), 0755)
+	errors.ErrRuntime.ExpectNilError(err)
+}
+
+func (m *OSModule) G_mkall(path g.Object) {
+	err := os.MkdirAll(path.G_str().String(), 0755)
 	errors.ErrRuntime.ExpectNilError(err)
 }
 

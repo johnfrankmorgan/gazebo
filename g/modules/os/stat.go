@@ -50,6 +50,10 @@ func (m *Stat) G_repr() *g.String {
 
 // GAZEBO STAT OBJECT METHODS
 
+func (m *Stat) G_isfile() *g.Bool {
+	return m.G_isdir().G_not()
+}
+
 func (m *Stat) G_isdir() *g.Bool {
 	return g.NewBool(m.value.IsDir())
 }
