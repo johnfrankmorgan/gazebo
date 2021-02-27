@@ -171,6 +171,26 @@ func (m *List) G_slice(start, end Object) *List {
 	return m.Slice(start.G_num().Int(), end.G_num().Int())
 }
 
+func (m *List) G_all() *Bool {
+	for _, obj := range m.All() {
+		if obj.G_not().Bool() {
+			return NewBool(false)
+		}
+	}
+
+	return NewBool(true)
+}
+
+func (m *List) G_any() *Bool {
+	for _, obj := range m.All() {
+		if obj.G_bool().Bool() {
+			return NewBool(true)
+		}
+	}
+
+	return NewBool(false)
+}
+
 func (m *List) G_filter(cb Object) *List {
 	list := NewList(nil)
 
