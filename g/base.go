@@ -76,7 +76,7 @@ func (m *Base) DelAttr(name string) {
 // PROTOCOLS
 
 func (m *Base) G_repr() *String {
-	return NewStringf("<%T>(%v)", m.self, m.self)
+	return NewStringf("<%T>(%#v)", m.self, m.self)
 }
 
 func (m *Base) G_str() *String {
@@ -172,20 +172,20 @@ func (m *Base) G_lte(_ Object) *Bool {
 }
 
 func (m *Base) G_hasattr(name *String) *Bool {
-	return NewBool(m.HasAttr(name.String()))
+	return NewBool(m.self.HasAttr(name.String()))
 }
 
 func (m *Base) G_getattr(name *String) Object {
-	return m.GetAttr(name.String())
+	return m.self.GetAttr(name.String())
 }
 
 func (m *Base) G_setattr(name *String, value Object) Object {
-	m.SetAttr(name.String(), value)
+	m.self.SetAttr(name.String(), value)
 	return NewNil()
 }
 
 func (m *Base) G_delattr(name *String) Object {
-	m.DelAttr(name.String())
+	m.self.DelAttr(name.String())
 	return NewNil()
 }
 

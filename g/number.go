@@ -22,6 +22,10 @@ func NewNumberFromInt(value int) *Number {
 	return NewNumber(float64(value))
 }
 
+func NewNumberFromInt64(value int64) *Number {
+	return NewNumber(float64(value))
+}
+
 func (m *Number) Value() interface{} {
 	return m.value
 }

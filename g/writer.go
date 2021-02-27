@@ -25,7 +25,27 @@ func (m *Writer) Value() interface{} {
 	return m.out
 }
 
+func (m *Writer) Write(buff []byte) (int, error) {
+	return m.out.Write(buff)
+}
+
 // GAZEBO WRITER OBJECT METHODS
+
+func (m *Writer) G_printf(format Object, args ...Object) {
+	iargs := make([]interface{}, len(args))
+
+	for i, arg := range args {
+		if num, ok := arg.(*Number); ok && num.IsInt() {
+			iargs[i] = num.Int64()
+			continue
+		}
+
+		iargs[i] = arg.Value()
+	}
+
+	_, err := fmt.Fprintf(m, format.G_str().String(), iargs...)
+	errors.ErrRuntime.ExpectNil(err, "%v", err)
+}
 
 func (m *Writer) G_println(args ...Object) {
 	iargs := make([]interface{}, len(args))
@@ -34,11 +54,11 @@ func (m *Writer) G_println(args ...Object) {
 		iargs[i] = arg.G_str().String()
 	}
 
-	_, err := fmt.Fprintln(m.out, iargs...)
+	_, err := fmt.Fprintln(m, iargs...)
 	errors.ErrRuntime.ExpectNil(err, "%v", err)
 }
 
 func (m *Writer) G_debugln(arg Object) {
-	_, err := pretty.Fprintf(m.out, "%# v\n", arg)
+	_, err := pretty.Fprintf(m, "%# v\n", arg)
 	errors.ErrRuntime.ExpectNil(err, "%v", err)
 }

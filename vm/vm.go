@@ -1,14 +1,13 @@
 package vm
 
 import (
-	"os"
-
 	"github.com/johnfrankmorgan/gazebo/assert"
 	"github.com/johnfrankmorgan/gazebo/compiler"
 	"github.com/johnfrankmorgan/gazebo/compiler/op"
 	"github.com/johnfrankmorgan/gazebo/errors"
 	"github.com/johnfrankmorgan/gazebo/g"
 	"github.com/johnfrankmorgan/gazebo/g/modules"
+	"github.com/johnfrankmorgan/gazebo/g/modules/os"
 	"github.com/johnfrankmorgan/gazebo/g/modules/time"
 )
 
@@ -22,22 +21,23 @@ type VM struct {
 
 // New creates a new VM
 func New(argv ...string) *VM {
-	env := new(env)
-
-	env.define("out", g.NewWriter(os.Stdout))
-	env.define("nil", g.NewNil())
-	env.define("true", g.NewBool(true))
-	env.define("false", g.NewBool(false))
-
 	vm := &VM{
 		stack:     new(stack),
-		env:       env,
+		env:       new(env),
 		errhandle: true,
 		modules:   make(map[string]modules.Module),
 	}
 
 	time := time.NewTimeModule()
 	vm.modules[time.Name()] = time
+
+	os := os.NewOSModule()
+	vm.modules[os.Name()] = os
+
+	vm.env.define("nil", g.NewNil())
+	vm.env.define("true", g.NewBool(true))
+	vm.env.define("false", g.NewBool(false))
+	vm.env.define("out", g.NewWriter(os.Stderr))
 
 	return vm
 }

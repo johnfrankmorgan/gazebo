@@ -25,7 +25,7 @@ func (m *BoundMethod) Value() interface{} {
 
 func (m *BoundMethod) G_invoke(args *Args) Object {
 	ret := m.value.Call(args.ReflectValues())
-	if len(ret) == 0 {
+	if len(ret) == 0 || ret[0].Interface() == nil {
 		return NewNil()
 	}
 
