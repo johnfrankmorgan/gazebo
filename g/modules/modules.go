@@ -2,6 +2,7 @@ package modules
 
 import (
 	"github.com/johnfrankmorgan/gazebo/g"
+	"github.com/johnfrankmorgan/gazebo/g/modules/http"
 	"github.com/johnfrankmorgan/gazebo/g/modules/inspect"
 	"github.com/johnfrankmorgan/gazebo/g/modules/os"
 	"github.com/johnfrankmorgan/gazebo/g/modules/testing"
@@ -15,6 +16,7 @@ type Module interface {
 
 func All() []Module {
 	return []Module{
+		http.NewHTTPModule(),
 		inspect.NewInspectModule(),
 		os.NewOSModule(),
 		testing.NewTestingModule(),
