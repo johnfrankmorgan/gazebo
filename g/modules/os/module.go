@@ -6,10 +6,7 @@ import (
 
 	"github.com/johnfrankmorgan/gazebo/errors"
 	"github.com/johnfrankmorgan/gazebo/g"
-	"github.com/johnfrankmorgan/gazebo/g/modules"
 )
-
-var _ modules.Module = &OSModule{}
 
 type OSModule struct {
 	g.Base

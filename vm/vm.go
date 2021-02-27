@@ -7,8 +7,6 @@ import (
 	"github.com/johnfrankmorgan/gazebo/errors"
 	"github.com/johnfrankmorgan/gazebo/g"
 	"github.com/johnfrankmorgan/gazebo/g/modules"
-	"github.com/johnfrankmorgan/gazebo/g/modules/os"
-	"github.com/johnfrankmorgan/gazebo/g/modules/time"
 )
 
 // VM is the structure responsible for running code and keeping track of state
@@ -28,17 +26,19 @@ func New(argv ...string) *VM {
 		modules:   make(map[string]modules.Module),
 	}
 
-	time := time.NewTimeModule()
-	vm.modules[time.Name()] = time
+	for _, mod := range modules.All() {
+		vm.modules[mod.Name()] = mod
+	}
 
-	os := os.NewOSModule()
-	vm.modules[os.Name()] = os
+	stdout := vm.modules["os"].CallMethod(
+		"stdout",
+		g.NewVarArgs(),
+	)
 
 	vm.env.define("nil", g.NewNil())
 	vm.env.define("true", g.NewBool(true))
 	vm.env.define("false", g.NewBool(false))
-	vm.env.define("out", g.NewWriter(os.Stderr))
-
+	vm.env.define("out", stdout)
 	return vm
 }
 

@@ -4,10 +4,7 @@ import (
 	"time"
 
 	"github.com/johnfrankmorgan/gazebo/g"
-	"github.com/johnfrankmorgan/gazebo/g/modules"
 )
-
-var _ modules.Module = &TimeModule{}
 
 type TimeModule struct {
 	g.Base
@@ -39,4 +36,10 @@ func (m *TimeModule) G_now() *Time {
 
 func (m *TimeModule) G_since(value *Time) *Duration {
 	return NewDuration(time.Since(value.Time()))
+}
+
+func (m *TimeModule) G_timeit(cb g.Object, args ...g.Object) *Duration {
+	now := m.G_now()
+	cb.G_invoke(g.NewArgs(args))
+	return m.G_since(now)
 }
