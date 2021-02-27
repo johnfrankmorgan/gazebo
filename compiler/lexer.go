@@ -58,6 +58,8 @@ const (
 	tkreturn
 	tkwhile
 	tkfor
+	tkbreak
+	tkcontinue
 	tkfun
 	tkdel
 	tkload
@@ -107,6 +109,8 @@ func (m tokentype) name() string {
 		tkreturn:       "tkreturn",
 		tkwhile:        "tkwhile",
 		tkfor:          "tkfor",
+		tkbreak:        "tkbreak",
+		tkcontinue:     "tkcontinue",
 		tkfun:          "tkfun",
 		tkdel:          "tkdel",
 		tkload:         "tkload",
@@ -150,18 +154,20 @@ func (m tokentype) name() string {
 }
 
 var keywords = map[string]tokentype{
-	"if":     tkif,
-	"else":   tkelse,
-	"return": tkreturn,
-	"while":  tkwhile,
-	"for":    tkfor,
-	"fun":    tkfun,
-	"del":    tkdel,
-	"load":   tkload,
-	"pass":   tkpass,
-	"in":     tkin,
-	"and":    tkand,
-	"or":     tkor,
+	"if":       tkif,
+	"else":     tkelse,
+	"return":   tkreturn,
+	"while":    tkwhile,
+	"for":      tkfor,
+	"break":    tkbreak,
+	"continue": tkcontinue,
+	"fun":      tkfun,
+	"del":      tkdel,
+	"load":     tkload,
+	"pass":     tkpass,
+	"in":       tkin,
+	"and":      tkand,
+	"or":       tkor,
 }
 
 type token struct {

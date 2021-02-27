@@ -344,6 +344,14 @@ func (m *parser) statement() statement {
 
 	case tkload:
 		return m.load()
+
+	case tkbreak:
+		m.next()
+		return &stmtbreak{}
+
+	case tkcontinue:
+		m.next()
+		return &stmtcontinue{}
 	}
 
 	expr := m.expression()

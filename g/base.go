@@ -22,10 +22,15 @@ func (m *Base) unimplemented(name string) {
 }
 
 func (m *Base) Method(object Object, name string) *BoundMethod {
-	method := reflect.ValueOf(object).MethodByName("G_" + name)
+	rvalue := reflect.ValueOf(object)
+	method := rvalue.MethodByName("G_" + name)
 
 	if method.IsValid() {
-		return NewBoundMethod(method)
+		return NewBoundMethod(
+			rvalue.Elem().Type().Name(),
+			name,
+			method,
+		)
 	}
 
 	return nil

@@ -13,6 +13,7 @@ type Opcode int
 // Enumeration of available opcodes
 const (
 	Invalid Opcode = iota
+	Placeholder
 	PushValue
 	LoadConst
 	GetName
@@ -36,6 +37,12 @@ const (
 	NoOp
 )
 
+// Placeholder values
+const (
+	PlaceholderBreak    = -1
+	PlaceholderContinue = -2
+)
+
 // Ins creates an Instruction for an Opcode
 func (op Opcode) Ins(arg interface{}) Instruction {
 	return Instruction{Opcode: op, Arg: arg}
@@ -45,6 +52,7 @@ func (op Opcode) Ins(arg interface{}) Instruction {
 func (op Opcode) Name() string {
 	names := map[Opcode]string{
 		Invalid:        "op.Invalid",
+		Placeholder:    "op.Placeholder",
 		PushValue:      "op.PushValue",
 		LoadConst:      "op.LoadConst",
 		GetName:        "op.GetName",

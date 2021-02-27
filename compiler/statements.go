@@ -8,6 +8,35 @@ type statement interface {
 	compiler
 }
 
+func fillbreak(code Code) Code {
+	for i, ins := range code {
+		if ins.Opcode != op.Placeholder || ins.Arg.(int) != op.PlaceholderBreak {
+			continue
+		}
+
+		code[i] = op.RelJump.Ins(len(code) - i - 1)
+	}
+
+	return code
+}
+
+func fillcontinue(code Code) Code {
+	for i, ins := range code {
+		if ins.Opcode != op.Placeholder || ins.Arg.(int) != op.PlaceholderContinue {
+			continue
+		}
+
+		code[i] = op.RelJump.Ins(-i - 1)
+	}
+
+	return code
+}
+
+func checkloop(code Code) Code {
+	code = fillbreak(code)
+	return fillcontinue(code)
+}
+
 type stmtexpr struct {
 	expr expression
 }
@@ -87,7 +116,7 @@ func (m *stmtwhile) compile() Code {
 	body := m.body.compile()
 	cond := append(m.condition.compile(), op.RelJumpIfFalse.Ins(len(body)+1))
 	body = append(body, op.RelJump.Ins(-len(body)-len(cond)-1))
-	return append(cond, body...)
+	return checkloop(append(cond, body...))
 }
 
 type stmtload struct {
@@ -128,4 +157,16 @@ func (m *stmtsetattr) compile() Code {
 	code := m.expr.compile()
 	code = append(code, m.value.compile()...)
 	return append(code, op.SetAttr.Ins(m.name))
+}
+
+type stmtbreak struct{}
+
+func (m *stmtbreak) compile() Code {
+	return Code{op.Placeholder.Ins(op.PlaceholderBreak)}
+}
+
+type stmtcontinue struct{}
+
+func (m *stmtcontinue) compile() Code {
+	return Code{op.Placeholder.Ins(op.PlaceholderContinue)}
 }
