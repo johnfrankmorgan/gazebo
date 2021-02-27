@@ -29,6 +29,14 @@ func (m *Writer) Write(buff []byte) (int, error) {
 	return m.out.Write(buff)
 }
 
+func (m *Writer) Printf(format string, args ...interface{}) (int, error) {
+	return fmt.Fprintf(m, format, args...)
+}
+
+func (m *Writer) Println(args ...interface{}) (int, error) {
+	return fmt.Fprintln(m, args...)
+}
+
 // GAZEBO WRITER OBJECT METHODS
 
 func (m *Writer) G_close() {
@@ -49,7 +57,7 @@ func (m *Writer) G_printf(format Object, args ...Object) {
 		iargs[i] = arg.Value()
 	}
 
-	_, err := fmt.Fprintf(m, format.G_str().String(), iargs...)
+	_, err := m.Printf(format.G_str().String(), iargs...)
 	errors.ErrRuntime.ExpectNil(err, "%v", err)
 }
 
@@ -60,7 +68,7 @@ func (m *Writer) G_println(args ...Object) {
 		iargs[i] = arg.G_str().String()
 	}
 
-	_, err := fmt.Fprintln(m, iargs...)
+	_, err := m.Println(iargs...)
 	errors.ErrRuntime.ExpectNil(err, "%v", err)
 }
 

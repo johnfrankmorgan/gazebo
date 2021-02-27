@@ -7,6 +7,8 @@ import (
 	"github.com/johnfrankmorgan/gazebo/errors"
 	"github.com/johnfrankmorgan/gazebo/g"
 	"github.com/johnfrankmorgan/gazebo/g/modules"
+	"github.com/johnfrankmorgan/gazebo/g/modules/os"
+	"github.com/johnfrankmorgan/gazebo/g/modules/testing"
 )
 
 // VM is the structure responsible for running code and keeping track of state
@@ -30,9 +32,12 @@ func New(argv ...string) *VM {
 		vm.modules[mod.Name()] = mod
 	}
 
-	stdout := vm.modules["os"].CallMethod(
-		"stdout",
-		g.NewVarArgs(),
+	stdout := vm.modules["os"].(*os.OSModule).Stdout
+	stderr := vm.modules["os"].(*os.OSModule).Stderr
+
+	vm.modules["testing"].(*testing.TestingModule).SetOutput(
+		stdout,
+		stderr,
 	)
 
 	vm.env.define("nil", g.NewNil())
@@ -40,6 +45,10 @@ func New(argv ...string) *VM {
 	vm.env.define("false", g.NewBool(false))
 	vm.env.define("out", stdout)
 	return vm
+}
+
+func (m *VM) GetModule(name string) modules.Module {
+	return m.modules[name]
 }
 
 func (m *VM) DisableErrorHandling() {

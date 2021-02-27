@@ -1,3 +1,19 @@
-println(33 * 23.2)
-println(21 / 9.2)
-println((20 + 10) / 4 - 1)
+load testing;
+
+testing.run(
+  testing.test("addition works", fun {
+    return 500.234 + 500.123 == 1000.357
+  }),
+
+  testing.test("subtraction works", fun {
+    return 10123 - 123 == 10000
+  }),
+
+  testing.test("multiplication works", fun {
+    return 10.1 * 100 == 1010
+  }),
+
+  testing.test("division works", fun {
+    return 333 / 2 == 166.5
+  })
+)

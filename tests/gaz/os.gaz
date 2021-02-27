@@ -1,0 +1,11 @@
+load os testing;
+
+testing.run(
+  testing.test("os.exists", fun {
+    return os.exists(".")
+  }),
+
+  testing.test("os.isdir", fun {
+    return os.isdir(".")
+  })
+)

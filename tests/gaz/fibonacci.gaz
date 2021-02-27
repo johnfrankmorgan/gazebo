@@ -1,20 +1,19 @@
 load time;
 
-a = 0
-b = 1
-tmp = 0
+fun fib(N) {
+  a = 0
+  b = 1
+  tmp = 0
 
-start = time.now()
+  for i = 0; i < N; i += 1 {
+    tmp = b
+    b = a + b
+    a = tmp
+  }
 
-for (i = 0; i < 20; i += 1) {
-  tmp = b
-  b = a + b
-  a = tmp
+  return tmp
 }
 
-time_taken = time.since(start)
-
-println("20th Fibonacci number:", tmp)
-println("Took", time_taken)
-
-unset tmp a b start
+start = time.now()
+out.println("20th Fibonacci number:", fib(20))
+out.println("Took:", time.since(start))
