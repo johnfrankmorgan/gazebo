@@ -1,6 +1,9 @@
 package vm
 
 import (
+	"io/ioutil"
+	"path/filepath"
+
 	"github.com/johnfrankmorgan/gazebo/assert"
 	"github.com/johnfrankmorgan/gazebo/compiler"
 	"github.com/johnfrankmorgan/gazebo/compiler/op"
@@ -11,7 +14,6 @@ import (
 	"github.com/johnfrankmorgan/gazebo/g/modules/testing"
 )
 
-// VM is the structure responsible for running code and keeping track of state
 type VM struct {
 	stack     *stack
 	env       *env
@@ -19,8 +21,7 @@ type VM struct {
 	errhandle bool
 }
 
-// New creates a new VM
-func New(argv ...string) *VM {
+func New() *VM {
 	vm := &VM{
 		stack:     new(stack),
 		env:       new(env),
@@ -55,7 +56,27 @@ func (m *VM) DisableErrorHandling() {
 	m.errhandle = false
 }
 
-// Run runs the provided code
+func (m *VM) RunFile(path string) (g.Object, error) {
+	source, err := ioutil.ReadFile(path)
+	if err != nil {
+		return nil, err
+	}
+
+	code, err := compiler.Compile(string(source))
+	if err != nil {
+		return nil, err
+	}
+
+	path, err = filepath.Abs(path)
+	if err != nil {
+		return nil, err
+	}
+
+	m.env.define("__file", g.NewString(path))
+
+	return m.Run(code)
+}
+
 func (m *VM) Run(code compiler.Code) (value g.Object, err error) {
 	if m.errhandle {
 		defer errors.Handle(&err)

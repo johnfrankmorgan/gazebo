@@ -1,8 +1,9 @@
 package os
 
 import (
+	"io/ioutil"
 	"os"
-	"path"
+	"path/filepath"
 
 	"github.com/johnfrankmorgan/gazebo/errors"
 	"github.com/johnfrankmorgan/gazebo/g"
@@ -41,7 +42,7 @@ func (m *OSModule) Stat(file string) *Stat {
 
 	errors.ErrRuntime.ExpectNil(err, "%v", err)
 
-	return NewStat(path.Dir(file), info)
+	return NewStat(filepath.Dir(file), info)
 }
 
 // GAZEBO OS MODULE OBJECT METHODS
@@ -119,4 +120,18 @@ func (m *OSModule) G_open(path g.Object, mode g.Object) g.Object {
 	errors.ErrRuntime.ExpectNil(err, "%v", err)
 
 	return g.NewWriter(f)
+}
+
+func (m *OSModule) G_listdir(path g.Object) g.Object {
+	directory := path.G_str().String()
+
+	infos, err := ioutil.ReadDir(directory)
+	errors.ErrRuntime.ExpectNil(err, "%v", err)
+
+	list := g.NewListSized(len(infos))
+	for i, info := range infos {
+		list.Set(i, NewStat(directory, info))
+	}
+
+	return list
 }

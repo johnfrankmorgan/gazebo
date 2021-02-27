@@ -1,6 +1,7 @@
 package g
 
 import (
+	"fmt"
 	"reflect"
 
 	"github.com/johnfrankmorgan/gazebo/errors"
@@ -27,7 +28,7 @@ func (m *Base) Method(object Object, name string) *BoundMethod {
 
 	if method.IsValid() {
 		return NewBoundMethod(
-			rvalue.Elem().Type().Name(),
+			fmt.Sprintf("%T", object),
 			name,
 			method,
 		)
@@ -81,7 +82,7 @@ func (m *Base) DelAttr(name string) {
 // PROTOCOLS
 
 func (m *Base) G_repr() *String {
-	return NewStringf("<%T>(%#v)", m.self, m.self)
+	return NewStringf("<%T>(%v)", m.self, m.self)
 }
 
 func (m *Base) G_str() *String {

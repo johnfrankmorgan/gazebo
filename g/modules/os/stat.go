@@ -2,7 +2,7 @@ package os
 
 import (
 	"os"
-	"path"
+	"path/filepath"
 
 	"github.com/johnfrankmorgan/gazebo/g"
 	"github.com/johnfrankmorgan/gazebo/g/modules/time"
@@ -39,7 +39,13 @@ func (m *Stat) Dir() string {
 }
 
 func (m *Stat) Path() string {
-	return path.Join(m.Dir(), m.Name())
+	return filepath.Join(m.Dir(), m.Name())
+}
+
+// GAZEBO STAT OBJECT PROTOCOLS
+
+func (m *Stat) G_repr() *g.String {
+	return g.NewString(m.Path()).G_repr()
 }
 
 // GAZEBO STAT OBJECT METHODS

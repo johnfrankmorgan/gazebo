@@ -46,7 +46,3 @@ func (m *Bool) G_num() *Number {
 func (m *Bool) G_bool() *Bool {
 	return NewBool(m.value)
 }
-
-func (m *Bool) G_not() *Bool {
-	return NewBool(!m.value)
-}

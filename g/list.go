@@ -1,6 +1,8 @@
 package g
 
-import "bytes"
+import (
+	"bytes"
+)
 
 var _ Object = &List{}
 
@@ -89,7 +91,7 @@ func (m *List) G_str() *String {
 		length = m.Len()
 	)
 
-	buff.WriteString("[ ")
+	buff.WriteByte('[')
 
 	for i, value := range m.All() {
 		buff.WriteString(value.G_repr().String())
@@ -99,7 +101,7 @@ func (m *List) G_str() *String {
 		}
 	}
 
-	buff.WriteString(" ]")
+	buff.WriteByte(']')
 
 	return NewString(buff.String())
 }
@@ -211,4 +213,12 @@ func (m *List) G_map(cb Object) *List {
 	}
 
 	return list
+}
+
+func (m *List) G_each(cb Object) {
+	for i, obj := range m.All() {
+		if cb.G_invoke(NewVarArgs(obj, NewNumberFromInt(i))).G_not().Bool() {
+			break
+		}
+	}
 }

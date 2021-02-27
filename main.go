@@ -3,7 +3,6 @@ package main
 import (
 	"flag"
 	"fmt"
-	"io/ioutil"
 	"strings"
 
 	"github.com/chzyer/readline"
@@ -40,17 +39,7 @@ func main() {
 		return
 	}
 
-	source, err := ioutil.ReadFile(flag.Args()[0])
-	assert.Nil(err)
-
-	code, err := compiler.Compile(string(source))
-	assert.Nil(err)
-
-	if debug.Enabled() {
-		debug.Printf("\n\n")
-	}
-
-	_, err = vm.New(flag.Args()[1:]...).Run(code)
+	_, err := vm.New().RunFile(flag.Args()[0])
 	assert.Nil(err)
 }
 

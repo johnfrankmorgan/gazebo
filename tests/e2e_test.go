@@ -3,10 +3,9 @@ package tests
 import (
 	"bytes"
 	"io/ioutil"
-	"path"
+	"path/filepath"
 	"testing"
 
-	"github.com/johnfrankmorgan/gazebo/compiler"
 	"github.com/johnfrankmorgan/gazebo/debug"
 	"github.com/johnfrankmorgan/gazebo/errors"
 	gtest "github.com/johnfrankmorgan/gazebo/g/modules/testing"
@@ -31,7 +30,9 @@ func TestGazScripts(t *testing.T) {
 
 			assert := assert.New(t)
 
-			source, err := ioutil.ReadFile(path.Join(TestScripts, script.Name()))
+			path := filepath.Join(TestScripts, script.Name())
+
+			source, err := ioutil.ReadFile(path)
 			assert.Nil(err)
 
 			source = bytes.TrimSpace(source)
@@ -47,23 +48,14 @@ func TestGazScripts(t *testing.T) {
 				expect = errors.ErrRuntime
 			}
 
-			code, err := compiler.Compile(string(source))
+			vm := vm.New()
 
-			if expect != nil && err != errors.ErrRuntime {
+			_, err = vm.RunFile(path)
+			if expect != nil {
 				assert.ErrorIs(err, expect)
-				expect = nil
 			} else {
 				assert.Nil(err)
 			}
-
-			vm := vm.New()
-
-			_, err = vm.Run(code)
-			if expect != nil {
-				assert.ErrorIs(err, expect)
-			}
-
-			assert.Nil(err)
 
 			gtest := vm.GetModule("testing").(*gtest.TestingModule)
 			for _, test := range gtest.All() {

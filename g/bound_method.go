@@ -35,6 +35,12 @@ func (m *BoundMethod) Name() string {
 	return fmt.Sprintf("%s.%s", m.typ, m.name)
 }
 
+// GAZEBO BOUND METHOD OBJECT PROTOCOLS
+
+func (m *BoundMethod) G_repr() *String {
+	return NewStringf("<%T>(%s.%s)", m, m.typ, m.name)
+}
+
 func (m *BoundMethod) G_invoke(args *Args) Object {
 	if !m.value.Type().IsVariadic() {
 		errors.ErrRuntime.Expect(
@@ -54,4 +60,14 @@ func (m *BoundMethod) G_invoke(args *Args) Object {
 	assert.Len(ret, 1, "too many return values from %v", m.value)
 
 	return ret[0].Interface().(Object)
+}
+
+// GAZEBO BOUND METHOD OBJECT METHODS
+
+func (m *BoundMethod) G_type() *String {
+	return NewString(m.typ)
+}
+
+func (m *BoundMethod) G_name() *String {
+	return NewString(m.name)
 }
