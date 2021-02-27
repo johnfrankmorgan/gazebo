@@ -217,8 +217,6 @@ func (m *List) G_map(cb Object) *List {
 
 func (m *List) G_each(cb Object) {
 	for i, obj := range m.All() {
-		if cb.G_invoke(NewVarArgs(obj, NewNumberFromInt(i))).G_not().Bool() {
-			break
-		}
+		cb.G_invoke(NewVarArgs(obj, NewNumberFromInt(i)))
 	}
 }

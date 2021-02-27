@@ -11,6 +11,7 @@ import (
 
 type OSModule struct {
 	g.Base
+	Path   *PathModule
 	Stdout *g.Writer
 	Stderr *g.Writer
 	Stdin  *g.Reader
@@ -22,7 +23,9 @@ func NewOSModule() *OSModule {
 		Stderr: g.NewWriter(os.Stderr),
 		Stdin:  g.NewReader(os.Stdin),
 	}
+	object.Path = NewPathModule(object)
 	object.SetSelf(object)
+	object.SetAttr("path", object.Path)
 	return object
 }
 
@@ -68,7 +71,7 @@ func (m *OSModule) G_stat(path g.Object) g.Object {
 }
 
 func (m *OSModule) G_exists(path g.Object) *g.Bool {
-	return g.NewBool(m.Stat(path.G_str().String()) != nil)
+	return m.Path.G_exists(path)
 }
 
 func (m *OSModule) G_isfile(path g.Object) *g.Bool {
