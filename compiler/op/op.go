@@ -25,13 +25,9 @@ const (
 	RelJumpIfFalse
 	MakeFunc
 	MakeList
-	IndexGet
 	GetAttr
 	SetAttr
 	DelAttr
-	GetIndex
-	SetIndex
-	DelIndex
 	Return
 	LoadModule
 	NoOp
@@ -64,13 +60,9 @@ func (op Opcode) Name() string {
 		RelJumpIfFalse: "op.RelJumpIfFalse",
 		MakeFunc:       "op.MakeFunc",
 		MakeList:       "op.MakeList",
-		IndexGet:       "op.IndexGet",
 		GetAttr:        "op.GetAttr",
 		SetAttr:        "op.SetAttr",
 		DelAttr:        "op.DelAttr",
-		GetIndex:       "op.GetIndex",
-		SetIndex:       "op.SetIndex",
-		DelIndex:       "op.DelIndex",
 		Return:         "op.Return",
 		LoadModule:     "op.LoadModule",
 		NoOp:           "op.NoOp",
