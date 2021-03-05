@@ -133,8 +133,9 @@ func (m *Lexer) token(typ TokenType) Token {
 	defer m.buffer.Reset()
 
 	return Token{
-		Type:  typ,
-		Value: m.buffer.String(),
+		Type:     typ,
+		Value:    m.buffer.String(),
+		Position: m.position - m.buffer.Len(),
 	}
 }
 

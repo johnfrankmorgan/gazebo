@@ -1,6 +1,10 @@
 package lexer
 
-import "github.com/johnfrankmorgan/gazebo/debug"
+import (
+	"fmt"
+
+	"github.com/johnfrankmorgan/gazebo/debug"
+)
 
 type TokenType int
 
@@ -13,8 +17,13 @@ func (m TokenType) String() string {
 }
 
 type Token struct {
-	Type  TokenType
-	Value string
+	Type     TokenType
+	Value    string
+	Position int
+}
+
+func (m Token) String() string {
+	return fmt.Sprintf("%s{%q, %d}", m.Type.String(), m.Value, m.Position)
 }
 
 func (m Token) Is(types ...TokenType) bool {
