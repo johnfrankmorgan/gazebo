@@ -11,7 +11,8 @@ var _ Object = &Reader{}
 
 type Reader struct {
 	Base
-	in io.Reader
+	in      io.Reader
+	scanner *bufio.Scanner
 }
 
 func NewReader(in io.Reader) *Reader {
@@ -37,12 +38,16 @@ func (m *Reader) G_close() {
 }
 
 func (m *Reader) G_readln() Object {
-	scanner := bufio.NewScanner(m)
-	if !scanner.Scan() {
+	if m.scanner == nil {
+		m.scanner = bufio.NewScanner(m)
+	}
+
+	if !m.scanner.Scan() {
+		errors.ErrRuntime.ExpectNilError(m.scanner.Err())
 		return NewNil()
 	}
 
-	text := scanner.Text()
-	errors.ErrRuntime.ExpectNilError(scanner.Err())
+	text := m.scanner.Text()
+	errors.ErrRuntime.ExpectNilError(m.scanner.Err())
 	return NewString(text)
 }
