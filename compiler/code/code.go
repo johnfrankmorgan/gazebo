@@ -11,8 +11,8 @@ type Compiler interface {
 
 type Code []op.Instruction
 
-func (m *Code) Dump() {
-	for idx, ins := range *m {
+func (m Code) Dump() {
+	for idx, ins := range m {
 		debug.Printf(
 			"%6d %18s (0x%02x) %v\n",
 			idx,

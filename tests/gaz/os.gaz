@@ -2,10 +2,10 @@ load os testing;
 
 testing.run(
   testing.test("os.exists", fun {
-    return os.exists(__file)
+    return os.exists(__file);
   }),
 
   testing.test("os.isdir", fun {
-    return os.isdir(".")
-  })
-)
+    return os.isdir(".");
+  }),
+);

@@ -44,6 +44,10 @@ func (op Opcode) Ins(arg interface{}) Instruction {
 	return Instruction{Opcode: op, Arg: arg}
 }
 
+func (op Opcode) String() string {
+	return op.Name()
+}
+
 // Name returns an Opcode's name
 func (op Opcode) Name() string {
 	names := map[Opcode]string{

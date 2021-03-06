@@ -14,7 +14,7 @@ type While struct {
 
 func (m *While) Compile() code.Code {
 	body := m.Body.Compile()
-	cond := append(m.Condition.Compile(), op.RelJump.Ins(len(body)+1))
+	cond := append(m.Condition.Compile(), op.RelJumpIfFalse.Ins(len(body)+1))
 	body = append(body, op.RelJump.Ins(-len(body)-len(cond)-1))
 	return m.FillLoop(append(cond, body...))
 }

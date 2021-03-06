@@ -8,6 +8,7 @@ import (
 	"github.com/johnfrankmorgan/gazebo/compiler"
 	"github.com/johnfrankmorgan/gazebo/compiler/code"
 	"github.com/johnfrankmorgan/gazebo/compiler/code/op"
+	"github.com/johnfrankmorgan/gazebo/debug"
 	"github.com/johnfrankmorgan/gazebo/errors"
 	"github.com/johnfrankmorgan/gazebo/g"
 	"github.com/johnfrankmorgan/gazebo/g/modules"
@@ -93,6 +94,14 @@ func (m *VM) run(instructions code.Code) g.Object {
 loop:
 	for pc < len(instructions) {
 		ins := instructions[pc]
+
+		if debug.Enabled() {
+			debug.Printf("INSTRUCTION ")
+			instructions[pc : pc+1].Dump()
+			debug.Printf("\n")
+			m.stack.dump()
+		}
+
 		pc++
 
 		switch ins.Opcode {

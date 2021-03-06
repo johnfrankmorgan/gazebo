@@ -2,29 +2,29 @@ load testing;
 
 testing.run(
   testing.test("break works correctly", fun {
-    a = 100
+    a = 100;
 
-    while (a) {
-      a -= 1
-      break
+    while a {
+      a -= 1;
+      break;
     }
 
-    return a == 99
+    return a == 99;
   }),
 
   testing.test("continue works correctly", fun {
-    a = 100
-    b = false
+    a = 100;
+    b = false;
 
-    while (a) {
-      a -= 1
+    while a {
+      a -= 1;
 
       if (a > 50)
-        continue
+        continue;
 
-      b = true
+      b = true;
     }
 
-    return b
-  })
-)
+    return b;
+  }),
+);

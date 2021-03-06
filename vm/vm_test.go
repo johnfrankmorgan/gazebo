@@ -4,31 +4,32 @@ import (
 	"testing"
 
 	"github.com/johnfrankmorgan/gazebo/compiler"
+	"github.com/johnfrankmorgan/gazebo/compiler/code"
 )
 
 var (
-	code compiler.Code
-	vm   *VM
+	ins code.Code
+	vm  *VM
 )
 
 func init() {
 	var err error
 
 	source := `
-		let N = 20
+		N = 20;
 
-		let fib = fun (n) {
+		fib = fun (n) {
 			if (n < 2) {
-				return n
+				return n;
 			}
 
-			return fib(n-1) + fib(n-2)
-		}
+			return fib(n-1) + fib(n-2);
+		};
 
-		fib(N)
+		fib(N);
 	`
 
-	code, err = compiler.Compile(source)
+	ins, err = compiler.Compile(source)
 	if err != nil {
 		panic(err)
 	}
@@ -38,6 +39,6 @@ func init() {
 
 func BenchmarkVMRun(b *testing.B) {
 	for n := 0; n < b.N; n++ {
-		vm.Run(code)
+		vm.Run(ins)
 	}
 }

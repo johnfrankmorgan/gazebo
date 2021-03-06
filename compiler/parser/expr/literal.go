@@ -15,7 +15,7 @@ type Literal struct {
 
 func (m *Literal) Compile() code.Code {
 	switch m.Token.Type {
-	case lexer.TkNumber:
+	case lexer.TkString:
 		value, err := strconv.Unquote(m.Token.Value)
 		if err != nil {
 			panic(err)
@@ -23,7 +23,7 @@ func (m *Literal) Compile() code.Code {
 
 		return code.Code{op.LoadConst.Ins(value)}
 
-	case lexer.TkString:
+	case lexer.TkNumber:
 		value, err := strconv.ParseFloat(m.Token.Value, 64)
 		if err != nil {
 			panic(err)

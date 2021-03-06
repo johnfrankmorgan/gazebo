@@ -30,7 +30,15 @@ func (m *Parser) Parse() (st stmt.Statement, err error) {
 	m.stream.Reset()
 
 	for !m.stream.Finished() {
+		if m.stream.Peek().Is(lexer.TkEOF) {
+			break
+		}
+
 		statements = append(statements, m.parse())
+
+		for m.stream.Match(lexer.TkSemicolon) {
+			//
+		}
 	}
 
 	return &stmt.Block{Statements: statements}, nil
@@ -38,6 +46,10 @@ func (m *Parser) Parse() (st stmt.Statement, err error) {
 
 func (m *Parser) parse() stmt.Statement {
 	semicolon := func() {
+		if m.stream.Check(lexer.TkBraceOpen) {
+			return
+		}
+
 		m.stream.Expect(lexer.TkSemicolon)
 	}
 
@@ -168,7 +180,6 @@ func (m *Parser) forstmt() stmt.Statement {
 	m.stream.Expect(lexer.TkFor)
 
 	init := m.parse()
-	m.stream.Expect(lexer.TkSemicolon)
 	cond := m.expression()
 	m.stream.Expect(lexer.TkSemicolon)
 	incr := m.parse()
