@@ -23,7 +23,7 @@ type Token struct {
 }
 
 func (m Token) String() string {
-	return fmt.Sprintf("%s{%q, %d}", m.Type.String(), m.Value, m.Position)
+	return fmt.Sprintf("%s{%q, %d}", m.Type, m.Value, m.Position)
 }
 
 func (m Token) Is(types ...TokenType) bool {

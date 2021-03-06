@@ -1,7 +1,7 @@
-package expr
+package stmt
 
 import "github.com/johnfrankmorgan/gazebo/compiler/code"
 
-type Expression interface {
+type Statement interface {
 	code.Compiler
 }
