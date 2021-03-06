@@ -2,7 +2,7 @@ package stmt
 
 import (
 	"github.com/johnfrankmorgan/gazebo/compiler/code"
-	"github.com/johnfrankmorgan/gazebo/compiler/op"
+	"github.com/johnfrankmorgan/gazebo/compiler/code/op"
 )
 
 type Loop struct{}

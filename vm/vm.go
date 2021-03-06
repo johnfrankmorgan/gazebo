@@ -6,7 +6,8 @@ import (
 
 	"github.com/johnfrankmorgan/gazebo/assert"
 	"github.com/johnfrankmorgan/gazebo/compiler"
-	"github.com/johnfrankmorgan/gazebo/compiler/op"
+	"github.com/johnfrankmorgan/gazebo/compiler/code"
+	"github.com/johnfrankmorgan/gazebo/compiler/code/op"
 	"github.com/johnfrankmorgan/gazebo/errors"
 	"github.com/johnfrankmorgan/gazebo/g"
 	"github.com/johnfrankmorgan/gazebo/g/modules"
@@ -77,7 +78,7 @@ func (m *VM) RunFile(path string) (g.Object, error) {
 	return m.Run(code)
 }
 
-func (m *VM) Run(code compiler.Code) (value g.Object, err error) {
+func (m *VM) Run(code code.Code) (value g.Object, err error) {
 	if m.errhandle {
 		defer errors.Handle(&err)
 	}
@@ -86,12 +87,12 @@ func (m *VM) Run(code compiler.Code) (value g.Object, err error) {
 	return
 }
 
-func (m *VM) run(code compiler.Code) g.Object {
+func (m *VM) run(instructions code.Code) g.Object {
 	var pc int
 
 loop:
-	for pc < len(code) {
-		ins := code[pc]
+	for pc < len(instructions) {
+		ins := instructions[pc]
 		pc++
 
 		switch ins.Opcode {
@@ -158,7 +159,7 @@ loop:
 			m.stack.push(object.G_delattr(g.NewString(name)))
 
 		case op.MakeFunc:
-			code := m.stack.pop().Value().(compiler.Code)
+			code := m.stack.pop().Value().(code.Code)
 			params := m.stack.pop().Value().([]string)
 			m.stack.push(NewFunc(m, m.env, params, code))
 

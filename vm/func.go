@@ -1,7 +1,7 @@
 package vm
 
 import (
-	"github.com/johnfrankmorgan/gazebo/compiler"
+	"github.com/johnfrankmorgan/gazebo/compiler/code"
 	"github.com/johnfrankmorgan/gazebo/errors"
 	"github.com/johnfrankmorgan/gazebo/g"
 )
@@ -13,10 +13,10 @@ type Func struct {
 	vm     *VM
 	env    *env
 	params []string
-	code   compiler.Code
+	code   code.Code
 }
 
-func NewFunc(vm *VM, env *env, params []string, code compiler.Code) *Func {
+func NewFunc(vm *VM, env *env, params []string, code code.Code) *Func {
 	object := &Func{
 		vm:     vm,
 		env:    env,

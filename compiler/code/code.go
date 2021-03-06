@@ -1,7 +1,7 @@
 package code
 
 import (
-	"github.com/johnfrankmorgan/gazebo/compiler/op"
+	"github.com/johnfrankmorgan/gazebo/compiler/code/op"
 	"github.com/johnfrankmorgan/gazebo/debug"
 )
 

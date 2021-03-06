@@ -4,8 +4,8 @@ import (
 	"fmt"
 
 	"github.com/johnfrankmorgan/gazebo/compiler/code"
+	"github.com/johnfrankmorgan/gazebo/compiler/code/op"
 	"github.com/johnfrankmorgan/gazebo/compiler/lexer"
-	"github.com/johnfrankmorgan/gazebo/compiler/op"
 	"github.com/johnfrankmorgan/gazebo/g/protocols"
 )
 

@@ -16,16 +16,24 @@ func New(tokens lexer.Tokens) *Parser {
 	}
 }
 
-func (m *Parser) Parse() stmt.Statement {
+func (m *Parser) Parse() (st stmt.Statement, err error) {
+	defer func() {
+		if perr := recover(); perr != nil {
+			if perr, ok := perr.(error); ok {
+				err = perr
+			}
+		}
+	}()
+
+	var statements []stmt.Statement
+
 	m.stream.Reset()
 
-	stmt := &stmt.Block{}
-
 	for !m.stream.Finished() {
-		stmt.Statements = append(stmt.Statements, m.parse())
+		statements = append(statements, m.parse())
 	}
 
-	return stmt
+	return &stmt.Block{Statements: statements}, nil
 }
 
 func (m *Parser) parse() stmt.Statement {

@@ -5,8 +5,8 @@ import (
 	"strconv"
 
 	"github.com/johnfrankmorgan/gazebo/compiler/code"
+	"github.com/johnfrankmorgan/gazebo/compiler/code/op"
 	"github.com/johnfrankmorgan/gazebo/compiler/lexer"
-	"github.com/johnfrankmorgan/gazebo/compiler/op"
 )
 
 type Literal struct {
