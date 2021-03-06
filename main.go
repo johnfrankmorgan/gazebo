@@ -17,12 +17,10 @@ import (
 
 var (
 	debugging *bool
-	errhandle *bool
 )
 
 func main() {
 	debugging = flag.Bool("d", false, "enable debugging")
-	errhandle = flag.Bool("e", true, "enable error handling")
 
 	flag.Parse()
 
@@ -54,12 +52,7 @@ func newrepl() *repl {
 	rl, err := readline.New("")
 	assert.Nil(err)
 
-	repl := &repl{vm: vm.New(), rl: rl}
-	if !*errhandle {
-		repl.vm.DisableErrorHandling()
-	}
-
-	return repl
+	return &repl{vm: vm.New(), rl: rl}
 }
 
 func (m *repl) errorln(err error) {
@@ -86,7 +79,7 @@ func (m *repl) loop() {
 			break
 		}
 
-		m.buffer.WriteString(line + "\n")
+		m.buffer.WriteString(line + ";\n")
 
 		code, err := compiler.Compile(m.buffer.String())
 		if err == errors.ErrEOF {

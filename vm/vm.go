@@ -17,18 +17,16 @@ import (
 )
 
 type VM struct {
-	stack     *stack
-	env       *env
-	modules   map[string]modules.Module
-	errhandle bool
+	stack   *stack
+	env     *env
+	modules map[string]modules.Module
 }
 
 func New() *VM {
 	vm := &VM{
-		stack:     new(stack),
-		env:       new(env),
-		errhandle: true,
-		modules:   make(map[string]modules.Module),
+		stack:   new(stack),
+		env:     new(env),
+		modules: make(map[string]modules.Module),
 	}
 
 	for _, mod := range modules.All() {
@@ -54,10 +52,6 @@ func (m *VM) GetModule(name string) modules.Module {
 	return m.modules[name]
 }
 
-func (m *VM) DisableErrorHandling() {
-	m.errhandle = false
-}
-
 func (m *VM) RunFile(path string) (g.Object, error) {
 	source, err := ioutil.ReadFile(path)
 	if err != nil {
@@ -80,9 +74,7 @@ func (m *VM) RunFile(path string) (g.Object, error) {
 }
 
 func (m *VM) Run(code code.Code) (value g.Object, err error) {
-	if m.errhandle {
-		defer errors.Handle(&err)
-	}
+	defer errors.Handle(&err)
 
 	value = m.run(code)
 	return
