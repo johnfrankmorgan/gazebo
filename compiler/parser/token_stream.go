@@ -74,7 +74,7 @@ func (m *TokenStream) Match(types ...lexer.TokenType) bool {
 
 func (m *TokenStream) Expect(types ...lexer.TokenType) lexer.Token {
 	if !m.Match(types...) {
-		panic(UnexpectedToken(m.Peek(), types))
+		panic(UnexpectedToken(m.Peek(), types...))
 	}
 
 	return m.Prev()
