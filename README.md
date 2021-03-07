@@ -58,6 +58,7 @@ The built in types are:
 * `g.String`
 * `g.Number`
 * `g.List`
+* `g.Map`
 * `g.Reader`
 * `g.Writer`
 * `vm.Fun`
@@ -68,6 +69,7 @@ true, false // g.Bool
 "string"    // g.String
 123.4       // g.Number
 []          // g.List
+{}          // g.Map
 in          // g.Reader (wrapping stdin)
 out         // g.Writer (wrapping stdout)
 fun {}      // vm.Fun
@@ -104,6 +106,23 @@ methods.filter(fun (method) {
 });
 
 
+// Strings
+
+str = "Test";
+str.upper();             // TEST
+str.lower();             // test
+str.find("e");           // 1
+str.replace("es", "ES"); // TESt
+str.empty();             // false
+"".empty();              // true
+str.from(1);             // "est"
+str.until(3);            // "Tes";
+str.numeric();           // false
+"123.4".numeric();       // true
+"123.4".num();           // 123.4
+str = -str;              // tseT
+
+
 // Lists
 
 list = [];
@@ -121,21 +140,31 @@ list.each(fun (value, index) { out.println(value); });
 -[1, 2, 3]; // [3, 2, 1]
 
 
-// Strings
+// Maps
 
-str = "Test";
-str.upper();             // TEST
-str.lower();             // test
-str.find("e");           // 1
-str.replace("es", "ES"); // TESt
-str.empty();             // false
-"".empty();              // true
-str.from(1);             // "est"
-str.until(3);            // "Tes";
-str.numeric();           // false
-"123.4".numeric();       // true
-"123.4".num();           // 123.4
-str = -str;              // tseT
+map = {
+    name: "Frank",
+    address: [
+        "somewhere",
+        "over",
+        "the",
+        "rainbow",
+    ],
+};
+
+map.keys();          // ["name", "address"]
+map.values();        // ["Frank", ["somewhere", "over", ...]]
+map.has("age");      // false
+map.get("age");      // nil
+map.get("age", 101); // 101
+map.pop("name");     // Frank
+map.has("name");     // false
+map.set("age", 123);
+map.keys();          // ["address", "age"]
+
+map.each(fun (key, value) {
+    out.println(key, "->", value);
+});
 ```
 
 ## Reading / Writing Files
