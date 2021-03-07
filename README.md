@@ -91,7 +91,7 @@ list.other = -list;
 
 Methods can be called on Gazebo objects.
 
-To get a see the available methods for a Gazebo object (include modules), you can use the `inspect` module:
+To see the available methods for a Gazebo object (include modules), you can use the `inspect` module:
 
 ```
 load inspect;
