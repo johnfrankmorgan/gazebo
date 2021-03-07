@@ -47,6 +47,9 @@ func (m *Lexer) lex() Token {
 	ch := m.next()
 
 	switch ch {
+	case ':':
+		return m.token(TkColon)
+
 	case ';':
 		return m.token(TkSemicolon)
 

@@ -1,0 +1,40 @@
+load testing;
+
+testing.run(
+  testing.test("map methods", fun {
+    map = {
+      name: "Frank",
+      address: ["somewhere", "over", "the", "rainbow"],
+      "phone-number": "070000",
+      123.432: {"": 300 / 100},
+    };
+
+    if map.len() != 4 {
+      return false;
+    }
+
+    if map.pop("name") != "Frank" {
+      return false;
+    }
+
+    if map.get("address").len() != 4 {
+      return false;
+    }
+
+    if map.get(123.432).get("") != 3 {
+      return false;
+    }
+
+    map.each(fun (key, value) {
+      out.println(key, "->", value);
+    });
+
+    map.remove(123.432);
+
+    if map.len() != 2 {
+      return false;
+    }
+
+    return map.keys().len() == map.values().len();
+  }),
+);

@@ -1,7 +1,10 @@
 package g
 
 import (
+	"bytes"
+	"encoding/gob"
 	"fmt"
+	"hash/maphash"
 	"reflect"
 
 	"github.com/johnfrankmorgan/gazebo/errors"
@@ -56,6 +59,21 @@ func (m *Base) CallMethod(name string, args *Args) Object {
 
 	m.unimplemented(name)
 	return nil
+}
+
+var _hash maphash.Hash
+
+func (m *Base) Hash() uint64 {
+	var buff bytes.Buffer
+
+	err := gob.NewEncoder(&buff).Encode(m.self.Value())
+	errors.ErrRuntime.ExpectNilError(err)
+
+	defer _hash.Reset()
+
+	_hash.Write(buff.Bytes())
+
+	return _hash.Sum64()
 }
 
 // ATTRIBUTE METHODS

@@ -174,6 +174,19 @@ loop:
 
 			m.stack.push(list)
 
+		case op.MakeMap:
+			length := ins.Arg.(int)
+			hmap := g.NewMap()
+
+			for i := 0; i < length; i++ {
+				value := m.stack.pop()
+				key := m.stack.pop()
+
+				hmap.Set(key, value)
+			}
+
+			m.stack.push(hmap)
+
 		case op.Return:
 			break loop
 

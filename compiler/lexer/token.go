@@ -55,6 +55,7 @@ const (
 	TkComment
 	TkNewline
 	TkWhitespace
+	TkColon
 	TkSemicolon
 	TkDot
 	TkComma
@@ -105,6 +106,7 @@ var _tokens = map[TokenType]string{
 	TkComment:      "TkComment",
 	TkNewline:      "TkNewline",
 	TkWhitespace:   "TkWhitespace",
+	TkColon:        "TkColon",
 	TkSemicolon:    "TkSemicolon",
 	TkDot:          "TkDot",
 	TkComma:        "TkComma",

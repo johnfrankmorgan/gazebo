@@ -1,6 +1,8 @@
 package parser
 
 import (
+	"strconv"
+
 	"github.com/johnfrankmorgan/gazebo/compiler/lexer"
 	"github.com/johnfrankmorgan/gazebo/compiler/parser/expr"
 	"github.com/johnfrankmorgan/gazebo/compiler/parser/stmt"
@@ -81,6 +83,9 @@ func (m *Parser) parse() stmt.Statement {
 		}
 
 	case lexer.TkBraceOpen:
+		if m.stream.Peek(2).Is(lexer.TkColon) {
+			break
+		}
 		stmt := &stmt.Block{}
 		m.stream.Advance()
 		for !m.stream.Finished() {
@@ -347,6 +352,38 @@ func (m *Parser) primary() expr.Expression {
 		}
 
 		m.stream.Expect(lexer.TkBracketClose)
+
+		return ex
+	}
+
+	if m.stream.Match(lexer.TkBraceOpen) {
+		ex := &expr.Map{}
+
+		for !m.stream.Finished() {
+			if m.stream.Check(lexer.TkBraceClose) {
+				break
+			}
+
+			key := m.stream.Expect(lexer.TkIdent, lexer.TkString, lexer.TkNumber)
+
+			if key.Is(lexer.TkIdent) {
+				key.Value = strconv.Quote(key.Value)
+				key.Type = lexer.TkString
+			}
+
+			m.stream.Expect(lexer.TkColon)
+
+			value := m.expression()
+
+			ex.Keys = append(ex.Keys, &expr.Literal{Token: key})
+			ex.Values = append(ex.Values, value)
+
+			if !m.stream.Check(lexer.TkBraceClose) {
+				m.stream.Expect(lexer.TkComma)
+			}
+		}
+
+		m.stream.Expect(lexer.TkBraceClose)
 
 		return ex
 	}

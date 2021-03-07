@@ -29,6 +29,7 @@ func NewObject(value interface{}) Object {
 
 type Object interface {
 	Value() interface{}
+	Hash() uint64
 	CallMethod(name string, args *Args) Object
 	Attrs
 	Protocols

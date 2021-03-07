@@ -134,6 +134,11 @@ func (m *List) G_getattr(name *String) Object {
 
 	return m.Base.G_getattr(name)
 }
+func (m *List) G_contains(value Object) *Bool {
+	return NewBool(m.Contains(value))
+}
+
+// GAZEBO LIST OBJECT METHODS
 
 func (m *List) G_has(index Object) *Bool {
 	return NewBool(m.Has(index.G_num().Int()))
@@ -146,12 +151,6 @@ func (m *List) G_get(index Object) Object {
 func (m *List) G_set(index, value Object) {
 	m.Set(index.G_num().Int(), value)
 }
-
-func (m *List) G_contains(value Object) *Bool {
-	return NewBool(m.Contains(value))
-}
-
-// GAZEBO LIST OBJECT METHODS
 
 func (m *List) G_append(values ...Object) *List {
 	return m.Append(values...)

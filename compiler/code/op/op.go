@@ -25,6 +25,7 @@ const (
 	RelJumpIfFalse
 	MakeFunc
 	MakeList
+	MakeMap
 	GetAttr
 	SetAttr
 	DelAttr
@@ -64,6 +65,7 @@ func (op Opcode) Name() string {
 		RelJumpIfFalse: "op.RelJumpIfFalse",
 		MakeFunc:       "op.MakeFunc",
 		MakeList:       "op.MakeList",
+		MakeMap:        "op.MakeMap",
 		GetAttr:        "op.GetAttr",
 		SetAttr:        "op.SetAttr",
 		DelAttr:        "op.DelAttr",
