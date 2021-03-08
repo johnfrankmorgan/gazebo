@@ -1,5 +1,7 @@
 # Gazebo :circus_tent:
 
+An **awesome** project that helps you create other awesome (and cool) projects!
+
 ## Building
 
 You must have `go` installed to build Gazebo.
