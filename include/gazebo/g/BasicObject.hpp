@@ -15,7 +15,7 @@ class BasicObject : public Object
     T m_value;
 
   public:
-    BasicObject(T value) : m_value(value)
+    explicit BasicObject(T value) : m_value(value)
     {
     }
 

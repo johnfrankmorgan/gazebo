@@ -9,6 +9,10 @@ namespace gazebo::g
 
 class Bool : public BasicObject<TypeBool, bool>
 {
+  public:
+    explicit Bool(bool value) : BasicObject(value)
+    {
+    }
 };
 
 }  // namespace gazebo::g

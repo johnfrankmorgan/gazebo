@@ -16,32 +16,46 @@ class Type : public Object
 
     virtual size_t hash(RefPtr<Object>) const;
 
+    // protocol methods
+
+    virtual RefPtr<Bool>   g_bool(RefPtr<Object>) const;
+    virtual RefPtr<String> g_repr(RefPtr<Object>) const;
+    virtual RefPtr<String> g_str(RefPtr<Object>) const;
+
     template <class T>
     inline bool is() const
     {
         return is(get<T>().get());
     }
 
-    inline bool is(Type* type) const
+    virtual inline bool is(Type* type) const
     {
         G_ASSERT(type);
 
         return this == type;
     }
 
-    template <class T>
-    RefPtr<T> cast(RefPtr<Object> object)
+    virtual inline bool is(RefPtr<Type> type) const
     {
-        G_ASSERT(object->type()->is(this));
+        return is(type.get());
+    }
 
-        return *(RefPtr<T>*)&object;
+    virtual inline void guard(RefPtr<Object> object) const
+    {
+        G_ASSERT(is(object->type()));
     }
 
     template <class T>
     static RefPtr<T> get()
     {
-        static RefPtr<T> type_object = ref<T>();
+        static RefPtr<T> type_object = std::make_shared<T>();
         return type_object;
+    }
+
+    template <class T>
+    static RefPtr<T> cast(RefPtr<Object> object)
+    {
+        return *(RefPtr<T>*)&object;
     }
 };
 

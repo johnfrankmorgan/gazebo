@@ -9,6 +9,9 @@ namespace gazebo::g
 
 class Number : public BasicObject<TypeNumber, long double>
 {
+    explicit Number(long double value) : BasicObject(value)
+    {
+    }
 };
 
 }  // namespace gazebo::g

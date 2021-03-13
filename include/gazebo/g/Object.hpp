@@ -18,7 +18,7 @@ class Object
     template <class T, class... Args>
     static RefPtr<T> create(Args... args)
     {
-        return ref<T>(std::forward<Args>(args)...);
+        return std::make_shared<T>(std::forward<Args>(args)...);
     }
 };
 

@@ -15,6 +15,11 @@ class TypeNumber : public Type
     {
         return "Number";
     }
+
+    // protocols
+
+    virtual RefPtr<Bool>   g_bool(RefPtr<Object>) const;
+    virtual RefPtr<String> g_str(RefPtr<Object>) const;
 };
 
 }  // namespace gazebo::g

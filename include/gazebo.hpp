@@ -9,8 +9,11 @@
 namespace gazebo::g
 {
 
-class Object;
 class Type;
+class Object;
+class Bool;
+class Number;
+class String;
 
 }  // namespace gazebo::g
 
