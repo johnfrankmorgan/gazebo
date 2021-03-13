@@ -1,24 +1,17 @@
 #ifndef STRING_HPP
 #define STRING_HPP
 
-#include <gazebo.hpp>
-#include <gazebo/g/Object.hpp>
+#include <gazebo/g/BasicObject.hpp>
+#include <gazebo/g/TypeString.hpp>
 
 namespace gazebo::g
 {
 
-class String : public Object
+class String : public BasicObject<TypeString, std::string>
 {
-  private:
-    std::string m_value;
-
   public:
-    String(std::string value);
-    virtual RefPtr<Type> type() const;
-
-    inline const std::string& value() const
+    String(const char* value) : BasicObject(value)
     {
-        return m_value;
     }
 };
 

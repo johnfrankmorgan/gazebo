@@ -17,9 +17,24 @@ class Type : public Object
     virtual size_t hash(RefPtr<Object>) const;
 
     template <class T>
-    bool is() const
+    inline bool is() const
     {
-        return this == get<T>().get();
+        return is(get<T>().get());
+    }
+
+    inline bool is(Type* type) const
+    {
+        G_ASSERT(type);
+
+        return this == type;
+    }
+
+    template <class T>
+    RefPtr<T> cast(RefPtr<Object> object)
+    {
+        G_ASSERT(object->type()->is(this));
+
+        return *(RefPtr<T>*)&object;
     }
 
     template <class T>
@@ -27,13 +42,6 @@ class Type : public Object
     {
         static RefPtr<T> type_object = ref<T>();
         return type_object;
-    }
-
-    template <class T, class V>
-    static RefPtr<V> cast(RefPtr<Object> object)
-    {
-        G_ASSERT(object->type()->is<T>());
-        return *(RefPtr<V>*)&object;
     }
 };
 

@@ -1,9 +1,5 @@
 #include <gazebo.hpp>
-#include <gazebo/g/Object.hpp>
-#include <gazebo/g/String.hpp>
-#include <gazebo/g/Type.hpp>
-#include <gazebo/g/TypeString.hpp>
-#include <gazebo/g/TypeType.hpp>
+#include <gazebo/objects.hpp>
 
 #include <catch.hpp>
 
@@ -19,8 +15,8 @@ TEST_CASE("g::Type::is")
 
 TEST_CASE("g::String")
 {
-    const RefPtr<Object> object = Object::create<String>("Test");
-    const RefPtr<String> str    = Type::cast<TypeString, String>(object);
+    const RefPtr<Object> object = ref<String>("Test");
+    const RefPtr<String> str    = Type::get<TypeString>()->cast<String>(object);
 
     REQUIRE(str->value() == "Test");
     REQUIRE(object.use_count() == str.use_count());
