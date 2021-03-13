@@ -2,13 +2,7 @@
 #define GAZEBO_H
 
 #include <assert.h>
-#include <inttypes.h>
 #include <stdio.h>
-#include <stdlib.h>
-
-#include <gazebo/fs.h>
-#include <gazebo/malloc.h>
-#include <gazebo/string.h>
 
 #define _G_DEBUG(...)                                                              \
     do {                                                                           \
@@ -18,6 +12,6 @@
     } while (0)
 
 #define G_ASSERT(condition) assert(condition)
-#define G_UNREACHED() G_ASSERT(0)
+#define G_UNREACHED() G_ASSERT(false)
 
 #endif /* GAZEBO_H */

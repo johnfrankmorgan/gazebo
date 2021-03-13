@@ -1,27 +1,31 @@
-CC = gcc
-CFLAGS = -I./include -g -Wall -Wextra -Wpedantic
-CFLAGS += -DG_DEBUG_MEM
-CFLAGS += -DG_DEBUG_STRING
-CFLAGS += -DG_DEBUG_FS
+CPP = g++
+CPP_FLAGS = -I./include -g -Wall -Wextra -Wpedantic -std=c++17
 
-C_HED = $(shell find include -type f -name '*.h')
-C_SRC = $(wildcard src/*.c)
-C_OBJ = $(C_SRC:.c=.o)
+CPP_FLAGS += -DTESTING
 
 PROG = gazebo
 
-$(PROG): $(C_OBJ)
-	$(CC) $(CFLAGS) $(C_OBJ) -o $(PROG)
+CPP_HED = $(shell find include -type f -name '*.hpp' ! -name catch.hpp)
+CPP_SRC = $(shell find src -type f -name '*.cpp')
+CPP_OBJ = $(CPP_SRC:.cpp=.o)
 
-%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+CPP_TEST_SRC = $(shell find tests -type f -name '*.cpp')
+CPP_TEST_OBJ = $(CPP_TEST_SRC:.cpp=.o)
 
+$(PROG): $(CPP_OBJ) $(CPP_TEST_OBJ)
+	$(CPP) $(CPP_FLAGS) $(CPP_OBJ) $(CPP_TEST_OBJ) -o $(PROG)
+
+%.o: %.cpp
+	$(CPP) $(CPP_FLAGS) -c $< -o $@
+
+.PHONY: clean
 clean:
-	rm -f $(PROG) src/*.o
+	rm -f $(PROG) $(CPP_OBJ) $(CPP_TEST_OBJ)
 
-compilecmd:
-	make clean
+.PHONY: compile-commands
+compile-commands: clean
 	bear -- make
 
+.PHONY: format
 format:
-	clang-format -i $(C_HED) $(C_SRC)
+	clang-format -i $(CPP_HED) $(CPP_SRC) $(CPP_TEST_SRC)

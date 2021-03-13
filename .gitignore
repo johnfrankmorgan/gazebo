@@ -1,3 +1,5 @@
 /gazebo
+/gazebo-tests
+/include/catch.hpp
 /.cache
 *.o

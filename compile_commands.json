@@ -1,19 +1,38 @@
 [
   {
     "arguments": [
-      "/usr/local/Cellar/gcc/10.2.0/bin/gcc-10",
+      "/usr/bin/g++",
       "-I./include",
       "-g",
       "-Wall",
       "-Wextra",
       "-Wpedantic",
+      "-std=c++17",
       "-c",
-      "src/malloc.c",
+      "src/g/String.cpp",
       "-o",
-      "src/malloc.o"
+      "src/g/String.o"
     ],
     "directory": "/Users/frank/gazebo",
-    "file": "/Users/frank/gazebo/src/malloc.c",
-    "output": "/Users/frank/gazebo/src/malloc.o"
+    "file": "/Users/frank/gazebo/src/g/String.cpp",
+    "output": "/Users/frank/gazebo/src/g/String.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-I./include",
+      "-g",
+      "-Wall",
+      "-Wextra",
+      "-Wpedantic",
+      "-std=c++17",
+      "-c",
+      "src/main.cpp",
+      "-o",
+      "src/main.o"
+    ],
+    "directory": "/Users/frank/gazebo",
+    "file": "/Users/frank/gazebo/src/main.cpp",
+    "output": "/Users/frank/gazebo/src/main.o"
   }
 ]
