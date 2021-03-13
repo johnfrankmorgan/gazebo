@@ -8,6 +8,8 @@
       "-Wextra",
       "-Wpedantic",
       "-std=c++17",
+      "-DTESTING",
+      "-I/Library/Developer/CommandLineTools/usr/include/c++/v1",
       "-c",
       "src/g/String.cpp",
       "-o",
@@ -26,6 +28,8 @@
       "-Wextra",
       "-Wpedantic",
       "-std=c++17",
+      "-DTESTING",
+      "-I/Library/Developer/CommandLineTools/usr/include/c++/v1",
       "-c",
       "src/main.cpp",
       "-o",
@@ -34,5 +38,25 @@
     "directory": "/Users/frank/gazebo",
     "file": "/Users/frank/gazebo/src/main.cpp",
     "output": "/Users/frank/gazebo/src/main.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-I./include",
+      "-g",
+      "-Wall",
+      "-Wextra",
+      "-Wpedantic",
+      "-std=c++17",
+      "-DTESTING",
+      "-I/Library/Developer/CommandLineTools/usr/include/c++/v1",
+      "-c",
+      "tests/String.cpp",
+      "-o",
+      "tests/String.o"
+    ],
+    "directory": "/Users/frank/gazebo",
+    "file": "/Users/frank/gazebo/tests/String.cpp",
+    "output": "/Users/frank/gazebo/tests/String.o"
   }
 ]

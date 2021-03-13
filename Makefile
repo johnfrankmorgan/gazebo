@@ -3,6 +3,10 @@ CPP_FLAGS = -I./include -g -Wall -Wextra -Wpedantic -std=c++17
 
 CPP_FLAGS += -DTESTING
 
+ifeq ($(shell uname -s),Darwin)
+	CPP_FLAGS += -I/Library/Developer/CommandLineTools/usr/include/c++/v1
+endif
+
 PROG = gazebo
 
 CPP_HED = $(shell find include -type f -name '*.hpp' ! -name catch.hpp)
@@ -29,3 +33,7 @@ compile-commands: clean
 .PHONY: format
 format:
 	clang-format -i $(CPP_HED) $(CPP_SRC) $(CPP_TEST_SRC)
+
+.PHONY: test
+test: $(PROG)
+	./$(PROG) -s

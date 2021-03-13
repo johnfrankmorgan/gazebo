@@ -3,8 +3,20 @@
 
 #include <assert.h>
 #include <stdio.h>
+#include <string>
+#include <utility>
 
-#define _G_DEBUG(...)                                                              \
+namespace gazebo::g
+{
+
+class Object;
+class Type;
+
+}  // namespace gazebo::g
+
+#include <gazebo/RefPtr.hpp>
+
+#define G_DEBUG(...)                                                               \
     do {                                                                           \
         fprintf(stderr, "%15.15s:%-4d %10.10s :: ", __FILE__, __LINE__, __func__); \
         fprintf(stderr, __VA_ARGS__);                                              \

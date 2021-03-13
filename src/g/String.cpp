@@ -1,15 +1,17 @@
 #include <gazebo/g/String.hpp>
+#include <gazebo/g/Type.hpp>
+#include <gazebo/g/TypeString.hpp>
 
 namespace gazebo::g
 {
 
-String::~String()
+String::String(std::string value) : m_value(value)
 {
 }
 
-size_t String::hash() const
+RefPtr<Type> String::type() const
 {
-    return 1;
+    return Type::get<TypeString>();
 }
 
 }  // namespace gazebo::g

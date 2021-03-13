@@ -1,15 +1,25 @@
 #ifndef OBJECT_HPP
 #define OBJECT_HPP
 
-#include <stdlib.h>
+#include <gazebo.hpp>
 
 namespace gazebo::g
 {
 
-class Object {
+class Object
+{
   public:
-    virtual ~Object()           = 0;
-    virtual size_t hash() const = 0;
+    virtual ~Object()
+    {
+    }
+
+    virtual RefPtr<Type> type() const = 0;
+
+    template <class T, class... Args>
+    static RefPtr<T> create(Args... args)
+    {
+        return ref<T>(std::forward<Args>(args)...);
+    }
 };
 
 }  // namespace gazebo::g

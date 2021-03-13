@@ -4,8 +4,9 @@ AlignConsecutiveDeclarations: true
 AlignOperands: true
 AlignEscapedNewlines: true
 AllowShortFunctionsOnASingleLine: false
+AlwaysBreakTemplateDeclarations: true
 BraceWrapping:
-  AfterClass: false
+  AfterClass: true
   AfterControlStatement: false
   AfterEnum: false
   AfterFunction: true
