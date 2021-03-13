@@ -6,6 +6,8 @@
 #include <string>
 #include <utility>
 
+#include <gazebo/RefPtr.hpp>
+
 namespace gazebo::g
 {
 
@@ -16,8 +18,6 @@ class Number;
 class String;
 
 }  // namespace gazebo::g
-
-#include <gazebo/RefPtr.hpp>
 
 #define G_DEBUG(...)                                                               \
     do {                                                                           \
