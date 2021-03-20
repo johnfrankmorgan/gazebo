@@ -38,7 +38,7 @@ func (m *_base) Methods() Methods {
 
 		if !methods.Has(method) {
 			methods[method] = func(self Object, _ *Args) Object {
-				panic(fmt.Errorf("%q not implemented for %q", method, self.Type().Name()))
+				panic(fmt.Errorf("%q not implemented for type %q", method, self.Type().Name()))
 			}
 		}
 	}

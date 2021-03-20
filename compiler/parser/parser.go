@@ -59,17 +59,6 @@ func (m *Parser) parse() stmt.Statement {
 	case lexer.TkEOF:
 		panic(UnexpectedEOF())
 
-	case lexer.TkIdent:
-		if m.stream.Peek(1).Is(lexer.TkEqual) {
-			defer semicolon()
-			m.stream.Advance()
-			m.stream.Advance()
-			return &stmt.Assignment{
-				Name: token.Value,
-				Expr: m.expression(),
-			}
-		}
-
 	case lexer.TkPass:
 		defer semicolon()
 		m.stream.Advance()
@@ -143,20 +132,8 @@ func (m *Parser) parse() stmt.Statement {
 
 	defer semicolon()
 
-	ex := m.expression()
-
-	if getattr, ok := ex.(*expr.GetAttr); ok {
-		if m.stream.Match(lexer.TkEqual) {
-			return &stmt.SetAttr{
-				Expr:  getattr.Expr,
-				Name:  getattr.Name,
-				Value: m.expression(),
-			}
-		}
-	}
-
 	return &stmt.Expression{
-		Expr: ex,
+		Expr: m.expression(),
 	}
 }
 
@@ -304,6 +281,16 @@ func (m *Parser) funcall() expr.Expression {
 		}
 	}
 
+	if getattr, ok := ex.(*expr.GetAttr); ok {
+		if m.stream.Match(lexer.TkEqual) {
+			return &expr.SetAttr{
+				Expr:  getattr.Expr,
+				Name:  getattr.Name,
+				Value: m.expression(),
+			}
+		}
+	}
+
 	return ex
 
 }
@@ -388,9 +375,24 @@ func (m *Parser) primary() expr.Expression {
 		return ex
 	}
 
-	if m.stream.Match(lexer.TkIdent, lexer.TkString, lexer.TkNumber) {
+	if m.stream.Match(lexer.TkString, lexer.TkNumber) {
 		return &expr.Literal{
 			Token: m.stream.Prev(),
+		}
+	}
+
+	if m.stream.Match(lexer.TkIdent) {
+		ident := m.stream.Prev()
+
+		if m.stream.Match(lexer.TkEqual) {
+			return &expr.Assignment{
+				Name: ident.Value,
+				Expr: m.expression(),
+			}
+		}
+
+		return &expr.Literal{
+			Token: ident,
 		}
 	}
 

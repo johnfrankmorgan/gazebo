@@ -88,9 +88,9 @@ loop:
 		case op.SetName:
 			name := ins.Arg.(string)
 			if m.env.defined(name) {
-				m.env.assign(name, m.stack.pop())
+				m.env.assign(name, m.stack.peek())
 			} else {
-				m.env.define(name, m.stack.pop())
+				m.env.define(name, m.stack.peek())
 			}
 
 		case op.DelName:
@@ -131,7 +131,7 @@ loop:
 			value := m.stack.pop()
 			object := m.stack.pop()
 			object.SetAttr(name, value)
-			m.stack.push(g.NewNil())
+			m.stack.push(value)
 
 		case op.DelAttr:
 			name := ins.Arg.(string)

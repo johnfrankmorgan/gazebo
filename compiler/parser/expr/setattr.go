@@ -1,15 +1,14 @@
-package stmt
+package expr
 
 import (
 	"github.com/johnfrankmorgan/gazebo/compiler/code"
 	"github.com/johnfrankmorgan/gazebo/compiler/code/op"
-	"github.com/johnfrankmorgan/gazebo/compiler/parser/expr"
 )
 
 type SetAttr struct {
-	Expr  expr.Expression
+	Expr  Expression
 	Name  string
-	Value expr.Expression
+	Value Expression
 }
 
 func (m *SetAttr) Compile() code.Code {

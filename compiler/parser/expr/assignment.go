@@ -1,14 +1,13 @@
-package stmt
+package expr
 
 import (
 	"github.com/johnfrankmorgan/gazebo/compiler/code"
 	"github.com/johnfrankmorgan/gazebo/compiler/code/op"
-	"github.com/johnfrankmorgan/gazebo/compiler/parser/expr"
 )
 
 type Assignment struct {
 	Name string
-	Expr expr.Expression
+	Expr Expression
 }
 
 func (m *Assignment) Compile() code.Code {
