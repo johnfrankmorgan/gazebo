@@ -1,12 +1,12 @@
 package vm
 
 import (
+	"fmt"
+	"strings"
+
 	"github.com/johnfrankmorgan/gazebo/compiler/code"
-	"github.com/johnfrankmorgan/gazebo/errors"
 	"github.com/johnfrankmorgan/gazebo/g"
 )
-
-var _ g.Object = &Func{}
 
 type Func struct {
 	g.Base
@@ -23,35 +23,33 @@ func NewFunc(vm *VM, env *env, params []string, code code.Code) *Func {
 		params: params,
 		code:   code,
 	}
+
+	object.SetType(TypeFunc)
 	object.SetSelf(object)
+
 	return object
 }
 
 func (m *Func) Value() interface{} {
-	return m.code
+	return m
 }
 
-// GAZEBO FUNC OBJECT PROTOCOLS
+func (m *Func) ToString() *g.String {
+	var buff strings.Builder
 
-func (m *Func) G_invoke(args *g.Args) g.Object {
-	errors.ErrRuntime.Expect(
-		args.Len() >= len(m.params),
-		"expected %d arguments, got %d",
-		len(m.params),
-		args.Len(),
-	)
-
-	defer func(env *env) {
-		m.vm.env = env
-	}(m.vm.env)
-
-	fenv := &env{parent: m.env}
+	buff.WriteString(m.Type().Name())
+	buff.WriteString(fmt.Sprintf("@%p", m))
+	buff.WriteByte('(')
 
 	for i, param := range m.params {
-		fenv.define(param, args.Get(i))
+		buff.WriteString(param)
+
+		if i < len(m.params)-1 {
+			buff.WriteString(", ")
+		}
 	}
 
-	m.vm.env = fenv
+	buff.WriteByte(')')
 
-	return m.vm.run(m.code)
+	return g.NewString(buff.String())
 }

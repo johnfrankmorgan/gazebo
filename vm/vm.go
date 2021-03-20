@@ -139,10 +139,10 @@ loop:
 			object.DelAttr(name)
 			m.stack.push(g.NewNil())
 
-		// case op.MakeFunc:
-		// 	code := m.stack.pop().Value().(code.Code)
-		// 	params := m.stack.pop().Value().([]string)
-		// 	m.stack.push(NewFunc(m, m.env, params, code))
+		case op.MakeFunc:
+			code := m.stack.pop().Value().(code.Code)
+			params := m.stack.pop().Value().([]string)
+			m.stack.push(NewFunc(m, m.env, params, code))
 
 		case op.MakeList:
 			length := ins.Arg.(int)

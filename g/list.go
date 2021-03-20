@@ -33,19 +33,14 @@ func (m *List) ToBool() *Bool {
 }
 
 func (m *List) ToString() *String {
-	var (
-		buff strings.Builder
-		pos  = 0
-	)
+	var buff strings.Builder
 
 	buff.WriteByte('[')
 
-	for _, value := range m.value {
-		pos++
-
+	for pos, value := range m.value {
 		buff.WriteString(value.ToString().String())
 
-		if pos < m.Len() {
+		if pos < m.Len()-1 {
 			buff.WriteString(", ")
 		}
 	}
