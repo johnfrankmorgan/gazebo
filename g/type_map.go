@@ -19,7 +19,7 @@ func (m *_map) Methods() Methods {
 }
 
 func (m *_map) Value() interface{} {
-	return nil
+	return m
 }
 
 func (m *_map) Type() Type {

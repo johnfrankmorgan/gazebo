@@ -19,7 +19,7 @@ func (m *_number) Methods() Methods {
 }
 
 func (m *_number) Value() interface{} {
-	return nil
+	return m
 }
 
 func (m *_number) Type() Type {

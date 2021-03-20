@@ -30,6 +30,14 @@ func (m *Number) Value() interface{} {
 	return m.Float()
 }
 
+func (m *Number) ToBool() *Bool {
+	return NewBool(m.value != 0.0)
+}
+
+func (m *Number) ToNumber() *Number {
+	return NewNumber(m.value)
+}
+
 func (m *Number) IsInt() bool {
 	return math.Mod(m.value, 1) == 0
 }

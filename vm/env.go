@@ -7,11 +7,19 @@ import (
 
 type env struct {
 	parent *env
-	values g.Attributes
+	values *g.Map
+}
+
+func (m *env) init() {
+	if m.values == nil {
+		m.values = g.NewMap()
+	}
 }
 
 func (m *env) resolve(name string) *env {
-	if m.values.Has(name) {
+	m.init()
+
+	if m.values.HasAttr(name) {
 		return m
 	}
 
@@ -23,8 +31,10 @@ func (m *env) resolve(name string) *env {
 }
 
 func (m *env) lookup(name string) g.Object {
+	m.init()
+
 	if env := m.resolve(name); env != nil {
-		return env.values.Get(name)
+		return env.values.GetAttr(name)
 	}
 
 	errors.ErrRuntime.Panic("undefined name: %s", name)
@@ -32,16 +42,22 @@ func (m *env) lookup(name string) g.Object {
 }
 
 func (m *env) defined(name string) bool {
+	m.init()
+
 	return m.resolve(name) != nil
 }
 
 func (m *env) define(name string, value g.Object) {
-	m.values.Set(name, value)
+	m.init()
+
+	m.values.SetAttr(name, value)
 }
 
 func (m *env) assign(name string, value g.Object) {
+	m.init()
+
 	if env := m.resolve(name); env != nil {
-		env.values.Set(name, value)
+		env.values.SetAttr(name, value)
 		return
 	}
 
@@ -50,7 +66,9 @@ func (m *env) assign(name string, value g.Object) {
 }
 
 func (m *env) remove(name string) {
+	m.init()
+
 	if env := m.resolve(name); env != nil {
-		env.values.Delete(name)
+		env.values.DelAttr(name)
 	}
 }

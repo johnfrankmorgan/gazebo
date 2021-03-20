@@ -18,6 +18,10 @@ func (m *Bool) Value() interface{} {
 	return m.value
 }
 
+func (m *Bool) ToBool() *Bool {
+	return NewBool(m.value)
+}
+
 func (m *Bool) Bool() bool {
 	return m.value
 }

@@ -14,7 +14,7 @@ func (m *stack) dump() {
 	debug.Printf("STACK\n")
 
 	for off, value := range m.values {
-		debug.Printf("%4d: %s\n", m.size()-off, value.G_str())
+		debug.Printf("%4d: %v\n", m.size()-off, value.Value())
 	}
 
 	debug.Printf("\n")

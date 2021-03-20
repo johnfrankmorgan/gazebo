@@ -1,6 +1,8 @@
 package g
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type Args struct {
 	List

@@ -10,9 +10,8 @@ import (
 	"github.com/johnfrankmorgan/gazebo/compiler"
 	"github.com/johnfrankmorgan/gazebo/debug"
 	"github.com/johnfrankmorgan/gazebo/errors"
-	"github.com/johnfrankmorgan/gazebo/g"
-	"github.com/johnfrankmorgan/gazebo/g/protocols"
 	"github.com/johnfrankmorgan/gazebo/vm"
+	"github.com/kr/pretty"
 )
 
 var (
@@ -97,7 +96,7 @@ func (m *repl) loop() {
 		}
 
 		if result != nil && result.Value() != nil {
-			fmt.Printf("%s\n", result.CallMethod(protocols.String, &g.Args{}))
+			pretty.Printf("% #v\n", result)
 		}
 
 		m.reset()

@@ -9,47 +9,25 @@ import (
 	"github.com/johnfrankmorgan/gazebo/compiler/code"
 	"github.com/johnfrankmorgan/gazebo/compiler/code/op"
 	"github.com/johnfrankmorgan/gazebo/debug"
-	"github.com/johnfrankmorgan/gazebo/errors"
 	"github.com/johnfrankmorgan/gazebo/g"
-	"github.com/johnfrankmorgan/gazebo/g/modules"
-	"github.com/johnfrankmorgan/gazebo/g/modules/os"
-	"github.com/johnfrankmorgan/gazebo/g/modules/testing"
+	"github.com/johnfrankmorgan/gazebo/g/protocols"
 )
 
 type VM struct {
-	stack   *stack
-	env     *env
-	modules map[string]modules.Module
+	stack *stack
+	env   *env
 }
 
 func New() *VM {
 	vm := &VM{
-		stack:   new(stack),
-		env:     new(env),
-		modules: make(map[string]modules.Module),
+		stack: new(stack),
+		env:   new(env),
 	}
-
-	for _, mod := range modules.All() {
-		vm.modules[mod.Name()] = mod
-	}
-
-	stdout := vm.modules["os"].(*os.OSModule).Stdout
-	stderr := vm.modules["os"].(*os.OSModule).Stderr
-
-	vm.modules["testing"].(*testing.TestingModule).SetOutput(
-		stdout,
-		stderr,
-	)
 
 	vm.env.define("nil", g.NewNil())
 	vm.env.define("true", g.NewBool(true))
 	vm.env.define("false", g.NewBool(false))
-	vm.env.define("out", stdout)
 	return vm
-}
-
-func (m *VM) GetModule(name string) modules.Module {
-	return m.modules[name]
 }
 
 func (m *VM) RunFile(path string) (g.Object, error) {
@@ -74,7 +52,7 @@ func (m *VM) RunFile(path string) (g.Object, error) {
 }
 
 func (m *VM) Run(code code.Code) (value g.Object, err error) {
-	defer errors.Handle(&err)
+	// defer errors.Handle(&err)
 
 	value = m.run(code)
 	return
@@ -123,12 +101,12 @@ loop:
 			pc += ins.Arg.(int)
 
 		case op.RelJumpIfTrue:
-			if m.stack.pop().G_bool().Bool() {
+			if m.stack.pop().ToBool().Bool() {
 				pc += ins.Arg.(int)
 			}
 
 		case op.RelJumpIfFalse:
-			if m.stack.pop().G_not().Bool() {
+			if !m.stack.pop().ToBool().Bool() {
 				pc += ins.Arg.(int)
 			}
 
@@ -141,28 +119,30 @@ loop:
 			}
 
 			fun := m.stack.pop()
-			m.stack.push(fun.G_invoke(args))
+			m.stack.push(g.Call(fun, protocols.Invoke, args))
 
 		case op.GetAttr:
 			name := ins.Arg.(string)
 			object := m.stack.pop()
-			m.stack.push(object.G_getattr(g.NewString(name)))
+			m.stack.push(object.GetAttr(name))
 
 		case op.SetAttr:
 			name := ins.Arg.(string)
 			value := m.stack.pop()
 			object := m.stack.pop()
-			m.stack.push(object.G_setattr(g.NewString(name), value))
+			object.SetAttr(name, value)
+			m.stack.push(g.NewNil())
 
 		case op.DelAttr:
 			name := ins.Arg.(string)
 			object := m.stack.pop()
-			m.stack.push(object.G_delattr(g.NewString(name)))
+			object.DelAttr(name)
+			m.stack.push(g.NewNil())
 
-		case op.MakeFunc:
-			code := m.stack.pop().Value().(code.Code)
-			params := m.stack.pop().Value().([]string)
-			m.stack.push(NewFunc(m, m.env, params, code))
+		// case op.MakeFunc:
+		// 	code := m.stack.pop().Value().(code.Code)
+		// 	params := m.stack.pop().Value().([]string)
+		// 	m.stack.push(NewFunc(m, m.env, params, code))
 
 		case op.MakeList:
 			length := ins.Arg.(int)
@@ -190,11 +170,11 @@ loop:
 		case op.Return:
 			break loop
 
-		case op.LoadModule:
-			name := ins.Arg.(string)
-			mod, ok := m.modules[name]
-			errors.ErrRuntime.Expect(ok, "undefined module %q", name)
-			m.env.define(name, mod)
+		// case op.LoadModule:
+		// 	name := ins.Arg.(string)
+		// 	mod, ok := m.modules[name]
+		// 	errors.ErrRuntime.Expect(ok, "undefined module %q", name)
+		// 	m.env.define(name, mod)
 
 		case op.NoOp:
 			//

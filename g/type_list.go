@@ -19,7 +19,7 @@ func (m *_list) Methods() Methods {
 }
 
 func (m *_list) Value() interface{} {
-	return nil
+	return m
 }
 
 func (m *_list) Type() Type {

@@ -11,7 +11,7 @@ func (m *_string) Name() string {
 }
 
 func (m *_string) Parent() Type {
-	return nil
+	return TypeBase
 }
 
 func (m *_string) Methods() Methods {
@@ -19,7 +19,7 @@ func (m *_string) Methods() Methods {
 }
 
 func (m *_string) Value() interface{} {
-	return nil
+	return m
 }
 
 func (m *_string) Type() Type {

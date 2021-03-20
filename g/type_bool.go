@@ -19,7 +19,7 @@ func (m *_bool) Methods() Methods {
 }
 
 func (m *_bool) Value() interface{} {
-	return nil
+	return m
 }
 
 func (m *_bool) Type() Type {

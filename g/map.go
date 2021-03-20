@@ -49,7 +49,11 @@ func (m *Map) Has(key Object) bool {
 }
 
 func (m *Map) Get(key Object) Object {
-	return m.values[m.h(key)]
+	if m.Has(key) {
+		return m.values[m.h(key)]
+	}
+
+	return NewNil()
 }
 
 func (m *Map) Set(key, value Object) {
