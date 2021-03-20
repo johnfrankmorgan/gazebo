@@ -1,5 +1,7 @@
 package g
 
+import "github.com/johnfrankmorgan/gazebo/g/protocols"
+
 var TypeString Type = &_string{}
 
 type _string struct {
@@ -15,7 +17,9 @@ func (m *_string) Parent() Type {
 }
 
 func (m *_string) Methods() Methods {
-	return Methods{}
+	return Methods{
+		protocols.Len: _string_len,
+	}
 }
 
 func (m *_string) Value() interface{} {
@@ -24,4 +28,8 @@ func (m *_string) Value() interface{} {
 
 func (m *_string) Type() Type {
 	return TypeType
+}
+
+func _string_len(self Object, _ *Args) Object {
+	return NewNumberFromInt(self.(*String).Len())
 }

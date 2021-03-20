@@ -1,6 +1,9 @@
 package g
 
-import "math"
+import (
+	"math"
+	"strconv"
+)
 
 var _ Object = &Number{}
 
@@ -36,6 +39,10 @@ func (m *Number) ToBool() *Bool {
 
 func (m *Number) ToNumber() *Number {
 	return NewNumber(m.value)
+}
+
+func (m *Number) ToString() *String {
+	return NewString(strconv.FormatFloat(m.value, 'g', -1, 64))
 }
 
 func (m *Number) IsInt() bool {

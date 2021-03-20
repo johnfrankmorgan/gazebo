@@ -22,6 +22,22 @@ func (m *Bool) ToBool() *Bool {
 	return NewBool(m.value)
 }
 
+func (m *Bool) ToNumber() *Number {
+	if m.value {
+		return NewNumberFromInt(1)
+	}
+
+	return NewNumberFromInt(0)
+}
+
+func (m *Bool) ToString() *String {
+	if m.value {
+		return NewString("true")
+	}
+
+	return NewString("false")
+}
+
 func (m *Bool) Bool() bool {
 	return m.value
 }

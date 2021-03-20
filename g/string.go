@@ -1,6 +1,9 @@
 package g
 
-import "fmt"
+import (
+	"fmt"
+	"strconv"
+)
 
 var _ Object = &String{}
 
@@ -27,7 +30,16 @@ func (m *String) Value() interface{} {
 }
 
 func (m *String) ToBool() *Bool {
-	return NewBool(m.Len() > 0)
+	return NewBool(!m.IsEmpty())
+}
+
+func (m *String) ToNumber() *Number {
+	value, err := strconv.ParseFloat(m.value, 64)
+	if err != nil {
+		panic(err)
+	}
+
+	return NewNumber(value)
 }
 
 func (m *String) ToString() *String {
@@ -40,4 +52,24 @@ func (m *String) String() string {
 
 func (m *String) Len() int {
 	return len(m.value)
+}
+
+func (m *String) IsEmpty() bool {
+	return m.Len() == 0
+}
+
+func (m *String) Limit(length int, extra string) *String {
+	if length >= m.Len() {
+		return m.ToString()
+	}
+
+	min := func(x, y int) int {
+		if x < y {
+			return x
+		}
+
+		return y
+	}
+
+	return NewString(m.value[:min(m.Len(), length)] + extra)
 }

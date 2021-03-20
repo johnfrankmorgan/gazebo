@@ -83,7 +83,7 @@ func (m *Base) HasAttr(name string) bool {
 
 func (m *Base) GetAttr(name string) Object {
 	if method := Resolve(m.Type(), name); method != nil {
-		return NewBoundMethod(m.Self(), method)
+		return NewBoundMethod(m.Self(), name, method)
 	}
 
 	return m.Attrs().Get(NewString(name))
@@ -110,5 +110,9 @@ func (m *Base) ToNumber() *Number {
 }
 
 func (m *Base) ToString() *String {
-	panic(fmt.Errorf("ToString not implemented for %q", m.Self().Type().Name()))
+	if m.Self() == nil {
+		return NewStringf("???@%p", m)
+	}
+
+	return NewStringf("%s{%v}", m.Self().Type().Name(), m.Self().Value())
 }

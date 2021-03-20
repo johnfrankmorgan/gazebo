@@ -3,6 +3,7 @@ package g
 import (
 	"encoding/gob"
 	"hash/maphash"
+	"strings"
 )
 
 var _ Object = &Map{}
@@ -31,6 +32,34 @@ func (m *Map) Value() interface{} {
 	return m.values
 }
 
+func (m *Map) ToBool() *Bool {
+	return NewBool(!m.IsEmpty())
+}
+
+func (m *Map) ToString() *String {
+	var (
+		buff strings.Builder
+		pos  = 0
+	)
+
+	buff.WriteByte('{')
+
+	for hash, key := range m.keys {
+		pos++
+
+		buff.WriteString(key.ToString().String())
+		buff.WriteString(": ")
+		buff.WriteString(m.values[hash].ToString().String())
+		if pos < m.Len() {
+			buff.WriteString(", ")
+		}
+	}
+
+	buff.WriteByte('}')
+
+	return NewString(buff.String())
+}
+
 func (m *Map) h(object Object) uint64 {
 	defer m.hash.Reset()
 
@@ -41,6 +70,14 @@ func (m *Map) h(object Object) uint64 {
 	}
 
 	return m.hash.Sum64()
+}
+
+func (m *Map) Len() int {
+	return len(m.keys)
+}
+
+func (m *Map) IsEmpty() bool {
+	return m.Len() == 0
 }
 
 func (m *Map) Has(key Object) bool {

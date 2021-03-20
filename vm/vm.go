@@ -149,7 +149,7 @@ loop:
 			list := g.NewListSized(length)
 
 			for i := 0; i < length; i++ {
-				list.Set(length-i-1, m.stack.pop())
+				list.Append(m.stack.pop())
 			}
 
 			m.stack.push(list)

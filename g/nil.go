@@ -18,3 +18,15 @@ func NewNil() *Nil {
 func (m *Nil) Value() interface{} {
 	return nil
 }
+
+func (m *Nil) ToBool() *Bool {
+	return NewBool(false)
+}
+
+func (m *Nil) ToNumber() *Number {
+	return NewNumberFromInt(0)
+}
+
+func (m *Nil) ToString() *String {
+	return NewString("nil")
+}

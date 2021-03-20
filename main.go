@@ -11,7 +11,6 @@ import (
 	"github.com/johnfrankmorgan/gazebo/debug"
 	"github.com/johnfrankmorgan/gazebo/errors"
 	"github.com/johnfrankmorgan/gazebo/vm"
-	"github.com/kr/pretty"
 )
 
 var (
@@ -96,7 +95,7 @@ func (m *repl) loop() {
 		}
 
 		if result != nil && result.Value() != nil {
-			pretty.Printf("% #v\n", result)
+			fmt.Println(result.ToString().String())
 		}
 
 		m.reset()
