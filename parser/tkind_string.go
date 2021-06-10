@@ -8,38 +8,39 @@ func _() {
 	// An "invalid array index" compiler error signifies that the constant values have changed.
 	// Re-run the stringer command to generate them again.
 	var x [1]struct{}
-	_ = x[TComment-1]
-	_ = x[TEOF-2]
-	_ = x[TParenOpen-3]
-	_ = x[TParenClose-4]
-	_ = x[TBraceOpen-5]
-	_ = x[TBraceClose-6]
-	_ = x[TDot-7]
-	_ = x[TComma-8]
-	_ = x[TSemicolon-9]
-	_ = x[TBang-10]
-	_ = x[TEqual-11]
-	_ = x[TEqualEqual-12]
-	_ = x[TBangEqual-13]
-	_ = x[TLess-14]
-	_ = x[TLessEqual-15]
-	_ = x[TGreater-16]
-	_ = x[TGreaterEqual-17]
-	_ = x[TPlus-18]
-	_ = x[TMinus-19]
-	_ = x[TStar-20]
-	_ = x[TSlash-21]
-	_ = x[TNumber-22]
-	_ = x[TIdent-23]
-	_ = x[TIf-24]
-	_ = x[TElse-25]
-	_ = x[TWhile-26]
-	_ = x[TReturn-27]
+	_ = x[TEOF-1]
+	_ = x[TComment-2]
+	_ = x[TWhitespace-3]
+	_ = x[TParenOpen-4]
+	_ = x[TParenClose-5]
+	_ = x[TBraceOpen-6]
+	_ = x[TBraceClose-7]
+	_ = x[TDot-8]
+	_ = x[TComma-9]
+	_ = x[TSemicolon-10]
+	_ = x[TBang-11]
+	_ = x[TEqual-12]
+	_ = x[TEqualEqual-13]
+	_ = x[TBangEqual-14]
+	_ = x[TLess-15]
+	_ = x[TLessEqual-16]
+	_ = x[TGreater-17]
+	_ = x[TGreaterEqual-18]
+	_ = x[TPlus-19]
+	_ = x[TMinus-20]
+	_ = x[TStar-21]
+	_ = x[TSlash-22]
+	_ = x[TNumber-23]
+	_ = x[TIdent-24]
+	_ = x[TIf-25]
+	_ = x[TElse-26]
+	_ = x[TWhile-27]
+	_ = x[TReturn-28]
 }
 
-const _TKind_name = "TCommentTEOFTParenOpenTParenCloseTBraceOpenTBraceCloseTDotTCommaTSemicolonTBangTEqualTEqualEqualTBangEqualTLessTLessEqualTGreaterTGreaterEqualTPlusTMinusTStarTSlashTNumberTIdentTIfTElseTWhileTReturn"
+const _TKind_name = "TEOFTCommentTWhitespaceTParenOpenTParenCloseTBraceOpenTBraceCloseTDotTCommaTSemicolonTBangTEqualTEqualEqualTBangEqualTLessTLessEqualTGreaterTGreaterEqualTPlusTMinusTStarTSlashTNumberTIdentTIfTElseTWhileTReturn"
 
-var _TKind_index = [...]uint8{0, 8, 12, 22, 33, 43, 54, 58, 64, 74, 79, 85, 96, 106, 111, 121, 129, 142, 147, 153, 158, 164, 171, 177, 180, 185, 191, 198}
+var _TKind_index = [...]uint8{0, 4, 12, 23, 33, 44, 54, 65, 69, 75, 85, 90, 96, 107, 117, 122, 132, 140, 153, 158, 164, 169, 175, 182, 188, 191, 196, 202, 209}
 
 func (i TKind) String() string {
 	i -= 1

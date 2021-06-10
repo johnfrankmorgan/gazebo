@@ -88,6 +88,18 @@ func (m *Lexer) line(kind TKind) Token {
 	return m.token(kind)
 }
 
+func (m *Lexer) whitespace() Token {
+	for !m.finished() {
+		if !m.iswhitespace(m.peek()) {
+			break
+		}
+
+		m.next()
+	}
+
+	return m.token(TWhitespace)
+}
+
 func (m *Lexer) number() Token {
 	for !m.finished() {
 		if !m.isdigit(m.peek()) {
@@ -194,6 +206,10 @@ func (m *Lexer) lex() Token {
 
 	case '/':
 		return m.token(TSlash)
+	}
+
+	if m.iswhitespace(ch) {
+		return m.whitespace()
 	}
 
 	if m.isdigit(ch) {

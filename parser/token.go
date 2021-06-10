@@ -11,8 +11,9 @@ type TKind int
 
 const (
 	_ TKind = iota
-	TComment
 	TEOF
+	TComment
+	TWhitespace
 	TParenOpen
 	TParenClose
 	TBraceOpen
