@@ -21,6 +21,26 @@ func (m *Lexer) token(kind TKind) Token {
 	}
 }
 
+func (m *Lexer) isdigit(ch byte) bool {
+	return ch >= '0' && ch <= '9'
+}
+
+func (m *Lexer) isnewline(ch byte) bool {
+	return ch == '\n'
+}
+
+func (m *Lexer) iswhitespace(ch byte) bool {
+	return ch == ' ' || ch == '\t' || m.isnewline(ch)
+}
+
+func (m *Lexer) isalpha(ch byte) bool {
+	return (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z')
+}
+
+func (m *Lexer) isident(ch byte) bool {
+	return ch == '_' || m.isalpha(ch)
+}
+
 func (m *Lexer) finished() bool {
 	return m.position >= len(m.source)
 }
@@ -57,7 +77,8 @@ func (m *Lexer) match(ch byte) bool {
 
 func (m *Lexer) line(kind TKind) Token {
 	for !m.finished() {
-		if m.match('\n') {
+		if m.isnewline(m.peek()) {
+			m.next()
 			break
 		}
 
@@ -65,6 +86,30 @@ func (m *Lexer) line(kind TKind) Token {
 	}
 
 	return m.token(kind)
+}
+
+func (m *Lexer) number() Token {
+	for !m.finished() {
+		if !m.isdigit(m.peek()) {
+			break
+		}
+
+		m.next()
+	}
+
+	return m.token(TNumber)
+}
+
+func (m *Lexer) ident() Token {
+	for !m.finished() {
+		if !m.isident(m.peek()) {
+			break
+		}
+
+		m.next()
+	}
+
+	return m.token(TIdent)
 }
 
 func (m *Lexer) lex() Token {
@@ -138,6 +183,14 @@ func (m *Lexer) lex() Token {
 
 	case '/':
 		return m.token(TSlash)
+	}
+
+	if m.isdigit(ch) {
+		return m.number()
+	}
+
+	if m.isident(ch) {
+		return m.ident()
 	}
 
 	panic(

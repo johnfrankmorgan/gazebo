@@ -31,4 +31,6 @@ const (
 	TMinus
 	TStar
 	TSlash
+	TNumber
+	TIdent
 )

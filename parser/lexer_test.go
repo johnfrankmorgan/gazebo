@@ -9,7 +9,7 @@ import (
 func TestLexerLex(t *testing.T) {
 	assert := assert.New(t)
 
-	source := "#comment\n(){}.,;!<<===>>==+-*/"
+	source := "#comment\n(){}.,;an_identifier!<<===>>==+-*1234/"
 
 	expected := []TKind{
 		TComment,
@@ -20,6 +20,7 @@ func TestLexerLex(t *testing.T) {
 		TDot,
 		TComma,
 		TSemicolon,
+		TIdent,
 		TBang,
 		TLess,
 		TLessEqual,
@@ -30,6 +31,7 @@ func TestLexerLex(t *testing.T) {
 		TPlus,
 		TMinus,
 		TStar,
+		TNumber,
 		TSlash,
 		TEOF,
 	}
