@@ -101,12 +101,23 @@ func (m *Lexer) number() Token {
 }
 
 func (m *Lexer) ident() Token {
+	keywords := map[string]TKind{
+		"if":     TIf,
+		"else":   TElse,
+		"while":  TWhile,
+		"return": TReturn,
+	}
+
 	for !m.finished() {
 		if !m.isident(m.peek()) {
 			break
 		}
 
 		m.next()
+	}
+
+	if kind, ok := keywords[m.buffer.String()]; ok {
+		return m.token(kind)
 	}
 
 	return m.token(TIdent)

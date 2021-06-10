@@ -6,6 +6,7 @@ type Token struct {
 	position int
 }
 
+//go:generate stringer -type=TKind
 type TKind int
 
 const (
@@ -33,4 +34,8 @@ const (
 	TSlash
 	TNumber
 	TIdent
+	TIf
+	TElse
+	TWhile
+	TReturn
 )

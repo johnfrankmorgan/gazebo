@@ -9,12 +9,13 @@ import (
 func TestLexerLex(t *testing.T) {
 	assert := assert.New(t)
 
-	source := "#comment\n(){}.,;an_identifier!<<===>>==+-*1234/"
+	source := "#comment\n()if{}.,;an_identifier!<<===>>==+-*1234/"
 
 	expected := []TKind{
 		TComment,
 		TParenOpen,
 		TParenClose,
+		TIf,
 		TBraceOpen,
 		TBraceClose,
 		TDot,
