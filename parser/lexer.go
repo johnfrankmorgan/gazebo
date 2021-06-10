@@ -208,7 +208,7 @@ func (m *Lexer) lex() Token {
 		fmt.Errorf(
 			"failed to lex token at position %d near %q",
 			m.position,
-			m.buffer.String(),
+			m.source[m.position-3:m.position+3], // FIXME: add bounds check
 		),
 	)
 }

@@ -48,3 +48,12 @@ func TestLexerLex(t *testing.T) {
 
 	assert.Equal(expected, got)
 }
+
+func TestLexerLexPanics(t *testing.T) {
+	assert := assert.New(t)
+
+	assert.Panics(func() {
+		lexer := Lexer{source: "$"}
+		lexer.Lex()
+	})
+}
