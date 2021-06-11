@@ -30,17 +30,18 @@ func _() {
 	_ = x[TMinus-20]
 	_ = x[TStar-21]
 	_ = x[TSlash-22]
-	_ = x[TNumber-23]
-	_ = x[TIdent-24]
-	_ = x[TIf-25]
-	_ = x[TElse-26]
-	_ = x[TWhile-27]
-	_ = x[TReturn-28]
+	_ = x[TIdent-23]
+	_ = x[TNumber-24]
+	_ = x[TString-25]
+	_ = x[TIf-26]
+	_ = x[TElse-27]
+	_ = x[TWhile-28]
+	_ = x[TReturn-29]
 }
 
-const _TKind_name = "TEOFTCommentTWhitespaceTParenOpenTParenCloseTBraceOpenTBraceCloseTDotTCommaTSemicolonTBangTEqualTEqualEqualTBangEqualTLessTLessEqualTGreaterTGreaterEqualTPlusTMinusTStarTSlashTNumberTIdentTIfTElseTWhileTReturn"
+const _TKind_name = "TEOFTCommentTWhitespaceTParenOpenTParenCloseTBraceOpenTBraceCloseTDotTCommaTSemicolonTBangTEqualTEqualEqualTBangEqualTLessTLessEqualTGreaterTGreaterEqualTPlusTMinusTStarTSlashTIdentTNumberTStringTIfTElseTWhileTReturn"
 
-var _TKind_index = [...]uint8{0, 4, 12, 23, 33, 44, 54, 65, 69, 75, 85, 90, 96, 107, 117, 122, 132, 140, 153, 158, 164, 169, 175, 182, 188, 191, 196, 202, 209}
+var _TKind_index = [...]uint8{0, 4, 12, 23, 33, 44, 54, 65, 69, 75, 85, 90, 96, 107, 117, 122, 132, 140, 153, 158, 164, 169, 175, 181, 188, 195, 198, 203, 209, 216}
 
 func (i TKind) String() string {
 	i -= 1

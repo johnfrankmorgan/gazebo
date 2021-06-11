@@ -5,6 +5,12 @@ import (
 	"fmt"
 )
 
+func Tokenize(source string) []Token {
+	lexer := Lexer{source: source}
+
+	return lexer.Lex()
+}
+
 type Lexer struct {
 	source   string
 	position int
