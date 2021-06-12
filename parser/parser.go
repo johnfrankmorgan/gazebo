@@ -7,21 +7,20 @@ import (
 )
 
 type Parser struct {
-	tokens   []Token
-	position int
+	ts tstream
 }
 
 func New(tokens []Token) *Parser {
-	return &Parser{tokens: tokens}
+	return &Parser{ts: tstream{tokens: tokens}}
 }
 
 func (m *Parser) Parse() *ast.AST {
 	node := &ast.SBlock{}
 
-	for !m.finished() {
+	for !m.ts.finished() {
 		node.Append(m.parse())
 
-		for m.match(TSemicolon) {
+		for m.ts.match(TSemicolon) {
 			// consume semicolons following statements
 		}
 	}
@@ -29,77 +28,12 @@ func (m *Parser) Parse() *ast.AST {
 	return ast.New(node)
 }
 
-func (m *Parser) finished() bool {
-	return m.tokens[m.position].Is(TEOF)
-}
-
-func (m *Parser) advance() {
-	m.position++
-}
-
-func (m *Parser) peek(n int) Token {
-	token := m.tokens[m.position+n] // FIXME: add bounds check
-
-	if token.Is(TWhitespace, TComment) {
-		return m.peek(n + 1)
-	}
-
-	return token
-}
-
-func (m *Parser) prev() Token {
-	return m.peek(-1)
-}
-
-func (m *Parser) next() Token {
-	token := m.tokens[m.position]
-
-	if token.Is(TWhitespace, TComment) {
-		m.advance()
-		return m.next()
-	}
-
-	m.advance()
-	return token
-}
-
-func (m *Parser) check(kinds ...TKind) bool {
-	if m.finished() {
-		return false
-	}
-
-	return m.peek(0).Is(kinds...)
-}
-
-func (m *Parser) match(kinds ...TKind) bool {
-	if m.check(kinds...) {
-		m.next()
-		return true
-	}
-
-	return false
-}
-
-func (m *Parser) consume(kinds ...TKind) Token {
-	if m.match(kinds...) {
-		return m.prev()
-	}
-
-	panic(
-		fmt.Errorf(
-			"expected one of %s, got %s",
-			kinds,
-			m.peek(0).kind,
-		),
-	)
-}
-
 func (m *Parser) parse() ast.Node {
 	return m.statement()
 }
 
 func (m *Parser) statement() ast.Stmt {
-	if m.check(TIdent) && m.peek(1).Is(TEqual) {
+	if m.ts.check(TIdent) && m.ts.peek(1).Is(TEqual) {
 		return m.assignment()
 	}
 
@@ -107,8 +41,8 @@ func (m *Parser) statement() ast.Stmt {
 }
 
 func (m *Parser) assignment() ast.Stmt {
-	ident := m.consume(TIdent).lexeme
-	m.consume(TEqual)
+	ident := m.ts.consume(TIdent).lexeme
+	m.ts.consume(TEqual)
 	return &ast.SAssign{Ident: ident, Expr: m.expression()}
 }
 
@@ -119,8 +53,8 @@ func (m *Parser) expression() ast.Expr {
 func (m *Parser) equality() ast.Expr {
 	expr := m.comparison()
 
-	for m.match(TEqualEqual, TBangEqual) {
-		op := m.prev()
+	for m.ts.match(TEqualEqual, TBangEqual) {
+		op := m.ts.prev()
 		rhs := m.comparison()
 		expr = &ast.EBinary{
 			LHS: expr,
@@ -135,8 +69,8 @@ func (m *Parser) equality() ast.Expr {
 func (m *Parser) comparison() ast.Expr {
 	expr := m.addition()
 
-	for m.match(TGreater, TGreaterEqual, TLess, TLessEqual) {
-		op := m.prev()
+	for m.ts.match(TGreater, TGreaterEqual, TLess, TLessEqual) {
+		op := m.ts.prev()
 		rhs := m.addition()
 		expr = &ast.EBinary{
 			LHS: expr,
@@ -151,8 +85,8 @@ func (m *Parser) comparison() ast.Expr {
 func (m *Parser) addition() ast.Expr {
 	expr := m.multiplication()
 
-	for m.match(TPlus, TMinus) {
-		op := m.prev()
+	for m.ts.match(TPlus, TMinus) {
+		op := m.ts.prev()
 		rhs := m.multiplication()
 		expr = &ast.EBinary{
 			LHS: expr,
@@ -167,8 +101,8 @@ func (m *Parser) addition() ast.Expr {
 func (m *Parser) multiplication() ast.Expr {
 	expr := m.unary()
 
-	for m.match(TStar, TSlash) {
-		op := m.prev()
+	for m.ts.match(TStar, TSlash) {
+		op := m.ts.prev()
 		rhs := m.unary()
 		expr = &ast.EBinary{
 			LHS: expr,
@@ -181,8 +115,8 @@ func (m *Parser) multiplication() ast.Expr {
 }
 
 func (m *Parser) unary() ast.Expr {
-	if m.match(TBang, TMinus) {
-		op := m.prev()
+	if m.ts.match(TBang, TMinus) {
+		op := m.ts.prev()
 		expr := m.unary()
 		return &ast.EUnary{
 			Op:   op.ToUnaryOp(),
@@ -194,7 +128,7 @@ func (m *Parser) unary() ast.Expr {
 }
 
 func (m *Parser) literal() ast.Expr {
-	token := m.next()
+	token := m.ts.next()
 
 	switch token.kind {
 	case TIdent:
@@ -209,7 +143,7 @@ func (m *Parser) literal() ast.Expr {
 
 	if token.Is(TParenOpen) {
 		expr := m.expression()
-		m.consume(TParenClose)
+		m.ts.consume(TParenClose)
 		return &ast.EGroup{Expr: expr}
 	}
 
