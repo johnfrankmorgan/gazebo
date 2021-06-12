@@ -12,78 +12,97 @@ func TestParserParse(t *testing.T) {
 
 	type test struct {
 		source string
-		exp    *ast.AST
+		exp    ast.Stmt
 	}
 
 	tests := []test{
 		{
 			source: "!(1 == true)",
-			exp: ast.New(&ast.EUnary{
-				Op: ast.UnaryOpNot,
-				Expr: &ast.EGroup{
-					Expr: &ast.EBinary{
-						LHS: &ast.ELiteral{
-							Type:   ast.LitTypeNumber,
-							Lexeme: "1",
-						},
-						Op: ast.BinOpEq,
-						RHS: &ast.ELiteral{
-							Type:   ast.LitTypeIdent,
-							Lexeme: "true",
+			exp: &ast.SExpr{
+				Expr: &ast.EUnary{
+					Op: ast.UnaryOpNot,
+					Expr: &ast.EGroup{
+						Expr: &ast.EBinary{
+							LHS: &ast.ELiteral{
+								Type:   ast.LitTypeNumber,
+								Lexeme: "1",
+							},
+							Op: ast.BinOpEq,
+							RHS: &ast.ELiteral{
+								Type:   ast.LitTypeIdent,
+								Lexeme: "true",
+							},
 						},
 					},
 				},
-			}),
+			},
 		},
 		{
 			source: "1+1",
-			exp: ast.New(&ast.EBinary{
-				LHS: &ast.ELiteral{
-					Type:   ast.LitTypeNumber,
-					Lexeme: "1",
+			exp: &ast.SExpr{
+				Expr: &ast.EBinary{
+					LHS: &ast.ELiteral{
+						Type:   ast.LitTypeNumber,
+						Lexeme: "1",
+					},
+					Op: ast.BinOpAdd,
+					RHS: &ast.ELiteral{
+						Type:   ast.LitTypeNumber,
+						Lexeme: "1",
+					},
 				},
-				Op: ast.BinOpAdd,
-				RHS: &ast.ELiteral{
-					Type:   ast.LitTypeNumber,
-					Lexeme: "1",
-				},
-			}),
+			},
 		},
 		{
-			source: "1/2",
-			exp: ast.New(&ast.EBinary{
-				LHS: &ast.ELiteral{
-					Type:   ast.LitTypeNumber,
-					Lexeme: "1",
+			source: "1 / 2",
+			exp: &ast.SExpr{
+				Expr: &ast.EBinary{
+					LHS: &ast.ELiteral{
+						Type:   ast.LitTypeNumber,
+						Lexeme: "1",
+					},
+					Op: ast.BinOpDiv,
+					RHS: &ast.ELiteral{
+						Type:   ast.LitTypeNumber,
+						Lexeme: "2",
+					},
 				},
-				Op: ast.BinOpDiv,
-				RHS: &ast.ELiteral{
-					Type:   ast.LitTypeNumber,
-					Lexeme: "2",
-				},
-			}),
+			},
 		},
 		{
 			source: "500 >= 10124",
-			exp: ast.New(&ast.EBinary{
-				LHS: &ast.ELiteral{
-					Type:   ast.LitTypeNumber,
-					Lexeme: "500",
+			exp: &ast.SExpr{
+				Expr: &ast.EBinary{
+					LHS: &ast.ELiteral{
+						Type:   ast.LitTypeNumber,
+						Lexeme: "500",
+					},
+					Op: ast.BinOpGreaterEq,
+					RHS: &ast.ELiteral{
+						Type:   ast.LitTypeNumber,
+						Lexeme: "10124",
+					},
 				},
-				Op: ast.BinOpGreaterEq,
-				RHS: &ast.ELiteral{
-					Type:   ast.LitTypeNumber,
-					Lexeme: "10124",
+			},
+		},
+		{
+			source: "x = true;",
+			exp: &ast.SAssign{
+				Ident: "x",
+				Expr: &ast.ELiteral{
+					Type:   ast.LitTypeIdent,
+					Lexeme: "true",
 				},
-			}),
+			},
 		},
 	}
 
 	for _, test := range tests {
 		parser := New(Tokenize(test.source))
+		exp := ast.New(&ast.SBlock{Stmts: []ast.Stmt{test.exp}})
 		got := parser.Parse()
 
-		assert.Equal(test.exp, got)
+		assert.Equal(exp, got)
 	}
 
 }

@@ -9,6 +9,8 @@ type ExprVisitor interface {
 
 type StmtVisitor interface {
 	VisitSBlock(*SBlock)
+	VisitSAssign(*SAssign)
+	VisitSExpr(*SExpr)
 }
 
 type Visitor interface {

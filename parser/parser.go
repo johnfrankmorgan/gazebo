@@ -16,13 +16,21 @@ func New(tokens []Token) *Parser {
 }
 
 func (m *Parser) Parse() *ast.AST {
-	root := m.parse()
+	node := &ast.SBlock{}
 
-	return ast.New(root)
+	for !m.finished() {
+		node.Append(m.parse())
+
+		for m.match(TSemicolon) {
+			// consume semicolons following statements
+		}
+	}
+
+	return ast.New(node)
 }
 
 func (m *Parser) finished() bool {
-	return m.position >= len(m.tokens)
+	return m.tokens[m.position].Is(TEOF)
 }
 
 func (m *Parser) advance() {
@@ -33,8 +41,7 @@ func (m *Parser) peek(n int) Token {
 	token := m.tokens[m.position+n] // FIXME: add bounds check
 
 	if token.Is(TWhitespace, TComment) {
-		m.advance()
-		return m.peek(n)
+		return m.peek(n + 1)
 	}
 
 	return token
@@ -45,9 +52,15 @@ func (m *Parser) prev() Token {
 }
 
 func (m *Parser) next() Token {
-	defer m.advance()
+	token := m.tokens[m.position]
 
-	return m.peek(0)
+	if token.Is(TWhitespace, TComment) {
+		m.advance()
+		return m.next()
+	}
+
+	m.advance()
+	return token
 }
 
 func (m *Parser) check(kinds ...TKind) bool {
@@ -67,9 +80,9 @@ func (m *Parser) match(kinds ...TKind) bool {
 	return false
 }
 
-func (m *Parser) consume(kinds ...TKind) {
+func (m *Parser) consume(kinds ...TKind) Token {
 	if m.match(kinds...) {
-		return
+		return m.prev()
 	}
 
 	panic(
@@ -82,7 +95,21 @@ func (m *Parser) consume(kinds ...TKind) {
 }
 
 func (m *Parser) parse() ast.Node {
-	return m.expression()
+	return m.statement()
+}
+
+func (m *Parser) statement() ast.Stmt {
+	if m.check(TIdent) && m.peek(1).Is(TEqual) {
+		return m.assignment()
+	}
+
+	return &ast.SExpr{Expr: m.expression()}
+}
+
+func (m *Parser) assignment() ast.Stmt {
+	ident := m.consume(TIdent).lexeme
+	m.consume(TEqual)
+	return &ast.SAssign{Ident: ident, Expr: m.expression()}
 }
 
 func (m *Parser) expression() ast.Expr {
