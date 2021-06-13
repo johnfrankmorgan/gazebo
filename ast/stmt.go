@@ -4,6 +4,7 @@ var (
 	_ Stmt = &SBlock{}
 	_ Stmt = &SAssign{}
 	_ Stmt = &SExpr{}
+	_ Stmt = &SIf{}
 )
 
 type SBlock struct {
@@ -33,4 +34,14 @@ type SExpr struct {
 
 func (m *SExpr) Accept(v Visitor) {
 	v.VisitSExpr(m)
+}
+
+type SIf struct {
+	Condition  Expr
+	TrueBlock  Stmt
+	FalseBlock Stmt
+}
+
+func (m *SIf) Accept(v Visitor) {
+	v.VisitSIf(m)
 }

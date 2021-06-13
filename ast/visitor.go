@@ -12,6 +12,7 @@ type StmtVisitor interface {
 	VisitSBlock(*SBlock)
 	VisitSAssign(*SAssign)
 	VisitSExpr(*SExpr)
+	VisitSIf(*SIf)
 }
 
 type Visitor interface {

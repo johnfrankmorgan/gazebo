@@ -37,6 +37,10 @@ func (m *Parser) statement() ast.Stmt {
 		return m.assignment()
 	}
 
+	if m.ts.check(TIf) {
+		return m.conditional()
+	}
+
 	return &ast.SExpr{Expr: m.expression()}
 }
 
@@ -44,6 +48,21 @@ func (m *Parser) assignment() ast.Stmt {
 	ident := m.ts.consume(TIdent).lexeme
 	m.ts.consume(TEqual)
 	return &ast.SAssign{Ident: ident, Expr: m.expression()}
+}
+
+func (m *Parser) conditional() ast.Stmt {
+	var stmt ast.SIf
+
+	m.ts.consume(TIf)
+
+	stmt.Condition = m.expression()
+	stmt.TrueBlock = m.statement()
+
+	if m.ts.match(TElse) {
+		stmt.FalseBlock = m.statement()
+	}
+
+	return &stmt
 }
 
 func (m *Parser) expression() ast.Expr {

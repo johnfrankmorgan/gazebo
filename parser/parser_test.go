@@ -130,6 +130,18 @@ func TestParserParse(t *testing.T) {
 				},
 			},
 		},
+		{
+			source: "if x 1 else 2",
+			exp: &ast.SIf{
+				Condition: &ast.ELiteral{Type: ast.LitTypeIdent, Lexeme: "x"},
+				TrueBlock: &ast.SExpr{
+					Expr: &ast.ELiteral{Type: ast.LitTypeNumber, Lexeme: "1"},
+				},
+				FalseBlock: &ast.SExpr{
+					Expr: &ast.ELiteral{Type: ast.LitTypeNumber, Lexeme: "2"},
+				},
+			},
+		},
 	}
 
 	for _, test := range tests {
