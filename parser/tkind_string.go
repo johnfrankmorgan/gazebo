@@ -36,12 +36,13 @@ func _() {
 	_ = x[TIf-26]
 	_ = x[TElse-27]
 	_ = x[TWhile-28]
-	_ = x[TReturn-29]
+	_ = x[TFunc-29]
+	_ = x[TReturn-30]
 }
 
-const _TKind_name = "TEOFTCommentTWhitespaceTParenOpenTParenCloseTBraceOpenTBraceCloseTDotTCommaTSemicolonTBangTEqualTEqualEqualTBangEqualTLessTLessEqualTGreaterTGreaterEqualTPlusTMinusTStarTSlashTIdentTNumberTStringTIfTElseTWhileTReturn"
+const _TKind_name = "TEOFTCommentTWhitespaceTParenOpenTParenCloseTBraceOpenTBraceCloseTDotTCommaTSemicolonTBangTEqualTEqualEqualTBangEqualTLessTLessEqualTGreaterTGreaterEqualTPlusTMinusTStarTSlashTIdentTNumberTStringTIfTElseTWhileTFuncTReturn"
 
-var _TKind_index = [...]uint8{0, 4, 12, 23, 33, 44, 54, 65, 69, 75, 85, 90, 96, 107, 117, 122, 132, 140, 153, 158, 164, 169, 175, 181, 188, 195, 198, 203, 209, 216}
+var _TKind_index = [...]uint8{0, 4, 12, 23, 33, 44, 54, 65, 69, 75, 85, 90, 96, 107, 117, 122, 132, 140, 153, 158, 164, 169, 175, 181, 188, 195, 198, 203, 209, 214, 221}
 
 func (i TKind) String() string {
 	i -= 1

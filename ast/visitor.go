@@ -5,6 +5,7 @@ type ExprVisitor interface {
 	VisitEBinary(*EBinary)
 	VisitEUnary(*EUnary)
 	VisitELiteral(*ELiteral)
+	VisitEFuncDef(*EFuncDef)
 }
 
 type StmtVisitor interface {

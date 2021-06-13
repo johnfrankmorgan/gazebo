@@ -95,6 +95,41 @@ func TestParserParse(t *testing.T) {
 				},
 			},
 		},
+		{
+			source: "func (x, y, z) x + y + z",
+			exp: &ast.SExpr{
+				Expr: &ast.EFuncDef{
+					Args: []string{"x", "y", "z"},
+					Body: &ast.SExpr{
+						Expr: &ast.EBinary{
+							LHS: &ast.EBinary{
+								LHS: &ast.ELiteral{Type: ast.LitTypeIdent, Lexeme: "x"},
+								Op:  ast.BinOpAdd,
+								RHS: &ast.ELiteral{Type: ast.LitTypeIdent, Lexeme: "y"},
+							},
+							Op:  ast.BinOpAdd,
+							RHS: &ast.ELiteral{Type: ast.LitTypeIdent, Lexeme: "z"},
+						},
+					},
+				},
+			},
+		},
+		{
+			source: "func !1",
+			exp: &ast.SExpr{
+				Expr: &ast.EFuncDef{
+					Body: &ast.SExpr{
+						Expr: &ast.EUnary{
+							Op: ast.UnaryOpNot,
+							Expr: &ast.ELiteral{
+								Type:   ast.LitTypeNumber,
+								Lexeme: "1",
+							},
+						},
+					},
+				},
+			},
+		},
 	}
 
 	for _, test := range tests {

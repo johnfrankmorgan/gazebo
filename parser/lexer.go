@@ -123,6 +123,7 @@ func (m *Lexer) ident() Token {
 		"if":     TIf,
 		"else":   TElse,
 		"while":  TWhile,
+		"func":   TFunc,
 		"return": TReturn,
 	}
 

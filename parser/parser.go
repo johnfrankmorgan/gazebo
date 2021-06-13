@@ -139,6 +139,9 @@ func (m *Parser) literal() ast.Expr {
 
 	case TString:
 		return &ast.ELiteral{Lexeme: token.lexeme, Type: ast.LitTypeString}
+
+	case TFunc:
+		return m.funcdef()
 	}
 
 	if token.Is(TParenOpen) {
@@ -153,4 +156,23 @@ func (m *Parser) literal() ast.Expr {
 			token.kind,
 		),
 	)
+}
+
+func (m *Parser) funcdef() ast.Expr {
+	expr := &ast.EFuncDef{}
+
+	if m.ts.match(TParenOpen) {
+		m.ts.consume(TIdent)
+		expr.AddArg(m.ts.prev().lexeme)
+
+		for m.ts.match(TComma) {
+			m.ts.consume(TIdent)
+			expr.AddArg(m.ts.prev().lexeme)
+		}
+
+		m.ts.consume(TParenClose)
+	}
+
+	expr.Body = m.statement()
+	return expr
 }

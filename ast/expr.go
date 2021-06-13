@@ -5,6 +5,7 @@ var (
 	_ Expr = &EBinary{}
 	_ Expr = &EUnary{}
 	_ Expr = &ELiteral{}
+	_ Expr = &EFuncDef{}
 )
 
 type EGroup struct {
@@ -51,4 +52,17 @@ type ELiteral struct {
 
 func (m *ELiteral) Accept(v Visitor) {
 	v.VisitELiteral(m)
+}
+
+type EFuncDef struct {
+	Args []string
+	Body Stmt
+}
+
+func (m *EFuncDef) Accept(v Visitor) {
+	v.VisitEFuncDef(m)
+}
+
+func (m *EFuncDef) AddArg(name string) {
+	m.Args = append(m.Args, name)
 }

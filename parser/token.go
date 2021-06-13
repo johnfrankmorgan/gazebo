@@ -99,5 +99,6 @@ const (
 	TIf
 	TElse
 	TWhile
+	TFunc
 	TReturn
 )
