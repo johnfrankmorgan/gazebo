@@ -210,6 +210,8 @@ func (m *Parser) literal() ast.Expr {
 func (m *Parser) funcdef() ast.Expr {
 	expr := &ast.EFuncDef{}
 
+	// FIXME: this fails to parse function definitions with parentheses but no arguments
+	//        func { ... } and func () { ... } should both be acceptable
 	if m.ts.match(TParenOpen) {
 		m.ts.consume(TIdent)
 		expr.AddArg(m.ts.prev().lexeme)
