@@ -45,3 +45,12 @@ type SIf struct {
 func (m *SIf) Accept(v Visitor) {
 	v.VisitSIf(m)
 }
+
+type SWhile struct {
+	Condition Expr
+	Body      Stmt
+}
+
+func (m *SWhile) Accept(v Visitor) {
+	v.VisitSWhile(m)
+}

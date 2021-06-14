@@ -37,8 +37,15 @@ func (m *Parser) statement() ast.Stmt {
 		return m.assignment()
 	}
 
-	if m.ts.check(TIf) {
+	switch m.ts.peek(0).kind {
+	case TBraceOpen:
+		return m.block()
+
+	case TIf:
 		return m.conditional()
+
+	case TWhile:
+		return m.while()
 	}
 
 	return &ast.SExpr{Expr: m.expression()}
@@ -48,6 +55,18 @@ func (m *Parser) assignment() ast.Stmt {
 	ident := m.ts.consume(TIdent).lexeme
 	m.ts.consume(TEqual)
 	return &ast.SAssign{Ident: ident, Expr: m.expression()}
+}
+
+func (m *Parser) block() ast.Stmt {
+	var block ast.SBlock
+
+	m.ts.consume(TBraceOpen)
+
+	for !m.ts.match(TBraceClose) {
+		block.Append(m.statement())
+	}
+
+	return &block
 }
 
 func (m *Parser) conditional() ast.Stmt {
@@ -61,6 +80,17 @@ func (m *Parser) conditional() ast.Stmt {
 	if m.ts.match(TElse) {
 		stmt.FalseBlock = m.statement()
 	}
+
+	return &stmt
+}
+
+func (m *Parser) while() ast.Stmt {
+	var stmt ast.SWhile
+
+	m.ts.consume(TWhile)
+
+	stmt.Condition = m.expression()
+	stmt.Body = m.statement()
 
 	return &stmt
 }

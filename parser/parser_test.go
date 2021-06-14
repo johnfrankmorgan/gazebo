@@ -8,8 +8,6 @@ import (
 )
 
 func TestParserParse(t *testing.T) {
-	assert := assert.New(t)
-
 	type test struct {
 		source string
 		exp    ast.Stmt
@@ -142,14 +140,33 @@ func TestParserParse(t *testing.T) {
 				},
 			},
 		},
+		{
+			source: "while (true) { 500 }",
+			exp: &ast.SWhile{
+				Condition: &ast.EGroup{
+					Expr: &ast.ELiteral{Type: ast.LitTypeIdent, Lexeme: "true"},
+				},
+				Body: &ast.SBlock{
+					Stmts: []ast.Stmt{
+						&ast.SExpr{
+							Expr: &ast.ELiteral{Type: ast.LitTypeNumber, Lexeme: "500"},
+						}},
+				},
+			},
+		},
 	}
 
 	for _, test := range tests {
-		parser := New(Tokenize(test.source))
-		exp := ast.New(&ast.SBlock{Stmts: []ast.Stmt{test.exp}})
-		got := parser.Parse()
+		t.Run(test.source, func(t *testing.T) {
+			assert := assert.New(t)
 
-		assert.Equal(exp, got)
+			parser := New(Tokenize(test.source))
+
+			exp := ast.New(&ast.SBlock{Stmts: []ast.Stmt{test.exp}})
+			got := parser.Parse()
+
+			assert.Equal(exp, got)
+		})
 	}
 
 }

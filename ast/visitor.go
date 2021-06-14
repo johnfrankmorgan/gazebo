@@ -13,6 +13,7 @@ type StmtVisitor interface {
 	VisitSAssign(*SAssign)
 	VisitSExpr(*SExpr)
 	VisitSIf(*SIf)
+	VisitSWhile(*SWhile)
 }
 
 type Visitor interface {
