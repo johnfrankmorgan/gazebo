@@ -76,6 +76,32 @@ func TestCompilerCompile(t *testing.T) {
 				{op.LoadConst, float64(0)},
 			},
 		},
+		{
+			label: "func def",
+			source: &ast.SExpr{
+				Expr: &ast.EFuncDef{
+					Args: []string{"name"},
+					Body: &ast.SExpr{
+						Expr: &ast.EAssign{
+							Ident: "x",
+							Expr:  &ast.ELiteral{Type: ast.LitTypeIdent, Lexeme: "true"},
+						},
+					},
+				},
+			},
+			exp: []Ins{
+				{
+					Op: op.MakeFunction,
+					Arg: &FuncDef{
+						Args: []string{"name"},
+						Body: []Ins{
+							{op.LoadName, "true"},
+							{op.StoreName, "x"},
+						},
+					},
+				},
+			},
+		},
 	}
 
 	for _, test := range tests {

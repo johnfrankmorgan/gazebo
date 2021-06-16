@@ -24,6 +24,11 @@ type Compiler struct {
 	code code
 }
 
+type FuncDef struct {
+	Args []string
+	Body []Ins
+}
+
 func (m *Compiler) todo() {
 	panic(fmt.Errorf("todo"))
 }
@@ -38,6 +43,16 @@ func (m *Compiler) emit(op op.Op, arg ...interface{}) label {
 	label := m.code.label()
 	m.code.append(ins)
 	return label
+}
+
+func (m *Compiler) compile(node ast.Node) code {
+	defer func(code code) {
+		m.code = code
+	}(m.code)
+
+	node.Accept(m)
+
+	return m.code
 }
 
 func (m *Compiler) Compile(ast *ast.AST) []Ins {
@@ -105,7 +120,12 @@ func (m *Compiler) VisitELiteral(expr *ast.ELiteral) {
 }
 
 func (m *Compiler) VisitEFuncDef(expr *ast.EFuncDef) {
-	m.todo()
+	body := m.compile(expr.Body)
+
+	m.emit(op.MakeFunction, &FuncDef{
+		Args: expr.Args,
+		Body: body.instructions(),
+	})
 }
 
 func (m *Compiler) VisitSBlock(stmt *ast.SBlock) {

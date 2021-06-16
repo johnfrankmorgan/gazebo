@@ -22,4 +22,5 @@ const (
 	BinLessEq
 	BinGreater
 	BinGreaterEq
+	MakeFunction
 )
