@@ -50,6 +50,7 @@ func (m *Compiler) compile(node ast.Node) code {
 		m.code = code
 	}(m.code)
 
+	m.code = code{}
 	node.Accept(m)
 
 	return m.code

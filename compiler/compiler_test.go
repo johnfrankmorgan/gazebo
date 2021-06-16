@@ -78,18 +78,26 @@ func TestCompilerCompile(t *testing.T) {
 		},
 		{
 			label: "func def",
-			source: &ast.SExpr{
-				Expr: &ast.EFuncDef{
-					Args: []string{"name"},
-					Body: &ast.SExpr{
-						Expr: &ast.EAssign{
-							Ident: "x",
-							Expr:  &ast.ELiteral{Type: ast.LitTypeIdent, Lexeme: "true"},
+			source: &ast.SBlock{
+				Stmts: []ast.Stmt{
+					&ast.SExpr{
+						Expr: &ast.ELiteral{Type: ast.LitTypeIdent, Lexeme: "false"},
+					},
+					&ast.SExpr{
+						Expr: &ast.EFuncDef{
+							Args: []string{"name"},
+							Body: &ast.SExpr{
+								Expr: &ast.EAssign{
+									Ident: "x",
+									Expr:  &ast.ELiteral{Type: ast.LitTypeIdent, Lexeme: "true"},
+								},
+							},
 						},
 					},
 				},
 			},
 			exp: []Ins{
+				{op.LoadName, "false"},
 				{
 					Op: op.MakeFunction,
 					Arg: &FuncDef{
