@@ -59,22 +59,30 @@ func (m *Compiler) VisitEBinary(expr *ast.EBinary) {
 	expr.LHS.Accept(m)
 	expr.RHS.Accept(m)
 
-	switch expr.Op {
-	case ast.BinOpAdd:
-		m.emit(op.BinAdd)
-
-	case ast.BinOpSub:
-		m.emit(op.BinSub)
-
-	case ast.BinOpMul:
-		m.emit(op.BinMul)
-
-	case ast.BinOpDiv:
-		m.emit(op.BinDiv)
-
-	default:
-		m.todo()
+	ops := map[ast.BinOp]op.Op{
+		ast.BinOpAdd:       op.BinAdd,
+		ast.BinOpSub:       op.BinSub,
+		ast.BinOpMul:       op.BinMul,
+		ast.BinOpDiv:       op.BinDiv,
+		ast.BinOpEq:        op.BinEq,
+		ast.BinOpNEq:       op.BinNEq,
+		ast.BinOpGreater:   op.BinGreater,
+		ast.BinOpGreaterEq: op.BinGreaterEq,
+		ast.BinOpLess:      op.BinLess,
+		ast.BinOpLessEq:    op.BinLessEq,
 	}
+
+	if op, ok := ops[expr.Op]; ok {
+		m.emit(op)
+		return
+	}
+
+	panic(
+		fmt.Errorf(
+			"unknown binary operator %q",
+			expr.Op,
+		),
+	)
 }
 
 func (m *Compiler) VisitEUnary(expr *ast.EUnary) {

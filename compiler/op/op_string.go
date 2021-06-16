@@ -15,15 +15,21 @@ func _() {
 	_ = x[RelJumpIfTrue-5]
 	_ = x[RelJumpIfFalse-6]
 	_ = x[RelJump-7]
-	_ = x[BinAdd-8]
-	_ = x[BinSub-9]
-	_ = x[BinMul-10]
-	_ = x[BinDiv-11]
+	_ = x[BinEq-8]
+	_ = x[BinNEq-9]
+	_ = x[BinAdd-10]
+	_ = x[BinSub-11]
+	_ = x[BinMul-12]
+	_ = x[BinDiv-13]
+	_ = x[BinLess-14]
+	_ = x[BinLessEq-15]
+	_ = x[BinGreater-16]
+	_ = x[BinGreaterEq-17]
 }
 
-const _Op_name = "LoadConstStoreNameLoadNameJumpRelJumpIfTrueRelJumpIfFalseRelJumpBinAddBinSubBinMulBinDiv"
+const _Op_name = "LoadConstStoreNameLoadNameJumpRelJumpIfTrueRelJumpIfFalseRelJumpBinEqBinNEqBinAddBinSubBinMulBinDivBinLessBinLessEqBinGreaterBinGreaterEq"
 
-var _Op_index = [...]uint8{0, 9, 18, 26, 30, 43, 57, 64, 70, 76, 82, 88}
+var _Op_index = [...]uint8{0, 9, 18, 26, 30, 43, 57, 64, 69, 75, 81, 87, 93, 99, 106, 115, 125, 137}
 
 func (i Op) String() string {
 	i -= 1

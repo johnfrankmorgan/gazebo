@@ -12,8 +12,14 @@ const (
 	RelJumpIfTrue
 	RelJumpIfFalse
 	RelJump
+	BinEq
+	BinNEq
 	BinAdd
 	BinSub
 	BinMul
 	BinDiv
+	BinLess
+	BinLessEq
+	BinGreater
+	BinGreaterEq
 )

@@ -89,3 +89,17 @@ func TestCompilerCompile(t *testing.T) {
 		})
 	}
 }
+
+func TestCompilerVisitEBinaryPanics(t *testing.T) {
+	assert := assert.New(t)
+
+	assert.Panics(func() {
+		var compiler Compiler
+
+		compiler.VisitEBinary(&ast.EBinary{
+			LHS: &ast.EAssign{},
+			Op:  -1,
+			RHS: &ast.EAssign{},
+		})
+	})
+}
