@@ -1,6 +1,7 @@
 package ast
 
 type ExprVisitor interface {
+	VisitEAssign(*EAssign)
 	VisitEGroup(*EGroup)
 	VisitEBinary(*EBinary)
 	VisitEUnary(*EUnary)
@@ -10,7 +11,6 @@ type ExprVisitor interface {
 
 type StmtVisitor interface {
 	VisitSBlock(*SBlock)
-	VisitSAssign(*SAssign)
 	VisitSExpr(*SExpr)
 	VisitSIf(*SIf)
 	VisitSWhile(*SWhile)

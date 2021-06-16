@@ -1,12 +1,22 @@
 package ast
 
 var (
+	_ Expr = &EAssign{}
 	_ Expr = &EGroup{}
 	_ Expr = &EBinary{}
 	_ Expr = &EUnary{}
 	_ Expr = &ELiteral{}
 	_ Expr = &EFuncDef{}
 )
+
+type EAssign struct {
+	Ident string
+	Expr  Expr
+}
+
+func (m *EAssign) Accept(v Visitor) {
+	v.VisitEAssign(m)
+}
 
 type EGroup struct {
 	Expr Expr

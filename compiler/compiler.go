@@ -46,6 +46,11 @@ func (m *Compiler) Compile(ast *ast.AST) []Ins {
 	return m.code.instructions()
 }
 
+func (m *Compiler) VisitEAssign(stmt *ast.EAssign) {
+	stmt.Expr.Accept(m)
+	m.emit(op.StoreName, stmt.Ident)
+}
+
 func (m *Compiler) VisitEGroup(expr *ast.EGroup) {
 	expr.Expr.Accept(m)
 }
@@ -99,11 +104,6 @@ func (m *Compiler) VisitSBlock(stmt *ast.SBlock) {
 	for _, stmt := range stmt.Stmts {
 		stmt.Accept(m)
 	}
-}
-
-func (m *Compiler) VisitSAssign(stmt *ast.SAssign) {
-	stmt.Expr.Accept(m)
-	m.emit(op.StoreName, stmt.Ident)
 }
 
 func (m *Compiler) VisitSExpr(stmt *ast.SExpr) {

@@ -85,11 +85,13 @@ func TestParserParse(t *testing.T) {
 		},
 		{
 			source: "x = true;",
-			exp: &ast.SAssign{
-				Ident: "x",
-				Expr: &ast.ELiteral{
-					Type:   ast.LitTypeIdent,
-					Lexeme: "true",
+			exp: &ast.SExpr{
+				Expr: &ast.EAssign{
+					Ident: "x",
+					Expr: &ast.ELiteral{
+						Type:   ast.LitTypeIdent,
+						Lexeme: "true",
+					},
 				},
 			},
 		},

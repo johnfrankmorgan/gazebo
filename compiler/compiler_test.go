@@ -23,11 +23,13 @@ func TestCompilerCompile(t *testing.T) {
 					Type:   ast.LitTypeIdent,
 					Lexeme: "true",
 				},
-				Body: &ast.SAssign{
-					Ident: "val",
-					Expr: &ast.ELiteral{
-						Type:   ast.LitTypeNumber,
-						Lexeme: "123",
+				Body: &ast.SExpr{
+					Expr: &ast.EAssign{
+						Ident: "val",
+						Expr: &ast.ELiteral{
+							Type:   ast.LitTypeNumber,
+							Lexeme: "123",
+						},
 					},
 				},
 			},
@@ -51,9 +53,11 @@ func TestCompilerCompile(t *testing.T) {
 				},
 				TrueBlock: &ast.SBlock{
 					Stmts: []ast.Stmt{
-						&ast.SAssign{
-							Ident: "x",
-							Expr:  &ast.ELiteral{Type: ast.LitTypeNumber, Lexeme: "1"},
+						&ast.SExpr{
+							Expr: &ast.EAssign{
+								Ident: "x",
+								Expr:  &ast.ELiteral{Type: ast.LitTypeNumber, Lexeme: "1"},
+							},
 						},
 					},
 				},

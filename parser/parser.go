@@ -33,10 +33,6 @@ func (m *Parser) parse() ast.Node {
 }
 
 func (m *Parser) statement() ast.Stmt {
-	if m.ts.check(TIdent) && m.ts.peek(1).Is(TEqual) {
-		return m.assignment()
-	}
-
 	switch m.ts.peek(0).kind {
 	case TBraceOpen:
 		return m.block()
@@ -49,12 +45,6 @@ func (m *Parser) statement() ast.Stmt {
 	}
 
 	return &ast.SExpr{Expr: m.expression()}
-}
-
-func (m *Parser) assignment() ast.Stmt {
-	ident := m.ts.consume(TIdent).lexeme
-	m.ts.consume(TEqual)
-	return &ast.SAssign{Ident: ident, Expr: m.expression()}
 }
 
 func (m *Parser) block() ast.Stmt {
@@ -181,6 +171,10 @@ func (m *Parser) literal() ast.Expr {
 
 	switch token.kind {
 	case TIdent:
+		if m.ts.match(TEqual) {
+			return &ast.EAssign{Ident: token.lexeme, Expr: m.expression()}
+		}
+
 		return &ast.ELiteral{Lexeme: token.lexeme, Type: ast.LitTypeIdent}
 
 	case TNumber:
