@@ -14,6 +14,7 @@ type StmtVisitor interface {
 	VisitSExpr(*SExpr)
 	VisitSIf(*SIf)
 	VisitSWhile(*SWhile)
+	VisitSReturn(*SReturn)
 }
 
 type Visitor interface {

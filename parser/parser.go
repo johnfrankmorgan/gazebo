@@ -41,6 +41,12 @@ func (m *Parser) statement() ast.Stmt {
 	}
 
 	defer m.ts.terminate()
+
+	if m.ts.match(TReturn) {
+		// FIXME: we should allow empty returns
+		return &ast.SReturn{Expr: m.expression()}
+	}
+
 	return &ast.SExpr{Expr: m.expression()}
 }
 

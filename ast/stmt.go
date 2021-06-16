@@ -4,6 +4,7 @@ var (
 	_ Stmt = &SBlock{}
 	_ Stmt = &SExpr{}
 	_ Stmt = &SIf{}
+	_ Stmt = &SReturn{}
 )
 
 type SBlock struct {
@@ -43,4 +44,12 @@ type SWhile struct {
 
 func (m *SWhile) Accept(v Visitor) {
 	v.VisitSWhile(m)
+}
+
+type SReturn struct {
+	Expr Expr
+}
+
+func (m *SReturn) Accept(v Visitor) {
+	v.VisitSReturn(m)
 }

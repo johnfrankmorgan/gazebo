@@ -102,6 +102,16 @@ func TestCompilerCompile(t *testing.T) {
 				},
 			},
 		},
+		{
+			label: "return",
+			source: &ast.SReturn{
+				Expr: &ast.ELiteral{Type: ast.LitTypeNumber, Lexeme: "123.1"},
+			},
+			exp: []Ins{
+				{op.LoadConst, 123.1},
+				{op.Return, nil},
+			},
+		},
 	}
 
 	for _, test := range tests {

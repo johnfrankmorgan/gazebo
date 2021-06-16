@@ -23,4 +23,5 @@ const (
 	BinGreater
 	BinGreaterEq
 	MakeFunction
+	Return
 )

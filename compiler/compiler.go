@@ -183,3 +183,8 @@ func (m *Compiler) VisitSWhile(stmt *ast.SWhile) {
 
 	m.code.labelled(jumpOverBody).Arg = sizeOfBody
 }
+
+func (m *Compiler) VisitSReturn(stmt *ast.SReturn) {
+	stmt.Expr.Accept(m)
+	m.emit(op.Return)
+}
