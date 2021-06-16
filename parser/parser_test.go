@@ -84,7 +84,7 @@ func TestParserParse(t *testing.T) {
 			},
 		},
 		{
-			source: "x = true;",
+			source: "x = true",
 			exp: &ast.SExpr{
 				Expr: &ast.EAssign{
 					Ident: "x",
@@ -96,7 +96,7 @@ func TestParserParse(t *testing.T) {
 			},
 		},
 		{
-			source: "func (x, y, z) x + y + z",
+			source: "func (x, y, z) x + y + z;",
 			exp: &ast.SExpr{
 				Expr: &ast.EFuncDef{
 					Args: []string{"x", "y", "z"},
@@ -115,7 +115,7 @@ func TestParserParse(t *testing.T) {
 			},
 		},
 		{
-			source: "func !1",
+			source: "func !1# some comment",
 			exp: &ast.SExpr{
 				Expr: &ast.EFuncDef{
 					Body: &ast.SExpr{
@@ -131,7 +131,7 @@ func TestParserParse(t *testing.T) {
 			},
 		},
 		{
-			source: "if x 1 else 2",
+			source: "if x 1\n else 2 ;",
 			exp: &ast.SIf{
 				Condition: &ast.ELiteral{Type: ast.LitTypeIdent, Lexeme: "x"},
 				TrueBlock: &ast.SExpr{
@@ -143,7 +143,7 @@ func TestParserParse(t *testing.T) {
 			},
 		},
 		{
-			source: "while (true) { 500 }",
+			source: "while (true) { 500\n }",
 			exp: &ast.SWhile{
 				Condition: &ast.EGroup{
 					Expr: &ast.ELiteral{Type: ast.LitTypeIdent, Lexeme: "true"},
@@ -170,5 +170,4 @@ func TestParserParse(t *testing.T) {
 			assert.Equal(exp, got)
 		})
 	}
-
 }

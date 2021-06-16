@@ -19,10 +19,6 @@ func (m *Parser) Parse() *ast.AST {
 
 	for !m.ts.finished() {
 		node.Append(m.parse())
-
-		for m.ts.match(TSemicolon) {
-			// consume semicolons following statements
-		}
 	}
 
 	return ast.New(node)
@@ -44,6 +40,7 @@ func (m *Parser) statement() ast.Stmt {
 		return m.while()
 	}
 
+	defer m.ts.terminate()
 	return &ast.SExpr{Expr: m.expression()}
 }
 
@@ -195,7 +192,7 @@ func (m *Parser) literal() ast.Expr {
 
 	panic(
 		fmt.Errorf(
-			"token %s is not a literal",
+			"token %q is not a literal",
 			token.kind,
 		),
 	)

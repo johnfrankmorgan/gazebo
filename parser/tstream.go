@@ -1,6 +1,9 @@
 package parser
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 type tstream struct {
 	tokens   []Token
@@ -71,6 +74,33 @@ func (m *tstream) consume(kinds ...TKind) Token {
 			"expected one of %s, got %s",
 			kinds,
 			m.peek(0).kind,
+		),
+	)
+}
+
+func (m *tstream) terminate() {
+	token := m.tokens[m.position]
+
+	if token.Is(TSemicolon, TComment, TEOF) {
+		m.advance()
+		return
+	}
+
+	if token.Is(TWhitespace) && strings.Contains(token.lexeme, "\n") {
+		m.advance()
+		return
+	}
+
+	if token.Is(TWhitespace) {
+		m.advance()
+		m.terminate()
+		return
+	}
+
+	panic(
+		fmt.Errorf(
+			"expected statement terminator, got %q",
+			token.kind,
 		),
 	)
 }
