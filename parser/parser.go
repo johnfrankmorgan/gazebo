@@ -121,6 +121,14 @@ func (m *Parser) expression() ast.Expr {
 		}
 	}
 
+	if expr, ok := expr.(*ast.EAttrGet); ok && m.ts.match(TEqual) {
+		return &ast.EAttrSet{
+			Expr:  expr.Expr,
+			Attr:  expr.Attr,
+			Value: m.expression(),
+		}
+	}
+
 	return expr
 }
 

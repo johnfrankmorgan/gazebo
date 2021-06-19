@@ -163,6 +163,21 @@ func TestCompilerCompile(t *testing.T) {
 				{op.Call, 2},
 			},
 		},
+		{
+			label: "attribute set",
+			source: &ast.SExpr{
+				Expr: &ast.EAttrSet{
+					Expr:  &ast.ELiteral{Type: ast.LitTypeIdent, Lexeme: "x"},
+					Attr:  "name",
+					Value: &ast.ELiteral{Type: ast.LitTypeNumber, Lexeme: "2"},
+				},
+			},
+			exp: []Ins{
+				{op.LoadConst, 2.0},
+				{op.LoadName, "x"},
+				{op.AttrSet, "name"},
+			},
+		},
 	}
 
 	for _, test := range tests {

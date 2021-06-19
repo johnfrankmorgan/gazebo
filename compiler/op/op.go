@@ -26,4 +26,5 @@ const (
 	Return
 	Call
 	AttrGet
+	AttrSet
 )

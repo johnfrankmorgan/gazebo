@@ -183,6 +183,16 @@ func TestParserParse(t *testing.T) {
 				},
 			},
 		},
+		{
+			source: "x.name = 2;",
+			exp: &ast.SExpr{
+				Expr: &ast.EAttrSet{
+					Expr:  &ast.ELiteral{Type: ast.LitTypeIdent, Lexeme: "x"},
+					Attr:  "name",
+					Value: &ast.ELiteral{Type: ast.LitTypeNumber, Lexeme: "2"},
+				},
+			},
+		},
 	}
 
 	for _, test := range tests {

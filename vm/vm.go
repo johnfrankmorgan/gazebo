@@ -158,6 +158,12 @@ func (m *VM) exec(ins compiler.Ins) {
 		attr := NewString(ins.Arg.(string))
 		m.stack.Push(top.Type().GetAttr(top, Args{attr}))
 
+	case op.AttrSet:
+		top := m.stack.Pop()
+		attr := NewString(ins.Arg.(string))
+		value := m.stack.Peek()
+		top.Type().SetAttr(top, Args{attr, value})
+
 	default:
 		m.todo(ins)
 	}

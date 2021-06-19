@@ -9,6 +9,7 @@ type ExprVisitor interface {
 	VisitEFuncDef(*EFuncDef)
 	VisitECall(*ECall)
 	VisitEAttrGet(*EAttrGet)
+	VisitEAttrSet(*EAttrSet)
 }
 
 type StmtVisitor interface {

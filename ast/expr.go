@@ -9,6 +9,7 @@ var (
 	_ Expr = &EFuncDef{}
 	_ Expr = &ECall{}
 	_ Expr = &EAttrGet{}
+	_ Expr = &EAttrSet{}
 )
 
 type EAssign struct {
@@ -95,4 +96,14 @@ type EAttrGet struct {
 
 func (m *EAttrGet) Accept(v Visitor) {
 	v.VisitEAttrGet(m)
+}
+
+type EAttrSet struct {
+	Expr  Expr
+	Attr  string
+	Value Expr
+}
+
+func (m *EAttrSet) Accept(v Visitor) {
+	v.VisitEAttrSet(m)
 }

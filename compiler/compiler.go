@@ -147,6 +147,12 @@ func (m *Compiler) VisitEAttrGet(expr *ast.EAttrGet) {
 	m.emit(op.AttrGet, expr.Attr)
 }
 
+func (m *Compiler) VisitEAttrSet(expr *ast.EAttrSet) {
+	expr.Value.Accept(m)
+	expr.Expr.Accept(m)
+	m.emit(op.AttrSet, expr.Attr)
+}
+
 func (m *Compiler) VisitSBlock(stmt *ast.SBlock) {
 	for _, stmt := range stmt.Stmts {
 		stmt.Accept(m)
