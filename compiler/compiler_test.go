@@ -120,6 +120,49 @@ func TestCompilerCompile(t *testing.T) {
 				{op.Return, nil},
 			},
 		},
+		{
+			label: "attribute get",
+			source: &ast.SExpr{
+				Expr: &ast.EAttrGet{
+					Attr: "name",
+					Expr: &ast.ELiteral{
+						Type:   ast.LitTypeIdent,
+						Lexeme: "x",
+					},
+				},
+			},
+			exp: []Ins{
+				{op.LoadName, "x"},
+				{op.AttrGet, "name"},
+			},
+		},
+		{
+			label: "call",
+			source: &ast.SExpr{
+				Expr: &ast.ECall{
+					Expr: &ast.ELiteral{
+						Type:   ast.LitTypeIdent,
+						Lexeme: "f",
+					},
+					Args: []ast.Expr{
+						&ast.ELiteral{
+							Type:   ast.LitTypeNumber,
+							Lexeme: "123",
+						},
+						&ast.ELiteral{
+							Type:   ast.LitTypeIdent,
+							Lexeme: "x",
+						},
+					},
+				},
+			},
+			exp: []Ins{
+				{op.LoadConst, 123.0},
+				{op.LoadName, "x"},
+				{op.LoadName, "f"},
+				{op.Call, 2},
+			},
+		},
 	}
 
 	for _, test := range tests {

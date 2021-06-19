@@ -130,11 +130,17 @@ func (m *Compiler) VisitEFuncDef(expr *ast.EFuncDef) {
 }
 
 func (m *Compiler) VisitECall(expr *ast.ECall) {
-	m.todo()
+	for _, arg := range expr.Args {
+		arg.Accept(m)
+	}
+
+	expr.Expr.Accept(m)
+	m.emit(op.Call, len(expr.Args))
 }
 
 func (m *Compiler) VisitEAttrGet(expr *ast.EAttrGet) {
-	m.todo()
+	expr.Expr.Accept(m)
+	m.emit(op.AttrGet, expr.Attr)
 }
 
 func (m *Compiler) VisitSBlock(stmt *ast.SBlock) {

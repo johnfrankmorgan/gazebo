@@ -24,4 +24,6 @@ const (
 	BinGreaterEq
 	MakeFunction
 	Return
+	Call
+	AttrGet
 )

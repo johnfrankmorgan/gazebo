@@ -98,6 +98,7 @@ func (m *Parser) expression() ast.Expr {
 			for !m.ts.check(TParenClose) {
 				args = append(args, m.expression())
 
+				// FIXME: allow trailing commas on function calls
 				if !m.ts.check(TParenClose) {
 					m.ts.consume(TComma)
 				}

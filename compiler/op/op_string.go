@@ -27,11 +27,13 @@ func _() {
 	_ = x[BinGreaterEq-17]
 	_ = x[MakeFunction-18]
 	_ = x[Return-19]
+	_ = x[Call-20]
+	_ = x[AttrGet-21]
 }
 
-const _Op_name = "LoadConstStoreNameLoadNameJumpRelJumpIfTrueRelJumpIfFalseRelJumpBinEqBinNEqBinAddBinSubBinMulBinDivBinLessBinLessEqBinGreaterBinGreaterEqMakeFunctionReturn"
+const _Op_name = "LoadConstStoreNameLoadNameJumpRelJumpIfTrueRelJumpIfFalseRelJumpBinEqBinNEqBinAddBinSubBinMulBinDivBinLessBinLessEqBinGreaterBinGreaterEqMakeFunctionReturnCallAttrGet"
 
-var _Op_index = [...]uint8{0, 9, 18, 26, 30, 43, 57, 64, 69, 75, 81, 87, 93, 99, 106, 115, 125, 137, 149, 155}
+var _Op_index = [...]uint8{0, 9, 18, 26, 30, 43, 57, 64, 69, 75, 81, 87, 93, 99, 106, 115, 125, 137, 149, 155, 159, 166}
 
 func (i Op) String() string {
 	i -= 1
