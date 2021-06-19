@@ -14,10 +14,16 @@ type VM struct {
 }
 
 func New() *VM {
-	return &VM{
+	vm := &VM{
 		env:   NewEnv(nil, nil),
 		stack: NewStack(),
 	}
+
+	vm.env.Assign("nil", NewNil())
+	vm.env.Assign("false", NewBool(false))
+	vm.env.Assign("true", NewBool(true))
+
+	return vm
 }
 
 func (m *VM) Run(code []compiler.Ins) Object {
