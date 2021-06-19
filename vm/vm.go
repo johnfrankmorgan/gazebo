@@ -80,53 +80,53 @@ func (m *VM) exec(ins compiler.Ins) {
 		m.pc += ins.Arg.(int)
 
 	case op.BinEq:
-		self := m.stack.Pop()
 		other := m.stack.Pop()
+		self := m.stack.Pop()
 		m.stack.Push(self.Type().Eq(self, Args{other}))
 
 	case op.BinNEq:
-		self := m.stack.Pop()
 		other := m.stack.Pop()
+		self := m.stack.Pop()
 		m.stack.Push(self.Type().NEq(self, Args{other}))
 
 	case op.BinAdd:
-		self := m.stack.Pop()
 		other := m.stack.Pop()
+		self := m.stack.Pop()
 		m.stack.Push(self.Type().Add(self, Args{other}))
 
 	case op.BinSub:
-		self := m.stack.Pop()
 		other := m.stack.Pop()
+		self := m.stack.Pop()
 		m.stack.Push(self.Type().Sub(self, Args{other}))
 
 	case op.BinMul:
-		self := m.stack.Pop()
 		other := m.stack.Pop()
+		self := m.stack.Pop()
 		m.stack.Push(self.Type().Mul(self, Args{other}))
 
 	case op.BinDiv:
-		self := m.stack.Pop()
 		other := m.stack.Pop()
+		self := m.stack.Pop()
 		m.stack.Push(self.Type().Div(self, Args{other}))
 
 	case op.BinLess:
-		self := m.stack.Pop()
 		other := m.stack.Pop()
+		self := m.stack.Pop()
 		m.stack.Push(self.Type().Lt(self, Args{other}))
 
 	case op.BinLessEq:
-		self := m.stack.Pop()
 		other := m.stack.Pop()
+		self := m.stack.Pop()
 		m.stack.Push(self.Type().LtE(self, Args{other}))
 
 	case op.BinGreater:
-		self := m.stack.Pop()
 		other := m.stack.Pop()
+		self := m.stack.Pop()
 		m.stack.Push(self.Type().Gt(self, Args{other}))
 
 	case op.BinGreaterEq:
-		self := m.stack.Pop()
 		other := m.stack.Pop()
+		self := m.stack.Pop()
 		m.stack.Push(self.Type().GtE(self, Args{other}))
 
 	case op.MakeFunction:

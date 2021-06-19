@@ -107,7 +107,15 @@ func (m *Lexer) whitespace() Token {
 }
 
 func (m *Lexer) number() Token {
+	var float bool
+
 	for !m.finished() {
+		if !float && m.peek() == '.' {
+			float = true
+			m.next()
+			continue
+		}
+
 		if !m.isdigit(m.peek()) {
 			break
 		}
