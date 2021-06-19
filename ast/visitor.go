@@ -7,6 +7,8 @@ type ExprVisitor interface {
 	VisitEUnary(*EUnary)
 	VisitELiteral(*ELiteral)
 	VisitEFuncDef(*EFuncDef)
+	VisitECall(*ECall)
+	VisitEAttrGet(*EAttrGet)
 }
 
 type StmtVisitor interface {

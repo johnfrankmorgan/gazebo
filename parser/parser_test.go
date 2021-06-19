@@ -156,6 +156,33 @@ func TestParserParse(t *testing.T) {
 				},
 			},
 		},
+		{
+			source: "x.attr1.attr2(e1, func (e2) {})",
+			exp: &ast.SExpr{
+				Expr: &ast.ECall{
+					Expr: &ast.EAttrGet{
+						Attr: "attr2",
+						Expr: &ast.EAttrGet{
+							Attr: "attr1",
+							Expr: &ast.ELiteral{
+								Type:   ast.LitTypeIdent,
+								Lexeme: "x",
+							},
+						},
+					},
+					Args: []ast.Expr{
+						&ast.ELiteral{
+							Type:   ast.LitTypeIdent,
+							Lexeme: "e1",
+						},
+						&ast.EFuncDef{
+							Args: []string{"e2"},
+							Body: &ast.SBlock{},
+						},
+					},
+				},
+			},
+		},
 	}
 
 	for _, test := range tests {

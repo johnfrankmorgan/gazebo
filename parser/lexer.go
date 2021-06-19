@@ -44,7 +44,7 @@ func (m *Lexer) isalpha(ch byte) bool {
 }
 
 func (m *Lexer) isident(ch byte) bool {
-	return ch == '_' || m.isalpha(ch)
+	return ch == '_' || m.isalpha(ch) || m.isdigit(ch)
 }
 
 func (m *Lexer) finished() bool {

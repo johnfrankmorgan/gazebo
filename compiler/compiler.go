@@ -129,6 +129,14 @@ func (m *Compiler) VisitEFuncDef(expr *ast.EFuncDef) {
 	})
 }
 
+func (m *Compiler) VisitECall(expr *ast.ECall) {
+	m.todo()
+}
+
+func (m *Compiler) VisitEAttrGet(expr *ast.EAttrGet) {
+	m.todo()
+}
+
 func (m *Compiler) VisitSBlock(stmt *ast.SBlock) {
 	for _, stmt := range stmt.Stmts {
 		stmt.Accept(m)

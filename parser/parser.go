@@ -89,7 +89,38 @@ func (m *Parser) while() ast.Stmt {
 }
 
 func (m *Parser) expression() ast.Expr {
-	return m.equality()
+	expr := m.equality()
+
+	for m.ts.check(TParenOpen, TDot) {
+		if m.ts.match(TParenOpen) {
+			args := []ast.Expr{}
+
+			for !m.ts.check(TParenClose) {
+				args = append(args, m.expression())
+
+				if !m.ts.check(TParenClose) {
+					m.ts.consume(TComma)
+				}
+			}
+
+			m.ts.consume(TParenClose)
+			expr = &ast.ECall{
+				Expr: expr,
+				Args: args,
+			}
+		}
+
+		if m.ts.match(TDot) {
+			m.ts.consume(TIdent)
+
+			expr = &ast.EAttrGet{
+				Expr: expr,
+				Attr: m.ts.prev().lexeme,
+			}
+		}
+	}
+
+	return expr
 }
 
 func (m *Parser) equality() ast.Expr {

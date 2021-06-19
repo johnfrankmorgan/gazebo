@@ -7,6 +7,8 @@ var (
 	_ Expr = &EUnary{}
 	_ Expr = &ELiteral{}
 	_ Expr = &EFuncDef{}
+	_ Expr = &ECall{}
+	_ Expr = &EAttrGet{}
 )
 
 type EAssign struct {
@@ -75,4 +77,22 @@ func (m *EFuncDef) Accept(v Visitor) {
 
 func (m *EFuncDef) AddArg(name string) {
 	m.Args = append(m.Args, name)
+}
+
+type ECall struct {
+	Expr Expr
+	Args []Expr
+}
+
+func (m *ECall) Accept(v Visitor) {
+	v.VisitECall(m)
+}
+
+type EAttrGet struct {
+	Expr Expr
+	Attr string
+}
+
+func (m *EAttrGet) Accept(v Visitor) {
+	v.VisitEAttrGet(m)
 }
