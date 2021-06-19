@@ -143,6 +143,8 @@ func (m *VM) exec(ins compiler.Ins) {
 		return
 
 	case op.Call:
+		f := m.stack.Pop()
+
 		argc := ins.Arg.(int)
 		argv := make(Args, argc)
 
@@ -150,7 +152,6 @@ func (m *VM) exec(ins compiler.Ins) {
 			argv[i] = m.stack.Pop()
 		}
 
-		f := m.stack.Pop()
 		m.stack.Push(f.Type().Call(f, argv))
 
 	case op.AttrGet:
