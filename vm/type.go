@@ -9,6 +9,7 @@ var Types struct {
 	Map               *TypeMap
 	NativeMethod      *TypeNativeMethod
 	BoundNativeMethod *TypeBoundNativeMethod
+	Function          *TypeFunction
 }
 
 func init() {
@@ -35,6 +36,9 @@ func init() {
 
 	Types.BoundNativeMethod = &TypeBoundNativeMethod{}
 	Types.BoundNativeMethod.SetSelf(Types.BoundNativeMethod)
+
+	Types.Function = &TypeFunction{}
+	Types.Function.SetSelf(Types.Function)
 }
 
 type Type interface {

@@ -4,9 +4,9 @@ import (
 	"flag"
 	"fmt"
 
-	"github.com/johnfrankmorgan/gazebo/ast"
 	"github.com/johnfrankmorgan/gazebo/compiler"
 	"github.com/johnfrankmorgan/gazebo/parser"
+	"github.com/johnfrankmorgan/gazebo/vm"
 	"github.com/niemeyer/pretty"
 )
 
@@ -15,12 +15,6 @@ var config struct {
 		ast      bool
 		bytecode bool
 	}
-}
-
-func compile(ast *ast.AST) []compiler.Ins {
-	var compiler compiler.Compiler
-
-	return compiler.Compile(ast)
 }
 
 func main() {
@@ -32,17 +26,20 @@ func main() {
 	parser := parser.New(parser.Tokenize(program))
 
 	tree := parser.Parse()
-
 	if config.dump.ast {
 		fmt.Println("AST")
 		pretty.Printf("%# v\n\n", tree)
 	}
 
+	bytecode := compiler.New().Compile(tree)
 	if config.dump.bytecode {
 		fmt.Println("BYTECODE")
-		for i, ins := range compile(tree) {
+		for i, ins := range bytecode {
 			fmt.Printf("0x%04x :: [0x%02x] %24s :: %v\n", i, int(ins.Op), ins.Op, ins.Arg)
 		}
 		fmt.Println()
 	}
+
+	ret := vm.New().Run(bytecode)
+	pretty.Printf("%# v\n", ret)
 }

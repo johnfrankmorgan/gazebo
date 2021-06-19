@@ -24,6 +24,10 @@ type Compiler struct {
 	code code
 }
 
+func New() *Compiler {
+	return &Compiler{}
+}
+
 type FuncDef struct {
 	Args []string
 	Body []Ins
