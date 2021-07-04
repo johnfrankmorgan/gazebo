@@ -6,7 +6,7 @@ type TypeBoundNativeMethod struct {
 	TypeBase
 }
 
-func (m *TypeBoundNativeMethod) Name() *String {
+func (m *TypeBoundNativeMethod) Name() String {
 	return NewString("BoundNativeMethod")
 }
 

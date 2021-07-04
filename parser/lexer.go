@@ -106,6 +106,20 @@ func (m *Lexer) whitespace() Token {
 	return m.token(TWhitespace)
 }
 
+func (m *Lexer) str() Token {
+	// FIXME: escape sequences
+
+	for !m.finished() {
+		if m.match('"') {
+			break
+		}
+
+		m.next()
+	}
+
+	return m.token(TString)
+}
+
 func (m *Lexer) number() Token {
 	var float bool
 
@@ -221,6 +235,9 @@ func (m *Lexer) lex() Token {
 
 	case '/':
 		return m.token(TSlash)
+
+	case '"':
+		return m.str()
 	}
 
 	if m.iswhitespace(ch) {

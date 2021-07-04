@@ -4,7 +4,7 @@ type TypeFunction struct {
 	TypeBase
 }
 
-func (m *TypeFunction) Name() *String {
+func (m *TypeFunction) Name() String {
 	return NewString("Function")
 }
 

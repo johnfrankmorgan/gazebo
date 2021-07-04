@@ -36,7 +36,7 @@ func TestEnvAssign(t *testing.T) {
 	parent.Assign("test", NewBool(false))
 	env.Assign("test", NewBool(true))
 
-	assert.True(t, parent.Lookup("test").(*Bool).Bool())
+	assert.True(t, parent.Lookup("test").(Bool).Bool())
 }
 
 func TestEnvLookupReturnsNil(t *testing.T) {

@@ -30,11 +30,11 @@ func TestArgsParse(t *testing.T) {
 	}
 
 	var got struct {
-		s1 *String
+		s1 String
 		s2 string
-		b1 *Bool
+		b1 Bool
 		b2 bool
-		n1 *Number
+		n1 Number
 		n2 float64
 		n3 int
 		o1 Object

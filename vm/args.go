@@ -28,26 +28,26 @@ func (m Args) Parse(destinations ...interface{}) {
 		case *Object:
 			*dest = arg
 
-		case **Bool:
-			*dest = arg.(*Bool)
+		case *Bool:
+			*dest = arg.(Bool)
 
-		case **Number:
-			*dest = arg.(*Number)
+		case *Number:
+			*dest = arg.(Number)
 
-		case **String:
-			*dest = arg.(*String)
+		case *String:
+			*dest = arg.(String)
 
 		case *bool:
-			*dest = arg.(*Bool).Bool()
+			*dest = arg.(Bool).Bool()
 
 		case *int:
-			*dest = arg.(*Number).Int()
+			*dest = arg.(Number).Int()
 
 		case *float64:
-			*dest = arg.(*Number).Float()
+			*dest = arg.(Number).Float()
 
 		case *string:
-			*dest = arg.(*String).String()
+			*dest = arg.(String).String()
 
 		default:
 			panic(

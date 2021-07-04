@@ -44,31 +44,31 @@ func init() {
 type Type interface {
 	Object
 
-	Name() *String
+	Name() String
 	Methods() map[string]Object
 
-	ToBool(Object, Args) *Bool
-	IsNil(Object, Args) *Bool
-	ToString(Object, Args) *String
-	ToNumber(Object, Args) *Number
+	ToBool(Object, Args) Bool
+	IsNil(Object, Args) Bool
+	ToString(Object, Args) String
+	ToNumber(Object, Args) Number
 
-	Eq(Object, Args) *Bool
-	NEq(Object, Args) *Bool
-	Gt(Object, Args) *Bool
-	GtE(Object, Args) *Bool
-	Lt(Object, Args) *Bool
-	LtE(Object, Args) *Bool
+	Eq(Object, Args) Bool
+	NEq(Object, Args) Bool
+	Gt(Object, Args) Bool
+	GtE(Object, Args) Bool
+	Lt(Object, Args) Bool
+	LtE(Object, Args) Bool
 
 	Add(Object, Args) Object
 	Sub(Object, Args) Object
 	Mul(Object, Args) Object
 	Div(Object, Args) Object
 
-	HasAttr(Object, Args) *Bool
+	HasAttr(Object, Args) Bool
 	GetAttr(Object, Args) Object
 	SetAttr(Object, Args) Object
 	DelAttr(Object, Args) Object
 
-	Hash(Object, Args) *Number
+	Hash(Object, Args) Number
 	Call(Object, Args) Object
 }

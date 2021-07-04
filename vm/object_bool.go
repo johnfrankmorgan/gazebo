@@ -7,18 +7,18 @@ type Bool struct {
 	value bool
 }
 
-func NewBool(value bool) *Bool {
-	return &Bool{value: value}
+func NewBool(value bool) Bool {
+	return Bool{value: value}
 }
 
-func (m *Bool) Type() Type {
+func (m Bool) Type() Type {
 	return Types.Bool
 }
 
-func (m *Bool) Value() interface{} {
+func (m Bool) Value() interface{} {
 	return m.value
 }
 
-func (m *Bool) Bool() bool {
+func (m Bool) Bool() bool {
 	return m.value
 }

@@ -6,6 +6,6 @@ type TypeMap struct {
 	TypeBase
 }
 
-func (m *TypeMap) Name() *String {
+func (m *TypeMap) Name() String {
 	return NewString("Map")
 }

@@ -24,6 +24,17 @@ func New() *VM {
 	vm.env.Assign("false", NewBool(false))
 	vm.env.Assign("true", NewBool(true))
 
+	print := NewNativeMethod(func(_ Object, args Args) Object {
+		things := make([]interface{}, args.Count())
+		for i, arg := range args {
+			things[i] = arg.Value()
+		}
+		fmt.Println(things...)
+		return NewNil()
+	})
+
+	vm.env.Assign("print", NewBoundNativeMethod(nil, print))
+
 	return vm
 }
 

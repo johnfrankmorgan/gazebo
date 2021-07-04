@@ -6,14 +6,14 @@ type Nil struct {
 	LazyAttributes
 }
 
-func NewNil() *Nil {
-	return &Nil{}
+func NewNil() Nil {
+	return Nil{}
 }
 
-func (m *Nil) Type() Type {
+func (m Nil) Type() Type {
 	return Types.Nil
 }
 
-func (m *Nil) Value() interface{} {
+func (m Nil) Value() interface{} {
 	return nil
 }

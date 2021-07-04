@@ -4,6 +4,7 @@ import (
 	"encoding/gob"
 	"fmt"
 	"hash/maphash"
+	"unsafe"
 )
 
 type TypeBase struct {
@@ -30,8 +31,7 @@ func (m *TypeBase) Unimplemented(method string) {
 }
 
 func (m *TypeBase) Value() interface{} {
-	m.Unimplemented("Value")
-	return nil
+	return uintptr(unsafe.Pointer(m))
 }
 
 func (m *TypeBase) Type() Type {
@@ -63,53 +63,53 @@ func (m *TypeBase) Methods() map[string]Object {
 	}
 }
 
-func (m *TypeBase) ToBool(Object, Args) *Bool {
+func (m *TypeBase) ToBool(Object, Args) Bool {
 	m.Unimplemented("ToBool")
-	return nil
-}
-
-func (m *TypeBase) IsNil(Object, Args) *Bool {
 	return NewBool(false)
 }
 
-func (m *TypeBase) ToString(Object, Args) *String {
+func (m *TypeBase) IsNil(Object, Args) Bool {
+	return NewBool(false)
+}
+
+func (m *TypeBase) ToString(Object, Args) String {
 	m.Unimplemented("ToString")
-	return nil
+	return NewString("")
 }
 
-func (m *TypeBase) ToNumber(Object, Args) *Number {
+func (m *TypeBase) ToNumber(Object, Args) Number {
 	m.Unimplemented("ToNumber")
-	return nil
+	return NewNumber(0)
 }
 
-func (m *TypeBase) Eq(Object, Args) *Bool {
+func (m *TypeBase) Eq(Object, Args) Bool {
 	m.Unimplemented("Eq")
-	return nil
+	return NewBool(false)
 }
 
-func (m *TypeBase) NEq(Object, Args) *Bool {
+func (m *TypeBase) NEq(Object, Args) Bool {
 	m.Unimplemented("NEq")
-	return nil
+	return NewBool(false)
 }
 
-func (m *TypeBase) Gt(Object, Args) *Bool {
+func (m *TypeBase) Gt(Object, Args) Bool {
 	m.Unimplemented("Gt")
-	return nil
+	return NewBool(false)
 }
 
-func (m *TypeBase) GtE(Object, Args) *Bool {
+func (m *TypeBase) GtE(Object, Args) Bool {
 	m.Unimplemented("GtE")
-	return nil
+	return NewBool(false)
 }
 
-func (m *TypeBase) Lt(Object, Args) *Bool {
+func (m *TypeBase) Lt(Object, Args) Bool {
 	m.Unimplemented("Lt")
-	return nil
+	return NewBool(false)
 }
 
-func (m *TypeBase) LtE(Object, Args) *Bool {
+func (m *TypeBase) LtE(Object, Args) Bool {
 	m.Unimplemented("LtE")
-	return nil
+	return NewBool(false)
 }
 
 func (m *TypeBase) Add(Object, Args) Object {
@@ -132,8 +132,8 @@ func (m *TypeBase) Div(Object, Args) Object {
 	return nil
 }
 
-func (m *TypeBase) HasAttr(self Object, args Args) *Bool {
-	var attr *String
+func (m *TypeBase) HasAttr(self Object, args Args) Bool {
+	var attr String
 
 	args.ExpectsExactly(1)
 	args.Parse(&attr)
@@ -142,7 +142,7 @@ func (m *TypeBase) HasAttr(self Object, args Args) *Bool {
 }
 
 func (m *TypeBase) GetAttr(self Object, args Args) Object {
-	var attr *String
+	var attr String
 
 	args.ExpectsExactly(1)
 	args.Parse(&attr)
@@ -160,7 +160,7 @@ func (m *TypeBase) GetAttr(self Object, args Args) Object {
 
 func (m *TypeBase) SetAttr(self Object, args Args) Object {
 	var (
-		attr  *String
+		attr  String
 		value Object
 	)
 
@@ -172,7 +172,7 @@ func (m *TypeBase) SetAttr(self Object, args Args) Object {
 }
 
 func (m *TypeBase) DelAttr(self Object, args Args) Object {
-	var attr *String
+	var attr String
 
 	args.ExpectsExactly(2)
 	args.Parse(&attr)
@@ -183,7 +183,7 @@ func (m *TypeBase) DelAttr(self Object, args Args) Object {
 
 var _hash maphash.Hash
 
-func (m *TypeBase) Hash(self Object, _ Args) *Number {
+func (m *TypeBase) Hash(self Object, _ Args) Number {
 	defer _hash.Reset()
 
 	if err := gob.NewEncoder(&_hash).Encode(self.Value()); err != nil {

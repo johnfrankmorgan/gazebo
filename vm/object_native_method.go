@@ -11,19 +11,19 @@ func NewNativeMethod(f func(Object, Args) Object) *NativeMethod {
 	return &NativeMethod{value: f}
 }
 
-func NewNativeMethodReturningBool(f func(Object, Args) *Bool) *NativeMethod {
+func NewNativeMethodReturningBool(f func(Object, Args) Bool) *NativeMethod {
 	return NewNativeMethod(func(self Object, args Args) Object {
 		return f(self, args)
 	})
 }
 
-func NewNativeMethodReturningNumber(f func(Object, Args) *Number) *NativeMethod {
+func NewNativeMethodReturningNumber(f func(Object, Args) Number) *NativeMethod {
 	return NewNativeMethod(func(self Object, args Args) Object {
 		return f(self, args)
 	})
 }
 
-func NewNativeMethodReturningString(f func(Object, Args) *String) *NativeMethod {
+func NewNativeMethodReturningString(f func(Object, Args) String) *NativeMethod {
 	return NewNativeMethod(func(self Object, args Args) Object {
 		return f(self, args)
 	})

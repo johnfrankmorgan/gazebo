@@ -6,6 +6,6 @@ type TypeString struct {
 	TypeBase
 }
 
-func (m *TypeString) Name() *String {
+func (m *TypeString) Name() String {
 	return NewString("String")
 }

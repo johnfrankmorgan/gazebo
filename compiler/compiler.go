@@ -120,7 +120,8 @@ func (m *Compiler) VisitELiteral(expr *ast.ELiteral) {
 		m.emit(op.LoadConst, val)
 
 	case ast.LitTypeString:
-		m.todo()
+		str := expr.Lexeme[1 : len(expr.Lexeme)-1]
+		m.emit(op.LoadConst, str)
 	}
 }
 
