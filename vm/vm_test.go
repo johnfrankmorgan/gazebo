@@ -4,41 +4,41 @@ import (
 	"testing"
 
 	"github.com/johnfrankmorgan/gazebo/compiler"
-	"github.com/johnfrankmorgan/gazebo/compiler/code"
+	"github.com/johnfrankmorgan/gazebo/parser"
+	"github.com/stretchr/testify/assert"
 )
 
-var (
-	ins code.Code
-	vm  *VM
-)
-
-func init() {
-	var err error
-
-	source := `
-		N = 20;
-
-		fib = fun (n) {
-			if (n < 2) {
-				return n;
-			}
-
-			return fib(n-1) + fib(n-2);
-		};
-
-		fib(N);
-	`
-
-	ins, err = compiler.Compile(source)
-	if err != nil {
-		panic(err)
+func TestVMRun(t *testing.T) {
+	type test struct {
+		source string
+		check  func(*assert.Assertions, *VM)
 	}
 
-	vm = New()
-}
+	tests := []test{
+		{
+			source: "x = 1; y = x",
+			check: func(assert *assert.Assertions, vm *VM) {
+				assert.Equal(2, vm.stack.Size())
 
-func BenchmarkVMRun(b *testing.B) {
-	for n := 0; n < b.N; n++ {
-		vm.Run(ins)
+				assert.True(vm.env.Defined("x"))
+				assert.Equal(NewNumber(1.0), vm.env.Lookup("x"))
+				assert.True(vm.env.Defined("y"))
+
+				assert.Equal(NewNumber(1.0), vm.env.Lookup("y"))
+			},
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.source, func(t *testing.T) {
+			tokens := parser.Tokenize(test.source)
+			parser := parser.New(tokens)
+			compiler := compiler.New()
+			code := compiler.Compile(parser.Parse())
+
+			vm := New()
+			vm.Run(code)
+			test.check(assert.New(t), vm)
+		})
 	}
 }

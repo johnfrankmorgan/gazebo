@@ -1,48 +1,26 @@
 package vm
 
-import (
-	"github.com/johnfrankmorgan/gazebo/assert"
-	"github.com/johnfrankmorgan/gazebo/debug"
-	"github.com/johnfrankmorgan/gazebo/g"
-)
-
-type stack struct {
-	values []g.Object
+type Stack struct {
+	values []Object
 }
 
-func (m *stack) dump() {
-	debug.Printf("STACK\n")
-
-	for off, value := range m.values {
-		debug.Printf("%4d: %s\n", m.size()-off, value.G_str())
-	}
-
-	debug.Printf("\n")
+func NewStack() *Stack {
+	return &Stack{}
 }
 
-func (m *stack) top() g.Object {
-	if size := m.size(); size > 0 {
-		return m.values[size-1]
-	}
-
-	return nil
+func (m *Stack) Size() int {
+	return len(m.values)
 }
 
-func (m *stack) push(value g.Object) {
+func (m *Stack) Push(value Object) {
 	m.values = append(m.values, value)
 }
 
-func (m *stack) pop() g.Object {
-	if size := m.size(); size > 0 {
-		value := m.values[size-1]
-		m.values = m.values[:size-1]
-		return value
-	}
-
-	assert.Unreached("stack empty")
-	return nil
+func (m *Stack) Peek() Object {
+	return m.values[m.Size()-1]
 }
 
-func (m *stack) size() int {
-	return len(m.values)
+func (m *Stack) Pop() Object {
+	defer func() { m.values = m.values[:m.Size()-1] }()
+	return m.Peek()
 }

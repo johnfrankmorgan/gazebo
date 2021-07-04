@@ -1,56 +1,47 @@
 package vm
 
-import (
-	"github.com/johnfrankmorgan/gazebo/errors"
-	"github.com/johnfrankmorgan/gazebo/g"
-)
-
-type env struct {
-	parent *env
-	values g.Attributes
+type Env struct {
+	parent *Env
+	values map[string]Object
 }
 
-func (m *env) resolve(name string) *env {
-	if m.values.Has(name) {
+func NewEnv(values map[string]Object, parent *Env) *Env {
+	if values == nil {
+		values = map[string]Object{}
+	}
+
+	return &Env{values: values, parent: parent}
+}
+
+func (m *Env) Resolve(name string) *Env {
+	if _, ok := m.values[name]; ok {
 		return m
 	}
 
 	if m.parent != nil {
-		return m.parent.resolve(name)
+		return m.parent.Resolve(name)
 	}
 
 	return nil
 }
 
-func (m *env) lookup(name string) g.Object {
-	if env := m.resolve(name); env != nil {
-		return env.values.Get(name)
-	}
-
-	errors.ErrRuntime.Panic("undefined name: %s", name)
-	return nil
+func (m *Env) Defined(name string) bool {
+	return m.Resolve(name) != nil
 }
 
-func (m *env) defined(name string) bool {
-	return m.resolve(name) != nil
-}
-
-func (m *env) define(name string, value g.Object) {
-	m.values.Set(name, value)
-}
-
-func (m *env) assign(name string, value g.Object) {
-	if env := m.resolve(name); env != nil {
-		env.values.Set(name, value)
+func (m *Env) Assign(name string, value Object) {
+	if env := m.Resolve(name); env != nil {
+		env.values[name] = value
 		return
 	}
 
-	errors.ErrRuntime.Panic("undefined name: %s", name)
-	return
+	m.values[name] = value
 }
 
-func (m *env) remove(name string) {
-	if env := m.resolve(name); env != nil {
-		env.values.Delete(name)
+func (m *Env) Lookup(name string) Object {
+	if env := m.Resolve(name); env != nil {
+		return env.values[name]
 	}
+
+	return NewNil()
 }
