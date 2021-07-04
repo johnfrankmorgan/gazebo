@@ -8,9 +8,10 @@ import (
 )
 
 type VM struct {
-	env   *Env
-	stack *Stack
-	pc    int
+	env        *Env
+	stack      *Stack
+	pc         int
+	retpending bool
 }
 
 func New() *VM {
@@ -44,6 +45,11 @@ func (m *VM) run(code []compiler.Ins) {
 
 		m.exec(ins)
 		m.pc++
+
+		if m.retpending {
+			m.retpending = false
+			return
+		}
 	}
 }
 
@@ -140,7 +146,7 @@ func (m *VM) exec(ins compiler.Ins) {
 		m.stack.Push(NewFunction(m, def.Args, def.Body))
 
 	case op.Return:
-		return
+		m.retpending = true
 
 	case op.Call:
 		f := m.stack.Pop()
