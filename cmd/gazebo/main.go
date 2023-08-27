@@ -1,35 +1,16 @@
 package main
 
 import (
-	"bufio"
-	"fmt"
-	"gazebo/compiler"
-	"gazebo/parser"
-	"gazebo/vm"
-	"os"
-
-	"github.com/alecthomas/repr"
+	"github.com/alecthomas/kong"
 )
 
 func main() {
-	fmt.Print(" > ")
+	cli := struct {
+		Parse   Parse   `cmd:"" help:"Parses the specified file(s) and prints the resulting AST(s)."`
+		Compile Compile `cmd:"" help:"Compiles the specified file(s) and prints the resulting bytecode."`
+	}{}
 
-	sc := bufio.NewScanner(os.Stdin)
+	ctx := kong.Parse(&cli)
 
-	vm := vm.New()
-
-	for sc.Scan() {
-		line := sc.Text()
-
-		program := parser.Parse(line)
-		repr.Println(program)
-
-		code := compiler.Compile(program)
-		repr.Println(code)
-
-		obj := vm.Run(code)
-		repr.Println(obj)
-
-		fmt.Print("\n > ")
-	}
+	ctx.FatalIfErrorf(ctx.Run())
 }

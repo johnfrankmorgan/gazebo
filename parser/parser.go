@@ -22,6 +22,10 @@ func Parse(source string) *ast.Program {
 	return p.program
 }
 
+func ParseBytes(source []byte) *ast.Program {
+	return Parse(string(source))
+}
+
 type parser struct {
 	source   string
 	position ast.Position

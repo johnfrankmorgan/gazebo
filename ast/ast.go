@@ -43,9 +43,9 @@ type Node struct {
 	Position Position
 }
 
-type acceptor[T any] struct{}
+type Acceptor[T any] struct{}
 
-func (n *acceptor[T]) Accept(v Visitor) {
+func (n *Acceptor[T]) Accept(v Visitor) {
 	actual := (*T)(unsafe.Pointer(n))
 
 	val := reflect.ValueOf(actual)
@@ -71,21 +71,21 @@ type Expression interface {
 }
 
 type Comment struct {
-	acceptor[Comment]
+	Acceptor[Comment]
 	Node
 
 	Text string
 }
 
 type Block struct {
-	acceptor[Block]
+	Acceptor[Block]
 	Node
 
 	Statements []Statement
 }
 
 type Assignment struct {
-	acceptor[Assignment]
+	Acceptor[Assignment]
 	Node
 
 	Identifier string
@@ -93,7 +93,7 @@ type Assignment struct {
 }
 
 type If struct {
-	acceptor[If]
+	Acceptor[If]
 	Node
 
 	Condition Expression
@@ -102,7 +102,7 @@ type If struct {
 }
 
 type While struct {
-	acceptor[While]
+	Acceptor[While]
 	Node
 
 	Condition Expression
@@ -110,7 +110,7 @@ type While struct {
 }
 
 type ExpressionStatement struct {
-	acceptor[ExpressionStatement]
+	Acceptor[ExpressionStatement]
 	Node
 
 	Expression Expression
@@ -138,7 +138,7 @@ const (
 )
 
 type Binary struct {
-	acceptor[Binary]
+	Acceptor[Binary]
 	Node
 
 	Op    BinaryOp
@@ -157,7 +157,7 @@ const (
 )
 
 type Unary struct {
-	acceptor[Unary]
+	Acceptor[Unary]
 	Node
 
 	Op    UnaryOp
@@ -165,28 +165,28 @@ type Unary struct {
 }
 
 type Group struct {
-	acceptor[Group]
+	Acceptor[Group]
 	Node
 
 	Expression Expression
 }
 
 type Integer struct {
-	acceptor[Integer]
+	Acceptor[Integer]
 	Node
 
 	Value string
 }
 
 type Float struct {
-	acceptor[Float]
+	Acceptor[Float]
 	Node
 
 	Value string
 }
 
 type String struct {
-	acceptor[String]
+	Acceptor[String]
 	Node
 
 	Position Position
@@ -194,29 +194,29 @@ type String struct {
 }
 
 type Identifier struct {
-	acceptor[Identifier]
+	Acceptor[Identifier]
 	Node
 
 	Name string
 }
 
 type Null struct {
-	acceptor[Null]
+	Acceptor[Null]
 	Node
 }
 
 type False struct {
-	acceptor[False]
+	Acceptor[False]
 	Node
 }
 
 type True struct {
-	acceptor[True]
+	Acceptor[True]
 	Node
 }
 
 type Call struct {
-	acceptor[Call]
+	Acceptor[Call]
 	Node
 
 	Expression Expression
