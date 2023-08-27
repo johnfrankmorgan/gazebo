@@ -1,4 +1,4 @@
-package gazebo
+package objects
 
 import "fmt"
 
