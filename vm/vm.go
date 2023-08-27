@@ -122,13 +122,29 @@ func (vm *VM) exec(opcode op.Opcode) {
 		variables.Store(name, vm.frame().Stack.Pop())
 
 	case op.Jump:
+		panic("todo")
+
 	case op.RelativeJump:
+		panic("todo")
+
 	case op.RelativeJumpIfTrue:
+		panic("todo")
+
 	case op.RelativeJumpIfFalse:
+		panic("todo")
+
 	case op.UnaryNegate:
+		panic("todo")
+
 	case op.UnaryNot:
+		panic("todo")
+
 	case op.BinaryAnd:
+		panic("todo")
+
 	case op.BinaryOr:
+		panic("todo")
+
 	case op.BinaryEqual:
 		other := vm.frame().Stack.Pop()
 		self := vm.frame().Stack.Pop()
@@ -150,6 +166,8 @@ func (vm *VM) exec(opcode op.Opcode) {
 		vm.frame().Stack.Push(self.Type.Less(self, other).AsObject())
 
 	case op.BinaryLessOrEqual:
+		panic("todo")
+
 	case op.BinaryGreater:
 		other := vm.frame().Stack.Pop()
 		self := vm.frame().Stack.Pop()
@@ -157,6 +175,7 @@ func (vm *VM) exec(opcode op.Opcode) {
 		vm.frame().Stack.Push(self.Type.Greater(self, other).AsObject())
 
 	case op.BinaryGreaterOrEqual:
+		panic("todo")
 
 	case op.BinaryAdd:
 		other := vm.frame().Stack.Pop()
@@ -197,5 +216,8 @@ func (vm *VM) exec(opcode op.Opcode) {
 		}
 
 		vm.frame().Stack.Push(self.Type.Call(self, args...))
+
+	default:
+		panic(fmt.Errorf("vm: unimplemented opcode: %v", opcode))
 	}
 }
