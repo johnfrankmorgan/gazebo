@@ -75,7 +75,8 @@ statements:
 	;
 
 statement:
-	  terminated SEMICOLON
+	  SEMICOLON { $$ = &ast.Empty{Node: ast.Node{$<Position>$}} }
+	| terminated SEMICOLON
 	| unterminated
 	;
 

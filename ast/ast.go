@@ -22,6 +22,7 @@ type Visitor interface {
 	VisitAssignment(*Assignment)
 	VisitBlock(*Block)
 	VisitComment(*Comment)
+	VisitEmpty(*Empty)
 	VisitExpressionStatement(*ExpressionStatement)
 	VisitFunc(*Func)
 	VisitIf(*If)
@@ -82,6 +83,11 @@ type Statement interface {
 
 type Expression interface {
 	Accept(Visitor)
+}
+
+type Empty struct {
+	Acceptor[Empty]
+	Node
 }
 
 type Comment struct {

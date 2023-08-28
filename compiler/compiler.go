@@ -43,6 +43,10 @@ func (*compiler) VisitComment(*ast.Comment) {
 	//
 }
 
+func (*compiler) VisitEmpty(*ast.Empty) {
+	//
+}
+
 func (c *compiler) VisitExpressionStatement(node *ast.ExpressionStatement) {
 	node.Expression.Accept(c)
 }
