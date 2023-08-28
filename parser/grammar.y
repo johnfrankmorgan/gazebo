@@ -60,7 +60,7 @@ import (
 %%
 program:
 	statements {
-		yylex.(*parser).program.Statements = $1
+		yylex.(*lexer).program.Statements = $1
 	}
 	;
 

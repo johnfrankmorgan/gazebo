@@ -1,6 +1,7 @@
 package ast
 
 import (
+	"fmt"
 	"reflect"
 	"unsafe"
 )
@@ -57,9 +58,18 @@ func (n *Acceptor[T]) Accept(v Visitor) {
 }
 
 type Position struct {
+	File   string
 	Line   int
 	Column int
 	Offset int
+}
+
+func (p Position) String() string {
+	if p.File != "" {
+		return fmt.Sprintf("%s:%d:%d", p.File, p.Line, p.Column)
+	}
+
+	return fmt.Sprintf("%d:%d", p.Line, p.Column)
 }
 
 type Statement interface {

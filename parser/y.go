@@ -555,7 +555,7 @@ yydefault:
 		yyDollar = yyS[yypt-1 : yypt+1]
 //line grammar.y:62
 		{
-			yylex.(*parser).program.Statements = yyDollar[1].Statements
+			yylex.(*lexer).program.Statements = yyDollar[1].Statements
 		}
 	case 2:
 		yyDollar = yyS[yypt-1 : yypt+1]

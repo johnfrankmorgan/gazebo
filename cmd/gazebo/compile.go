@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"gazebo/compiler"
 	"gazebo/parser"
@@ -15,6 +16,7 @@ type Compile struct {
 }
 
 func (cmd *Compile) Run() error {
+	errs := error(nil)
 	compiled := make(map[string]*compiler.Code, len(cmd.Files))
 
 	for _, file := range cmd.Files {
@@ -25,11 +27,19 @@ func (cmd *Compile) Run() error {
 			return fmt.Errorf("gazebo: failed to read file %s: %w", file.Name(), err)
 		}
 
-		program := parser.ParseBytes(source)
+		program, err := parser.ParseBytes(source, file.Name())
+		if err != nil {
+			errs = errors.Join(errs, err)
+			continue
+		}
 
 		code := compiler.Compile(program)
 
 		compiled[file.Name()] = code
+	}
+
+	if errs != nil {
+		return errs
 	}
 
 	output := os.Stdout
