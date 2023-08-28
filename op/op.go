@@ -37,6 +37,8 @@ const (
 	LoadName
 	StoreName
 
+	MakeFunc
+
 	Jump
 	RelativeJump
 	RelativeJumpIfTrue
@@ -60,6 +62,7 @@ const (
 	BinaryModulus
 
 	Call
+	Return
 )
 
 // keep in sync with the ast package's BinaryOp constants

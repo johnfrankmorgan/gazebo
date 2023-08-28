@@ -15,31 +15,33 @@ func _() {
 	_ = x[LoadTrue-5]
 	_ = x[LoadName-6]
 	_ = x[StoreName-7]
-	_ = x[Jump-8]
-	_ = x[RelativeJump-9]
-	_ = x[RelativeJumpIfTrue-10]
-	_ = x[RelativeJumpIfFalse-11]
-	_ = x[UnaryNegate-12]
-	_ = x[UnaryInvert-13]
-	_ = x[BinaryAnd-14]
-	_ = x[BinaryOr-15]
-	_ = x[BinaryEqual-16]
-	_ = x[BinaryNotEqual-17]
-	_ = x[BinaryLess-18]
-	_ = x[BinaryLessOrEqual-19]
-	_ = x[BinaryGreater-20]
-	_ = x[BinaryGreaterOrEqual-21]
-	_ = x[BinaryAdd-22]
-	_ = x[BinarySubtract-23]
-	_ = x[BinaryMultiply-24]
-	_ = x[BinaryDivide-25]
-	_ = x[BinaryModulus-26]
-	_ = x[Call-27]
+	_ = x[MakeFunc-8]
+	_ = x[Jump-9]
+	_ = x[RelativeJump-10]
+	_ = x[RelativeJumpIfTrue-11]
+	_ = x[RelativeJumpIfFalse-12]
+	_ = x[UnaryNegate-13]
+	_ = x[UnaryInvert-14]
+	_ = x[BinaryAnd-15]
+	_ = x[BinaryOr-16]
+	_ = x[BinaryEqual-17]
+	_ = x[BinaryNotEqual-18]
+	_ = x[BinaryLess-19]
+	_ = x[BinaryLessOrEqual-20]
+	_ = x[BinaryGreater-21]
+	_ = x[BinaryGreaterOrEqual-22]
+	_ = x[BinaryAdd-23]
+	_ = x[BinarySubtract-24]
+	_ = x[BinaryMultiply-25]
+	_ = x[BinaryDivide-26]
+	_ = x[BinaryModulus-27]
+	_ = x[Call-28]
+	_ = x[Return-29]
 }
 
-const _Opcode_name = "ExecuteChildLoadConstantLoadNullLoadFalseLoadTrueLoadNameStoreNameJumpRelativeJumpRelativeJumpIfTrueRelativeJumpIfFalseUnaryNegateUnaryInvertBinaryAndBinaryOrBinaryEqualBinaryNotEqualBinaryLessBinaryLessOrEqualBinaryGreaterBinaryGreaterOrEqualBinaryAddBinarySubtractBinaryMultiplyBinaryDivideBinaryModulusCall"
+const _Opcode_name = "ExecuteChildLoadConstantLoadNullLoadFalseLoadTrueLoadNameStoreNameMakeFuncJumpRelativeJumpRelativeJumpIfTrueRelativeJumpIfFalseUnaryNegateUnaryInvertBinaryAndBinaryOrBinaryEqualBinaryNotEqualBinaryLessBinaryLessOrEqualBinaryGreaterBinaryGreaterOrEqualBinaryAddBinarySubtractBinaryMultiplyBinaryDivideBinaryModulusCallReturn"
 
-var _Opcode_index = [...]uint16{0, 12, 24, 32, 41, 49, 57, 66, 70, 82, 100, 119, 130, 141, 150, 158, 169, 183, 193, 210, 223, 243, 252, 266, 280, 292, 305, 309}
+var _Opcode_index = [...]uint16{0, 12, 24, 32, 41, 49, 57, 66, 74, 78, 90, 108, 127, 138, 149, 158, 166, 177, 191, 201, 218, 231, 251, 260, 274, 288, 300, 313, 317, 323}
 
 func (i Opcode) String() string {
 	i -= 1

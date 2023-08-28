@@ -23,10 +23,13 @@ type Visitor interface {
 	VisitBlock(*Block)
 	VisitComment(*Comment)
 	VisitExpressionStatement(*ExpressionStatement)
+	VisitFunc(*Func)
 	VisitIf(*If)
+	VisitReturn(*Return)
 	VisitWhile(*While)
 
 	// expressions
+	VisitAnonFunc(*AnonFunc)
 	VisitBinary(*Binary)
 	VisitCall(*Call)
 	VisitFalse(*False)
@@ -94,6 +97,22 @@ type Block struct {
 	Statements []Statement
 }
 
+type Func struct {
+	Acceptor[Func]
+	Node
+
+	Name      string
+	Arguments []string
+	Body      Statement
+}
+
+type Return struct {
+	Acceptor[Return]
+	Node
+
+	Expression Expression
+}
+
 type Assignment struct {
 	Acceptor[Assignment]
 	Node
@@ -146,6 +165,14 @@ const (
 	BinaryOpDivide                  // /
 	BinaryOpModulus                 // %
 )
+
+type AnonFunc struct {
+	Acceptor[AnonFunc]
+	Node
+
+	Arguments []string
+	Body      Statement
+}
 
 type Binary struct {
 	Acceptor[Binary]

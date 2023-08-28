@@ -47,6 +47,25 @@ func (c *compiler) VisitExpressionStatement(node *ast.ExpressionStatement) {
 	node.Expression.Accept(c)
 }
 
+func (c *compiler) VisitFunc(node *ast.Func) {
+	code := c.code
+
+	body := new(Code)
+	c.code = body
+
+	node.Body.Accept(c)
+
+	c.code = code
+
+	c.code.Emit(op.MakeFunc, c.code.Name(node.Name), c.code.Child(body), len(node.Arguments))
+
+	for _, argument := range node.Arguments {
+		c.code.EmitArgument(c.code.Name(argument))
+	}
+
+	c.code.Emit(op.StoreName, c.code.Name(node.Name))
+}
+
 func (c *compiler) VisitIf(node *ast.If) {
 	node.Condition.Accept(c)
 
@@ -70,13 +89,23 @@ func (c *compiler) VisitIf(node *ast.If) {
 	c.code = body.Parent
 }
 
+func (c *compiler) VisitReturn(node *ast.Return) {
+	if node.Expression != nil {
+		node.Expression.Accept(c)
+	} else {
+		c.code.Emit(op.LoadNull)
+	}
+
+	c.code.Emit(op.Return)
+}
+
 func (c *compiler) VisitWhile(node *ast.While) {
 	pc := len(c.code.Opcodes)
 
 	node.Condition.Accept(c)
 
 	body := new(Code)
-	c.code.Emit(op.RelativeJumpIfFalse, 2)
+	c.code.Emit(op.RelativeJumpIfFalse, 4)
 	c.code.Emit(op.ExecuteChild, c.code.Child(body))
 	c.code = body
 
@@ -87,6 +116,23 @@ func (c *compiler) VisitWhile(node *ast.While) {
 }
 
 // expressions
+
+func (c *compiler) VisitAnonFunc(node *ast.AnonFunc) {
+	code := c.code
+
+	body := new(Code)
+	c.code = body
+
+	node.Body.Accept(c)
+
+	c.code = code
+
+	c.code.Emit(op.MakeFunc, c.code.Name("anonymous"), c.code.Child(body), len(node.Arguments))
+
+	for _, argument := range node.Arguments {
+		c.code.EmitArgument(c.code.Name(argument))
+	}
+}
 
 func (c *compiler) VisitBinary(node *ast.Binary) {
 	node.Left.Accept(c)

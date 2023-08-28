@@ -7,12 +7,13 @@ import (
 %}
 
 %union{
-	Position    ast.Position
-	Lexeme      string
-	Expression  ast.Expression
-	Expressions []ast.Expression
-	Statement   ast.Statement
-	Statements  []ast.Statement
+	Position      ast.Position
+	Lexeme        string
+	Expression    ast.Expression
+	Expressions   []ast.Expression
+	Statement     ast.Statement
+	Statements    []ast.Statement
+	FuncArguments []string
 }
 
 %token <Lexeme> NEWLINE
@@ -46,16 +47,19 @@ import (
 %token <Lexeme> IF
 %token <Lexeme> ELSE
 %token <Lexeme> WHILE
+%token <Lexeme> FUNC
+%token <Lexeme> ANON_FUNC
 %token <Lexeme> RETURN
 %token <Lexeme> FLOAT
 %token <Lexeme> INTEGER
 %token <Lexeme> STRING
 %token <Lexeme> IDENTIFIER
 
-%type <Expression> expression binary logical equality comparison multiplication addition unary primary float group identifier integer string
+%type <Expression> expression binary logical equality comparison multiplication addition unary primary anon_func float group identifier integer string
 %type <Expressions> arguments
-%type <Statement> statement unterminated block comment if while terminated assignment
+%type <Statement> statement unterminated block comment func if while terminated assignment
 %type <Statements> statements
+%type <FuncArguments> func_arguments
 
 %%
 program:
@@ -78,6 +82,8 @@ statement:
 terminated:
 	  assignment
 	| expression { $$ = &ast.ExpressionStatement{Node: ast.Node{$<Position>$}, Expression: $1} }
+	| RETURN expression { $$ = &ast.Return{Node: ast.Node{$<Position>$}, Expression: $2} }
+	| RETURN { $$ = &ast.Return{Node: ast.Node{$<Position>$}} }
 	;
 
 assignment: IDENTIFIER EQUAL expression { $$ = &ast.Assignment{Node: ast.Node{$<Position>$}, Identifier: $1, Expression: $3} };
@@ -85,6 +91,7 @@ assignment: IDENTIFIER EQUAL expression { $$ = &ast.Assignment{Node: ast.Node{$<
 unterminated:
 	  block
 	| comment
+	| func
 	| if
 	| while
 	;
@@ -92,6 +99,14 @@ unterminated:
 block: BRACE_OPEN statements BRACE_CLOSE { $$ = &ast.Block{Node: ast.Node{$<Position>$}, Statements: $2} };
 
 comment: COMMENT { $$ = &ast.Comment{Node: ast.Node{$<Position>$}, Text: $1} };
+
+func: FUNC IDENTIFIER PAREN_OPEN func_arguments PAREN_CLOSE statement { $$ = &ast.Func{Node: ast.Node{$<Position>$}, Name: $2, Arguments: $4, Body: $6} };
+
+func_arguments: 
+	  func_arguments COMMA IDENTIFIER { $$ = append($$, $3) }
+	| IDENTIFIER { $$ = append($$, $1) }
+	| { $$ = nil }
+	;
 
 if:
 	  IF expression statement ELSE statement { $$ = &ast.If{Node: ast.Node{$<Position>$}, Condition: $2, Body: $3, Else: $5} };
@@ -149,6 +164,7 @@ unary:
 
 primary:
 	  primary PAREN_OPEN arguments PAREN_CLOSE { $$ = &ast.Call{Node: ast.Node{$<Position>$}, Expression: $1, Arguments: $3} }
+	| anon_func
 	| float
 	| group
 	| identifier
@@ -157,10 +173,12 @@ primary:
 	;
 
 arguments:
-	  expression { $$ = append($$, $1) }
-	| arguments COMMA expression { $$ = append($$, $3) }
+	  arguments COMMA expression { $$ = append($$, $3) }
+	| expression { $$ = append($$, $1) }
 	| { $$ = nil }
 	;
+
+anon_func: ANON_FUNC PAREN_OPEN func_arguments PAREN_CLOSE statement { $$ = &ast.AnonFunc{Node: ast.Node{$<Position>$}, Arguments: $3, Body: $5} };
 
 float: FLOAT { $$ = &ast.Float{Node: ast.Node{$<Position>$}, Value: $1} }
 

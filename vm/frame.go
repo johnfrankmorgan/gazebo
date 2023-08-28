@@ -12,6 +12,7 @@ type Frame struct {
 	Stack  *ds.Stack[*objects.Object]
 	Code   *compiler.Code
 	PC     int
+	Result *objects.Object
 }
 
 func NewFrame(parent *Frame, code *compiler.Code) *Frame {

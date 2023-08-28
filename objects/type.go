@@ -19,6 +19,7 @@ var Types = struct {
 	Bool    *Type
 	String  *Type
 	Builtin *Type
+	Func    *Type
 }{
 	Object:  &Type{Name: "Object"},
 	Type:    &Type{Name: "Type"},
@@ -27,6 +28,7 @@ var Types = struct {
 	Bool:    &Type{Name: "Bool"},
 	String:  &Type{Name: "String"},
 	Builtin: &Type{Name: "Builtin"},
+	Func:    &Type{Name: "Func"},
 }
 
 func init() {
@@ -63,6 +65,10 @@ func init() {
 	Types.Builtin.Parent = Types.Object
 	Types.Builtin.Methods = BuiltinMethods
 
+	Types.Func.Type = Types.Type
+	Types.Func.Parent = Types.Object
+	Types.Func.Methods = FuncMethods
+
 	rval := reflect.ValueOf(Types)
 	for i := 0; i < rval.NumField(); i++ {
 		f := rval.Field(i)
@@ -77,12 +83,15 @@ type TypeMethods struct {
 	Repr   func(self *Object) *String
 	String func(self *Object) *String
 
+	// unary
+	Negate func(self *Object) *Object
+
 	// comparisons
 	Equals  func(self, other *Object) *Bool
 	Less    func(self, other *Object) *Bool
 	Greater func(self, other *Object) *Bool
 
-	// number methods
+	// numeric
 	Add      func(self, other *Object) *Object
 	Subtract func(self, other *Object) *Object
 	Multiply func(self, other *Object) *Object
@@ -157,6 +166,16 @@ func (t *Type) Greater(self, other *Object) *Bool {
 	for t := t; t != nil; t = t.Parent {
 		if t.Methods.Greater != nil {
 			return t.Methods.Greater(self, other)
+		}
+	}
+
+	panic("todo")
+}
+
+func (t *Type) Negate(self *Object) *Object {
+	for t := t; t != nil; t = t.Parent {
+		if t.Methods.Negate != nil {
+			return t.Methods.Negate(self)
 		}
 	}
 

@@ -96,9 +96,11 @@ var rules = []struct {
 	{ELSE, lit(`else`)},
 	{WHILE, lit(`while`)},
 	{OR, lit(`or`)},
+	{FUNC, lit(`func`)},
+	{ANON_FUNC, lit(`anon func`)},
 	{RETURN, lit(`return`)},
 	{FLOAT, exp(`[0-9]*\.[0-9]+`)},
 	{INTEGER, exp(`[0-9]+`)},
-	{STRING, exp(`("(?:\\.|[^"])*"|'(?:\\.|[^'])*')`)},
+	{STRING, exp(`"(?:\\.|[^"])*"`)},
 	{IDENTIFIER, exp(`[a-zA-Z_][a-zA-Z0-9_]*`)},
 }

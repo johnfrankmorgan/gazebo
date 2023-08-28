@@ -1,6 +1,42 @@
-x = 100;
+func fib(n) {
+	if n <= 0 return "n should be greater than zero!";
 
-y = x*x;
-y = y+x-200;
+	a = 1;
+	b = 0;
+	c = 0;
 
-print(y);
+	while n > 0 {
+		c = a;
+		a = b + a;
+		b = c;
+
+		n = n - 1;
+	}
+
+	return a;
+}
+
+func call_with_argument(fn, arg) fn(arg);
+
+print("fib(-1):", call_with_argument(fib, -1));
+print("fib(9):", call_with_argument(fib, 9));
+print("fib(50):", call_with_argument(fib, 50));
+
+func fib_recursive(n) {
+	if n < 2 return n;
+
+	return fib_recursive(n-1) + fib_recursive(n-2);
+}
+
+print("fib_recursive(15):", fib_recursive(15));
+
+fn = anon func(a, b, c) {
+	if a == 2 {
+		return 456;
+	}
+
+	return a + b + c;
+};
+
+print("fn(1, 2, 3):", fn(1, 2, 3));
+print("fn(2, 3, 4):", fn(2, 3, 4));

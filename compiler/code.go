@@ -16,6 +16,10 @@ type Code struct {
 func (c *Code) Emit(opcode op.Opcode, args ...int) {
 	c.Opcodes = append(c.Opcodes, opcode)
 
+	c.EmitArgument(args...)
+}
+
+func (c *Code) EmitArgument(args ...int) {
 	for _, arg := range args {
 		c.Opcodes = append(c.Opcodes, op.Argument(arg))
 	}
