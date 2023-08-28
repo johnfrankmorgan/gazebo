@@ -6,6 +6,7 @@ import (
 
 func main() {
 	cli := struct {
+		Run     Run     `cmd:"" default:"withargs" help:"Executes the specified file."`
 		Parse   Parse   `cmd:"" help:"Parses the specified file(s) and prints the resulting AST(s)."`
 		Compile Compile `cmd:"" help:"Compiles the specified file(s) and prints the resulting bytecode."`
 	}{}

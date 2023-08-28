@@ -122,16 +122,26 @@ func (vm *VM) exec(opcode op.Opcode) {
 		variables.Store(name, vm.frame().Stack.Pop())
 
 	case op.Jump:
-		panic("todo")
+		vm.frame().PC = vm.frame().NextArgument()
 
 	case op.RelativeJump:
-		panic("todo")
+		vm.frame().PC += vm.frame().NextArgument()
 
 	case op.RelativeJumpIfTrue:
-		panic("todo")
+		offset := vm.frame().NextArgument()
+		self := vm.frame().Stack.Pop()
+
+		if self.Type.Bool(self).Value() {
+			vm.frame().PC += offset
+		}
 
 	case op.RelativeJumpIfFalse:
-		panic("todo")
+		offset := vm.frame().NextArgument()
+		self := vm.frame().Stack.Pop()
+
+		if !self.Type.Bool(self).Value() {
+			vm.frame().PC += offset
+		}
 
 	case op.UnaryNegate:
 		panic("todo")
@@ -140,10 +150,22 @@ func (vm *VM) exec(opcode op.Opcode) {
 		panic("todo")
 
 	case op.BinaryAnd:
-		panic("todo")
+		other := vm.frame().Stack.Pop()
+		self := vm.frame().Stack.Pop()
+
+		result := self.Type.Bool(self).Value() && other.Type.Bool(other).Value()
+
+		vm.frame().Stack.Push(objects.Singletons.Bool(result).AsObject())
 
 	case op.BinaryOr:
-		panic("todo")
+		other := vm.frame().Stack.Pop()
+		self := vm.frame().Stack.Pop()
+
+		if self.Type.Bool(self).Value() {
+			vm.frame().Stack.Push(self)
+		} else {
+			vm.frame().Stack.Push(other)
+		}
 
 	case op.BinaryEqual:
 		other := vm.frame().Stack.Pop()
