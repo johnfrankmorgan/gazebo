@@ -23,7 +23,7 @@ type yySymType struct {
 	FuncArguments []string
 }
 
-const NEWLINE = 57346
+const DOT = 57346
 const SEMICOLON = 57347
 const COMMA = 57348
 const COMMENT = 57349
@@ -66,7 +66,7 @@ var yyToknames = [...]string{
 	"$end",
 	"error",
 	"$unk",
-	"NEWLINE",
+	"DOT",
 	"SEMICOLON",
 	"COMMA",
 	"COMMENT",
@@ -112,7 +112,7 @@ const yyEofCode = 1
 const yyErrCode = 2
 const yyInitialStackSize = 16
 
-//line grammar.y:197
+//line grammar.y:198
 
 //line yacctab:1
 var yyExca = [...]int8{
@@ -123,44 +123,44 @@ var yyExca = [...]int8{
 
 const yyPrivate = 57344
 
-const yyLast = 143
+const yyLast = 146
 
 var yyAct = [...]int8{
-	3, 91, 25, 44, 23, 7, 103, 24, 17, 16,
-	72, 38, 92, 50, 46, 95, 28, 53, 54, 29,
-	22, 48, 27, 64, 65, 51, 52, 21, 39, 40,
-	41, 93, 55, 19, 56, 20, 18, 36, 8, 37,
-	42, 43, 14, 2, 70, 68, 98, 66, 67, 45,
-	44, 100, 74, 75, 71, 63, 62, 61, 17, 16,
-	49, 38, 80, 81, 82, 83, 28, 87, 88, 84,
-	85, 86, 27, 73, 90, 94, 78, 79, 39, 40,
-	41, 76, 77, 19, 69, 20, 18, 36, 8, 37,
-	42, 43, 14, 38, 1, 6, 101, 98, 28, 38,
-	104, 105, 99, 102, 27, 57, 59, 58, 60, 97,
-	39, 40, 41, 4, 96, 13, 39, 40, 41, 36,
-	12, 37, 42, 43, 47, 36, 11, 37, 42, 43,
-	47, 10, 9, 5, 89, 35, 34, 33, 32, 31,
-	30, 26, 15,
+	3, 93, 25, 44, 23, 7, 21, 24, 17, 16,
+	73, 38, 105, 94, 46, 92, 28, 50, 97, 53,
+	54, 22, 27, 48, 95, 51, 52, 29, 39, 40,
+	41, 74, 55, 19, 56, 20, 18, 36, 8, 37,
+	42, 43, 14, 69, 71, 57, 59, 58, 60, 68,
+	44, 45, 75, 76, 72, 66, 67, 63, 62, 61,
+	77, 78, 81, 82, 83, 84, 38, 88, 89, 85,
+	86, 87, 2, 70, 91, 1, 96, 79, 80, 17,
+	16, 100, 38, 39, 40, 41, 102, 28, 6, 49,
+	64, 65, 36, 27, 37, 42, 43, 47, 103, 39,
+	40, 41, 106, 107, 19, 104, 20, 18, 36, 8,
+	37, 42, 43, 14, 38, 100, 99, 4, 13, 28,
+	101, 98, 12, 11, 10, 27, 9, 5, 90, 35,
+	34, 39, 40, 41, 33, 32, 31, 30, 26, 15,
+	36, 0, 37, 42, 43, 47,
 }
 
 var yyPact = [...]int16{
-	51, -1000, 51, -1000, 44, -1000, -1000, -1000, 83, -1000,
-	-1000, -1000, -1000, -1000, 2, -1000, 51, -1000, -28, 83,
-	83, -1000, -13, 12, 82, 39, 9, 89, 89, 35,
-	-1000, -1000, -1000, -1000, -1000, -1000, 74, -1000, 83, -1000,
-	-1000, -1000, -1000, -1000, -1000, -1000, -1000, -1000, 83, 1,
-	63, 51, 51, 83, 83, 83, 83, 83, 83, 83,
-	83, 83, 83, 83, 83, 83, 35, 35, 83, -29,
-	20, -1000, -1000, -29, -18, -1000, -1000, -1000, -1000, -1000,
-	-1000, -1000, -1000, -1000, -1000, -1000, -1000, -1000, -1000, 103,
-	-1000, 91, -1000, -1000, 40, 51, -1000, 83, -35, 51,
-	51, -1000, -1000, -1000, -1000, -1000,
+	72, -1000, 72, -1000, 46, -1000, -1000, -1000, 104, -1000,
+	-1000, -1000, -1000, -1000, 4, -1000, 72, -1000, -24, 104,
+	104, -1000, -11, 12, 22, 41, 76, 56, 56, 39,
+	-1000, -1000, -1000, -1000, -1000, -1000, 63, -1000, 104, -1000,
+	-1000, -1000, -1000, -1000, -1000, -1000, -1000, -1000, 104, 1,
+	21, 72, 72, 104, 104, 104, 104, 104, 104, 104,
+	104, 104, 104, 104, 104, 104, 39, 39, 104, -26,
+	-28, 13, -1000, -1000, -28, -15, -1000, -1000, -1000, -1000,
+	-1000, -1000, -1000, -1000, -1000, -1000, -1000, -1000, -1000, -1000,
+	110, -1000, -1000, 109, -1000, -1000, 75, 72, -1000, 104,
+	-29, 72, 72, -1000, -1000, -1000, -1000, -1000,
 }
 
 var yyPgo = [...]uint8{
-	0, 5, 142, 27, 20, 4, 7, 2, 141, 19,
-	140, 139, 138, 137, 136, 135, 134, 0, 133, 132,
-	131, 126, 120, 115, 113, 95, 43, 1, 94,
+	0, 5, 139, 6, 21, 4, 7, 2, 138, 27,
+	137, 136, 135, 134, 130, 129, 128, 0, 127, 126,
+	124, 123, 122, 118, 117, 88, 72, 1, 75,
 }
 
 var yyR1 = [...]int8{
@@ -169,8 +169,8 @@ var yyR1 = [...]int8{
 	27, 27, 27, 22, 22, 23, 1, 2, 3, 3,
 	3, 4, 4, 4, 5, 5, 5, 5, 5, 6,
 	6, 6, 6, 7, 7, 7, 8, 8, 8, 9,
-	9, 9, 9, 9, 9, 9, 16, 16, 16, 10,
-	11, 12, 13, 13, 13, 13, 14, 15,
+	9, 9, 9, 9, 9, 9, 9, 16, 16, 16,
+	10, 11, 12, 13, 13, 13, 13, 14, 15,
 }
 
 var yyR2 = [...]int8{
@@ -179,8 +179,8 @@ var yyR2 = [...]int8{
 	3, 1, 0, 5, 3, 3, 1, 1, 3, 3,
 	1, 3, 3, 1, 3, 3, 3, 3, 1, 3,
 	3, 3, 1, 3, 3, 1, 2, 2, 1, 4,
-	1, 1, 1, 1, 1, 1, 3, 1, 0, 5,
-	1, 3, 1, 1, 1, 1, 1, 1,
+	3, 1, 1, 1, 1, 1, 1, 3, 1, 0,
+	5, 1, 3, 1, 1, 1, 1, 1, 1,
 }
 
 var yyChk = [...]int16{
@@ -190,25 +190,25 @@ var yyChk = [...]int16{
 	-10, -11, -12, -13, -14, -15, 36, 38, 10, 27,
 	28, 29, 39, 40, -17, 5, -1, 41, 19, -26,
 	41, -1, -1, 30, 31, 20, 22, 23, 25, 24,
-	26, 18, 17, 16, 14, 15, -9, -9, 10, 10,
-	-1, -1, 9, 10, -17, -17, -3, -3, -4, -4,
-	-5, -5, -5, -5, -6, -6, -6, -7, -7, -16,
-	-1, -27, 41, 11, -27, 33, 11, 6, 6, 11,
-	11, -17, -1, 41, -17, -17,
+	26, 18, 17, 16, 14, 15, -9, -9, 10, 4,
+	10, -1, -1, 9, 10, -17, -17, -3, -3, -4,
+	-4, -5, -5, -5, -5, -6, -6, -6, -7, -7,
+	-16, -1, 41, -27, 41, 11, -27, 33, 11, 6,
+	6, 11, 11, -17, -1, 41, -17, -17,
 }
 
 var yyDef = [...]int8{
 	4, -2, 1, 2, 0, 6, 7, 8, 10, 12,
-	13, 14, 15, 16, 62, 26, 4, 18, 0, 0,
+	13, 14, 15, 16, 63, 26, 4, 18, 0, 0,
 	0, 27, 30, 33, 38, 42, 45, 0, 0, 48,
-	50, 51, 52, 53, 54, 55, 0, 60, 0, 63,
-	64, 65, 66, 67, 3, 5, 9, 62, 0, 0,
+	51, 52, 53, 54, 55, 56, 0, 61, 0, 64,
+	65, 66, 67, 68, 3, 5, 9, 63, 0, 0,
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 46, 47, 58, 22,
-	0, 11, 17, 22, 24, 25, 28, 29, 31, 32,
-	34, 35, 36, 37, 39, 40, 41, 43, 44, 0,
-	57, 0, 21, 61, 0, 0, 49, 0, 0, 0,
-	0, 23, 56, 20, 59, 19,
+	0, 0, 0, 0, 0, 0, 46, 47, 59, 0,
+	22, 0, 11, 17, 22, 24, 25, 28, 29, 31,
+	32, 34, 35, 36, 37, 39, 40, 41, 43, 44,
+	0, 58, 50, 0, 21, 62, 0, 0, 49, 0,
+	0, 0, 0, 23, 57, 20, 60, 19,
 }
 
 var yyTok1 = [...]int8{
@@ -761,75 +761,81 @@ yydefault:
 		{
 			yyVAL.Expression = &ast.Call{Node: ast.Node{yyVAL.Position}, Expression: yyDollar[1].Expression, Arguments: yyDollar[3].Expressions}
 		}
-	case 56:
+	case 50:
 		yyDollar = yyS[yypt-3 : yypt+1]
-//line grammar.y:176
+//line grammar.y:167
+		{
+			yyVAL.Expression = &ast.GetAttribute{Node: ast.Node{yyVAL.Position}, Expression: yyDollar[1].Expression, Name: yyDollar[3].Lexeme}
+		}
+	case 57:
+		yyDollar = yyS[yypt-3 : yypt+1]
+//line grammar.y:177
 		{
 			yyVAL.Expressions = append(yyVAL.Expressions, yyDollar[3].Expression)
 		}
-	case 57:
+	case 58:
 		yyDollar = yyS[yypt-1 : yypt+1]
-//line grammar.y:177
+//line grammar.y:178
 		{
 			yyVAL.Expressions = append(yyVAL.Expressions, yyDollar[1].Expression)
 		}
-	case 58:
+	case 59:
 		yyDollar = yyS[yypt-0 : yypt+1]
-//line grammar.y:178
+//line grammar.y:179
 		{
 			yyVAL.Expressions = nil
 		}
-	case 59:
+	case 60:
 		yyDollar = yyS[yypt-5 : yypt+1]
-//line grammar.y:181
+//line grammar.y:182
 		{
 			yyVAL.Expression = &ast.AnonFunc{Node: ast.Node{yyVAL.Position}, Arguments: yyDollar[3].FuncArguments, Body: yyDollar[5].Statement}
 		}
-	case 60:
+	case 61:
 		yyDollar = yyS[yypt-1 : yypt+1]
-//line grammar.y:183
+//line grammar.y:184
 		{
 			yyVAL.Expression = &ast.Float{Node: ast.Node{yyVAL.Position}, Value: yyDollar[1].Lexeme}
 		}
-	case 61:
+	case 62:
 		yyDollar = yyS[yypt-3 : yypt+1]
-//line grammar.y:185
+//line grammar.y:186
 		{
 			yyVAL.Expression = &ast.Group{Node: ast.Node{yyVAL.Position}, Expression: yyDollar[2].Expression}
-		}
-	case 62:
-		yyDollar = yyS[yypt-1 : yypt+1]
-//line grammar.y:188
-		{
-			yyVAL.Expression = &ast.Identifier{Node: ast.Node{yyVAL.Position}, Name: yyDollar[1].Lexeme}
 		}
 	case 63:
 		yyDollar = yyS[yypt-1 : yypt+1]
 //line grammar.y:189
 		{
-			yyVAL.Expression = &ast.Null{Node: ast.Node{yyVAL.Position}}
+			yyVAL.Expression = &ast.Identifier{Node: ast.Node{yyVAL.Position}, Name: yyDollar[1].Lexeme}
 		}
 	case 64:
 		yyDollar = yyS[yypt-1 : yypt+1]
 //line grammar.y:190
 		{
-			yyVAL.Expression = &ast.False{Node: ast.Node{yyVAL.Position}}
+			yyVAL.Expression = &ast.Null{Node: ast.Node{yyVAL.Position}}
 		}
 	case 65:
 		yyDollar = yyS[yypt-1 : yypt+1]
 //line grammar.y:191
 		{
-			yyVAL.Expression = &ast.True{Node: ast.Node{yyVAL.Position}}
+			yyVAL.Expression = &ast.False{Node: ast.Node{yyVAL.Position}}
 		}
 	case 66:
 		yyDollar = yyS[yypt-1 : yypt+1]
-//line grammar.y:194
+//line grammar.y:192
 		{
-			yyVAL.Expression = &ast.Integer{Node: ast.Node{yyVAL.Position}, Value: yyDollar[1].Lexeme}
+			yyVAL.Expression = &ast.True{Node: ast.Node{yyVAL.Position}}
 		}
 	case 67:
 		yyDollar = yyS[yypt-1 : yypt+1]
-//line grammar.y:196
+//line grammar.y:195
+		{
+			yyVAL.Expression = &ast.Integer{Node: ast.Node{yyVAL.Position}, Value: yyDollar[1].Lexeme}
+		}
+	case 68:
+		yyDollar = yyS[yypt-1 : yypt+1]
+//line grammar.y:197
 		{
 			yyVAL.Expression = &ast.String{Node: ast.Node{yyVAL.Position}, Value: yyDollar[1].Lexeme}
 		}

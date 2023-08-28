@@ -7,8 +7,9 @@ type Type struct {
 
 	Parent *Type
 
-	Name    string
-	Methods TypeMethods
+	Name       string
+	Methods    TypeMethods
+	Attributes TypeAttributes
 }
 
 var Types = struct {
@@ -34,6 +35,7 @@ var Types = struct {
 func init() {
 	Types.Object.Type = Types.Type
 	Types.Object.Methods = ObjectMethods
+	Types.Object.Attributes = ObjectAttributes
 
 	Types.Type.Type = Types.Type
 	Types.Type.Parent = Types.Object
@@ -42,6 +44,28 @@ func init() {
 			assert(self.Type.Is(Types.Type), "todo")
 
 			return NewStringf("%s { %q }", self.Type.Name, (*Type)(self.Ptr()).Name)
+		},
+	}
+	Types.Type.Attributes = TypeAttributes{
+		"name": TypeAttribute{
+			Get: func(self *Object) *Object {
+				assert(self.Type.Is(Types.Type), "todo")
+
+				return NewString((*Type)(self.Ptr()).Name).AsObject()
+			},
+		},
+		"parent": TypeAttribute{
+			Get: func(self *Object) *Object {
+				assert(self.Type.Is(Types.Type), "todo")
+
+				t := (*Type)(self.Ptr())
+
+				if t.Parent == nil {
+					return Singletons.Null.AsObject()
+				}
+
+				return t.Parent.AsObject()
+			},
 		},
 	}
 
@@ -60,14 +84,17 @@ func init() {
 	Types.String.Type = Types.Type
 	Types.String.Parent = Types.Object
 	Types.String.Methods = StringMethods
+	Types.String.Attributes = StringAttributes
 
 	Types.Builtin.Type = Types.Type
 	Types.Builtin.Parent = Types.Object
 	Types.Builtin.Methods = BuiltinMethods
+	Types.Builtin.Attributes = BuiltinAttributes
 
 	Types.Func.Type = Types.Type
 	Types.Func.Parent = Types.Object
 	Types.Func.Methods = FuncMethods
+	Types.Func.Attributes = FuncAttributes
 
 	rval := reflect.ValueOf(Types)
 	for i := 0; i < rval.NumField(); i++ {
@@ -82,6 +109,7 @@ type TypeMethods struct {
 	Bool   func(self *Object) *Bool
 	Repr   func(self *Object) *String
 	String func(self *Object) *String
+	Clone  func(self *Object) *Object
 
 	// unary
 	Negate func(self *Object) *Object
@@ -98,9 +126,20 @@ type TypeMethods struct {
 	Divide   func(self, other *Object) *Object
 	Modulus  func(self, other *Object) *Object
 
+	// attributes
+	GetAttribute func(self *Object, name string) *Object
+
 	// callables
 	Call func(self *Object, args ...*Object) *Object
 }
+
+type TypeAttribute struct {
+	Name string
+	Get  func(self *Object) *Object
+	Set  func(self, other *Object)
+}
+
+type TypeAttributes map[string]TypeAttribute
 
 func (t *Type) Is(typ *Type) bool {
 	for t := t; t != nil; t = t.Parent {
@@ -136,6 +175,16 @@ func (t *Type) String(self *Object) *String {
 	for t := t; t != nil; t = t.Parent {
 		if t.Methods.String != nil {
 			return t.Methods.String(self)
+		}
+	}
+
+	panic("todo")
+}
+
+func (t *Type) Clone(self *Object) *Object {
+	for t := t; t != nil; t = t.Parent {
+		if t.Methods.Clone != nil {
+			return t.Methods.Clone(self)
 		}
 	}
 
@@ -226,6 +275,16 @@ func (t *Type) Modulus(self, other *Object) *Object {
 	for t := t; t != nil; t = t.Parent {
 		if t.Methods.Modulus != nil {
 			return t.Methods.Modulus(self, other)
+		}
+	}
+
+	panic("todo")
+}
+
+func (t *Type) GetAttribute(self *Object, name string) *Object {
+	for t := t; t != nil; t = t.Parent {
+		if t.Methods.GetAttribute != nil {
+			return t.Methods.GetAttribute(self, name)
 		}
 	}
 

@@ -69,3 +69,13 @@ var FuncMethods = TypeMethods{
 		return fn.runner.RunFunc(fn, args)
 	},
 }
+
+var FuncAttributes = TypeAttributes{
+	"name": TypeAttribute{
+		Get: func(self *Object) *Object {
+			assert(self.Type.Is(Types.Func), "todo")
+
+			return NewString((*Func)(self.Ptr()).Name()).AsObject()
+		},
+	},
+}

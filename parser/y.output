@@ -217,10 +217,10 @@ state 13
 
 state 14
 	assignment:  IDENTIFIER.EQUAL expression 
-	identifier:  IDENTIFIER.    (62)
+	identifier:  IDENTIFIER.    (63)
 
 	EQUAL  shift 48
-	.  reduce 62 (src line 187)
+	.  reduce 63 (src line 188)
 
 
 state 15
@@ -484,148 +484,64 @@ state 28
 state 29
 	unary:  primary.    (48)
 	primary:  primary.PAREN_OPEN arguments PAREN_CLOSE 
+	primary:  primary.DOT IDENTIFIER 
 
+	DOT  shift 69
 	PAREN_OPEN  shift 68
 	.  reduce 48 (src line 162)
 
 
 state 30
-	primary:  anon_func.    (50)
-
-	.  reduce 50 (src line 167)
-
-
-state 31
-	primary:  float.    (51)
+	primary:  anon_func.    (51)
 
 	.  reduce 51 (src line 168)
 
 
-state 32
-	primary:  group.    (52)
+state 31
+	primary:  float.    (52)
 
 	.  reduce 52 (src line 169)
 
 
-state 33
-	primary:  identifier.    (53)
+state 32
+	primary:  group.    (53)
 
 	.  reduce 53 (src line 170)
 
 
-state 34
-	primary:  integer.    (54)
+state 33
+	primary:  identifier.    (54)
 
 	.  reduce 54 (src line 171)
 
 
-state 35
-	primary:  string.    (55)
+state 34
+	primary:  integer.    (55)
 
 	.  reduce 55 (src line 172)
+
+
+state 35
+	primary:  string.    (56)
+
+	.  reduce 56 (src line 173)
 
 
 state 36
 	anon_func:  ANON_FUNC.PAREN_OPEN func_arguments PAREN_CLOSE statement 
 
-	PAREN_OPEN  shift 69
+	PAREN_OPEN  shift 70
 	.  error
 
 
 state 37
-	float:  FLOAT.    (60)
+	float:  FLOAT.    (61)
 
-	.  reduce 60 (src line 183)
+	.  reduce 61 (src line 184)
 
 
 state 38
 	group:  PAREN_OPEN.expression PAREN_CLOSE 
-
-	PAREN_OPEN  shift 38
-	MINUS  shift 28
-	BANG  shift 27
-	NULL  shift 39
-	FALSE  shift 40
-	TRUE  shift 41
-	ANON_FUNC  shift 36
-	FLOAT  shift 37
-	INTEGER  shift 42
-	STRING  shift 43
-	IDENTIFIER  shift 47
-	.  error
-
-	expression  goto 70
-	binary  goto 15
-	logical  goto 21
-	equality  goto 22
-	comparison  goto 23
-	multiplication  goto 24
-	addition  goto 25
-	unary  goto 26
-	primary  goto 29
-	anon_func  goto 30
-	float  goto 31
-	group  goto 32
-	identifier  goto 33
-	integer  goto 34
-	string  goto 35
-
-state 39
-	identifier:  NULL.    (63)
-
-	.  reduce 63 (src line 189)
-
-
-state 40
-	identifier:  FALSE.    (64)
-
-	.  reduce 64 (src line 190)
-
-
-state 41
-	identifier:  TRUE.    (65)
-
-	.  reduce 65 (src line 191)
-
-
-state 42
-	integer:  INTEGER.    (66)
-
-	.  reduce 66 (src line 194)
-
-
-state 43
-	string:  STRING.    (67)
-
-	.  reduce 67 (src line 196)
-
-
-state 44
-	statements:  statements statement.    (3)
-
-	.  reduce 3 (src line 73)
-
-
-state 45
-	statement:  terminated SEMICOLON.    (5)
-
-	.  reduce 5 (src line 77)
-
-
-state 46
-	terminated:  RETURN expression.    (9)
-
-	.  reduce 9 (src line 85)
-
-
-state 47
-	identifier:  IDENTIFIER.    (62)
-
-	.  reduce 62 (src line 187)
-
-
-state 48
-	assignment:  IDENTIFIER EQUAL.expression 
 
 	PAREN_OPEN  shift 38
 	MINUS  shift 28
@@ -656,13 +572,99 @@ state 48
 	integer  goto 34
 	string  goto 35
 
+state 39
+	identifier:  NULL.    (64)
+
+	.  reduce 64 (src line 190)
+
+
+state 40
+	identifier:  FALSE.    (65)
+
+	.  reduce 65 (src line 191)
+
+
+state 41
+	identifier:  TRUE.    (66)
+
+	.  reduce 66 (src line 192)
+
+
+state 42
+	integer:  INTEGER.    (67)
+
+	.  reduce 67 (src line 195)
+
+
+state 43
+	string:  STRING.    (68)
+
+	.  reduce 68 (src line 197)
+
+
+state 44
+	statements:  statements statement.    (3)
+
+	.  reduce 3 (src line 73)
+
+
+state 45
+	statement:  terminated SEMICOLON.    (5)
+
+	.  reduce 5 (src line 77)
+
+
+state 46
+	terminated:  RETURN expression.    (9)
+
+	.  reduce 9 (src line 85)
+
+
+state 47
+	identifier:  IDENTIFIER.    (63)
+
+	.  reduce 63 (src line 188)
+
+
+state 48
+	assignment:  IDENTIFIER EQUAL.expression 
+
+	PAREN_OPEN  shift 38
+	MINUS  shift 28
+	BANG  shift 27
+	NULL  shift 39
+	FALSE  shift 40
+	TRUE  shift 41
+	ANON_FUNC  shift 36
+	FLOAT  shift 37
+	INTEGER  shift 42
+	STRING  shift 43
+	IDENTIFIER  shift 47
+	.  error
+
+	expression  goto 72
+	binary  goto 15
+	logical  goto 21
+	equality  goto 22
+	comparison  goto 23
+	multiplication  goto 24
+	addition  goto 25
+	unary  goto 26
+	primary  goto 29
+	anon_func  goto 30
+	float  goto 31
+	group  goto 32
+	identifier  goto 33
+	integer  goto 34
+	string  goto 35
+
 state 49
 	statements:  statements.statement 
 	block:  BRACE_OPEN statements.BRACE_CLOSE 
 
 	COMMENT  shift 17
 	BRACE_OPEN  shift 16
-	BRACE_CLOSE  shift 72
+	BRACE_CLOSE  shift 73
 	PAREN_OPEN  shift 38
 	MINUS  shift 28
 	BANG  shift 27
@@ -708,7 +710,7 @@ state 49
 state 50
 	func:  FUNC IDENTIFIER.PAREN_OPEN func_arguments PAREN_CLOSE statement 
 
-	PAREN_OPEN  shift 73
+	PAREN_OPEN  shift 74
 	.  error
 
 
@@ -750,7 +752,7 @@ state 51
 	identifier  goto 33
 	integer  goto 34
 	string  goto 35
-	statement  goto 74
+	statement  goto 75
 	unterminated  goto 5
 	block  goto 9
 	comment  goto 10
@@ -797,7 +799,7 @@ state 52
 	identifier  goto 33
 	integer  goto 34
 	string  goto 35
-	statement  goto 75
+	statement  goto 76
 	unterminated  goto 5
 	block  goto 9
 	comment  goto 10
@@ -823,7 +825,7 @@ state 53
 	IDENTIFIER  shift 47
 	.  error
 
-	logical  goto 76
+	logical  goto 77
 	equality  goto 22
 	comparison  goto 23
 	multiplication  goto 24
@@ -853,7 +855,7 @@ state 54
 	IDENTIFIER  shift 47
 	.  error
 
-	logical  goto 77
+	logical  goto 78
 	equality  goto 22
 	comparison  goto 23
 	multiplication  goto 24
@@ -883,7 +885,7 @@ state 55
 	IDENTIFIER  shift 47
 	.  error
 
-	equality  goto 78
+	equality  goto 79
 	comparison  goto 23
 	multiplication  goto 24
 	addition  goto 25
@@ -912,7 +914,7 @@ state 56
 	IDENTIFIER  shift 47
 	.  error
 
-	equality  goto 79
+	equality  goto 80
 	comparison  goto 23
 	multiplication  goto 24
 	addition  goto 25
@@ -941,7 +943,7 @@ state 57
 	IDENTIFIER  shift 47
 	.  error
 
-	comparison  goto 80
+	comparison  goto 81
 	multiplication  goto 24
 	addition  goto 25
 	unary  goto 26
@@ -969,7 +971,7 @@ state 58
 	IDENTIFIER  shift 47
 	.  error
 
-	comparison  goto 81
+	comparison  goto 82
 	multiplication  goto 24
 	addition  goto 25
 	unary  goto 26
@@ -997,7 +999,7 @@ state 59
 	IDENTIFIER  shift 47
 	.  error
 
-	comparison  goto 82
+	comparison  goto 83
 	multiplication  goto 24
 	addition  goto 25
 	unary  goto 26
@@ -1025,7 +1027,7 @@ state 60
 	IDENTIFIER  shift 47
 	.  error
 
-	comparison  goto 83
+	comparison  goto 84
 	multiplication  goto 24
 	addition  goto 25
 	unary  goto 26
@@ -1053,7 +1055,7 @@ state 61
 	IDENTIFIER  shift 47
 	.  error
 
-	multiplication  goto 84
+	multiplication  goto 85
 	addition  goto 25
 	unary  goto 26
 	primary  goto 29
@@ -1080,7 +1082,7 @@ state 62
 	IDENTIFIER  shift 47
 	.  error
 
-	multiplication  goto 85
+	multiplication  goto 86
 	addition  goto 25
 	unary  goto 26
 	primary  goto 29
@@ -1107,7 +1109,7 @@ state 63
 	IDENTIFIER  shift 47
 	.  error
 
-	multiplication  goto 86
+	multiplication  goto 87
 	addition  goto 25
 	unary  goto 26
 	primary  goto 29
@@ -1134,7 +1136,7 @@ state 64
 	IDENTIFIER  shift 47
 	.  error
 
-	addition  goto 87
+	addition  goto 88
 	unary  goto 26
 	primary  goto 29
 	anon_func  goto 30
@@ -1160,7 +1162,7 @@ state 65
 	IDENTIFIER  shift 47
 	.  error
 
-	addition  goto 88
+	addition  goto 89
 	unary  goto 26
 	primary  goto 29
 	anon_func  goto 30
@@ -1174,7 +1176,9 @@ state 65
 state 66
 	unary:  BANG primary.    (46)
 	primary:  primary.PAREN_OPEN arguments PAREN_CLOSE 
+	primary:  primary.DOT IDENTIFIER 
 
+	DOT  shift 69
 	PAREN_OPEN  shift 68
 	.  reduce 46 (src line 159)
 
@@ -1183,14 +1187,16 @@ state 66
 state 67
 	unary:  MINUS primary.    (47)
 	primary:  primary.PAREN_OPEN arguments PAREN_CLOSE 
+	primary:  primary.DOT IDENTIFIER 
 
+	DOT  shift 69
 	PAREN_OPEN  shift 68
 	.  reduce 47 (src line 161)
 
 
 state 68
 	primary:  primary PAREN_OPEN.arguments PAREN_CLOSE 
-	arguments: .    (58)
+	arguments: .    (59)
 
 	PAREN_OPEN  shift 38
 	MINUS  shift 28
@@ -1203,9 +1209,9 @@ state 68
 	INTEGER  shift 42
 	STRING  shift 43
 	IDENTIFIER  shift 47
-	.  reduce 58 (src line 178)
+	.  reduce 59 (src line 179)
 
-	expression  goto 90
+	expression  goto 91
 	binary  goto 15
 	logical  goto 21
 	equality  goto 22
@@ -1220,184 +1226,197 @@ state 68
 	identifier  goto 33
 	integer  goto 34
 	string  goto 35
-	arguments  goto 89
+	arguments  goto 90
 
 state 69
-	anon_func:  ANON_FUNC PAREN_OPEN.func_arguments PAREN_CLOSE statement 
-	func_arguments: .    (22)
+	primary:  primary DOT.IDENTIFIER 
 
 	IDENTIFIER  shift 92
-	.  reduce 22 (src line 108)
-
-	func_arguments  goto 91
-
-state 70
-	group:  PAREN_OPEN expression.PAREN_CLOSE 
-
-	PAREN_CLOSE  shift 93
 	.  error
 
 
+state 70
+	anon_func:  ANON_FUNC PAREN_OPEN.func_arguments PAREN_CLOSE statement 
+	func_arguments: .    (22)
+
+	IDENTIFIER  shift 94
+	.  reduce 22 (src line 108)
+
+	func_arguments  goto 93
+
 state 71
+	group:  PAREN_OPEN expression.PAREN_CLOSE 
+
+	PAREN_CLOSE  shift 95
+	.  error
+
+
+state 72
 	assignment:  IDENTIFIER EQUAL expression.    (11)
 
 	.  reduce 11 (src line 89)
 
 
-state 72
+state 73
 	block:  BRACE_OPEN statements BRACE_CLOSE.    (17)
 
 	.  reduce 17 (src line 99)
 
 
-state 73
+state 74
 	func:  FUNC IDENTIFIER PAREN_OPEN.func_arguments PAREN_CLOSE statement 
 	func_arguments: .    (22)
 
-	IDENTIFIER  shift 92
+	IDENTIFIER  shift 94
 	.  reduce 22 (src line 108)
 
-	func_arguments  goto 94
+	func_arguments  goto 96
 
-74: shift/reduce conflict (shift 95(0), red'n 24(0)) on ELSE
-state 74
+75: shift/reduce conflict (shift 97(0), red'n 24(0)) on ELSE
+state 75
 	if:  IF expression statement.ELSE statement 
 	if:  IF expression statement.    (24)
 
-	ELSE  shift 95
+	ELSE  shift 97
 	.  reduce 24 (src line 113)
 
 
-state 75
+state 76
 	while:  WHILE expression statement.    (25)
 
 	.  reduce 25 (src line 116)
 
 
-state 76
+state 77
 	logical:  equality AND logical.    (28)
 
 	.  reduce 28 (src line 126)
 
 
-state 77
+state 78
 	logical:  equality OR logical.    (29)
 
 	.  reduce 29 (src line 128)
 
 
-state 78
+state 79
 	equality:  comparison EQUAL_EQUAL equality.    (31)
 
 	.  reduce 31 (src line 132)
 
 
-state 79
+state 80
 	equality:  comparison BANG_EQUAL equality.    (32)
 
 	.  reduce 32 (src line 134)
 
 
-state 80
+state 81
 	comparison:  multiplication LESS comparison.    (34)
 
 	.  reduce 34 (src line 138)
 
 
-state 81
+state 82
 	comparison:  multiplication GREATER comparison.    (35)
 
 	.  reduce 35 (src line 140)
 
 
-state 82
+state 83
 	comparison:  multiplication LESS_EQUAL comparison.    (36)
 
 	.  reduce 36 (src line 141)
 
 
-state 83
+state 84
 	comparison:  multiplication GREATER_EQUAL comparison.    (37)
 
 	.  reduce 37 (src line 142)
 
 
-state 84
+state 85
 	multiplication:  addition PERCENT multiplication.    (39)
 
 	.  reduce 39 (src line 146)
 
 
-state 85
+state 86
 	multiplication:  addition SLASH multiplication.    (40)
 
 	.  reduce 40 (src line 148)
 
 
-state 86
+state 87
 	multiplication:  addition STAR multiplication.    (41)
 
 	.  reduce 41 (src line 149)
 
 
-state 87
+state 88
 	addition:  unary PLUS addition.    (43)
 
 	.  reduce 43 (src line 153)
 
 
-state 88
+state 89
 	addition:  unary MINUS addition.    (44)
 
 	.  reduce 44 (src line 155)
 
 
-state 89
+state 90
 	primary:  primary PAREN_OPEN arguments.PAREN_CLOSE 
 	arguments:  arguments.COMMA expression 
 
-	COMMA  shift 97
-	PAREN_CLOSE  shift 96
+	COMMA  shift 99
+	PAREN_CLOSE  shift 98
 	.  error
-
-
-state 90
-	arguments:  expression.    (57)
-
-	.  reduce 57 (src line 177)
 
 
 state 91
-	func_arguments:  func_arguments.COMMA IDENTIFIER 
-	anon_func:  ANON_FUNC PAREN_OPEN func_arguments.PAREN_CLOSE statement 
+	arguments:  expression.    (58)
 
-	COMMA  shift 98
-	PAREN_CLOSE  shift 99
-	.  error
+	.  reduce 58 (src line 178)
 
 
 state 92
+	primary:  primary DOT IDENTIFIER.    (50)
+
+	.  reduce 50 (src line 167)
+
+
+state 93
+	func_arguments:  func_arguments.COMMA IDENTIFIER 
+	anon_func:  ANON_FUNC PAREN_OPEN func_arguments.PAREN_CLOSE statement 
+
+	COMMA  shift 100
+	PAREN_CLOSE  shift 101
+	.  error
+
+
+state 94
 	func_arguments:  IDENTIFIER.    (21)
 
 	.  reduce 21 (src line 107)
 
 
-state 93
-	group:  PAREN_OPEN expression PAREN_CLOSE.    (61)
+state 95
+	group:  PAREN_OPEN expression PAREN_CLOSE.    (62)
 
-	.  reduce 61 (src line 185)
+	.  reduce 62 (src line 186)
 
 
-state 94
+state 96
 	func:  FUNC IDENTIFIER PAREN_OPEN func_arguments.PAREN_CLOSE statement 
 	func_arguments:  func_arguments.COMMA IDENTIFIER 
 
-	COMMA  shift 98
-	PAREN_CLOSE  shift 100
+	COMMA  shift 100
+	PAREN_CLOSE  shift 102
 	.  error
 
 
-state 95
+state 97
 	if:  IF expression statement ELSE.statement 
 
 	COMMENT  shift 17
@@ -1434,7 +1453,7 @@ state 95
 	identifier  goto 33
 	integer  goto 34
 	string  goto 35
-	statement  goto 101
+	statement  goto 103
 	unterminated  goto 5
 	block  goto 9
 	comment  goto 10
@@ -1444,13 +1463,13 @@ state 95
 	terminated  goto 4
 	assignment  goto 6
 
-state 96
+state 98
 	primary:  primary PAREN_OPEN arguments PAREN_CLOSE.    (49)
 
 	.  reduce 49 (src line 165)
 
 
-state 97
+state 99
 	arguments:  arguments COMMA.expression 
 
 	PAREN_OPEN  shift 38
@@ -1466,7 +1485,7 @@ state 97
 	IDENTIFIER  shift 47
 	.  error
 
-	expression  goto 102
+	expression  goto 104
 	binary  goto 15
 	logical  goto 21
 	equality  goto 22
@@ -1482,14 +1501,14 @@ state 97
 	integer  goto 34
 	string  goto 35
 
-state 98
+state 100
 	func_arguments:  func_arguments COMMA.IDENTIFIER 
 
-	IDENTIFIER  shift 103
+	IDENTIFIER  shift 105
 	.  error
 
 
-state 99
+state 101
 	anon_func:  ANON_FUNC PAREN_OPEN func_arguments PAREN_CLOSE.statement 
 
 	COMMENT  shift 17
@@ -1526,7 +1545,7 @@ state 99
 	identifier  goto 33
 	integer  goto 34
 	string  goto 35
-	statement  goto 104
+	statement  goto 106
 	unterminated  goto 5
 	block  goto 9
 	comment  goto 10
@@ -1536,7 +1555,7 @@ state 99
 	terminated  goto 4
 	assignment  goto 6
 
-state 100
+state 102
 	func:  FUNC IDENTIFIER PAREN_OPEN func_arguments PAREN_CLOSE.statement 
 
 	COMMENT  shift 17
@@ -1573,7 +1592,7 @@ state 100
 	identifier  goto 33
 	integer  goto 34
 	string  goto 35
-	statement  goto 105
+	statement  goto 107
 	unterminated  goto 5
 	block  goto 9
 	comment  goto 10
@@ -1583,45 +1602,45 @@ state 100
 	terminated  goto 4
 	assignment  goto 6
 
-state 101
+state 103
 	if:  IF expression statement ELSE statement.    (23)
 
 	.  reduce 23 (src line 111)
 
 
-state 102
-	arguments:  arguments COMMA expression.    (56)
+state 104
+	arguments:  arguments COMMA expression.    (57)
 
-	.  reduce 56 (src line 175)
+	.  reduce 57 (src line 176)
 
 
-state 103
+state 105
 	func_arguments:  func_arguments COMMA IDENTIFIER.    (20)
 
 	.  reduce 20 (src line 105)
 
 
-state 104
-	anon_func:  ANON_FUNC PAREN_OPEN func_arguments PAREN_CLOSE statement.    (59)
+state 106
+	anon_func:  ANON_FUNC PAREN_OPEN func_arguments PAREN_CLOSE statement.    (60)
 
-	.  reduce 59 (src line 181)
+	.  reduce 60 (src line 182)
 
 
-state 105
+state 107
 	func:  FUNC IDENTIFIER PAREN_OPEN func_arguments PAREN_CLOSE statement.    (19)
 
 	.  reduce 19 (src line 103)
 
 
 41 terminals, 29 nonterminals
-68 grammar rules, 106/16000 states
+69 grammar rules, 108/16000 states
 39 shift/reduce, 0 reduce/reduce conflicts reported
 78 working sets used
 memory: parser 465/240000
-116 extra closures
-424 shift entries, 1 exceptions
+118 extra closures
+428 shift entries, 1 exceptions
 59 goto entries
 424 entries saved by goto default
-Optimizer space used: output 143/240000
-143 table entries, 0 zero
-maximum spread: 41, maximum offset: 100
+Optimizer space used: output 146/240000
+146 table entries, 1 zero
+maximum spread: 41, maximum offset: 102

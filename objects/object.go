@@ -35,7 +35,29 @@ var ObjectMethods = TypeMethods{
 		return Singletons.True
 	},
 
+	Clone: func(self *Object) *Object {
+		return self
+	},
+
 	Equals: func(self, other *Object) *Bool {
 		return Singletons.Bool(self == other)
+	},
+
+	GetAttribute: func(self *Object, name string) *Object {
+		for t := self.Type; t != nil; t = t.Parent {
+			if attr, ok := t.Attributes[name]; ok {
+				return attr.Get(self)
+			}
+		}
+
+		panic("todo")
+	},
+}
+
+var ObjectAttributes = TypeAttributes{
+	"type": TypeAttribute{
+		Get: func(self *Object) *Object {
+			return self.Type.AsObject()
+		},
 	},
 }

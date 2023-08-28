@@ -20,28 +20,29 @@ func _() {
 	_ = x[RelativeJump-10]
 	_ = x[RelativeJumpIfTrue-11]
 	_ = x[RelativeJumpIfFalse-12]
-	_ = x[UnaryNegate-13]
-	_ = x[UnaryInvert-14]
-	_ = x[BinaryAnd-15]
-	_ = x[BinaryOr-16]
-	_ = x[BinaryEqual-17]
-	_ = x[BinaryNotEqual-18]
-	_ = x[BinaryLess-19]
-	_ = x[BinaryLessOrEqual-20]
-	_ = x[BinaryGreater-21]
-	_ = x[BinaryGreaterOrEqual-22]
-	_ = x[BinaryAdd-23]
-	_ = x[BinarySubtract-24]
-	_ = x[BinaryMultiply-25]
-	_ = x[BinaryDivide-26]
-	_ = x[BinaryModulus-27]
-	_ = x[Call-28]
-	_ = x[Return-29]
+	_ = x[GetAttribute-13]
+	_ = x[UnaryNegate-14]
+	_ = x[UnaryInvert-15]
+	_ = x[BinaryAnd-16]
+	_ = x[BinaryOr-17]
+	_ = x[BinaryEqual-18]
+	_ = x[BinaryNotEqual-19]
+	_ = x[BinaryLess-20]
+	_ = x[BinaryLessOrEqual-21]
+	_ = x[BinaryGreater-22]
+	_ = x[BinaryGreaterOrEqual-23]
+	_ = x[BinaryAdd-24]
+	_ = x[BinarySubtract-25]
+	_ = x[BinaryMultiply-26]
+	_ = x[BinaryDivide-27]
+	_ = x[BinaryModulus-28]
+	_ = x[Call-29]
+	_ = x[Return-30]
 }
 
-const _Opcode_name = "ExecuteChildLoadConstantLoadNullLoadFalseLoadTrueLoadNameStoreNameMakeFuncJumpRelativeJumpRelativeJumpIfTrueRelativeJumpIfFalseUnaryNegateUnaryInvertBinaryAndBinaryOrBinaryEqualBinaryNotEqualBinaryLessBinaryLessOrEqualBinaryGreaterBinaryGreaterOrEqualBinaryAddBinarySubtractBinaryMultiplyBinaryDivideBinaryModulusCallReturn"
+const _Opcode_name = "ExecuteChildLoadConstantLoadNullLoadFalseLoadTrueLoadNameStoreNameMakeFuncJumpRelativeJumpRelativeJumpIfTrueRelativeJumpIfFalseGetAttributeUnaryNegateUnaryInvertBinaryAndBinaryOrBinaryEqualBinaryNotEqualBinaryLessBinaryLessOrEqualBinaryGreaterBinaryGreaterOrEqualBinaryAddBinarySubtractBinaryMultiplyBinaryDivideBinaryModulusCallReturn"
 
-var _Opcode_index = [...]uint16{0, 12, 24, 32, 41, 49, 57, 66, 74, 78, 90, 108, 127, 138, 149, 158, 166, 177, 191, 201, 218, 231, 251, 260, 274, 288, 300, 313, 317, 323}
+var _Opcode_index = [...]uint16{0, 12, 24, 32, 41, 49, 57, 66, 74, 78, 90, 108, 127, 139, 150, 161, 170, 178, 189, 203, 213, 230, 243, 263, 272, 286, 300, 312, 325, 329, 335}
 
 func (i Opcode) String() string {
 	i -= 1

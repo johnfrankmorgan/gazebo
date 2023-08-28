@@ -66,6 +66,7 @@ var rules = []struct {
 	token  int
 	regexp *regexp.Regexp
 }{
+	{DOT, lit(`.`)},
 	{SEMICOLON, lit(`;`)},
 	{COMMA, lit(`,`)},
 	{COMMENT, exp(`//.*`)},

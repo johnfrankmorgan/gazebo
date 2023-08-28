@@ -16,7 +16,7 @@ import (
 	FuncArguments []string
 }
 
-%token <Lexeme> NEWLINE
+%token <Lexeme> DOT
 %token <Lexeme> SEMICOLON
 %token <Lexeme> COMMA
 %token <Lexeme> COMMENT
@@ -164,6 +164,7 @@ unary:
 
 primary:
 	  primary PAREN_OPEN arguments PAREN_CLOSE { $$ = &ast.Call{Node: ast.Node{$<Position>$}, Expression: $1, Arguments: $3} }
+	| primary DOT IDENTIFIER { $$ = &ast.GetAttribute{Node: ast.Node{$<Position>$}, Expression: $1, Name: $3} }
 	| anon_func
 	| float
 	| group

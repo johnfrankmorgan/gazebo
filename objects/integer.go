@@ -38,6 +38,12 @@ var IntegerMethods = TypeMethods{
 		return Singletons.Bool((*Integer)(self.Ptr()).Value() != 0)
 	},
 
+	Clone: func(self *Object) *Object {
+		assert(self.Type.Is(Types.Integer), "todo")
+
+		return (*Integer)(self.Ptr()).Clone().AsObject()
+	},
+
 	Negate: func(self *Object) *Object {
 		assert(self.Type.Is(Types.Integer), "todo")
 
@@ -99,6 +105,13 @@ var IntegerMethods = TypeMethods{
 
 		return (*Integer)(self.Ptr()).Modulus((*Integer)(other.Ptr())).AsObject()
 	},
+}
+
+func (self *Integer) Clone() *Integer {
+	return &Integer{
+		Object: ObjectInit(self.Type),
+		value:  self.Value(),
+	}
 }
 
 func (self *Integer) Negate() *Integer {

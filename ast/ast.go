@@ -34,6 +34,7 @@ type Visitor interface {
 	VisitCall(*Call)
 	VisitFalse(*False)
 	VisitFloat(*Float)
+	VisitGetAttribute(*GetAttribute)
 	VisitGroup(*Group)
 	VisitIdentifier(*Identifier)
 	VisitInteger(*Integer)
@@ -258,4 +259,12 @@ type Call struct {
 
 	Expression Expression
 	Arguments  []Expression
+}
+
+type GetAttribute struct {
+	Acceptor[GetAttribute]
+	Node
+
+	Expression Expression
+	Name       string
 }

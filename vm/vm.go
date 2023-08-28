@@ -137,7 +137,9 @@ func (vm *VM) exec(opcode op.Opcode) {
 			variables = vm.variables
 		}
 
-		variables.Store(name, vm.frame().Stack.Pop())
+		value := vm.frame().Stack.Pop()
+
+		variables.Store(name, value.Type.Clone(value))
 
 	case op.MakeFunc:
 		// MakeFunc NAME BODY ARGC ARGS...
@@ -174,6 +176,12 @@ func (vm *VM) exec(opcode op.Opcode) {
 		if !self.Type.Bool(self).Value() {
 			vm.frame().PC += offset
 		}
+
+	case op.GetAttribute:
+		self := vm.frame().Stack.Pop()
+		name := vm.frame().Code.Names[vm.frame().NextArgument()]
+
+		vm.frame().Stack.Push(self.Type.GetAttribute(self, name))
 
 	case op.UnaryNegate:
 		self := vm.frame().Stack.Pop()
@@ -286,7 +294,8 @@ func (vm *VM) exec(opcode op.Opcode) {
 		args := make([]*objects.Object, 0, vm.frame().NextArgument())
 
 		for len(args) != cap(args) {
-			args = append(args, vm.frame().Stack.Pop())
+			arg := vm.frame().Stack.Pop()
+			args = append(args, arg.Type.Clone(arg))
 		}
 
 		vm.frame().Stack.Push(self.Type.Call(self, args...))

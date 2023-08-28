@@ -159,6 +159,12 @@ func (c *compiler) VisitFloat(node *ast.Float) {
 	c.constant(node)
 }
 
+func (c *compiler) VisitGetAttribute(node *ast.GetAttribute) {
+	node.Expression.Accept(c)
+
+	c.code.Emit(op.GetAttribute, c.code.Name(node.Name))
+}
+
 func (c *compiler) VisitGroup(node *ast.Group) {
 	node.Expression.Accept(c)
 }

@@ -39,6 +39,16 @@ var BuiltinMethods = TypeMethods{
 	},
 }
 
+var BuiltinAttributes = TypeAttributes{
+	"name": TypeAttribute{
+		Get: func(self *Object) *Object {
+			assert(self.Type.Is(Types.Builtin), "todo")
+
+			return NewString((*Builtin)(self.Ptr()).Name()).AsObject()
+		},
+	},
+}
+
 func (self *Builtin) Call(args ...*Object) *Object {
 	return self.Value()(args...)
 }

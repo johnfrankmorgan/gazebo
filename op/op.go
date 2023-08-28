@@ -44,6 +44,8 @@ const (
 	RelativeJumpIfTrue
 	RelativeJumpIfFalse
 
+	GetAttribute
+
 	UnaryNegate
 	UnaryInvert
 
