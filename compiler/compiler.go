@@ -27,16 +27,16 @@ func (c *compiler) VisitAssignment(node *ast.Assignment) {
 }
 
 func (c *compiler) VisitBlock(node *ast.Block) {
-	child := new(Code)
+	body := new(Code)
 
-	c.code.Emit(op.ExecuteChild, c.code.Child(child))
-	c.code = child
+	c.code.Emit(op.ExecuteChild, c.code.Child(body))
+	c.code = body
 
 	for _, statement := range node.Statements {
 		statement.Accept(c)
 	}
 
-	c.code = child.Parent
+	c.code = body.Parent
 }
 
 func (*compiler) VisitComment(*ast.Comment) {
@@ -47,12 +47,43 @@ func (c *compiler) VisitExpressionStatement(node *ast.ExpressionStatement) {
 	node.Expression.Accept(c)
 }
 
-func (*compiler) VisitIf(*ast.If) {
-	panic("unimplemented")
+func (c *compiler) VisitIf(node *ast.If) {
+	node.Condition.Accept(c)
+
+	els := new(Code)
+	c.code.Emit(op.RelativeJumpIfTrue, 4)
+	c.code.Emit(op.ExecuteChild, c.code.Child(els))
+	c.code.Emit(op.RelativeJump, 2)
+
+	if node.Else != nil {
+		c.code = els
+		node.Else.Accept(c)
+		c.code = els.Parent
+	}
+
+	body := new(Code)
+	c.code.Emit(op.ExecuteChild, c.code.Child(body))
+	c.code = body
+
+	node.Body.Accept(c)
+
+	c.code = body.Parent
 }
 
-func (*compiler) VisitWhile(*ast.While) {
-	panic("unimplemented")
+func (c *compiler) VisitWhile(node *ast.While) {
+	pc := len(c.code.Opcodes)
+
+	node.Condition.Accept(c)
+
+	body := new(Code)
+	c.code.Emit(op.RelativeJumpIfFalse, 2)
+	c.code.Emit(op.ExecuteChild, c.code.Child(body))
+	c.code = body
+
+	node.Body.Accept(c)
+
+	c.code = body.Parent
+	c.code.Emit(op.Jump, pc)
 }
 
 // expressions
