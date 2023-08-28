@@ -20,7 +20,7 @@ func _() {
 	_ = x[RelativeJumpIfTrue-10]
 	_ = x[RelativeJumpIfFalse-11]
 	_ = x[UnaryNegate-12]
-	_ = x[UnaryNot-13]
+	_ = x[UnaryInvert-13]
 	_ = x[BinaryAnd-14]
 	_ = x[BinaryOr-15]
 	_ = x[BinaryEqual-16]
@@ -37,9 +37,9 @@ func _() {
 	_ = x[Call-27]
 }
 
-const _Opcode_name = "ExecuteChildLoadConstantLoadNullLoadFalseLoadTrueLoadNameStoreNameJumpRelativeJumpRelativeJumpIfTrueRelativeJumpIfFalseUnaryNegateUnaryNotBinaryAndBinaryOrBinaryEqualBinaryNotEqualBinaryLessBinaryLessOrEqualBinaryGreaterBinaryGreaterOrEqualBinaryAddBinarySubtractBinaryMultiplyBinaryDivideBinaryModulusCall"
+const _Opcode_name = "ExecuteChildLoadConstantLoadNullLoadFalseLoadTrueLoadNameStoreNameJumpRelativeJumpRelativeJumpIfTrueRelativeJumpIfFalseUnaryNegateUnaryInvertBinaryAndBinaryOrBinaryEqualBinaryNotEqualBinaryLessBinaryLessOrEqualBinaryGreaterBinaryGreaterOrEqualBinaryAddBinarySubtractBinaryMultiplyBinaryDivideBinaryModulusCall"
 
-var _Opcode_index = [...]uint16{0, 12, 24, 32, 41, 49, 57, 66, 70, 82, 100, 119, 130, 138, 147, 155, 166, 180, 190, 207, 220, 240, 249, 263, 277, 289, 302, 306}
+var _Opcode_index = [...]uint16{0, 12, 24, 32, 41, 49, 57, 66, 70, 82, 100, 119, 130, 141, 150, 158, 169, 183, 193, 210, 223, 243, 252, 266, 280, 292, 305, 309}
 
 func (i Opcode) String() string {
 	i -= 1

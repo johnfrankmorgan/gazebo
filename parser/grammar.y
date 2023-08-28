@@ -52,7 +52,7 @@ import (
 %token <Lexeme> STRING
 %token <Lexeme> IDENTIFIER
 
-%type <Expression> expression binary call float group identifier integer string
+%type <Expression> expression binary logical equality comparison multiplication addition unary primary float group identifier integer string
 %type <Expressions> arguments
 %type <Statement> statement unterminated block comment if while terminated assignment
 %type <Statements> statements
@@ -102,31 +102,59 @@ while: WHILE expression statement { $$ = &ast.While{Node: ast.Node{$<Position>$}
 
 expression:
 	  binary
-	| call
+	;
+
+binary:
+	  logical
+	;
+
+logical:
+	  equality AND logical { $$ = &ast.Binary{Node: ast.Node{$<Position>$}, Op: ast.BinaryOpAnd, Left: $1, Right: $3} }
+	| equality OR logical { $$ = &ast.Binary{Node: ast.Node{$<Position>$}, Op: ast.BinaryOpOr, Left: $1, Right: $3} }
+	| equality
+	;
+
+equality:
+	  comparison EQUAL_EQUAL equality { $$ = &ast.Binary{Node: ast.Node{$<Position>$}, Op: ast.BinaryOpEqual, Left: $1, Right: $3} }
+	| comparison BANG_EQUAL equality { $$ = &ast.Binary{Node: ast.Node{$<Position>$}, Op: ast.BinaryOpNotEqual, Left: $1, Right: $3} }
+	| comparison
+	;
+
+comparison:
+	  multiplication LESS comparison { $$ = &ast.Binary{Node: ast.Node{$<Position>$}, Op: ast.BinaryOpLess, Left: $1, Right: $3} }
+	| multiplication GREATER comparison { $$ = &ast.Binary{Node: ast.Node{$<Position>$}, Op: ast.BinaryOpGreater, Left: $1, Right: $3} }
+	| multiplication LESS_EQUAL comparison { $$ = &ast.Binary{Node: ast.Node{$<Position>$}, Op: ast.BinaryOpLessOrEqual, Left: $1, Right: $3} }
+	| multiplication GREATER_EQUAL comparison { $$ = &ast.Binary{Node: ast.Node{$<Position>$}, Op: ast.BinaryOpGreaterOrEqual, Left: $1, Right: $3} }
+	| multiplication
+	;
+
+multiplication:
+	  addition PERCENT multiplication { $$ = &ast.Binary{Node: ast.Node{$<Position>$}, Op: ast.BinaryOpModulus, Left: $1, Right: $3} }
+	| addition SLASH multiplication { $$ = &ast.Binary{Node: ast.Node{$<Position>$}, Op: ast.BinaryOpDivide, Left: $1, Right: $3} }
+	| addition STAR multiplication { $$ = &ast.Binary{Node: ast.Node{$<Position>$}, Op: ast.BinaryOpMultiply, Left: $1, Right: $3} }
+	| addition
+	;
+
+addition:
+	  unary PLUS addition { $$ = &ast.Binary{Node: ast.Node{$<Position>$}, Op: ast.BinaryOpAdd, Left: $1, Right: $3} }
+	| unary MINUS addition { $$ = &ast.Binary{Node: ast.Node{$<Position>$}, Op: ast.BinaryOpSubtract, Left: $1, Right: $3} }
+	| unary
+	;
+
+unary:
+	  BANG primary { $$ = &ast.Unary{Node: ast.Node{$<Position>$}, Op: ast.UnaryOpInvert, Right: $2} }
+	| MINUS primary { $$ = &ast.Unary{Node: ast.Node{$<Position>$}, Op: ast.UnaryOpNegate, Right: $2} }
+	| primary
+	;
+
+primary:
+	  primary PAREN_OPEN arguments PAREN_CLOSE { $$ = &ast.Call{Node: ast.Node{$<Position>$}, Expression: $1, Arguments: $3} }
 	| float
 	| group
 	| identifier
 	| integer
 	| string
 	;
-
-binary:
-	  expression AND expression { $$ = &ast.Binary{Node: ast.Node{$<Position>$}, Op: ast.BinaryOpAnd, Left: $1, Right: $3} }
-	| expression OR expression { $$ = &ast.Binary{Node: ast.Node{$<Position>$}, Op: ast.BinaryOpOr, Left: $1, Right: $3} }
-	| expression EQUAL_EQUAL expression { $$ = &ast.Binary{Node: ast.Node{$<Position>$}, Op: ast.BinaryOpEqual, Left: $1, Right: $3} }
-	| expression BANG_EQUAL expression { $$ = &ast.Binary{Node: ast.Node{$<Position>$}, Op: ast.BinaryOpNotEqual, Left: $1, Right: $3} }
-	| expression LESS expression { $$ = &ast.Binary{Node: ast.Node{$<Position>$}, Op: ast.BinaryOpLess, Left: $1, Right: $3} }
-	| expression GREATER expression { $$ = &ast.Binary{Node: ast.Node{$<Position>$}, Op: ast.BinaryOpGreater, Left: $1, Right: $3} }
-	| expression LESS_EQUAL expression { $$ = &ast.Binary{Node: ast.Node{$<Position>$}, Op: ast.BinaryOpLessOrEqual, Left: $1, Right: $3} }
-	| expression GREATER_EQUAL expression { $$ = &ast.Binary{Node: ast.Node{$<Position>$}, Op: ast.BinaryOpGreaterOrEqual, Left: $1, Right: $3} }
-	| expression PERCENT expression { $$ = &ast.Binary{Node: ast.Node{$<Position>$}, Op: ast.BinaryOpModulus, Left: $1, Right: $3} }
-	| expression SLASH expression { $$ = &ast.Binary{Node: ast.Node{$<Position>$}, Op: ast.BinaryOpDivide, Left: $1, Right: $3} }
-	| expression STAR expression { $$ = &ast.Binary{Node: ast.Node{$<Position>$}, Op: ast.BinaryOpMultiply, Left: $1, Right: $3} }
-	| expression PLUS expression { $$ = &ast.Binary{Node: ast.Node{$<Position>$}, Op: ast.BinaryOpAdd, Left: $1, Right: $3} }
-	| expression MINUS expression { $$ = &ast.Binary{Node: ast.Node{$<Position>$}, Op: ast.BinaryOpSubtract, Left: $1, Right: $3} }
-	;
-
-call: expression PAREN_OPEN arguments PAREN_CLOSE { $$ = &ast.Call{Node: ast.Node{$<Position>$}, Expression: $1, Arguments: $3} };
 
 arguments:
 	  expression { $$ = append($$, $1) }

@@ -1,42 +1,52 @@
 
-0: shift/reduce conflict (shift 21(0), red'n 4(0)) on COMMENT
-0: shift/reduce conflict (shift 20(0), red'n 4(0)) on BRACE_OPEN
-0: shift/reduce conflict (shift 25(0), red'n 4(0)) on PAREN_OPEN
-0: shift/reduce conflict (shift 26(0), red'n 4(0)) on NULL
-0: shift/reduce conflict (shift 27(0), red'n 4(0)) on FALSE
-0: shift/reduce conflict (shift 28(0), red'n 4(0)) on TRUE
-0: shift/reduce conflict (shift 22(0), red'n 4(0)) on IF
-0: shift/reduce conflict (shift 23(0), red'n 4(0)) on WHILE
-0: shift/reduce conflict (shift 24(0), red'n 4(0)) on FLOAT
-0: shift/reduce conflict (shift 29(0), red'n 4(0)) on INTEGER
-0: shift/reduce conflict (shift 30(0), red'n 4(0)) on STRING
+0: shift/reduce conflict (shift 15(0), red'n 4(0)) on COMMENT
+0: shift/reduce conflict (shift 14(0), red'n 4(0)) on BRACE_OPEN
+0: shift/reduce conflict (shift 33(0), red'n 4(0)) on PAREN_OPEN
+0: shift/reduce conflict (shift 25(0), red'n 4(0)) on MINUS
+0: shift/reduce conflict (shift 24(0), red'n 4(0)) on BANG
+0: shift/reduce conflict (shift 34(0), red'n 4(0)) on NULL
+0: shift/reduce conflict (shift 35(0), red'n 4(0)) on FALSE
+0: shift/reduce conflict (shift 36(0), red'n 4(0)) on TRUE
+0: shift/reduce conflict (shift 16(0), red'n 4(0)) on IF
+0: shift/reduce conflict (shift 17(0), red'n 4(0)) on WHILE
+0: shift/reduce conflict (shift 32(0), red'n 4(0)) on FLOAT
+0: shift/reduce conflict (shift 37(0), red'n 4(0)) on INTEGER
+0: shift/reduce conflict (shift 38(0), red'n 4(0)) on STRING
 0: shift/reduce conflict (shift 12(0), red'n 4(0)) on IDENTIFIER
 state 0
 	$accept: .program $end 
 	statements: .    (4)
 
-	COMMENT  shift 21
-	BRACE_OPEN  shift 20
-	PAREN_OPEN  shift 25
-	NULL  shift 26
-	FALSE  shift 27
-	TRUE  shift 28
-	IF  shift 22
-	WHILE  shift 23
-	FLOAT  shift 24
-	INTEGER  shift 29
-	STRING  shift 30
+	COMMENT  shift 15
+	BRACE_OPEN  shift 14
+	PAREN_OPEN  shift 33
+	MINUS  shift 25
+	BANG  shift 24
+	NULL  shift 34
+	FALSE  shift 35
+	TRUE  shift 36
+	IF  shift 16
+	WHILE  shift 17
+	FLOAT  shift 32
+	INTEGER  shift 37
+	STRING  shift 38
 	IDENTIFIER  shift 12
 	.  reduce 4 (src line 70)
 
 	expression  goto 7
 	binary  goto 13
-	call  goto 14
-	float  goto 15
-	group  goto 16
-	identifier  goto 17
-	integer  goto 18
-	string  goto 19
+	logical  goto 18
+	equality  goto 19
+	comparison  goto 20
+	multiplication  goto 21
+	addition  goto 22
+	unary  goto 23
+	primary  goto 26
+	float  goto 27
+	group  goto 28
+	identifier  goto 29
+	integer  goto 30
+	string  goto 31
 	statement  goto 3
 	unterminated  goto 5
 	block  goto 8
@@ -59,29 +69,37 @@ state 2
 	program:  statements.    (1)
 	statements:  statements.statement 
 
-	COMMENT  shift 21
-	BRACE_OPEN  shift 20
-	PAREN_OPEN  shift 25
-	NULL  shift 26
-	FALSE  shift 27
-	TRUE  shift 28
-	IF  shift 22
-	WHILE  shift 23
-	FLOAT  shift 24
-	INTEGER  shift 29
-	STRING  shift 30
+	COMMENT  shift 15
+	BRACE_OPEN  shift 14
+	PAREN_OPEN  shift 33
+	MINUS  shift 25
+	BANG  shift 24
+	NULL  shift 34
+	FALSE  shift 35
+	TRUE  shift 36
+	IF  shift 16
+	WHILE  shift 17
+	FLOAT  shift 32
+	INTEGER  shift 37
+	STRING  shift 38
 	IDENTIFIER  shift 12
 	.  reduce 1 (src line 61)
 
 	expression  goto 7
 	binary  goto 13
-	call  goto 14
-	float  goto 15
-	group  goto 16
-	identifier  goto 17
-	integer  goto 18
-	string  goto 19
-	statement  goto 31
+	logical  goto 18
+	equality  goto 19
+	comparison  goto 20
+	multiplication  goto 21
+	addition  goto 22
+	unary  goto 23
+	primary  goto 26
+	float  goto 27
+	group  goto 28
+	identifier  goto 29
+	integer  goto 30
+	string  goto 31
+	statement  goto 39
 	unterminated  goto 5
 	block  goto 8
 	comment  goto 9
@@ -99,7 +117,7 @@ state 3
 state 4
 	statement:  terminated.SEMICOLON 
 
-	SEMICOLON  shift 32
+	SEMICOLON  shift 40
 	.  error
 
 
@@ -117,35 +135,7 @@ state 6
 
 state 7
 	terminated:  expression.    (8)
-	binary:  expression.AND expression 
-	binary:  expression.OR expression 
-	binary:  expression.EQUAL_EQUAL expression 
-	binary:  expression.BANG_EQUAL expression 
-	binary:  expression.LESS expression 
-	binary:  expression.GREATER expression 
-	binary:  expression.LESS_EQUAL expression 
-	binary:  expression.GREATER_EQUAL expression 
-	binary:  expression.PERCENT expression 
-	binary:  expression.SLASH expression 
-	binary:  expression.STAR expression 
-	binary:  expression.PLUS expression 
-	binary:  expression.MINUS expression 
-	call:  expression.PAREN_OPEN arguments PAREN_CLOSE 
 
-	PAREN_OPEN  shift 46
-	PLUS  shift 44
-	MINUS  shift 45
-	STAR  shift 43
-	SLASH  shift 42
-	PERCENT  shift 41
-	EQUAL_EQUAL  shift 35
-	BANG_EQUAL  shift 36
-	LESS  shift 37
-	LESS_EQUAL  shift 39
-	GREATER  shift 38
-	GREATER_EQUAL  shift 40
-	AND  shift 33
-	OR  shift 34
 	.  reduce 8 (src line 80)
 
 
@@ -175,10 +165,10 @@ state 11
 
 state 12
 	assignment:  IDENTIFIER.EQUAL expression 
-	identifier:  IDENTIFIER.    (45)
+	identifier:  IDENTIFIER.    (53)
 
-	EQUAL  shift 47
-	.  reduce 45 (src line 141)
+	EQUAL  shift 41
+	.  reduce 53 (src line 169)
 
 
 state 13
@@ -187,80 +177,54 @@ state 13
 	.  reduce 19 (src line 103)
 
 
+14: shift/reduce conflict (shift 15(0), red'n 4(0)) on COMMENT
+14: shift/reduce conflict (shift 14(0), red'n 4(0)) on BRACE_OPEN
+14: shift/reduce conflict (shift 33(0), red'n 4(0)) on PAREN_OPEN
+14: shift/reduce conflict (shift 25(0), red'n 4(0)) on MINUS
+14: shift/reduce conflict (shift 24(0), red'n 4(0)) on BANG
+14: shift/reduce conflict (shift 34(0), red'n 4(0)) on NULL
+14: shift/reduce conflict (shift 35(0), red'n 4(0)) on FALSE
+14: shift/reduce conflict (shift 36(0), red'n 4(0)) on TRUE
+14: shift/reduce conflict (shift 16(0), red'n 4(0)) on IF
+14: shift/reduce conflict (shift 17(0), red'n 4(0)) on WHILE
+14: shift/reduce conflict (shift 32(0), red'n 4(0)) on FLOAT
+14: shift/reduce conflict (shift 37(0), red'n 4(0)) on INTEGER
+14: shift/reduce conflict (shift 38(0), red'n 4(0)) on STRING
+14: shift/reduce conflict (shift 12(0), red'n 4(0)) on IDENTIFIER
 state 14
-	expression:  call.    (20)
-
-	.  reduce 20 (src line 105)
-
-
-state 15
-	expression:  float.    (21)
-
-	.  reduce 21 (src line 106)
-
-
-state 16
-	expression:  group.    (22)
-
-	.  reduce 22 (src line 107)
-
-
-state 17
-	expression:  identifier.    (23)
-
-	.  reduce 23 (src line 108)
-
-
-state 18
-	expression:  integer.    (24)
-
-	.  reduce 24 (src line 109)
-
-
-state 19
-	expression:  string.    (25)
-
-	.  reduce 25 (src line 110)
-
-
-20: shift/reduce conflict (shift 21(0), red'n 4(0)) on COMMENT
-20: shift/reduce conflict (shift 20(0), red'n 4(0)) on BRACE_OPEN
-20: shift/reduce conflict (shift 25(0), red'n 4(0)) on PAREN_OPEN
-20: shift/reduce conflict (shift 26(0), red'n 4(0)) on NULL
-20: shift/reduce conflict (shift 27(0), red'n 4(0)) on FALSE
-20: shift/reduce conflict (shift 28(0), red'n 4(0)) on TRUE
-20: shift/reduce conflict (shift 22(0), red'n 4(0)) on IF
-20: shift/reduce conflict (shift 23(0), red'n 4(0)) on WHILE
-20: shift/reduce conflict (shift 24(0), red'n 4(0)) on FLOAT
-20: shift/reduce conflict (shift 29(0), red'n 4(0)) on INTEGER
-20: shift/reduce conflict (shift 30(0), red'n 4(0)) on STRING
-20: shift/reduce conflict (shift 12(0), red'n 4(0)) on IDENTIFIER
-state 20
 	block:  BRACE_OPEN.statements BRACE_CLOSE 
 	statements: .    (4)
 
-	COMMENT  shift 21
-	BRACE_OPEN  shift 20
-	PAREN_OPEN  shift 25
-	NULL  shift 26
-	FALSE  shift 27
-	TRUE  shift 28
-	IF  shift 22
-	WHILE  shift 23
-	FLOAT  shift 24
-	INTEGER  shift 29
-	STRING  shift 30
+	COMMENT  shift 15
+	BRACE_OPEN  shift 14
+	PAREN_OPEN  shift 33
+	MINUS  shift 25
+	BANG  shift 24
+	NULL  shift 34
+	FALSE  shift 35
+	TRUE  shift 36
+	IF  shift 16
+	WHILE  shift 17
+	FLOAT  shift 32
+	INTEGER  shift 37
+	STRING  shift 38
 	IDENTIFIER  shift 12
 	.  reduce 4 (src line 70)
 
 	expression  goto 7
 	binary  goto 13
-	call  goto 14
-	float  goto 15
-	group  goto 16
-	identifier  goto 17
-	integer  goto 18
-	string  goto 19
+	logical  goto 18
+	equality  goto 19
+	comparison  goto 20
+	multiplication  goto 21
+	addition  goto 22
+	unary  goto 23
+	primary  goto 26
+	float  goto 27
+	group  goto 28
+	identifier  goto 29
+	integer  goto 30
+	string  goto 31
 	statement  goto 3
 	unterminated  goto 5
 	block  goto 8
@@ -269,489 +233,361 @@ state 20
 	while  goto 11
 	terminated  goto 4
 	assignment  goto 6
-	statements  goto 48
+	statements  goto 42
 
-state 21
+state 15
 	comment:  COMMENT.    (15)
 
 	.  reduce 15 (src line 94)
 
 
-state 22
+state 16
 	if:  IF.expression statement ELSE statement 
 	if:  IF.expression statement 
 
-	PAREN_OPEN  shift 25
-	NULL  shift 26
-	FALSE  shift 27
-	TRUE  shift 28
-	FLOAT  shift 24
-	INTEGER  shift 29
-	STRING  shift 30
-	IDENTIFIER  shift 50
+	PAREN_OPEN  shift 33
+	MINUS  shift 25
+	BANG  shift 24
+	NULL  shift 34
+	FALSE  shift 35
+	TRUE  shift 36
+	FLOAT  shift 32
+	INTEGER  shift 37
+	STRING  shift 38
+	IDENTIFIER  shift 44
 	.  error
 
-	expression  goto 49
+	expression  goto 43
 	binary  goto 13
-	call  goto 14
-	float  goto 15
-	group  goto 16
-	identifier  goto 17
-	integer  goto 18
-	string  goto 19
+	logical  goto 18
+	equality  goto 19
+	comparison  goto 20
+	multiplication  goto 21
+	addition  goto 22
+	unary  goto 23
+	primary  goto 26
+	float  goto 27
+	group  goto 28
+	identifier  goto 29
+	integer  goto 30
+	string  goto 31
 
-state 23
+state 17
 	while:  WHILE.expression statement 
 
-	PAREN_OPEN  shift 25
-	NULL  shift 26
-	FALSE  shift 27
-	TRUE  shift 28
-	FLOAT  shift 24
-	INTEGER  shift 29
-	STRING  shift 30
-	IDENTIFIER  shift 50
+	PAREN_OPEN  shift 33
+	MINUS  shift 25
+	BANG  shift 24
+	NULL  shift 34
+	FALSE  shift 35
+	TRUE  shift 36
+	FLOAT  shift 32
+	INTEGER  shift 37
+	STRING  shift 38
+	IDENTIFIER  shift 44
 	.  error
 
-	expression  goto 51
+	expression  goto 45
 	binary  goto 13
-	call  goto 14
-	float  goto 15
-	group  goto 16
-	identifier  goto 17
-	integer  goto 18
-	string  goto 19
+	logical  goto 18
+	equality  goto 19
+	comparison  goto 20
+	multiplication  goto 21
+	addition  goto 22
+	unary  goto 23
+	primary  goto 26
+	float  goto 27
+	group  goto 28
+	identifier  goto 29
+	integer  goto 30
+	string  goto 31
+
+state 18
+	binary:  logical.    (20)
+
+	.  reduce 20 (src line 107)
+
+
+state 19
+	logical:  equality.AND logical 
+	logical:  equality.OR logical 
+	logical:  equality.    (23)
+
+	AND  shift 46
+	OR  shift 47
+	.  reduce 23 (src line 114)
+
+
+state 20
+	equality:  comparison.EQUAL_EQUAL equality 
+	equality:  comparison.BANG_EQUAL equality 
+	equality:  comparison.    (26)
+
+	EQUAL_EQUAL  shift 48
+	BANG_EQUAL  shift 49
+	.  reduce 26 (src line 120)
+
+
+state 21
+	comparison:  multiplication.LESS comparison 
+	comparison:  multiplication.GREATER comparison 
+	comparison:  multiplication.LESS_EQUAL comparison 
+	comparison:  multiplication.GREATER_EQUAL comparison 
+	comparison:  multiplication.    (31)
+
+	LESS  shift 50
+	LESS_EQUAL  shift 52
+	GREATER  shift 51
+	GREATER_EQUAL  shift 53
+	.  reduce 31 (src line 128)
+
+
+state 22
+	multiplication:  addition.PERCENT multiplication 
+	multiplication:  addition.SLASH multiplication 
+	multiplication:  addition.STAR multiplication 
+	multiplication:  addition.    (35)
+
+	STAR  shift 56
+	SLASH  shift 55
+	PERCENT  shift 54
+	.  reduce 35 (src line 135)
+
+
+23: shift/reduce conflict (shift 58(0), red'n 38(0)) on MINUS
+state 23
+	addition:  unary.PLUS addition 
+	addition:  unary.MINUS addition 
+	addition:  unary.    (38)
+
+	PLUS  shift 57
+	MINUS  shift 58
+	.  reduce 38 (src line 141)
+
 
 state 24
-	float:  FLOAT.    (43)
+	unary:  BANG.primary 
 
-	.  reduce 43 (src line 137)
-
-
-state 25
-	group:  PAREN_OPEN.expression PAREN_CLOSE 
-
-	PAREN_OPEN  shift 25
-	NULL  shift 26
-	FALSE  shift 27
-	TRUE  shift 28
-	FLOAT  shift 24
-	INTEGER  shift 29
-	STRING  shift 30
-	IDENTIFIER  shift 50
+	PAREN_OPEN  shift 33
+	NULL  shift 34
+	FALSE  shift 35
+	TRUE  shift 36
+	FLOAT  shift 32
+	INTEGER  shift 37
+	STRING  shift 38
+	IDENTIFIER  shift 44
 	.  error
 
-	expression  goto 52
-	binary  goto 13
-	call  goto 14
-	float  goto 15
-	group  goto 16
-	identifier  goto 17
-	integer  goto 18
-	string  goto 19
+	primary  goto 59
+	float  goto 27
+	group  goto 28
+	identifier  goto 29
+	integer  goto 30
+	string  goto 31
 
+state 25
+	unary:  MINUS.primary 
+
+	PAREN_OPEN  shift 33
+	NULL  shift 34
+	FALSE  shift 35
+	TRUE  shift 36
+	FLOAT  shift 32
+	INTEGER  shift 37
+	STRING  shift 38
+	IDENTIFIER  shift 44
+	.  error
+
+	primary  goto 60
+	float  goto 27
+	group  goto 28
+	identifier  goto 29
+	integer  goto 30
+	string  goto 31
+
+26: shift/reduce conflict (shift 61(0), red'n 41(0)) on PAREN_OPEN
 state 26
-	identifier:  NULL.    (46)
+	unary:  primary.    (41)
+	primary:  primary.PAREN_OPEN arguments PAREN_CLOSE 
 
-	.  reduce 46 (src line 143)
+	PAREN_OPEN  shift 61
+	.  reduce 41 (src line 147)
 
 
 state 27
-	identifier:  FALSE.    (47)
+	primary:  float.    (43)
 
-	.  reduce 47 (src line 144)
+	.  reduce 43 (src line 152)
 
 
 state 28
-	identifier:  TRUE.    (48)
+	primary:  group.    (44)
 
-	.  reduce 48 (src line 145)
+	.  reduce 44 (src line 153)
 
 
 state 29
-	integer:  INTEGER.    (49)
+	primary:  identifier.    (45)
 
-	.  reduce 49 (src line 148)
+	.  reduce 45 (src line 154)
 
 
 state 30
-	string:  STRING.    (50)
+	primary:  integer.    (46)
 
-	.  reduce 50 (src line 150)
+	.  reduce 46 (src line 155)
 
 
 state 31
+	primary:  string.    (47)
+
+	.  reduce 47 (src line 156)
+
+
+state 32
+	float:  FLOAT.    (51)
+
+	.  reduce 51 (src line 165)
+
+
+state 33
+	group:  PAREN_OPEN.expression PAREN_CLOSE 
+
+	PAREN_OPEN  shift 33
+	MINUS  shift 25
+	BANG  shift 24
+	NULL  shift 34
+	FALSE  shift 35
+	TRUE  shift 36
+	FLOAT  shift 32
+	INTEGER  shift 37
+	STRING  shift 38
+	IDENTIFIER  shift 44
+	.  error
+
+	expression  goto 62
+	binary  goto 13
+	logical  goto 18
+	equality  goto 19
+	comparison  goto 20
+	multiplication  goto 21
+	addition  goto 22
+	unary  goto 23
+	primary  goto 26
+	float  goto 27
+	group  goto 28
+	identifier  goto 29
+	integer  goto 30
+	string  goto 31
+
+state 34
+	identifier:  NULL.    (54)
+
+	.  reduce 54 (src line 171)
+
+
+state 35
+	identifier:  FALSE.    (55)
+
+	.  reduce 55 (src line 172)
+
+
+state 36
+	identifier:  TRUE.    (56)
+
+	.  reduce 56 (src line 173)
+
+
+state 37
+	integer:  INTEGER.    (57)
+
+	.  reduce 57 (src line 176)
+
+
+state 38
+	string:  STRING.    (58)
+
+	.  reduce 58 (src line 178)
+
+
+state 39
 	statements:  statements statement.    (3)
 
 	.  reduce 3 (src line 69)
 
 
-state 32
+state 40
 	statement:  terminated SEMICOLON.    (5)
 
 	.  reduce 5 (src line 73)
 
 
-state 33
-	binary:  expression AND.expression 
-
-	PAREN_OPEN  shift 25
-	NULL  shift 26
-	FALSE  shift 27
-	TRUE  shift 28
-	FLOAT  shift 24
-	INTEGER  shift 29
-	STRING  shift 30
-	IDENTIFIER  shift 50
-	.  error
-
-	expression  goto 53
-	binary  goto 13
-	call  goto 14
-	float  goto 15
-	group  goto 16
-	identifier  goto 17
-	integer  goto 18
-	string  goto 19
-
-state 34
-	binary:  expression OR.expression 
-
-	PAREN_OPEN  shift 25
-	NULL  shift 26
-	FALSE  shift 27
-	TRUE  shift 28
-	FLOAT  shift 24
-	INTEGER  shift 29
-	STRING  shift 30
-	IDENTIFIER  shift 50
-	.  error
-
-	expression  goto 54
-	binary  goto 13
-	call  goto 14
-	float  goto 15
-	group  goto 16
-	identifier  goto 17
-	integer  goto 18
-	string  goto 19
-
-state 35
-	binary:  expression EQUAL_EQUAL.expression 
-
-	PAREN_OPEN  shift 25
-	NULL  shift 26
-	FALSE  shift 27
-	TRUE  shift 28
-	FLOAT  shift 24
-	INTEGER  shift 29
-	STRING  shift 30
-	IDENTIFIER  shift 50
-	.  error
-
-	expression  goto 55
-	binary  goto 13
-	call  goto 14
-	float  goto 15
-	group  goto 16
-	identifier  goto 17
-	integer  goto 18
-	string  goto 19
-
-state 36
-	binary:  expression BANG_EQUAL.expression 
-
-	PAREN_OPEN  shift 25
-	NULL  shift 26
-	FALSE  shift 27
-	TRUE  shift 28
-	FLOAT  shift 24
-	INTEGER  shift 29
-	STRING  shift 30
-	IDENTIFIER  shift 50
-	.  error
-
-	expression  goto 56
-	binary  goto 13
-	call  goto 14
-	float  goto 15
-	group  goto 16
-	identifier  goto 17
-	integer  goto 18
-	string  goto 19
-
-state 37
-	binary:  expression LESS.expression 
-
-	PAREN_OPEN  shift 25
-	NULL  shift 26
-	FALSE  shift 27
-	TRUE  shift 28
-	FLOAT  shift 24
-	INTEGER  shift 29
-	STRING  shift 30
-	IDENTIFIER  shift 50
-	.  error
-
-	expression  goto 57
-	binary  goto 13
-	call  goto 14
-	float  goto 15
-	group  goto 16
-	identifier  goto 17
-	integer  goto 18
-	string  goto 19
-
-state 38
-	binary:  expression GREATER.expression 
-
-	PAREN_OPEN  shift 25
-	NULL  shift 26
-	FALSE  shift 27
-	TRUE  shift 28
-	FLOAT  shift 24
-	INTEGER  shift 29
-	STRING  shift 30
-	IDENTIFIER  shift 50
-	.  error
-
-	expression  goto 58
-	binary  goto 13
-	call  goto 14
-	float  goto 15
-	group  goto 16
-	identifier  goto 17
-	integer  goto 18
-	string  goto 19
-
-state 39
-	binary:  expression LESS_EQUAL.expression 
-
-	PAREN_OPEN  shift 25
-	NULL  shift 26
-	FALSE  shift 27
-	TRUE  shift 28
-	FLOAT  shift 24
-	INTEGER  shift 29
-	STRING  shift 30
-	IDENTIFIER  shift 50
-	.  error
-
-	expression  goto 59
-	binary  goto 13
-	call  goto 14
-	float  goto 15
-	group  goto 16
-	identifier  goto 17
-	integer  goto 18
-	string  goto 19
-
-state 40
-	binary:  expression GREATER_EQUAL.expression 
-
-	PAREN_OPEN  shift 25
-	NULL  shift 26
-	FALSE  shift 27
-	TRUE  shift 28
-	FLOAT  shift 24
-	INTEGER  shift 29
-	STRING  shift 30
-	IDENTIFIER  shift 50
-	.  error
-
-	expression  goto 60
-	binary  goto 13
-	call  goto 14
-	float  goto 15
-	group  goto 16
-	identifier  goto 17
-	integer  goto 18
-	string  goto 19
-
 state 41
-	binary:  expression PERCENT.expression 
+	assignment:  IDENTIFIER EQUAL.expression 
 
-	PAREN_OPEN  shift 25
-	NULL  shift 26
-	FALSE  shift 27
-	TRUE  shift 28
-	FLOAT  shift 24
-	INTEGER  shift 29
-	STRING  shift 30
-	IDENTIFIER  shift 50
-	.  error
-
-	expression  goto 61
-	binary  goto 13
-	call  goto 14
-	float  goto 15
-	group  goto 16
-	identifier  goto 17
-	integer  goto 18
-	string  goto 19
-
-state 42
-	binary:  expression SLASH.expression 
-
-	PAREN_OPEN  shift 25
-	NULL  shift 26
-	FALSE  shift 27
-	TRUE  shift 28
-	FLOAT  shift 24
-	INTEGER  shift 29
-	STRING  shift 30
-	IDENTIFIER  shift 50
-	.  error
-
-	expression  goto 62
-	binary  goto 13
-	call  goto 14
-	float  goto 15
-	group  goto 16
-	identifier  goto 17
-	integer  goto 18
-	string  goto 19
-
-state 43
-	binary:  expression STAR.expression 
-
-	PAREN_OPEN  shift 25
-	NULL  shift 26
-	FALSE  shift 27
-	TRUE  shift 28
-	FLOAT  shift 24
-	INTEGER  shift 29
-	STRING  shift 30
-	IDENTIFIER  shift 50
+	PAREN_OPEN  shift 33
+	MINUS  shift 25
+	BANG  shift 24
+	NULL  shift 34
+	FALSE  shift 35
+	TRUE  shift 36
+	FLOAT  shift 32
+	INTEGER  shift 37
+	STRING  shift 38
+	IDENTIFIER  shift 44
 	.  error
 
 	expression  goto 63
 	binary  goto 13
-	call  goto 14
-	float  goto 15
-	group  goto 16
-	identifier  goto 17
-	integer  goto 18
-	string  goto 19
+	logical  goto 18
+	equality  goto 19
+	comparison  goto 20
+	multiplication  goto 21
+	addition  goto 22
+	unary  goto 23
+	primary  goto 26
+	float  goto 27
+	group  goto 28
+	identifier  goto 29
+	integer  goto 30
+	string  goto 31
 
-state 44
-	binary:  expression PLUS.expression 
-
-	PAREN_OPEN  shift 25
-	NULL  shift 26
-	FALSE  shift 27
-	TRUE  shift 28
-	FLOAT  shift 24
-	INTEGER  shift 29
-	STRING  shift 30
-	IDENTIFIER  shift 50
-	.  error
-
-	expression  goto 64
-	binary  goto 13
-	call  goto 14
-	float  goto 15
-	group  goto 16
-	identifier  goto 17
-	integer  goto 18
-	string  goto 19
-
-state 45
-	binary:  expression MINUS.expression 
-
-	PAREN_OPEN  shift 25
-	NULL  shift 26
-	FALSE  shift 27
-	TRUE  shift 28
-	FLOAT  shift 24
-	INTEGER  shift 29
-	STRING  shift 30
-	IDENTIFIER  shift 50
-	.  error
-
-	expression  goto 65
-	binary  goto 13
-	call  goto 14
-	float  goto 15
-	group  goto 16
-	identifier  goto 17
-	integer  goto 18
-	string  goto 19
-
-state 46
-	call:  expression PAREN_OPEN.arguments PAREN_CLOSE 
-	arguments: .    (42)
-
-	PAREN_OPEN  shift 25
-	NULL  shift 26
-	FALSE  shift 27
-	TRUE  shift 28
-	FLOAT  shift 24
-	INTEGER  shift 29
-	STRING  shift 30
-	IDENTIFIER  shift 50
-	.  reduce 42 (src line 134)
-
-	expression  goto 67
-	binary  goto 13
-	call  goto 14
-	float  goto 15
-	group  goto 16
-	identifier  goto 17
-	integer  goto 18
-	string  goto 19
-	arguments  goto 66
-
-state 47
-	assignment:  IDENTIFIER EQUAL.expression 
-
-	PAREN_OPEN  shift 25
-	NULL  shift 26
-	FALSE  shift 27
-	TRUE  shift 28
-	FLOAT  shift 24
-	INTEGER  shift 29
-	STRING  shift 30
-	IDENTIFIER  shift 50
-	.  error
-
-	expression  goto 68
-	binary  goto 13
-	call  goto 14
-	float  goto 15
-	group  goto 16
-	identifier  goto 17
-	integer  goto 18
-	string  goto 19
-
-state 48
+state 42
 	statements:  statements.statement 
 	block:  BRACE_OPEN statements.BRACE_CLOSE 
 
-	COMMENT  shift 21
-	BRACE_OPEN  shift 20
-	BRACE_CLOSE  shift 69
-	PAREN_OPEN  shift 25
-	NULL  shift 26
-	FALSE  shift 27
-	TRUE  shift 28
-	IF  shift 22
-	WHILE  shift 23
-	FLOAT  shift 24
-	INTEGER  shift 29
-	STRING  shift 30
+	COMMENT  shift 15
+	BRACE_OPEN  shift 14
+	BRACE_CLOSE  shift 64
+	PAREN_OPEN  shift 33
+	MINUS  shift 25
+	BANG  shift 24
+	NULL  shift 34
+	FALSE  shift 35
+	TRUE  shift 36
+	IF  shift 16
+	WHILE  shift 17
+	FLOAT  shift 32
+	INTEGER  shift 37
+	STRING  shift 38
 	IDENTIFIER  shift 12
 	.  error
 
 	expression  goto 7
 	binary  goto 13
-	call  goto 14
-	float  goto 15
-	group  goto 16
-	identifier  goto 17
-	integer  goto 18
-	string  goto 19
-	statement  goto 31
+	logical  goto 18
+	equality  goto 19
+	comparison  goto 20
+	multiplication  goto 21
+	addition  goto 22
+	unary  goto 23
+	primary  goto 26
+	float  goto 27
+	group  goto 28
+	identifier  goto 29
+	integer  goto 30
+	string  goto 31
+	statement  goto 39
 	unterminated  goto 5
 	block  goto 8
 	comment  goto 9
@@ -760,60 +596,41 @@ state 48
 	terminated  goto 4
 	assignment  goto 6
 
-state 49
+state 43
 	if:  IF expression.statement ELSE statement 
 	if:  IF expression.statement 
-	binary:  expression.AND expression 
-	binary:  expression.OR expression 
-	binary:  expression.EQUAL_EQUAL expression 
-	binary:  expression.BANG_EQUAL expression 
-	binary:  expression.LESS expression 
-	binary:  expression.GREATER expression 
-	binary:  expression.LESS_EQUAL expression 
-	binary:  expression.GREATER_EQUAL expression 
-	binary:  expression.PERCENT expression 
-	binary:  expression.SLASH expression 
-	binary:  expression.STAR expression 
-	binary:  expression.PLUS expression 
-	binary:  expression.MINUS expression 
-	call:  expression.PAREN_OPEN arguments PAREN_CLOSE 
 
-	COMMENT  shift 21
-	BRACE_OPEN  shift 20
-	PAREN_OPEN  shift 71
-	PLUS  shift 44
-	MINUS  shift 45
-	STAR  shift 43
-	SLASH  shift 42
-	PERCENT  shift 41
-	EQUAL_EQUAL  shift 35
-	BANG_EQUAL  shift 36
-	LESS  shift 37
-	LESS_EQUAL  shift 39
-	GREATER  shift 38
-	GREATER_EQUAL  shift 40
-	NULL  shift 26
-	FALSE  shift 27
-	TRUE  shift 28
-	AND  shift 33
-	OR  shift 34
-	IF  shift 22
-	WHILE  shift 23
-	FLOAT  shift 24
-	INTEGER  shift 29
-	STRING  shift 30
+	COMMENT  shift 15
+	BRACE_OPEN  shift 14
+	PAREN_OPEN  shift 33
+	MINUS  shift 25
+	BANG  shift 24
+	NULL  shift 34
+	FALSE  shift 35
+	TRUE  shift 36
+	IF  shift 16
+	WHILE  shift 17
+	FLOAT  shift 32
+	INTEGER  shift 37
+	STRING  shift 38
 	IDENTIFIER  shift 12
 	.  error
 
 	expression  goto 7
 	binary  goto 13
-	call  goto 14
-	float  goto 15
-	group  goto 16
-	identifier  goto 17
-	integer  goto 18
-	string  goto 19
-	statement  goto 70
+	logical  goto 18
+	equality  goto 19
+	comparison  goto 20
+	multiplication  goto 21
+	addition  goto 22
+	unary  goto 23
+	primary  goto 26
+	float  goto 27
+	group  goto 28
+	identifier  goto 29
+	integer  goto 30
+	string  goto 31
+	statement  goto 65
 	unterminated  goto 5
 	block  goto 8
 	comment  goto 9
@@ -821,916 +638,609 @@ state 49
 	while  goto 11
 	terminated  goto 4
 	assignment  goto 6
+
+state 44
+	identifier:  IDENTIFIER.    (53)
+
+	.  reduce 53 (src line 169)
+
+
+state 45
+	while:  WHILE expression.statement 
+
+	COMMENT  shift 15
+	BRACE_OPEN  shift 14
+	PAREN_OPEN  shift 33
+	MINUS  shift 25
+	BANG  shift 24
+	NULL  shift 34
+	FALSE  shift 35
+	TRUE  shift 36
+	IF  shift 16
+	WHILE  shift 17
+	FLOAT  shift 32
+	INTEGER  shift 37
+	STRING  shift 38
+	IDENTIFIER  shift 12
+	.  error
+
+	expression  goto 7
+	binary  goto 13
+	logical  goto 18
+	equality  goto 19
+	comparison  goto 20
+	multiplication  goto 21
+	addition  goto 22
+	unary  goto 23
+	primary  goto 26
+	float  goto 27
+	group  goto 28
+	identifier  goto 29
+	integer  goto 30
+	string  goto 31
+	statement  goto 66
+	unterminated  goto 5
+	block  goto 8
+	comment  goto 9
+	if  goto 10
+	while  goto 11
+	terminated  goto 4
+	assignment  goto 6
+
+state 46
+	logical:  equality AND.logical 
+
+	PAREN_OPEN  shift 33
+	MINUS  shift 25
+	BANG  shift 24
+	NULL  shift 34
+	FALSE  shift 35
+	TRUE  shift 36
+	FLOAT  shift 32
+	INTEGER  shift 37
+	STRING  shift 38
+	IDENTIFIER  shift 44
+	.  error
+
+	logical  goto 67
+	equality  goto 19
+	comparison  goto 20
+	multiplication  goto 21
+	addition  goto 22
+	unary  goto 23
+	primary  goto 26
+	float  goto 27
+	group  goto 28
+	identifier  goto 29
+	integer  goto 30
+	string  goto 31
+
+state 47
+	logical:  equality OR.logical 
+
+	PAREN_OPEN  shift 33
+	MINUS  shift 25
+	BANG  shift 24
+	NULL  shift 34
+	FALSE  shift 35
+	TRUE  shift 36
+	FLOAT  shift 32
+	INTEGER  shift 37
+	STRING  shift 38
+	IDENTIFIER  shift 44
+	.  error
+
+	logical  goto 68
+	equality  goto 19
+	comparison  goto 20
+	multiplication  goto 21
+	addition  goto 22
+	unary  goto 23
+	primary  goto 26
+	float  goto 27
+	group  goto 28
+	identifier  goto 29
+	integer  goto 30
+	string  goto 31
+
+state 48
+	equality:  comparison EQUAL_EQUAL.equality 
+
+	PAREN_OPEN  shift 33
+	MINUS  shift 25
+	BANG  shift 24
+	NULL  shift 34
+	FALSE  shift 35
+	TRUE  shift 36
+	FLOAT  shift 32
+	INTEGER  shift 37
+	STRING  shift 38
+	IDENTIFIER  shift 44
+	.  error
+
+	equality  goto 69
+	comparison  goto 20
+	multiplication  goto 21
+	addition  goto 22
+	unary  goto 23
+	primary  goto 26
+	float  goto 27
+	group  goto 28
+	identifier  goto 29
+	integer  goto 30
+	string  goto 31
+
+state 49
+	equality:  comparison BANG_EQUAL.equality 
+
+	PAREN_OPEN  shift 33
+	MINUS  shift 25
+	BANG  shift 24
+	NULL  shift 34
+	FALSE  shift 35
+	TRUE  shift 36
+	FLOAT  shift 32
+	INTEGER  shift 37
+	STRING  shift 38
+	IDENTIFIER  shift 44
+	.  error
+
+	equality  goto 70
+	comparison  goto 20
+	multiplication  goto 21
+	addition  goto 22
+	unary  goto 23
+	primary  goto 26
+	float  goto 27
+	group  goto 28
+	identifier  goto 29
+	integer  goto 30
+	string  goto 31
 
 state 50
-	identifier:  IDENTIFIER.    (45)
+	comparison:  multiplication LESS.comparison 
 
-	.  reduce 45 (src line 141)
+	PAREN_OPEN  shift 33
+	MINUS  shift 25
+	BANG  shift 24
+	NULL  shift 34
+	FALSE  shift 35
+	TRUE  shift 36
+	FLOAT  shift 32
+	INTEGER  shift 37
+	STRING  shift 38
+	IDENTIFIER  shift 44
+	.  error
 
+	comparison  goto 71
+	multiplication  goto 21
+	addition  goto 22
+	unary  goto 23
+	primary  goto 26
+	float  goto 27
+	group  goto 28
+	identifier  goto 29
+	integer  goto 30
+	string  goto 31
 
 state 51
-	while:  WHILE expression.statement 
-	binary:  expression.AND expression 
-	binary:  expression.OR expression 
-	binary:  expression.EQUAL_EQUAL expression 
-	binary:  expression.BANG_EQUAL expression 
-	binary:  expression.LESS expression 
-	binary:  expression.GREATER expression 
-	binary:  expression.LESS_EQUAL expression 
-	binary:  expression.GREATER_EQUAL expression 
-	binary:  expression.PERCENT expression 
-	binary:  expression.SLASH expression 
-	binary:  expression.STAR expression 
-	binary:  expression.PLUS expression 
-	binary:  expression.MINUS expression 
-	call:  expression.PAREN_OPEN arguments PAREN_CLOSE 
+	comparison:  multiplication GREATER.comparison 
 
-	COMMENT  shift 21
-	BRACE_OPEN  shift 20
-	PAREN_OPEN  shift 71
-	PLUS  shift 44
-	MINUS  shift 45
-	STAR  shift 43
-	SLASH  shift 42
-	PERCENT  shift 41
-	EQUAL_EQUAL  shift 35
-	BANG_EQUAL  shift 36
-	LESS  shift 37
-	LESS_EQUAL  shift 39
-	GREATER  shift 38
-	GREATER_EQUAL  shift 40
-	NULL  shift 26
-	FALSE  shift 27
-	TRUE  shift 28
-	AND  shift 33
-	OR  shift 34
-	IF  shift 22
-	WHILE  shift 23
-	FLOAT  shift 24
-	INTEGER  shift 29
-	STRING  shift 30
-	IDENTIFIER  shift 12
+	PAREN_OPEN  shift 33
+	MINUS  shift 25
+	BANG  shift 24
+	NULL  shift 34
+	FALSE  shift 35
+	TRUE  shift 36
+	FLOAT  shift 32
+	INTEGER  shift 37
+	STRING  shift 38
+	IDENTIFIER  shift 44
 	.  error
 
-	expression  goto 7
-	binary  goto 13
-	call  goto 14
-	float  goto 15
-	group  goto 16
-	identifier  goto 17
-	integer  goto 18
-	string  goto 19
-	statement  goto 72
-	unterminated  goto 5
-	block  goto 8
-	comment  goto 9
-	if  goto 10
-	while  goto 11
-	terminated  goto 4
-	assignment  goto 6
+	comparison  goto 72
+	multiplication  goto 21
+	addition  goto 22
+	unary  goto 23
+	primary  goto 26
+	float  goto 27
+	group  goto 28
+	identifier  goto 29
+	integer  goto 30
+	string  goto 31
 
 state 52
-	binary:  expression.AND expression 
-	binary:  expression.OR expression 
-	binary:  expression.EQUAL_EQUAL expression 
-	binary:  expression.BANG_EQUAL expression 
-	binary:  expression.LESS expression 
-	binary:  expression.GREATER expression 
-	binary:  expression.LESS_EQUAL expression 
-	binary:  expression.GREATER_EQUAL expression 
-	binary:  expression.PERCENT expression 
-	binary:  expression.SLASH expression 
-	binary:  expression.STAR expression 
-	binary:  expression.PLUS expression 
-	binary:  expression.MINUS expression 
-	call:  expression.PAREN_OPEN arguments PAREN_CLOSE 
+	comparison:  multiplication LESS_EQUAL.comparison 
+
+	PAREN_OPEN  shift 33
+	MINUS  shift 25
+	BANG  shift 24
+	NULL  shift 34
+	FALSE  shift 35
+	TRUE  shift 36
+	FLOAT  shift 32
+	INTEGER  shift 37
+	STRING  shift 38
+	IDENTIFIER  shift 44
+	.  error
+
+	comparison  goto 73
+	multiplication  goto 21
+	addition  goto 22
+	unary  goto 23
+	primary  goto 26
+	float  goto 27
+	group  goto 28
+	identifier  goto 29
+	integer  goto 30
+	string  goto 31
+
+state 53
+	comparison:  multiplication GREATER_EQUAL.comparison 
+
+	PAREN_OPEN  shift 33
+	MINUS  shift 25
+	BANG  shift 24
+	NULL  shift 34
+	FALSE  shift 35
+	TRUE  shift 36
+	FLOAT  shift 32
+	INTEGER  shift 37
+	STRING  shift 38
+	IDENTIFIER  shift 44
+	.  error
+
+	comparison  goto 74
+	multiplication  goto 21
+	addition  goto 22
+	unary  goto 23
+	primary  goto 26
+	float  goto 27
+	group  goto 28
+	identifier  goto 29
+	integer  goto 30
+	string  goto 31
+
+state 54
+	multiplication:  addition PERCENT.multiplication 
+
+	PAREN_OPEN  shift 33
+	MINUS  shift 25
+	BANG  shift 24
+	NULL  shift 34
+	FALSE  shift 35
+	TRUE  shift 36
+	FLOAT  shift 32
+	INTEGER  shift 37
+	STRING  shift 38
+	IDENTIFIER  shift 44
+	.  error
+
+	multiplication  goto 75
+	addition  goto 22
+	unary  goto 23
+	primary  goto 26
+	float  goto 27
+	group  goto 28
+	identifier  goto 29
+	integer  goto 30
+	string  goto 31
+
+state 55
+	multiplication:  addition SLASH.multiplication 
+
+	PAREN_OPEN  shift 33
+	MINUS  shift 25
+	BANG  shift 24
+	NULL  shift 34
+	FALSE  shift 35
+	TRUE  shift 36
+	FLOAT  shift 32
+	INTEGER  shift 37
+	STRING  shift 38
+	IDENTIFIER  shift 44
+	.  error
+
+	multiplication  goto 76
+	addition  goto 22
+	unary  goto 23
+	primary  goto 26
+	float  goto 27
+	group  goto 28
+	identifier  goto 29
+	integer  goto 30
+	string  goto 31
+
+state 56
+	multiplication:  addition STAR.multiplication 
+
+	PAREN_OPEN  shift 33
+	MINUS  shift 25
+	BANG  shift 24
+	NULL  shift 34
+	FALSE  shift 35
+	TRUE  shift 36
+	FLOAT  shift 32
+	INTEGER  shift 37
+	STRING  shift 38
+	IDENTIFIER  shift 44
+	.  error
+
+	multiplication  goto 77
+	addition  goto 22
+	unary  goto 23
+	primary  goto 26
+	float  goto 27
+	group  goto 28
+	identifier  goto 29
+	integer  goto 30
+	string  goto 31
+
+state 57
+	addition:  unary PLUS.addition 
+
+	PAREN_OPEN  shift 33
+	MINUS  shift 25
+	BANG  shift 24
+	NULL  shift 34
+	FALSE  shift 35
+	TRUE  shift 36
+	FLOAT  shift 32
+	INTEGER  shift 37
+	STRING  shift 38
+	IDENTIFIER  shift 44
+	.  error
+
+	addition  goto 78
+	unary  goto 23
+	primary  goto 26
+	float  goto 27
+	group  goto 28
+	identifier  goto 29
+	integer  goto 30
+	string  goto 31
+
+state 58
+	addition:  unary MINUS.addition 
+
+	PAREN_OPEN  shift 33
+	MINUS  shift 25
+	BANG  shift 24
+	NULL  shift 34
+	FALSE  shift 35
+	TRUE  shift 36
+	FLOAT  shift 32
+	INTEGER  shift 37
+	STRING  shift 38
+	IDENTIFIER  shift 44
+	.  error
+
+	addition  goto 79
+	unary  goto 23
+	primary  goto 26
+	float  goto 27
+	group  goto 28
+	identifier  goto 29
+	integer  goto 30
+	string  goto 31
+
+59: shift/reduce conflict (shift 61(0), red'n 39(0)) on PAREN_OPEN
+state 59
+	unary:  BANG primary.    (39)
+	primary:  primary.PAREN_OPEN arguments PAREN_CLOSE 
+
+	PAREN_OPEN  shift 61
+	.  reduce 39 (src line 144)
+
+
+60: shift/reduce conflict (shift 61(0), red'n 40(0)) on PAREN_OPEN
+state 60
+	unary:  MINUS primary.    (40)
+	primary:  primary.PAREN_OPEN arguments PAREN_CLOSE 
+
+	PAREN_OPEN  shift 61
+	.  reduce 40 (src line 146)
+
+
+state 61
+	primary:  primary PAREN_OPEN.arguments PAREN_CLOSE 
+	arguments: .    (50)
+
+	PAREN_OPEN  shift 33
+	MINUS  shift 25
+	BANG  shift 24
+	NULL  shift 34
+	FALSE  shift 35
+	TRUE  shift 36
+	FLOAT  shift 32
+	INTEGER  shift 37
+	STRING  shift 38
+	IDENTIFIER  shift 44
+	.  reduce 50 (src line 162)
+
+	expression  goto 81
+	binary  goto 13
+	logical  goto 18
+	equality  goto 19
+	comparison  goto 20
+	multiplication  goto 21
+	addition  goto 22
+	unary  goto 23
+	primary  goto 26
+	float  goto 27
+	group  goto 28
+	identifier  goto 29
+	integer  goto 30
+	string  goto 31
+	arguments  goto 80
+
+state 62
 	group:  PAREN_OPEN expression.PAREN_CLOSE 
 
-	PAREN_OPEN  shift 46
-	PAREN_CLOSE  shift 73
-	PLUS  shift 44
-	MINUS  shift 45
-	STAR  shift 43
-	SLASH  shift 42
-	PERCENT  shift 41
-	EQUAL_EQUAL  shift 35
-	BANG_EQUAL  shift 36
-	LESS  shift 37
-	LESS_EQUAL  shift 39
-	GREATER  shift 38
-	GREATER_EQUAL  shift 40
-	AND  shift 33
-	OR  shift 34
+	PAREN_CLOSE  shift 82
 	.  error
 
 
-53: shift/reduce conflict (shift 46(0), red'n 26(0)) on PAREN_OPEN
-53: shift/reduce conflict (shift 44(0), red'n 26(0)) on PLUS
-53: shift/reduce conflict (shift 45(0), red'n 26(0)) on MINUS
-53: shift/reduce conflict (shift 43(0), red'n 26(0)) on STAR
-53: shift/reduce conflict (shift 42(0), red'n 26(0)) on SLASH
-53: shift/reduce conflict (shift 41(0), red'n 26(0)) on PERCENT
-53: shift/reduce conflict (shift 35(0), red'n 26(0)) on EQUAL_EQUAL
-53: shift/reduce conflict (shift 36(0), red'n 26(0)) on BANG_EQUAL
-53: shift/reduce conflict (shift 37(0), red'n 26(0)) on LESS
-53: shift/reduce conflict (shift 39(0), red'n 26(0)) on LESS_EQUAL
-53: shift/reduce conflict (shift 38(0), red'n 26(0)) on GREATER
-53: shift/reduce conflict (shift 40(0), red'n 26(0)) on GREATER_EQUAL
-53: shift/reduce conflict (shift 33(0), red'n 26(0)) on AND
-53: shift/reduce conflict (shift 34(0), red'n 26(0)) on OR
-state 53
-	binary:  expression.AND expression 
-	binary:  expression AND expression.    (26)
-	binary:  expression.OR expression 
-	binary:  expression.EQUAL_EQUAL expression 
-	binary:  expression.BANG_EQUAL expression 
-	binary:  expression.LESS expression 
-	binary:  expression.GREATER expression 
-	binary:  expression.LESS_EQUAL expression 
-	binary:  expression.GREATER_EQUAL expression 
-	binary:  expression.PERCENT expression 
-	binary:  expression.SLASH expression 
-	binary:  expression.STAR expression 
-	binary:  expression.PLUS expression 
-	binary:  expression.MINUS expression 
-	call:  expression.PAREN_OPEN arguments PAREN_CLOSE 
-
-	PAREN_OPEN  shift 46
-	PLUS  shift 44
-	MINUS  shift 45
-	STAR  shift 43
-	SLASH  shift 42
-	PERCENT  shift 41
-	EQUAL_EQUAL  shift 35
-	BANG_EQUAL  shift 36
-	LESS  shift 37
-	LESS_EQUAL  shift 39
-	GREATER  shift 38
-	GREATER_EQUAL  shift 40
-	AND  shift 33
-	OR  shift 34
-	.  reduce 26 (src line 113)
-
-
-54: shift/reduce conflict (shift 46(0), red'n 27(0)) on PAREN_OPEN
-54: shift/reduce conflict (shift 44(0), red'n 27(0)) on PLUS
-54: shift/reduce conflict (shift 45(0), red'n 27(0)) on MINUS
-54: shift/reduce conflict (shift 43(0), red'n 27(0)) on STAR
-54: shift/reduce conflict (shift 42(0), red'n 27(0)) on SLASH
-54: shift/reduce conflict (shift 41(0), red'n 27(0)) on PERCENT
-54: shift/reduce conflict (shift 35(0), red'n 27(0)) on EQUAL_EQUAL
-54: shift/reduce conflict (shift 36(0), red'n 27(0)) on BANG_EQUAL
-54: shift/reduce conflict (shift 37(0), red'n 27(0)) on LESS
-54: shift/reduce conflict (shift 39(0), red'n 27(0)) on LESS_EQUAL
-54: shift/reduce conflict (shift 38(0), red'n 27(0)) on GREATER
-54: shift/reduce conflict (shift 40(0), red'n 27(0)) on GREATER_EQUAL
-54: shift/reduce conflict (shift 33(0), red'n 27(0)) on AND
-54: shift/reduce conflict (shift 34(0), red'n 27(0)) on OR
-state 54
-	binary:  expression.AND expression 
-	binary:  expression.OR expression 
-	binary:  expression OR expression.    (27)
-	binary:  expression.EQUAL_EQUAL expression 
-	binary:  expression.BANG_EQUAL expression 
-	binary:  expression.LESS expression 
-	binary:  expression.GREATER expression 
-	binary:  expression.LESS_EQUAL expression 
-	binary:  expression.GREATER_EQUAL expression 
-	binary:  expression.PERCENT expression 
-	binary:  expression.SLASH expression 
-	binary:  expression.STAR expression 
-	binary:  expression.PLUS expression 
-	binary:  expression.MINUS expression 
-	call:  expression.PAREN_OPEN arguments PAREN_CLOSE 
-
-	PAREN_OPEN  shift 46
-	PLUS  shift 44
-	MINUS  shift 45
-	STAR  shift 43
-	SLASH  shift 42
-	PERCENT  shift 41
-	EQUAL_EQUAL  shift 35
-	BANG_EQUAL  shift 36
-	LESS  shift 37
-	LESS_EQUAL  shift 39
-	GREATER  shift 38
-	GREATER_EQUAL  shift 40
-	AND  shift 33
-	OR  shift 34
-	.  reduce 27 (src line 115)
-
-
-55: shift/reduce conflict (shift 46(0), red'n 28(0)) on PAREN_OPEN
-55: shift/reduce conflict (shift 44(0), red'n 28(0)) on PLUS
-55: shift/reduce conflict (shift 45(0), red'n 28(0)) on MINUS
-55: shift/reduce conflict (shift 43(0), red'n 28(0)) on STAR
-55: shift/reduce conflict (shift 42(0), red'n 28(0)) on SLASH
-55: shift/reduce conflict (shift 41(0), red'n 28(0)) on PERCENT
-55: shift/reduce conflict (shift 35(0), red'n 28(0)) on EQUAL_EQUAL
-55: shift/reduce conflict (shift 36(0), red'n 28(0)) on BANG_EQUAL
-55: shift/reduce conflict (shift 37(0), red'n 28(0)) on LESS
-55: shift/reduce conflict (shift 39(0), red'n 28(0)) on LESS_EQUAL
-55: shift/reduce conflict (shift 38(0), red'n 28(0)) on GREATER
-55: shift/reduce conflict (shift 40(0), red'n 28(0)) on GREATER_EQUAL
-55: shift/reduce conflict (shift 33(0), red'n 28(0)) on AND
-55: shift/reduce conflict (shift 34(0), red'n 28(0)) on OR
-state 55
-	binary:  expression.AND expression 
-	binary:  expression.OR expression 
-	binary:  expression.EQUAL_EQUAL expression 
-	binary:  expression EQUAL_EQUAL expression.    (28)
-	binary:  expression.BANG_EQUAL expression 
-	binary:  expression.LESS expression 
-	binary:  expression.GREATER expression 
-	binary:  expression.LESS_EQUAL expression 
-	binary:  expression.GREATER_EQUAL expression 
-	binary:  expression.PERCENT expression 
-	binary:  expression.SLASH expression 
-	binary:  expression.STAR expression 
-	binary:  expression.PLUS expression 
-	binary:  expression.MINUS expression 
-	call:  expression.PAREN_OPEN arguments PAREN_CLOSE 
-
-	PAREN_OPEN  shift 46
-	PLUS  shift 44
-	MINUS  shift 45
-	STAR  shift 43
-	SLASH  shift 42
-	PERCENT  shift 41
-	EQUAL_EQUAL  shift 35
-	BANG_EQUAL  shift 36
-	LESS  shift 37
-	LESS_EQUAL  shift 39
-	GREATER  shift 38
-	GREATER_EQUAL  shift 40
-	AND  shift 33
-	OR  shift 34
-	.  reduce 28 (src line 116)
-
-
-56: shift/reduce conflict (shift 46(0), red'n 29(0)) on PAREN_OPEN
-56: shift/reduce conflict (shift 44(0), red'n 29(0)) on PLUS
-56: shift/reduce conflict (shift 45(0), red'n 29(0)) on MINUS
-56: shift/reduce conflict (shift 43(0), red'n 29(0)) on STAR
-56: shift/reduce conflict (shift 42(0), red'n 29(0)) on SLASH
-56: shift/reduce conflict (shift 41(0), red'n 29(0)) on PERCENT
-56: shift/reduce conflict (shift 35(0), red'n 29(0)) on EQUAL_EQUAL
-56: shift/reduce conflict (shift 36(0), red'n 29(0)) on BANG_EQUAL
-56: shift/reduce conflict (shift 37(0), red'n 29(0)) on LESS
-56: shift/reduce conflict (shift 39(0), red'n 29(0)) on LESS_EQUAL
-56: shift/reduce conflict (shift 38(0), red'n 29(0)) on GREATER
-56: shift/reduce conflict (shift 40(0), red'n 29(0)) on GREATER_EQUAL
-56: shift/reduce conflict (shift 33(0), red'n 29(0)) on AND
-56: shift/reduce conflict (shift 34(0), red'n 29(0)) on OR
-state 56
-	binary:  expression.AND expression 
-	binary:  expression.OR expression 
-	binary:  expression.EQUAL_EQUAL expression 
-	binary:  expression.BANG_EQUAL expression 
-	binary:  expression BANG_EQUAL expression.    (29)
-	binary:  expression.LESS expression 
-	binary:  expression.GREATER expression 
-	binary:  expression.LESS_EQUAL expression 
-	binary:  expression.GREATER_EQUAL expression 
-	binary:  expression.PERCENT expression 
-	binary:  expression.SLASH expression 
-	binary:  expression.STAR expression 
-	binary:  expression.PLUS expression 
-	binary:  expression.MINUS expression 
-	call:  expression.PAREN_OPEN arguments PAREN_CLOSE 
-
-	PAREN_OPEN  shift 46
-	PLUS  shift 44
-	MINUS  shift 45
-	STAR  shift 43
-	SLASH  shift 42
-	PERCENT  shift 41
-	EQUAL_EQUAL  shift 35
-	BANG_EQUAL  shift 36
-	LESS  shift 37
-	LESS_EQUAL  shift 39
-	GREATER  shift 38
-	GREATER_EQUAL  shift 40
-	AND  shift 33
-	OR  shift 34
-	.  reduce 29 (src line 117)
-
-
-57: shift/reduce conflict (shift 46(0), red'n 30(0)) on PAREN_OPEN
-57: shift/reduce conflict (shift 44(0), red'n 30(0)) on PLUS
-57: shift/reduce conflict (shift 45(0), red'n 30(0)) on MINUS
-57: shift/reduce conflict (shift 43(0), red'n 30(0)) on STAR
-57: shift/reduce conflict (shift 42(0), red'n 30(0)) on SLASH
-57: shift/reduce conflict (shift 41(0), red'n 30(0)) on PERCENT
-57: shift/reduce conflict (shift 35(0), red'n 30(0)) on EQUAL_EQUAL
-57: shift/reduce conflict (shift 36(0), red'n 30(0)) on BANG_EQUAL
-57: shift/reduce conflict (shift 37(0), red'n 30(0)) on LESS
-57: shift/reduce conflict (shift 39(0), red'n 30(0)) on LESS_EQUAL
-57: shift/reduce conflict (shift 38(0), red'n 30(0)) on GREATER
-57: shift/reduce conflict (shift 40(0), red'n 30(0)) on GREATER_EQUAL
-57: shift/reduce conflict (shift 33(0), red'n 30(0)) on AND
-57: shift/reduce conflict (shift 34(0), red'n 30(0)) on OR
-state 57
-	binary:  expression.AND expression 
-	binary:  expression.OR expression 
-	binary:  expression.EQUAL_EQUAL expression 
-	binary:  expression.BANG_EQUAL expression 
-	binary:  expression.LESS expression 
-	binary:  expression LESS expression.    (30)
-	binary:  expression.GREATER expression 
-	binary:  expression.LESS_EQUAL expression 
-	binary:  expression.GREATER_EQUAL expression 
-	binary:  expression.PERCENT expression 
-	binary:  expression.SLASH expression 
-	binary:  expression.STAR expression 
-	binary:  expression.PLUS expression 
-	binary:  expression.MINUS expression 
-	call:  expression.PAREN_OPEN arguments PAREN_CLOSE 
-
-	PAREN_OPEN  shift 46
-	PLUS  shift 44
-	MINUS  shift 45
-	STAR  shift 43
-	SLASH  shift 42
-	PERCENT  shift 41
-	EQUAL_EQUAL  shift 35
-	BANG_EQUAL  shift 36
-	LESS  shift 37
-	LESS_EQUAL  shift 39
-	GREATER  shift 38
-	GREATER_EQUAL  shift 40
-	AND  shift 33
-	OR  shift 34
-	.  reduce 30 (src line 118)
-
-
-58: shift/reduce conflict (shift 46(0), red'n 31(0)) on PAREN_OPEN
-58: shift/reduce conflict (shift 44(0), red'n 31(0)) on PLUS
-58: shift/reduce conflict (shift 45(0), red'n 31(0)) on MINUS
-58: shift/reduce conflict (shift 43(0), red'n 31(0)) on STAR
-58: shift/reduce conflict (shift 42(0), red'n 31(0)) on SLASH
-58: shift/reduce conflict (shift 41(0), red'n 31(0)) on PERCENT
-58: shift/reduce conflict (shift 35(0), red'n 31(0)) on EQUAL_EQUAL
-58: shift/reduce conflict (shift 36(0), red'n 31(0)) on BANG_EQUAL
-58: shift/reduce conflict (shift 37(0), red'n 31(0)) on LESS
-58: shift/reduce conflict (shift 39(0), red'n 31(0)) on LESS_EQUAL
-58: shift/reduce conflict (shift 38(0), red'n 31(0)) on GREATER
-58: shift/reduce conflict (shift 40(0), red'n 31(0)) on GREATER_EQUAL
-58: shift/reduce conflict (shift 33(0), red'n 31(0)) on AND
-58: shift/reduce conflict (shift 34(0), red'n 31(0)) on OR
-state 58
-	binary:  expression.AND expression 
-	binary:  expression.OR expression 
-	binary:  expression.EQUAL_EQUAL expression 
-	binary:  expression.BANG_EQUAL expression 
-	binary:  expression.LESS expression 
-	binary:  expression.GREATER expression 
-	binary:  expression GREATER expression.    (31)
-	binary:  expression.LESS_EQUAL expression 
-	binary:  expression.GREATER_EQUAL expression 
-	binary:  expression.PERCENT expression 
-	binary:  expression.SLASH expression 
-	binary:  expression.STAR expression 
-	binary:  expression.PLUS expression 
-	binary:  expression.MINUS expression 
-	call:  expression.PAREN_OPEN arguments PAREN_CLOSE 
-
-	PAREN_OPEN  shift 46
-	PLUS  shift 44
-	MINUS  shift 45
-	STAR  shift 43
-	SLASH  shift 42
-	PERCENT  shift 41
-	EQUAL_EQUAL  shift 35
-	BANG_EQUAL  shift 36
-	LESS  shift 37
-	LESS_EQUAL  shift 39
-	GREATER  shift 38
-	GREATER_EQUAL  shift 40
-	AND  shift 33
-	OR  shift 34
-	.  reduce 31 (src line 119)
-
-
-59: shift/reduce conflict (shift 46(0), red'n 32(0)) on PAREN_OPEN
-59: shift/reduce conflict (shift 44(0), red'n 32(0)) on PLUS
-59: shift/reduce conflict (shift 45(0), red'n 32(0)) on MINUS
-59: shift/reduce conflict (shift 43(0), red'n 32(0)) on STAR
-59: shift/reduce conflict (shift 42(0), red'n 32(0)) on SLASH
-59: shift/reduce conflict (shift 41(0), red'n 32(0)) on PERCENT
-59: shift/reduce conflict (shift 35(0), red'n 32(0)) on EQUAL_EQUAL
-59: shift/reduce conflict (shift 36(0), red'n 32(0)) on BANG_EQUAL
-59: shift/reduce conflict (shift 37(0), red'n 32(0)) on LESS
-59: shift/reduce conflict (shift 39(0), red'n 32(0)) on LESS_EQUAL
-59: shift/reduce conflict (shift 38(0), red'n 32(0)) on GREATER
-59: shift/reduce conflict (shift 40(0), red'n 32(0)) on GREATER_EQUAL
-59: shift/reduce conflict (shift 33(0), red'n 32(0)) on AND
-59: shift/reduce conflict (shift 34(0), red'n 32(0)) on OR
-state 59
-	binary:  expression.AND expression 
-	binary:  expression.OR expression 
-	binary:  expression.EQUAL_EQUAL expression 
-	binary:  expression.BANG_EQUAL expression 
-	binary:  expression.LESS expression 
-	binary:  expression.GREATER expression 
-	binary:  expression.LESS_EQUAL expression 
-	binary:  expression LESS_EQUAL expression.    (32)
-	binary:  expression.GREATER_EQUAL expression 
-	binary:  expression.PERCENT expression 
-	binary:  expression.SLASH expression 
-	binary:  expression.STAR expression 
-	binary:  expression.PLUS expression 
-	binary:  expression.MINUS expression 
-	call:  expression.PAREN_OPEN arguments PAREN_CLOSE 
-
-	PAREN_OPEN  shift 46
-	PLUS  shift 44
-	MINUS  shift 45
-	STAR  shift 43
-	SLASH  shift 42
-	PERCENT  shift 41
-	EQUAL_EQUAL  shift 35
-	BANG_EQUAL  shift 36
-	LESS  shift 37
-	LESS_EQUAL  shift 39
-	GREATER  shift 38
-	GREATER_EQUAL  shift 40
-	AND  shift 33
-	OR  shift 34
-	.  reduce 32 (src line 120)
-
-
-60: shift/reduce conflict (shift 46(0), red'n 33(0)) on PAREN_OPEN
-60: shift/reduce conflict (shift 44(0), red'n 33(0)) on PLUS
-60: shift/reduce conflict (shift 45(0), red'n 33(0)) on MINUS
-60: shift/reduce conflict (shift 43(0), red'n 33(0)) on STAR
-60: shift/reduce conflict (shift 42(0), red'n 33(0)) on SLASH
-60: shift/reduce conflict (shift 41(0), red'n 33(0)) on PERCENT
-60: shift/reduce conflict (shift 35(0), red'n 33(0)) on EQUAL_EQUAL
-60: shift/reduce conflict (shift 36(0), red'n 33(0)) on BANG_EQUAL
-60: shift/reduce conflict (shift 37(0), red'n 33(0)) on LESS
-60: shift/reduce conflict (shift 39(0), red'n 33(0)) on LESS_EQUAL
-60: shift/reduce conflict (shift 38(0), red'n 33(0)) on GREATER
-60: shift/reduce conflict (shift 40(0), red'n 33(0)) on GREATER_EQUAL
-60: shift/reduce conflict (shift 33(0), red'n 33(0)) on AND
-60: shift/reduce conflict (shift 34(0), red'n 33(0)) on OR
-state 60
-	binary:  expression.AND expression 
-	binary:  expression.OR expression 
-	binary:  expression.EQUAL_EQUAL expression 
-	binary:  expression.BANG_EQUAL expression 
-	binary:  expression.LESS expression 
-	binary:  expression.GREATER expression 
-	binary:  expression.LESS_EQUAL expression 
-	binary:  expression.GREATER_EQUAL expression 
-	binary:  expression GREATER_EQUAL expression.    (33)
-	binary:  expression.PERCENT expression 
-	binary:  expression.SLASH expression 
-	binary:  expression.STAR expression 
-	binary:  expression.PLUS expression 
-	binary:  expression.MINUS expression 
-	call:  expression.PAREN_OPEN arguments PAREN_CLOSE 
-
-	PAREN_OPEN  shift 46
-	PLUS  shift 44
-	MINUS  shift 45
-	STAR  shift 43
-	SLASH  shift 42
-	PERCENT  shift 41
-	EQUAL_EQUAL  shift 35
-	BANG_EQUAL  shift 36
-	LESS  shift 37
-	LESS_EQUAL  shift 39
-	GREATER  shift 38
-	GREATER_EQUAL  shift 40
-	AND  shift 33
-	OR  shift 34
-	.  reduce 33 (src line 121)
-
-
-61: shift/reduce conflict (shift 46(0), red'n 34(0)) on PAREN_OPEN
-61: shift/reduce conflict (shift 44(0), red'n 34(0)) on PLUS
-61: shift/reduce conflict (shift 45(0), red'n 34(0)) on MINUS
-61: shift/reduce conflict (shift 43(0), red'n 34(0)) on STAR
-61: shift/reduce conflict (shift 42(0), red'n 34(0)) on SLASH
-61: shift/reduce conflict (shift 41(0), red'n 34(0)) on PERCENT
-61: shift/reduce conflict (shift 35(0), red'n 34(0)) on EQUAL_EQUAL
-61: shift/reduce conflict (shift 36(0), red'n 34(0)) on BANG_EQUAL
-61: shift/reduce conflict (shift 37(0), red'n 34(0)) on LESS
-61: shift/reduce conflict (shift 39(0), red'n 34(0)) on LESS_EQUAL
-61: shift/reduce conflict (shift 38(0), red'n 34(0)) on GREATER
-61: shift/reduce conflict (shift 40(0), red'n 34(0)) on GREATER_EQUAL
-61: shift/reduce conflict (shift 33(0), red'n 34(0)) on AND
-61: shift/reduce conflict (shift 34(0), red'n 34(0)) on OR
-state 61
-	binary:  expression.AND expression 
-	binary:  expression.OR expression 
-	binary:  expression.EQUAL_EQUAL expression 
-	binary:  expression.BANG_EQUAL expression 
-	binary:  expression.LESS expression 
-	binary:  expression.GREATER expression 
-	binary:  expression.LESS_EQUAL expression 
-	binary:  expression.GREATER_EQUAL expression 
-	binary:  expression.PERCENT expression 
-	binary:  expression PERCENT expression.    (34)
-	binary:  expression.SLASH expression 
-	binary:  expression.STAR expression 
-	binary:  expression.PLUS expression 
-	binary:  expression.MINUS expression 
-	call:  expression.PAREN_OPEN arguments PAREN_CLOSE 
-
-	PAREN_OPEN  shift 46
-	PLUS  shift 44
-	MINUS  shift 45
-	STAR  shift 43
-	SLASH  shift 42
-	PERCENT  shift 41
-	EQUAL_EQUAL  shift 35
-	BANG_EQUAL  shift 36
-	LESS  shift 37
-	LESS_EQUAL  shift 39
-	GREATER  shift 38
-	GREATER_EQUAL  shift 40
-	AND  shift 33
-	OR  shift 34
-	.  reduce 34 (src line 122)
-
-
-62: shift/reduce conflict (shift 46(0), red'n 35(0)) on PAREN_OPEN
-62: shift/reduce conflict (shift 44(0), red'n 35(0)) on PLUS
-62: shift/reduce conflict (shift 45(0), red'n 35(0)) on MINUS
-62: shift/reduce conflict (shift 43(0), red'n 35(0)) on STAR
-62: shift/reduce conflict (shift 42(0), red'n 35(0)) on SLASH
-62: shift/reduce conflict (shift 41(0), red'n 35(0)) on PERCENT
-62: shift/reduce conflict (shift 35(0), red'n 35(0)) on EQUAL_EQUAL
-62: shift/reduce conflict (shift 36(0), red'n 35(0)) on BANG_EQUAL
-62: shift/reduce conflict (shift 37(0), red'n 35(0)) on LESS
-62: shift/reduce conflict (shift 39(0), red'n 35(0)) on LESS_EQUAL
-62: shift/reduce conflict (shift 38(0), red'n 35(0)) on GREATER
-62: shift/reduce conflict (shift 40(0), red'n 35(0)) on GREATER_EQUAL
-62: shift/reduce conflict (shift 33(0), red'n 35(0)) on AND
-62: shift/reduce conflict (shift 34(0), red'n 35(0)) on OR
-state 62
-	binary:  expression.AND expression 
-	binary:  expression.OR expression 
-	binary:  expression.EQUAL_EQUAL expression 
-	binary:  expression.BANG_EQUAL expression 
-	binary:  expression.LESS expression 
-	binary:  expression.GREATER expression 
-	binary:  expression.LESS_EQUAL expression 
-	binary:  expression.GREATER_EQUAL expression 
-	binary:  expression.PERCENT expression 
-	binary:  expression.SLASH expression 
-	binary:  expression SLASH expression.    (35)
-	binary:  expression.STAR expression 
-	binary:  expression.PLUS expression 
-	binary:  expression.MINUS expression 
-	call:  expression.PAREN_OPEN arguments PAREN_CLOSE 
-
-	PAREN_OPEN  shift 46
-	PLUS  shift 44
-	MINUS  shift 45
-	STAR  shift 43
-	SLASH  shift 42
-	PERCENT  shift 41
-	EQUAL_EQUAL  shift 35
-	BANG_EQUAL  shift 36
-	LESS  shift 37
-	LESS_EQUAL  shift 39
-	GREATER  shift 38
-	GREATER_EQUAL  shift 40
-	AND  shift 33
-	OR  shift 34
-	.  reduce 35 (src line 123)
-
-
-63: shift/reduce conflict (shift 46(0), red'n 36(0)) on PAREN_OPEN
-63: shift/reduce conflict (shift 44(0), red'n 36(0)) on PLUS
-63: shift/reduce conflict (shift 45(0), red'n 36(0)) on MINUS
-63: shift/reduce conflict (shift 43(0), red'n 36(0)) on STAR
-63: shift/reduce conflict (shift 42(0), red'n 36(0)) on SLASH
-63: shift/reduce conflict (shift 41(0), red'n 36(0)) on PERCENT
-63: shift/reduce conflict (shift 35(0), red'n 36(0)) on EQUAL_EQUAL
-63: shift/reduce conflict (shift 36(0), red'n 36(0)) on BANG_EQUAL
-63: shift/reduce conflict (shift 37(0), red'n 36(0)) on LESS
-63: shift/reduce conflict (shift 39(0), red'n 36(0)) on LESS_EQUAL
-63: shift/reduce conflict (shift 38(0), red'n 36(0)) on GREATER
-63: shift/reduce conflict (shift 40(0), red'n 36(0)) on GREATER_EQUAL
-63: shift/reduce conflict (shift 33(0), red'n 36(0)) on AND
-63: shift/reduce conflict (shift 34(0), red'n 36(0)) on OR
 state 63
-	binary:  expression.AND expression 
-	binary:  expression.OR expression 
-	binary:  expression.EQUAL_EQUAL expression 
-	binary:  expression.BANG_EQUAL expression 
-	binary:  expression.LESS expression 
-	binary:  expression.GREATER expression 
-	binary:  expression.LESS_EQUAL expression 
-	binary:  expression.GREATER_EQUAL expression 
-	binary:  expression.PERCENT expression 
-	binary:  expression.SLASH expression 
-	binary:  expression.STAR expression 
-	binary:  expression STAR expression.    (36)
-	binary:  expression.PLUS expression 
-	binary:  expression.MINUS expression 
-	call:  expression.PAREN_OPEN arguments PAREN_CLOSE 
-
-	PAREN_OPEN  shift 46
-	PLUS  shift 44
-	MINUS  shift 45
-	STAR  shift 43
-	SLASH  shift 42
-	PERCENT  shift 41
-	EQUAL_EQUAL  shift 35
-	BANG_EQUAL  shift 36
-	LESS  shift 37
-	LESS_EQUAL  shift 39
-	GREATER  shift 38
-	GREATER_EQUAL  shift 40
-	AND  shift 33
-	OR  shift 34
-	.  reduce 36 (src line 124)
-
-
-64: shift/reduce conflict (shift 46(0), red'n 37(0)) on PAREN_OPEN
-64: shift/reduce conflict (shift 44(0), red'n 37(0)) on PLUS
-64: shift/reduce conflict (shift 45(0), red'n 37(0)) on MINUS
-64: shift/reduce conflict (shift 43(0), red'n 37(0)) on STAR
-64: shift/reduce conflict (shift 42(0), red'n 37(0)) on SLASH
-64: shift/reduce conflict (shift 41(0), red'n 37(0)) on PERCENT
-64: shift/reduce conflict (shift 35(0), red'n 37(0)) on EQUAL_EQUAL
-64: shift/reduce conflict (shift 36(0), red'n 37(0)) on BANG_EQUAL
-64: shift/reduce conflict (shift 37(0), red'n 37(0)) on LESS
-64: shift/reduce conflict (shift 39(0), red'n 37(0)) on LESS_EQUAL
-64: shift/reduce conflict (shift 38(0), red'n 37(0)) on GREATER
-64: shift/reduce conflict (shift 40(0), red'n 37(0)) on GREATER_EQUAL
-64: shift/reduce conflict (shift 33(0), red'n 37(0)) on AND
-64: shift/reduce conflict (shift 34(0), red'n 37(0)) on OR
-state 64
-	binary:  expression.AND expression 
-	binary:  expression.OR expression 
-	binary:  expression.EQUAL_EQUAL expression 
-	binary:  expression.BANG_EQUAL expression 
-	binary:  expression.LESS expression 
-	binary:  expression.GREATER expression 
-	binary:  expression.LESS_EQUAL expression 
-	binary:  expression.GREATER_EQUAL expression 
-	binary:  expression.PERCENT expression 
-	binary:  expression.SLASH expression 
-	binary:  expression.STAR expression 
-	binary:  expression.PLUS expression 
-	binary:  expression PLUS expression.    (37)
-	binary:  expression.MINUS expression 
-	call:  expression.PAREN_OPEN arguments PAREN_CLOSE 
-
-	PAREN_OPEN  shift 46
-	PLUS  shift 44
-	MINUS  shift 45
-	STAR  shift 43
-	SLASH  shift 42
-	PERCENT  shift 41
-	EQUAL_EQUAL  shift 35
-	BANG_EQUAL  shift 36
-	LESS  shift 37
-	LESS_EQUAL  shift 39
-	GREATER  shift 38
-	GREATER_EQUAL  shift 40
-	AND  shift 33
-	OR  shift 34
-	.  reduce 37 (src line 125)
-
-
-65: shift/reduce conflict (shift 46(0), red'n 38(0)) on PAREN_OPEN
-65: shift/reduce conflict (shift 44(0), red'n 38(0)) on PLUS
-65: shift/reduce conflict (shift 45(0), red'n 38(0)) on MINUS
-65: shift/reduce conflict (shift 43(0), red'n 38(0)) on STAR
-65: shift/reduce conflict (shift 42(0), red'n 38(0)) on SLASH
-65: shift/reduce conflict (shift 41(0), red'n 38(0)) on PERCENT
-65: shift/reduce conflict (shift 35(0), red'n 38(0)) on EQUAL_EQUAL
-65: shift/reduce conflict (shift 36(0), red'n 38(0)) on BANG_EQUAL
-65: shift/reduce conflict (shift 37(0), red'n 38(0)) on LESS
-65: shift/reduce conflict (shift 39(0), red'n 38(0)) on LESS_EQUAL
-65: shift/reduce conflict (shift 38(0), red'n 38(0)) on GREATER
-65: shift/reduce conflict (shift 40(0), red'n 38(0)) on GREATER_EQUAL
-65: shift/reduce conflict (shift 33(0), red'n 38(0)) on AND
-65: shift/reduce conflict (shift 34(0), red'n 38(0)) on OR
-state 65
-	binary:  expression.AND expression 
-	binary:  expression.OR expression 
-	binary:  expression.EQUAL_EQUAL expression 
-	binary:  expression.BANG_EQUAL expression 
-	binary:  expression.LESS expression 
-	binary:  expression.GREATER expression 
-	binary:  expression.LESS_EQUAL expression 
-	binary:  expression.GREATER_EQUAL expression 
-	binary:  expression.PERCENT expression 
-	binary:  expression.SLASH expression 
-	binary:  expression.STAR expression 
-	binary:  expression.PLUS expression 
-	binary:  expression.MINUS expression 
-	binary:  expression MINUS expression.    (38)
-	call:  expression.PAREN_OPEN arguments PAREN_CLOSE 
-
-	PAREN_OPEN  shift 46
-	PLUS  shift 44
-	MINUS  shift 45
-	STAR  shift 43
-	SLASH  shift 42
-	PERCENT  shift 41
-	EQUAL_EQUAL  shift 35
-	BANG_EQUAL  shift 36
-	LESS  shift 37
-	LESS_EQUAL  shift 39
-	GREATER  shift 38
-	GREATER_EQUAL  shift 40
-	AND  shift 33
-	OR  shift 34
-	.  reduce 38 (src line 126)
-
-
-state 66
-	call:  expression PAREN_OPEN arguments.PAREN_CLOSE 
-	arguments:  arguments.COMMA expression 
-
-	COMMA  shift 75
-	PAREN_CLOSE  shift 74
-	.  error
-
-
-state 67
-	binary:  expression.AND expression 
-	binary:  expression.OR expression 
-	binary:  expression.EQUAL_EQUAL expression 
-	binary:  expression.BANG_EQUAL expression 
-	binary:  expression.LESS expression 
-	binary:  expression.GREATER expression 
-	binary:  expression.LESS_EQUAL expression 
-	binary:  expression.GREATER_EQUAL expression 
-	binary:  expression.PERCENT expression 
-	binary:  expression.SLASH expression 
-	binary:  expression.STAR expression 
-	binary:  expression.PLUS expression 
-	binary:  expression.MINUS expression 
-	call:  expression.PAREN_OPEN arguments PAREN_CLOSE 
-	arguments:  expression.    (40)
-
-	PAREN_OPEN  shift 46
-	PLUS  shift 44
-	MINUS  shift 45
-	STAR  shift 43
-	SLASH  shift 42
-	PERCENT  shift 41
-	EQUAL_EQUAL  shift 35
-	BANG_EQUAL  shift 36
-	LESS  shift 37
-	LESS_EQUAL  shift 39
-	GREATER  shift 38
-	GREATER_EQUAL  shift 40
-	AND  shift 33
-	OR  shift 34
-	.  reduce 40 (src line 131)
-
-
-state 68
 	assignment:  IDENTIFIER EQUAL expression.    (9)
-	binary:  expression.AND expression 
-	binary:  expression.OR expression 
-	binary:  expression.EQUAL_EQUAL expression 
-	binary:  expression.BANG_EQUAL expression 
-	binary:  expression.LESS expression 
-	binary:  expression.GREATER expression 
-	binary:  expression.LESS_EQUAL expression 
-	binary:  expression.GREATER_EQUAL expression 
-	binary:  expression.PERCENT expression 
-	binary:  expression.SLASH expression 
-	binary:  expression.STAR expression 
-	binary:  expression.PLUS expression 
-	binary:  expression.MINUS expression 
-	call:  expression.PAREN_OPEN arguments PAREN_CLOSE 
 
-	PAREN_OPEN  shift 46
-	PLUS  shift 44
-	MINUS  shift 45
-	STAR  shift 43
-	SLASH  shift 42
-	PERCENT  shift 41
-	EQUAL_EQUAL  shift 35
-	BANG_EQUAL  shift 36
-	LESS  shift 37
-	LESS_EQUAL  shift 39
-	GREATER  shift 38
-	GREATER_EQUAL  shift 40
-	AND  shift 33
-	OR  shift 34
 	.  reduce 9 (src line 83)
 
 
-state 69
+state 64
 	block:  BRACE_OPEN statements BRACE_CLOSE.    (14)
 
 	.  reduce 14 (src line 92)
 
 
-70: shift/reduce conflict (shift 76(0), red'n 17(0)) on ELSE
-state 70
+65: shift/reduce conflict (shift 83(0), red'n 17(0)) on ELSE
+state 65
 	if:  IF expression statement.ELSE statement 
 	if:  IF expression statement.    (17)
 
-	ELSE  shift 76
+	ELSE  shift 83
 	.  reduce 17 (src line 98)
 
 
-state 71
-	call:  expression PAREN_OPEN.arguments PAREN_CLOSE 
-	group:  PAREN_OPEN.expression PAREN_CLOSE 
-	arguments: .    (42)
-
-	PAREN_OPEN  shift 25
-	NULL  shift 26
-	FALSE  shift 27
-	TRUE  shift 28
-	FLOAT  shift 24
-	INTEGER  shift 29
-	STRING  shift 30
-	IDENTIFIER  shift 50
-	.  reduce 42 (src line 134)
-
-	expression  goto 77
-	binary  goto 13
-	call  goto 14
-	float  goto 15
-	group  goto 16
-	identifier  goto 17
-	integer  goto 18
-	string  goto 19
-	arguments  goto 66
-
-state 72
+state 66
 	while:  WHILE expression statement.    (18)
 
 	.  reduce 18 (src line 101)
 
 
-state 73
-	group:  PAREN_OPEN expression PAREN_CLOSE.    (44)
+state 67
+	logical:  equality AND logical.    (21)
 
-	.  reduce 44 (src line 139)
+	.  reduce 21 (src line 111)
+
+
+state 68
+	logical:  equality OR logical.    (22)
+
+	.  reduce 22 (src line 113)
+
+
+state 69
+	equality:  comparison EQUAL_EQUAL equality.    (24)
+
+	.  reduce 24 (src line 117)
+
+
+state 70
+	equality:  comparison BANG_EQUAL equality.    (25)
+
+	.  reduce 25 (src line 119)
+
+
+state 71
+	comparison:  multiplication LESS comparison.    (27)
+
+	.  reduce 27 (src line 123)
+
+
+state 72
+	comparison:  multiplication GREATER comparison.    (28)
+
+	.  reduce 28 (src line 125)
+
+
+state 73
+	comparison:  multiplication LESS_EQUAL comparison.    (29)
+
+	.  reduce 29 (src line 126)
 
 
 state 74
-	call:  expression PAREN_OPEN arguments PAREN_CLOSE.    (39)
+	comparison:  multiplication GREATER_EQUAL comparison.    (30)
 
-	.  reduce 39 (src line 129)
+	.  reduce 30 (src line 127)
 
 
 state 75
-	arguments:  arguments COMMA.expression 
+	multiplication:  addition PERCENT multiplication.    (32)
 
-	PAREN_OPEN  shift 25
-	NULL  shift 26
-	FALSE  shift 27
-	TRUE  shift 28
-	FLOAT  shift 24
-	INTEGER  shift 29
-	STRING  shift 30
-	IDENTIFIER  shift 50
-	.  error
+	.  reduce 32 (src line 131)
 
-	expression  goto 78
-	binary  goto 13
-	call  goto 14
-	float  goto 15
-	group  goto 16
-	identifier  goto 17
-	integer  goto 18
-	string  goto 19
 
 state 76
+	multiplication:  addition SLASH multiplication.    (33)
+
+	.  reduce 33 (src line 133)
+
+
+state 77
+	multiplication:  addition STAR multiplication.    (34)
+
+	.  reduce 34 (src line 134)
+
+
+state 78
+	addition:  unary PLUS addition.    (36)
+
+	.  reduce 36 (src line 138)
+
+
+state 79
+	addition:  unary MINUS addition.    (37)
+
+	.  reduce 37 (src line 140)
+
+
+state 80
+	primary:  primary PAREN_OPEN arguments.PAREN_CLOSE 
+	arguments:  arguments.COMMA expression 
+
+	COMMA  shift 85
+	PAREN_CLOSE  shift 84
+	.  error
+
+
+state 81
+	arguments:  expression.    (48)
+
+	.  reduce 48 (src line 159)
+
+
+state 82
+	group:  PAREN_OPEN expression PAREN_CLOSE.    (52)
+
+	.  reduce 52 (src line 167)
+
+
+state 83
 	if:  IF expression statement ELSE.statement 
 
-	COMMENT  shift 21
-	BRACE_OPEN  shift 20
-	PAREN_OPEN  shift 25
-	NULL  shift 26
-	FALSE  shift 27
-	TRUE  shift 28
-	IF  shift 22
-	WHILE  shift 23
-	FLOAT  shift 24
-	INTEGER  shift 29
-	STRING  shift 30
+	COMMENT  shift 15
+	BRACE_OPEN  shift 14
+	PAREN_OPEN  shift 33
+	MINUS  shift 25
+	BANG  shift 24
+	NULL  shift 34
+	FALSE  shift 35
+	TRUE  shift 36
+	IF  shift 16
+	WHILE  shift 17
+	FLOAT  shift 32
+	INTEGER  shift 37
+	STRING  shift 38
 	IDENTIFIER  shift 12
 	.  error
 
 	expression  goto 7
 	binary  goto 13
-	call  goto 14
-	float  goto 15
-	group  goto 16
-	identifier  goto 17
-	integer  goto 18
-	string  goto 19
-	statement  goto 79
+	logical  goto 18
+	equality  goto 19
+	comparison  goto 20
+	multiplication  goto 21
+	addition  goto 22
+	unary  goto 23
+	primary  goto 26
+	float  goto 27
+	group  goto 28
+	identifier  goto 29
+	integer  goto 30
+	string  goto 31
+	statement  goto 86
 	unterminated  goto 5
 	block  goto 8
 	comment  goto 9
@@ -1739,92 +1249,63 @@ state 76
 	terminated  goto 4
 	assignment  goto 6
 
-77: shift/reduce conflict (shift 73(0), red'n 40(0)) on PAREN_CLOSE
-state 77
-	binary:  expression.AND expression 
-	binary:  expression.OR expression 
-	binary:  expression.EQUAL_EQUAL expression 
-	binary:  expression.BANG_EQUAL expression 
-	binary:  expression.LESS expression 
-	binary:  expression.GREATER expression 
-	binary:  expression.LESS_EQUAL expression 
-	binary:  expression.GREATER_EQUAL expression 
-	binary:  expression.PERCENT expression 
-	binary:  expression.SLASH expression 
-	binary:  expression.STAR expression 
-	binary:  expression.PLUS expression 
-	binary:  expression.MINUS expression 
-	call:  expression.PAREN_OPEN arguments PAREN_CLOSE 
-	arguments:  expression.    (40)
-	group:  PAREN_OPEN expression.PAREN_CLOSE 
+state 84
+	primary:  primary PAREN_OPEN arguments PAREN_CLOSE.    (42)
 
-	PAREN_OPEN  shift 46
-	PAREN_CLOSE  shift 73
-	PLUS  shift 44
-	MINUS  shift 45
-	STAR  shift 43
-	SLASH  shift 42
-	PERCENT  shift 41
-	EQUAL_EQUAL  shift 35
-	BANG_EQUAL  shift 36
-	LESS  shift 37
-	LESS_EQUAL  shift 39
-	GREATER  shift 38
-	GREATER_EQUAL  shift 40
-	AND  shift 33
-	OR  shift 34
-	.  reduce 40 (src line 131)
+	.  reduce 42 (src line 150)
 
 
-state 78
-	binary:  expression.AND expression 
-	binary:  expression.OR expression 
-	binary:  expression.EQUAL_EQUAL expression 
-	binary:  expression.BANG_EQUAL expression 
-	binary:  expression.LESS expression 
-	binary:  expression.GREATER expression 
-	binary:  expression.LESS_EQUAL expression 
-	binary:  expression.GREATER_EQUAL expression 
-	binary:  expression.PERCENT expression 
-	binary:  expression.SLASH expression 
-	binary:  expression.STAR expression 
-	binary:  expression.PLUS expression 
-	binary:  expression.MINUS expression 
-	call:  expression.PAREN_OPEN arguments PAREN_CLOSE 
-	arguments:  arguments COMMA expression.    (41)
+state 85
+	arguments:  arguments COMMA.expression 
 
-	PAREN_OPEN  shift 46
-	PLUS  shift 44
-	MINUS  shift 45
-	STAR  shift 43
-	SLASH  shift 42
-	PERCENT  shift 41
-	EQUAL_EQUAL  shift 35
-	BANG_EQUAL  shift 36
-	LESS  shift 37
-	LESS_EQUAL  shift 39
-	GREATER  shift 38
-	GREATER_EQUAL  shift 40
-	AND  shift 33
-	OR  shift 34
-	.  reduce 41 (src line 133)
+	PAREN_OPEN  shift 33
+	MINUS  shift 25
+	BANG  shift 24
+	NULL  shift 34
+	FALSE  shift 35
+	TRUE  shift 36
+	FLOAT  shift 32
+	INTEGER  shift 37
+	STRING  shift 38
+	IDENTIFIER  shift 44
+	.  error
 
+	expression  goto 87
+	binary  goto 13
+	logical  goto 18
+	equality  goto 19
+	comparison  goto 20
+	multiplication  goto 21
+	addition  goto 22
+	unary  goto 23
+	primary  goto 26
+	float  goto 27
+	group  goto 28
+	identifier  goto 29
+	integer  goto 30
+	string  goto 31
 
-state 79
+state 86
 	if:  IF expression statement ELSE statement.    (16)
 
 	.  reduce 16 (src line 96)
 
 
-39 terminals, 20 nonterminals
-51 grammar rules, 80/16000 states
-208 shift/reduce, 0 reduce/reduce conflicts reported
-69 working sets used
-memory: parser 266/240000
-67 extra closures
-544 shift entries, 1 exceptions
-45 goto entries
-232 entries saved by goto default
-Optimizer space used: output 193/240000
-193 table entries, 56 zero
-maximum spread: 39, maximum offset: 76
+state 87
+	arguments:  arguments COMMA expression.    (49)
+
+	.  reduce 49 (src line 161)
+
+
+39 terminals, 26 nonterminals
+59 grammar rules, 88/16000 states
+33 shift/reduce, 0 reduce/reduce conflicts reported
+75 working sets used
+memory: parser 366/240000
+77 extra closures
+327 shift entries, 1 exceptions
+52 goto entries
+331 entries saved by goto default
+Optimizer space used: output 133/240000
+133 table entries, 14 zero
+maximum spread: 39, maximum offset: 85

@@ -9,12 +9,12 @@ func _() {
 	// Re-run the stringer command to generate them again.
 	var x [1]struct{}
 	_ = x[UnaryOpNegate-1]
-	_ = x[UnaryOpNot-2]
+	_ = x[UnaryOpInvert-2]
 }
 
-const _UnaryOp_name = "NegateNot"
+const _UnaryOp_name = "NegateInvert"
 
-var _UnaryOp_index = [...]uint8{0, 6, 9}
+var _UnaryOp_index = [...]uint8{0, 6, 12}
 
 func (i UnaryOp) String() string {
 	i -= 1

@@ -163,7 +163,7 @@ type UnaryOp int
 const (
 	_             UnaryOp = iota
 	UnaryOpNegate         // -
-	UnaryOpNot            // !
+	UnaryOpInvert         // !
 )
 
 type Unary struct {

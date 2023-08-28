@@ -43,7 +43,7 @@ const (
 	RelativeJumpIfFalse
 
 	UnaryNegate
-	UnaryNot
+	UnaryInvert
 
 	BinaryAnd
 	BinaryOr
@@ -84,5 +84,5 @@ var Binaries = [...]Opcode{
 var Unaries = [...]Opcode{
 	0,
 	UnaryNegate,
-	UnaryNot,
+	UnaryInvert,
 }

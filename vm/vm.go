@@ -136,7 +136,7 @@ func (vm *VM) exec(opcode op.Opcode) {
 	case op.UnaryNegate:
 		panic("todo")
 
-	case op.UnaryNot:
+	case op.UnaryInvert:
 		panic("todo")
 
 	case op.BinaryAnd:
