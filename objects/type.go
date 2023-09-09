@@ -21,6 +21,7 @@ var Types = struct {
 	String  *Type
 	Builtin *Type
 	Func    *Type
+	Method  *Type
 }{
 	Object:  &Type{Name: "Object"},
 	Type:    &Type{Name: "Type"},
@@ -30,6 +31,7 @@ var Types = struct {
 	String:  &Type{Name: "String"},
 	Builtin: &Type{Name: "Builtin"},
 	Func:    &Type{Name: "Func"},
+	Method:  &Type{Name: "Method"},
 }
 
 func init() {
@@ -95,6 +97,11 @@ func init() {
 	Types.Func.Parent = Types.Object
 	Types.Func.Methods = FuncMethods
 	Types.Func.Attributes = FuncAttributes
+
+	Types.Method.Type = Types.Type
+	Types.Method.Parent = Types.Object
+	Types.Method.Methods = MethodMethods
+	Types.Method.Attributes = MethodAttributes
 
 	rval := reflect.ValueOf(Types)
 	for i := 0; i < rval.NumField(); i++ {

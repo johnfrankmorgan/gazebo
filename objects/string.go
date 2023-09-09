@@ -1,6 +1,9 @@
 package objects
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 type String struct {
 	Object
@@ -88,6 +91,19 @@ var StringAttributes = TypeAttributes{
 			return (*String)(self.Ptr()).Length().AsObject()
 		},
 	},
+
+	"count": MethodAttribute("count", func(self *Object, args ...*Object) *Object {
+		assert(self.Type.Is(Types.String), "todo")
+		assert(len(args) == 1, "todo")
+		assert(args[0].Type.Is(Types.String), "todo")
+
+		str := (*String)(self.Ptr())
+		arg := (*String)(args[0].Ptr())
+
+		count := strings.Count(str.Value(), arg.Value())
+
+		return NewInteger(count).AsObject()
+	}),
 }
 
 func (self *String) Equals(other *String) *Bool {
