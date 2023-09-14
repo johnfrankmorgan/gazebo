@@ -55,7 +55,7 @@ const IF = 57374
 const ELSE = 57375
 const WHILE = 57376
 const FUNC = 57377
-const ANON_FUNC = 57378
+const LAMBDA = 57378
 const RETURN = 57379
 const FLOAT = 57380
 const INTEGER = 57381
@@ -98,7 +98,7 @@ var yyToknames = [...]string{
 	"ELSE",
 	"WHILE",
 	"FUNC",
-	"ANON_FUNC",
+	"LAMBDA",
 	"RETURN",
 	"FLOAT",
 	"INTEGER",
@@ -796,7 +796,7 @@ yydefault:
 		yyDollar = yyS[yypt-5 : yypt+1]
 //line grammar.y:183
 		{
-			yyVAL.Expression = &ast.AnonFunc{Node: ast.Node{yyVAL.Position}, Arguments: yyDollar[3].FuncArguments, Body: yyDollar[5].Statement}
+			yyVAL.Expression = &ast.Lambda{Node: ast.Node{yyVAL.Position}, Arguments: yyDollar[3].FuncArguments, Body: yyDollar[5].Statement}
 		}
 	case 62:
 		yyDollar = yyS[yypt-1 : yypt+1]

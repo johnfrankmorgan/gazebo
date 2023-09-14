@@ -48,14 +48,14 @@ import (
 %token <Lexeme> ELSE
 %token <Lexeme> WHILE
 %token <Lexeme> FUNC
-%token <Lexeme> ANON_FUNC
+%token <Lexeme> LAMBDA
 %token <Lexeme> RETURN
 %token <Lexeme> FLOAT
 %token <Lexeme> INTEGER
 %token <Lexeme> STRING
 %token <Lexeme> IDENTIFIER
 
-%type <Expression> expression binary logical equality comparison multiplication addition unary primary anon_func float group identifier integer string
+%type <Expression> expression binary logical equality comparison multiplication addition unary primary lambda float group identifier integer string
 %type <Expressions> arguments
 %type <Statement> statement unterminated block comment func if while terminated assignment
 %type <Statements> statements
@@ -166,7 +166,7 @@ unary:
 primary:
 	  primary PAREN_OPEN arguments PAREN_CLOSE { $$ = &ast.Call{Node: ast.Node{$<Position>$}, Expression: $1, Arguments: $3} }
 	| primary DOT IDENTIFIER { $$ = &ast.GetAttribute{Node: ast.Node{$<Position>$}, Expression: $1, Name: $3} }
-	| anon_func
+	| lambda
 	| float
 	| group
 	| identifier
@@ -180,7 +180,7 @@ arguments:
 	| { $$ = nil }
 	;
 
-anon_func: ANON_FUNC PAREN_OPEN func_arguments PAREN_CLOSE statement { $$ = &ast.AnonFunc{Node: ast.Node{$<Position>$}, Arguments: $3, Body: $5} };
+lambda: LAMBDA PAREN_OPEN func_arguments PAREN_CLOSE statement { $$ = &ast.Lambda{Node: ast.Node{$<Position>$}, Arguments: $3, Body: $5} };
 
 float: FLOAT { $$ = &ast.Float{Node: ast.Node{$<Position>$}, Value: $1} }
 

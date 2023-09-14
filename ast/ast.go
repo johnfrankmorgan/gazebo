@@ -30,7 +30,6 @@ type Visitor interface {
 	VisitWhile(*While)
 
 	// expressions
-	VisitAnonFunc(*AnonFunc)
 	VisitBinary(*Binary)
 	VisitCall(*Call)
 	VisitFalse(*False)
@@ -39,6 +38,7 @@ type Visitor interface {
 	VisitGroup(*Group)
 	VisitIdentifier(*Identifier)
 	VisitInteger(*Integer)
+	VisitLambda(*Lambda)
 	VisitNull(*Null)
 	VisitString(*String)
 	VisitTrue(*True)
@@ -173,8 +173,8 @@ const (
 	BinaryOpModulus                 // %
 )
 
-type AnonFunc struct {
-	Acceptor[AnonFunc]
+type Lambda struct {
+	Acceptor[Lambda]
 	Node
 
 	Arguments []string

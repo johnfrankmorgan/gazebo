@@ -98,7 +98,7 @@ var rules = []struct {
 	{WHILE, lit(`while`)},
 	{OR, lit(`or`)},
 	{FUNC, lit(`func`)},
-	{ANON_FUNC, lit(`anon func`)},
+	{LAMBDA, lit(`lambda`)},
 	{RETURN, lit(`return`)},
 	{FLOAT, exp(`[0-9]*\.[0-9]+`)},
 	{INTEGER, exp(`[0-9]+`)},

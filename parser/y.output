@@ -11,7 +11,7 @@
 0: shift/reduce conflict (shift 20(0), red'n 4(0)) on IF
 0: shift/reduce conflict (shift 21(0), red'n 4(0)) on WHILE
 0: shift/reduce conflict (shift 19(0), red'n 4(0)) on FUNC
-0: shift/reduce conflict (shift 37(0), red'n 4(0)) on ANON_FUNC
+0: shift/reduce conflict (shift 37(0), red'n 4(0)) on LAMBDA
 0: shift/reduce conflict (shift 9(0), red'n 4(0)) on RETURN
 0: shift/reduce conflict (shift 38(0), red'n 4(0)) on FLOAT
 0: shift/reduce conflict (shift 43(0), red'n 4(0)) on INTEGER
@@ -33,7 +33,7 @@ state 0
 	IF  shift 20
 	WHILE  shift 21
 	FUNC  shift 19
-	ANON_FUNC  shift 37
+	LAMBDA  shift 37
 	RETURN  shift 9
 	FLOAT  shift 38
 	INTEGER  shift 43
@@ -50,7 +50,7 @@ state 0
 	addition  goto 26
 	unary  goto 27
 	primary  goto 30
-	anon_func  goto 31
+	lambda  goto 31
 	float  goto 32
 	group  goto 33
 	identifier  goto 34
@@ -91,7 +91,7 @@ state 2
 	IF  shift 20
 	WHILE  shift 21
 	FUNC  shift 19
-	ANON_FUNC  shift 37
+	LAMBDA  shift 37
 	RETURN  shift 9
 	FLOAT  shift 38
 	INTEGER  shift 43
@@ -108,7 +108,7 @@ state 2
 	addition  goto 26
 	unary  goto 27
 	primary  goto 30
-	anon_func  goto 31
+	lambda  goto 31
 	float  goto 32
 	group  goto 33
 	identifier  goto 34
@@ -171,7 +171,7 @@ state 9
 	NULL  shift 40
 	FALSE  shift 41
 	TRUE  shift 42
-	ANON_FUNC  shift 37
+	LAMBDA  shift 37
 	FLOAT  shift 38
 	INTEGER  shift 43
 	STRING  shift 44
@@ -187,7 +187,7 @@ state 9
 	addition  goto 26
 	unary  goto 27
 	primary  goto 30
-	anon_func  goto 31
+	lambda  goto 31
 	float  goto 32
 	group  goto 33
 	identifier  goto 34
@@ -250,7 +250,7 @@ state 16
 17: shift/reduce conflict (shift 20(0), red'n 4(0)) on IF
 17: shift/reduce conflict (shift 21(0), red'n 4(0)) on WHILE
 17: shift/reduce conflict (shift 19(0), red'n 4(0)) on FUNC
-17: shift/reduce conflict (shift 37(0), red'n 4(0)) on ANON_FUNC
+17: shift/reduce conflict (shift 37(0), red'n 4(0)) on LAMBDA
 17: shift/reduce conflict (shift 9(0), red'n 4(0)) on RETURN
 17: shift/reduce conflict (shift 38(0), red'n 4(0)) on FLOAT
 17: shift/reduce conflict (shift 43(0), red'n 4(0)) on INTEGER
@@ -272,7 +272,7 @@ state 17
 	IF  shift 20
 	WHILE  shift 21
 	FUNC  shift 19
-	ANON_FUNC  shift 37
+	LAMBDA  shift 37
 	RETURN  shift 9
 	FLOAT  shift 38
 	INTEGER  shift 43
@@ -289,7 +289,7 @@ state 17
 	addition  goto 26
 	unary  goto 27
 	primary  goto 30
-	anon_func  goto 31
+	lambda  goto 31
 	float  goto 32
 	group  goto 33
 	identifier  goto 34
@@ -329,7 +329,7 @@ state 20
 	NULL  shift 40
 	FALSE  shift 41
 	TRUE  shift 42
-	ANON_FUNC  shift 37
+	LAMBDA  shift 37
 	FLOAT  shift 38
 	INTEGER  shift 43
 	STRING  shift 44
@@ -345,7 +345,7 @@ state 20
 	addition  goto 26
 	unary  goto 27
 	primary  goto 30
-	anon_func  goto 31
+	lambda  goto 31
 	float  goto 32
 	group  goto 33
 	identifier  goto 34
@@ -361,7 +361,7 @@ state 21
 	NULL  shift 40
 	FALSE  shift 41
 	TRUE  shift 42
-	ANON_FUNC  shift 37
+	LAMBDA  shift 37
 	FLOAT  shift 38
 	INTEGER  shift 43
 	STRING  shift 44
@@ -377,7 +377,7 @@ state 21
 	addition  goto 26
 	unary  goto 27
 	primary  goto 30
-	anon_func  goto 31
+	lambda  goto 31
 	float  goto 32
 	group  goto 33
 	identifier  goto 34
@@ -454,7 +454,7 @@ state 28
 	NULL  shift 40
 	FALSE  shift 41
 	TRUE  shift 42
-	ANON_FUNC  shift 37
+	LAMBDA  shift 37
 	FLOAT  shift 38
 	INTEGER  shift 43
 	STRING  shift 44
@@ -462,7 +462,7 @@ state 28
 	.  error
 
 	primary  goto 67
-	anon_func  goto 31
+	lambda  goto 31
 	float  goto 32
 	group  goto 33
 	identifier  goto 34
@@ -476,7 +476,7 @@ state 29
 	NULL  shift 40
 	FALSE  shift 41
 	TRUE  shift 42
-	ANON_FUNC  shift 37
+	LAMBDA  shift 37
 	FLOAT  shift 38
 	INTEGER  shift 43
 	STRING  shift 44
@@ -484,7 +484,7 @@ state 29
 	.  error
 
 	primary  goto 68
-	anon_func  goto 31
+	lambda  goto 31
 	float  goto 32
 	group  goto 33
 	identifier  goto 34
@@ -503,7 +503,7 @@ state 30
 
 
 state 31
-	primary:  anon_func.    (52)
+	primary:  lambda.    (52)
 
 	.  reduce 52 (src line 169)
 
@@ -539,7 +539,7 @@ state 36
 
 
 state 37
-	anon_func:  ANON_FUNC.PAREN_OPEN func_arguments PAREN_CLOSE statement 
+	lambda:  LAMBDA.PAREN_OPEN func_arguments PAREN_CLOSE statement 
 
 	PAREN_OPEN  shift 71
 	.  error
@@ -560,7 +560,7 @@ state 39
 	NULL  shift 40
 	FALSE  shift 41
 	TRUE  shift 42
-	ANON_FUNC  shift 37
+	LAMBDA  shift 37
 	FLOAT  shift 38
 	INTEGER  shift 43
 	STRING  shift 44
@@ -576,7 +576,7 @@ state 39
 	addition  goto 26
 	unary  goto 27
 	primary  goto 30
-	anon_func  goto 31
+	lambda  goto 31
 	float  goto 32
 	group  goto 33
 	identifier  goto 34
@@ -646,7 +646,7 @@ state 49
 	NULL  shift 40
 	FALSE  shift 41
 	TRUE  shift 42
-	ANON_FUNC  shift 37
+	LAMBDA  shift 37
 	FLOAT  shift 38
 	INTEGER  shift 43
 	STRING  shift 44
@@ -662,7 +662,7 @@ state 49
 	addition  goto 26
 	unary  goto 27
 	primary  goto 30
-	anon_func  goto 31
+	lambda  goto 31
 	float  goto 32
 	group  goto 33
 	identifier  goto 34
@@ -686,7 +686,7 @@ state 50
 	IF  shift 20
 	WHILE  shift 21
 	FUNC  shift 19
-	ANON_FUNC  shift 37
+	LAMBDA  shift 37
 	RETURN  shift 9
 	FLOAT  shift 38
 	INTEGER  shift 43
@@ -703,7 +703,7 @@ state 50
 	addition  goto 26
 	unary  goto 27
 	primary  goto 30
-	anon_func  goto 31
+	lambda  goto 31
 	float  goto 32
 	group  goto 33
 	identifier  goto 34
@@ -742,7 +742,7 @@ state 52
 	IF  shift 20
 	WHILE  shift 21
 	FUNC  shift 19
-	ANON_FUNC  shift 37
+	LAMBDA  shift 37
 	RETURN  shift 9
 	FLOAT  shift 38
 	INTEGER  shift 43
@@ -759,7 +759,7 @@ state 52
 	addition  goto 26
 	unary  goto 27
 	primary  goto 30
-	anon_func  goto 31
+	lambda  goto 31
 	float  goto 32
 	group  goto 33
 	identifier  goto 34
@@ -790,7 +790,7 @@ state 53
 	IF  shift 20
 	WHILE  shift 21
 	FUNC  shift 19
-	ANON_FUNC  shift 37
+	LAMBDA  shift 37
 	RETURN  shift 9
 	FLOAT  shift 38
 	INTEGER  shift 43
@@ -807,7 +807,7 @@ state 53
 	addition  goto 26
 	unary  goto 27
 	primary  goto 30
-	anon_func  goto 31
+	lambda  goto 31
 	float  goto 32
 	group  goto 33
 	identifier  goto 34
@@ -832,7 +832,7 @@ state 54
 	NULL  shift 40
 	FALSE  shift 41
 	TRUE  shift 42
-	ANON_FUNC  shift 37
+	LAMBDA  shift 37
 	FLOAT  shift 38
 	INTEGER  shift 43
 	STRING  shift 44
@@ -846,7 +846,7 @@ state 54
 	addition  goto 26
 	unary  goto 27
 	primary  goto 30
-	anon_func  goto 31
+	lambda  goto 31
 	float  goto 32
 	group  goto 33
 	identifier  goto 34
@@ -862,7 +862,7 @@ state 55
 	NULL  shift 40
 	FALSE  shift 41
 	TRUE  shift 42
-	ANON_FUNC  shift 37
+	LAMBDA  shift 37
 	FLOAT  shift 38
 	INTEGER  shift 43
 	STRING  shift 44
@@ -876,7 +876,7 @@ state 55
 	addition  goto 26
 	unary  goto 27
 	primary  goto 30
-	anon_func  goto 31
+	lambda  goto 31
 	float  goto 32
 	group  goto 33
 	identifier  goto 34
@@ -892,7 +892,7 @@ state 56
 	NULL  shift 40
 	FALSE  shift 41
 	TRUE  shift 42
-	ANON_FUNC  shift 37
+	LAMBDA  shift 37
 	FLOAT  shift 38
 	INTEGER  shift 43
 	STRING  shift 44
@@ -905,7 +905,7 @@ state 56
 	addition  goto 26
 	unary  goto 27
 	primary  goto 30
-	anon_func  goto 31
+	lambda  goto 31
 	float  goto 32
 	group  goto 33
 	identifier  goto 34
@@ -921,7 +921,7 @@ state 57
 	NULL  shift 40
 	FALSE  shift 41
 	TRUE  shift 42
-	ANON_FUNC  shift 37
+	LAMBDA  shift 37
 	FLOAT  shift 38
 	INTEGER  shift 43
 	STRING  shift 44
@@ -934,7 +934,7 @@ state 57
 	addition  goto 26
 	unary  goto 27
 	primary  goto 30
-	anon_func  goto 31
+	lambda  goto 31
 	float  goto 32
 	group  goto 33
 	identifier  goto 34
@@ -950,7 +950,7 @@ state 58
 	NULL  shift 40
 	FALSE  shift 41
 	TRUE  shift 42
-	ANON_FUNC  shift 37
+	LAMBDA  shift 37
 	FLOAT  shift 38
 	INTEGER  shift 43
 	STRING  shift 44
@@ -962,7 +962,7 @@ state 58
 	addition  goto 26
 	unary  goto 27
 	primary  goto 30
-	anon_func  goto 31
+	lambda  goto 31
 	float  goto 32
 	group  goto 33
 	identifier  goto 34
@@ -978,7 +978,7 @@ state 59
 	NULL  shift 40
 	FALSE  shift 41
 	TRUE  shift 42
-	ANON_FUNC  shift 37
+	LAMBDA  shift 37
 	FLOAT  shift 38
 	INTEGER  shift 43
 	STRING  shift 44
@@ -990,7 +990,7 @@ state 59
 	addition  goto 26
 	unary  goto 27
 	primary  goto 30
-	anon_func  goto 31
+	lambda  goto 31
 	float  goto 32
 	group  goto 33
 	identifier  goto 34
@@ -1006,7 +1006,7 @@ state 60
 	NULL  shift 40
 	FALSE  shift 41
 	TRUE  shift 42
-	ANON_FUNC  shift 37
+	LAMBDA  shift 37
 	FLOAT  shift 38
 	INTEGER  shift 43
 	STRING  shift 44
@@ -1018,7 +1018,7 @@ state 60
 	addition  goto 26
 	unary  goto 27
 	primary  goto 30
-	anon_func  goto 31
+	lambda  goto 31
 	float  goto 32
 	group  goto 33
 	identifier  goto 34
@@ -1034,7 +1034,7 @@ state 61
 	NULL  shift 40
 	FALSE  shift 41
 	TRUE  shift 42
-	ANON_FUNC  shift 37
+	LAMBDA  shift 37
 	FLOAT  shift 38
 	INTEGER  shift 43
 	STRING  shift 44
@@ -1046,7 +1046,7 @@ state 61
 	addition  goto 26
 	unary  goto 27
 	primary  goto 30
-	anon_func  goto 31
+	lambda  goto 31
 	float  goto 32
 	group  goto 33
 	identifier  goto 34
@@ -1062,7 +1062,7 @@ state 62
 	NULL  shift 40
 	FALSE  shift 41
 	TRUE  shift 42
-	ANON_FUNC  shift 37
+	LAMBDA  shift 37
 	FLOAT  shift 38
 	INTEGER  shift 43
 	STRING  shift 44
@@ -1073,7 +1073,7 @@ state 62
 	addition  goto 26
 	unary  goto 27
 	primary  goto 30
-	anon_func  goto 31
+	lambda  goto 31
 	float  goto 32
 	group  goto 33
 	identifier  goto 34
@@ -1089,7 +1089,7 @@ state 63
 	NULL  shift 40
 	FALSE  shift 41
 	TRUE  shift 42
-	ANON_FUNC  shift 37
+	LAMBDA  shift 37
 	FLOAT  shift 38
 	INTEGER  shift 43
 	STRING  shift 44
@@ -1100,7 +1100,7 @@ state 63
 	addition  goto 26
 	unary  goto 27
 	primary  goto 30
-	anon_func  goto 31
+	lambda  goto 31
 	float  goto 32
 	group  goto 33
 	identifier  goto 34
@@ -1116,7 +1116,7 @@ state 64
 	NULL  shift 40
 	FALSE  shift 41
 	TRUE  shift 42
-	ANON_FUNC  shift 37
+	LAMBDA  shift 37
 	FLOAT  shift 38
 	INTEGER  shift 43
 	STRING  shift 44
@@ -1127,7 +1127,7 @@ state 64
 	addition  goto 26
 	unary  goto 27
 	primary  goto 30
-	anon_func  goto 31
+	lambda  goto 31
 	float  goto 32
 	group  goto 33
 	identifier  goto 34
@@ -1143,7 +1143,7 @@ state 65
 	NULL  shift 40
 	FALSE  shift 41
 	TRUE  shift 42
-	ANON_FUNC  shift 37
+	LAMBDA  shift 37
 	FLOAT  shift 38
 	INTEGER  shift 43
 	STRING  shift 44
@@ -1153,7 +1153,7 @@ state 65
 	addition  goto 89
 	unary  goto 27
 	primary  goto 30
-	anon_func  goto 31
+	lambda  goto 31
 	float  goto 32
 	group  goto 33
 	identifier  goto 34
@@ -1169,7 +1169,7 @@ state 66
 	NULL  shift 40
 	FALSE  shift 41
 	TRUE  shift 42
-	ANON_FUNC  shift 37
+	LAMBDA  shift 37
 	FLOAT  shift 38
 	INTEGER  shift 43
 	STRING  shift 44
@@ -1179,7 +1179,7 @@ state 66
 	addition  goto 90
 	unary  goto 27
 	primary  goto 30
-	anon_func  goto 31
+	lambda  goto 31
 	float  goto 32
 	group  goto 33
 	identifier  goto 34
@@ -1218,7 +1218,7 @@ state 69
 	NULL  shift 40
 	FALSE  shift 41
 	TRUE  shift 42
-	ANON_FUNC  shift 37
+	LAMBDA  shift 37
 	FLOAT  shift 38
 	INTEGER  shift 43
 	STRING  shift 44
@@ -1234,7 +1234,7 @@ state 69
 	addition  goto 26
 	unary  goto 27
 	primary  goto 30
-	anon_func  goto 31
+	lambda  goto 31
 	float  goto 32
 	group  goto 33
 	identifier  goto 34
@@ -1250,7 +1250,7 @@ state 70
 
 
 state 71
-	anon_func:  ANON_FUNC PAREN_OPEN.func_arguments PAREN_CLOSE statement 
+	lambda:  LAMBDA PAREN_OPEN.func_arguments PAREN_CLOSE statement 
 	func_arguments: .    (23)
 
 	IDENTIFIER  shift 95
@@ -1402,7 +1402,7 @@ state 93
 
 state 94
 	func_arguments:  func_arguments.COMMA IDENTIFIER 
-	anon_func:  ANON_FUNC PAREN_OPEN func_arguments.PAREN_CLOSE statement 
+	lambda:  LAMBDA PAREN_OPEN func_arguments.PAREN_CLOSE statement 
 
 	COMMA  shift 101
 	PAREN_CLOSE  shift 102
@@ -1445,7 +1445,7 @@ state 98
 	IF  shift 20
 	WHILE  shift 21
 	FUNC  shift 19
-	ANON_FUNC  shift 37
+	LAMBDA  shift 37
 	RETURN  shift 9
 	FLOAT  shift 38
 	INTEGER  shift 43
@@ -1462,7 +1462,7 @@ state 98
 	addition  goto 26
 	unary  goto 27
 	primary  goto 30
-	anon_func  goto 31
+	lambda  goto 31
 	float  goto 32
 	group  goto 33
 	identifier  goto 34
@@ -1493,7 +1493,7 @@ state 100
 	NULL  shift 40
 	FALSE  shift 41
 	TRUE  shift 42
-	ANON_FUNC  shift 37
+	LAMBDA  shift 37
 	FLOAT  shift 38
 	INTEGER  shift 43
 	STRING  shift 44
@@ -1509,7 +1509,7 @@ state 100
 	addition  goto 26
 	unary  goto 27
 	primary  goto 30
-	anon_func  goto 31
+	lambda  goto 31
 	float  goto 32
 	group  goto 33
 	identifier  goto 34
@@ -1524,7 +1524,7 @@ state 101
 
 
 state 102
-	anon_func:  ANON_FUNC PAREN_OPEN func_arguments PAREN_CLOSE.statement 
+	lambda:  LAMBDA PAREN_OPEN func_arguments PAREN_CLOSE.statement 
 
 	SEMICOLON  shift 4
 	COMMENT  shift 18
@@ -1538,7 +1538,7 @@ state 102
 	IF  shift 20
 	WHILE  shift 21
 	FUNC  shift 19
-	ANON_FUNC  shift 37
+	LAMBDA  shift 37
 	RETURN  shift 9
 	FLOAT  shift 38
 	INTEGER  shift 43
@@ -1555,7 +1555,7 @@ state 102
 	addition  goto 26
 	unary  goto 27
 	primary  goto 30
-	anon_func  goto 31
+	lambda  goto 31
 	float  goto 32
 	group  goto 33
 	identifier  goto 34
@@ -1586,7 +1586,7 @@ state 103
 	IF  shift 20
 	WHILE  shift 21
 	FUNC  shift 19
-	ANON_FUNC  shift 37
+	LAMBDA  shift 37
 	RETURN  shift 9
 	FLOAT  shift 38
 	INTEGER  shift 43
@@ -1603,7 +1603,7 @@ state 103
 	addition  goto 26
 	unary  goto 27
 	primary  goto 30
-	anon_func  goto 31
+	lambda  goto 31
 	float  goto 32
 	group  goto 33
 	identifier  goto 34
@@ -1638,7 +1638,7 @@ state 106
 
 
 state 107
-	anon_func:  ANON_FUNC PAREN_OPEN func_arguments PAREN_CLOSE statement.    (61)
+	lambda:  LAMBDA PAREN_OPEN func_arguments PAREN_CLOSE statement.    (61)
 
 	.  reduce 61 (src line 183)
 

@@ -30,7 +30,7 @@ func fib_recursive(n) {
 
 print("fib_recursive(15):", fib_recursive(15));
 
-fn = anon func(a, b, c) {
+fn = lambda(a, b, c) {
 	if a == 2 {
 		return 456;
 	}
@@ -40,3 +40,14 @@ fn = anon func(a, b, c) {
 
 print("fn(1, 2, 3):", fn(1, 2, 3));
 print("fn(2, 3, 4):", fn(2, 3, 4));
+
+n = 0;
+
+while n < 1000000 {
+	a = 100;
+	b = 200;
+
+	x = a * b;
+
+	n = n + 1;
+}

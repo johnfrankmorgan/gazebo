@@ -121,23 +121,6 @@ func (c *compiler) VisitWhile(node *ast.While) {
 
 // expressions
 
-func (c *compiler) VisitAnonFunc(node *ast.AnonFunc) {
-	code := c.code
-
-	body := new(Code)
-	c.code = body
-
-	node.Body.Accept(c)
-
-	c.code = code
-
-	c.code.Emit(op.MakeFunc, c.code.Name("anonymous"), c.code.Child(body), len(node.Arguments))
-
-	for _, argument := range node.Arguments {
-		c.code.EmitArgument(c.code.Name(argument))
-	}
-}
-
 func (c *compiler) VisitBinary(node *ast.Binary) {
 	node.Left.Accept(c)
 	node.Right.Accept(c)
@@ -179,6 +162,23 @@ func (c *compiler) VisitIdentifier(node *ast.Identifier) {
 
 func (c *compiler) VisitInteger(node *ast.Integer) {
 	c.constant(node)
+}
+
+func (c *compiler) VisitLambda(node *ast.Lambda) {
+	code := c.code
+
+	body := new(Code)
+	c.code = body
+
+	node.Body.Accept(c)
+
+	c.code = code
+
+	c.code.Emit(op.MakeFunc, c.code.Name("anonymous"), c.code.Child(body), len(node.Arguments))
+
+	for _, argument := range node.Arguments {
+		c.code.EmitArgument(c.code.Name(argument))
+	}
 }
 
 func (c *compiler) VisitNull(*ast.Null) {
