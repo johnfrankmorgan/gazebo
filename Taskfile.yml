@@ -1,0 +1,35 @@
+version: '3'
+
+tasks:
+  run:
+      deps: [grammar, generate]
+      cmds:
+        - go run ./cmd/gazebo
+
+  build:
+    deps: [grammar, generate]
+    cmds:
+      - go build -v ./...
+
+  lint:
+    cmds:
+      - go vet ./...
+  
+  grammar:
+    cmds:
+      - goyacc -o grammar.go -v grammar.output grammar.y
+    sources:
+      - grammar.y
+    generates:
+      - grammar.go
+      - grammar.output
+
+  generate:
+    cmds:
+      - stringer -type ASTBinaryOperation -trimprefix ASTBinary -output ast_binary_operation_string.go ast.go
+      - stringer -type ASTUnaryOperation -trimprefix ASTUnary -output ast_unary_operation_string.go ast.go
+    sources:
+      - ast.go
+    generates:
+      - ast_binary_operation_string.go
+      - ast_unary_operation_string.go

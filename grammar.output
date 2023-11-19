@@ -1,0 +1,208 @@
+
+0: shift/reduce conflict (shift 4(0), red'n 4(0)) on TKSemicolon
+0: shift/reduce conflict (shift 12(0), red'n 4(0)) on TKComment
+0: shift/reduce conflict (shift 11(0), red'n 4(0)) on TKBraceOpen
+0: shift/reduce conflict (shift 10(0), red'n 4(0)) on TKIdentifier
+state 0
+	$accept: .ast $end 
+	statements: .    (4)
+
+	TKSemicolon  shift 4
+	TKComment  shift 12
+	TKBraceOpen  shift 11
+	TKIdentifier  shift 10
+	.  reduce 4 (src line 81)
+
+	statements  goto 2
+	statement  goto 3
+	terminated  goto 5
+	assignment  goto 7
+	unterminated  goto 6
+	block  goto 8
+	comment  goto 9
+	ast  goto 1
+
+state 1
+	$accept:  ast.$end 
+
+	$end  accept
+	.  error
+
+
+state 2
+	ast:  statements.    (1)
+	statements:  statements.statement 
+
+	TKSemicolon  shift 4
+	TKComment  shift 12
+	TKBraceOpen  shift 11
+	TKIdentifier  shift 10
+	.  reduce 1 (src line 73)
+
+	statement  goto 13
+	terminated  goto 5
+	assignment  goto 7
+	unterminated  goto 6
+	block  goto 8
+	comment  goto 9
+
+state 3
+	statements:  statement.    (2)
+
+	.  reduce 2 (src line 78)
+
+
+state 4
+	statement:  TKSemicolon.    (5)
+
+	.  reduce 5 (src line 84)
+
+
+state 5
+	statement:  terminated.TKSemicolon 
+
+	TKSemicolon  shift 14
+	.  error
+
+
+state 6
+	statement:  unterminated.    (7)
+
+	.  reduce 7 (src line 87)
+
+
+state 7
+	terminated:  assignment.    (8)
+
+	.  reduce 8 (src line 90)
+
+
+state 8
+	unterminated:  block.    (9)
+
+	.  reduce 9 (src line 94)
+
+
+state 9
+	unterminated:  comment.    (10)
+
+	.  reduce 10 (src line 96)
+
+
+state 10
+	assignment:  TKIdentifier.TKEqual expression 
+
+	TKEqual  shift 15
+	.  error
+
+
+11: shift/reduce conflict (shift 4(0), red'n 4(0)) on TKSemicolon
+11: shift/reduce conflict (shift 12(0), red'n 4(0)) on TKComment
+11: shift/reduce conflict (shift 11(0), red'n 4(0)) on TKBraceOpen
+11: shift/reduce conflict (shift 10(0), red'n 4(0)) on TKIdentifier
+state 11
+	block:  TKBraceOpen.statements TKBraceClose 
+	statements: .    (4)
+
+	TKSemicolon  shift 4
+	TKComment  shift 12
+	TKBraceOpen  shift 11
+	TKIdentifier  shift 10
+	.  reduce 4 (src line 81)
+
+	statements  goto 16
+	statement  goto 3
+	terminated  goto 5
+	assignment  goto 7
+	unterminated  goto 6
+	block  goto 8
+	comment  goto 9
+
+state 12
+	comment:  TKComment.    (13)
+
+	.  reduce 13 (src line 111)
+
+
+state 13
+	statements:  statements statement.    (3)
+
+	.  reduce 3 (src line 80)
+
+
+state 14
+	statement:  terminated TKSemicolon.    (6)
+
+	.  reduce 6 (src line 86)
+
+
+state 15
+	assignment:  TKIdentifier TKEqual.expression 
+
+	TKString  shift 20
+	TKInteger  shift 19
+	.  error
+
+	expression  goto 17
+	constant  goto 18
+
+state 16
+	statements:  statements.statement 
+	block:  TKBraceOpen statements.TKBraceClose 
+
+	TKSemicolon  shift 4
+	TKComment  shift 12
+	TKBraceOpen  shift 11
+	TKBraceClose  shift 21
+	TKIdentifier  shift 10
+	.  error
+
+	statement  goto 13
+	terminated  goto 5
+	assignment  goto 7
+	unterminated  goto 6
+	block  goto 8
+	comment  goto 9
+
+state 17
+	assignment:  TKIdentifier TKEqual expression.    (11)
+
+	.  reduce 11 (src line 99)
+
+
+state 18
+	expression:  constant.    (14)
+
+	.  reduce 14 (src line 117)
+
+
+state 19
+	constant:  TKInteger.    (15)
+
+	.  reduce 15 (src line 121)
+
+
+state 20
+	constant:  TKString.    (16)
+
+	.  reduce 16 (src line 123)
+
+
+state 21
+	block:  TKBraceOpen statements TKBraceClose.    (12)
+
+	.  reduce 12 (src line 105)
+
+
+37 terminals, 11 nonterminals
+17 grammar rules, 22/16000 states
+8 shift/reduce, 0 reduce/reduce conflicts reported
+60 working sets used
+memory: parser 22/240000
+11 extra closures
+21 shift entries, 1 exceptions
+13 goto entries
+16 entries saved by goto default
+Optimizer space used: output 36/240000
+36 table entries, 10 zero
+maximum spread: 37, maximum offset: 35
