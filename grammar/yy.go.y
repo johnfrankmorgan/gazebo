@@ -1,0 +1,607 @@
+%{
+package grammar
+
+import (
+    "fmt"
+    "errors"
+    "strconv"
+
+    "github.com/johnfrankmorgan/gazebo/ast"
+    "github.com/johnfrankmorgan/gazebo/ast/expr"
+    "github.com/johnfrankmorgan/gazebo/ast/stmt"
+)
+
+type lexer struct {
+    tokens []Token
+    prev Token
+    program *Program
+    err error
+}
+
+func (l *lexer) Lex(lval *yySymType) int {
+    if len(l.tokens) == 0 {
+        return 0
+    }
+
+    l.prev = l.tokens[0]
+    l.tokens = l.tokens[1:]
+
+    lval.Lexeme = l.prev.Lexeme
+    lval.Token = l.prev
+
+    return l.prev.Type
+}
+
+func (l *lexer) Error(err string) {
+    l.err = errors.Join(l.err, fmt.Errorf("%w: %q: %s", ErrParse, l.prev.Lexeme, err))
+}
+%}
+
+%token <Lexeme>
+    TKSpace
+
+    TKDot
+    TKComma
+    TKColon
+    TKSemicolon
+
+    TKLParen
+    TKRParen
+    TKLBrace
+    TKRBrace
+    TKLBracket
+    TKRBracket
+
+    TKAnd
+    TKOr
+
+    TKIs
+    TKIn
+
+    TKFunc
+    TKIf
+    TKElse
+    TKWhile
+    TKReturn
+    TKBreak
+    TKContinue
+
+    TKTrue
+    TKFalse
+    TKNil
+
+    TKBang
+    TKQuestion
+
+    TKEqual
+    TKLAngle
+    TKRAngle
+    TKPlus
+    TKMinus
+    TKStar
+    TKSlash
+    TKPercent
+    TKAmpersand
+    TKPipe
+    TKCaret
+
+    TKIdent
+    TKInt
+    TKFloat
+    TKString
+
+%union {
+    Lexeme string
+    Token Token
+
+    Stmt ast.Stmt
+    Stmts []ast.Stmt
+
+    Expr ast.Expr
+    Exprs []ast.Expr
+}
+
+%type <Stmt>
+    stmt
+    stmt_assign
+    stmt_block
+    stmt_break
+    stmt_continue
+    stmt_expr
+    stmt_if
+    stmt_return
+    stmt_while
+
+%type <Stmts>
+    stmts
+
+%type <Expr>
+    expr
+    expr_binary
+    expr_false
+    expr_float
+    expr_group 
+    expr_ident
+    expr_int
+    expr_list
+    expr_nil
+    expr_string
+    expr_ternary
+    expr_true
+    expr_tuple
+    expr_unary
+
+%type <Exprs>
+    exprs_comma_delimited
+
+%%
+
+program
+    : stmts
+    {
+        yylex.(*lexer).program.Statements = $1
+    }
+    ;
+
+stmts
+    : stmts stmt
+    {
+        $$ = append($$, $2)
+    }
+    | stmt
+    {
+        $$ = append($$, $1)
+    }
+    | /* empty */
+    {
+        $$ = nil
+    }
+    ;
+
+stmt
+    : stmt_assign
+    | stmt_block
+    | stmt_break
+    | stmt_continue
+    | stmt_expr
+    | stmt_if
+    | stmt_return
+    | stmt_while
+    ;
+
+stmt_assign
+    : TKIdent TKEqual expr
+    {
+        $$ = stmt.Assign{
+            Identifier: $1,
+            Expression: $3,
+        }
+    }
+    ;
+
+stmt_block
+    : TKLBrace stmts TKRBrace
+    {
+        $$ = stmt.Block{
+            Statements: $2,
+        }
+    }
+    ;
+
+stmt_break
+    : TKBreak
+    {
+        $$ = stmt.Break{
+            //
+        }
+    }
+    ;
+
+stmt_continue
+    : TKContinue
+    {
+        $$ = stmt.Continue{
+            //
+        }
+    }
+    ;
+
+stmt_expr
+    : expr
+    {
+        $$ = stmt.Expr{
+            Inner: $1,
+        }
+    }
+    ;
+
+stmt_if
+    : TKIf expr stmt TKElse stmt
+    {
+        $$ = stmt.If{
+            Condition: $2,
+            Consequence: $3,
+            Alternative: $5,
+        }
+    }
+    | TKIf expr stmt
+    {
+        $$ = stmt.If{
+            Condition: $2,
+            Consequence: $3,
+        }
+    }
+    ;
+
+stmt_return
+    : TKReturn
+    {
+        $$ = stmt.Return{
+            //
+        }
+    }
+    | TKReturn expr
+    {
+        $$ = stmt.Return{
+            Expression: $2,
+        }
+    }
+    ;
+
+stmt_while
+    : TKWhile expr stmt
+    {
+        $$ = stmt.While{
+            Condition: $2,
+            Body: $3,
+        }
+    }
+    ;
+
+expr
+    : expr_group
+    | expr_ternary
+    | expr_ident
+    | expr_int
+    | expr_list
+    | expr_float
+    | expr_string
+    | expr_nil
+    | expr_false
+    | expr_true
+    | expr_unary
+    | expr_binary
+    | expr_tuple
+    ;
+
+exprs_comma_delimited
+    : exprs_comma_delimited TKComma expr
+    {
+        $$ = append($1, $3)
+    }
+    | expr
+    {
+        $$ = []ast.Expr{ $1 }
+    }
+    ;
+
+expr_binary
+    : expr TKAnd expr
+    {
+        $$ = expr.Binary{
+            Op: expr.BinaryAnd,
+            Left: $1,
+            Right: $3,
+        }
+    }
+    | expr TKOr expr
+    {
+        $$ = expr.Binary{
+            Op: expr.BinaryOr,
+            Left: $1,
+            Right: $3,
+        }
+    }
+    | expr TKIs expr
+    {
+        $$ = expr.Binary{
+            Op: expr.BinaryIs,
+            Left: $1,
+            Right: $3,
+        }
+    }
+    | expr TKEqual TKEqual expr
+    {
+        $$ = expr.Binary{
+            Op: expr.BinaryEqual,
+            Left: $1,
+            Right: $4,
+        }
+    }
+    | expr TKBang TKEqual expr
+    {
+        $$ = expr.Binary{
+            Op: expr.BinaryNotEqual,
+            Left: $1,
+            Right: $4,
+        }
+    }
+    | expr TKLAngle expr
+    {
+        $$ = expr.Binary{
+            Op: expr.BinaryLessThan,
+            Left: $1,
+            Right: $3,
+        }
+    }
+    | expr TKLAngle TKEqual expr
+    {
+        $$ = expr.Binary{
+            Op: expr.BinaryLessThanOrEqual,
+            Left: $1,
+            Right: $4,
+        }
+    }
+    | expr TKRAngle expr
+    {
+        $$ = expr.Binary{
+            Op: expr.BinaryGreaterThan,
+            Left: $1,
+            Right: $3,
+        }
+    }
+    | expr TKRAngle TKEqual expr
+    {
+        $$ = expr.Binary{
+            Op: expr.BinaryGreaterThanOrEqual,
+            Left: $1,
+            Right: $4,
+        }
+    }
+    | expr TKIn expr
+    {
+        $$ = expr.Binary{
+            Op: expr.BinaryIn,
+            Left: $1,
+            Right: $3,
+        }
+    }
+    | expr TKPlus expr
+    {
+        $$ = expr.Binary{
+            Op: expr.BinaryAdd,
+            Left: $1,
+            Right: $3,
+        }
+    }
+    | expr TKMinus expr
+    {
+        $$ = expr.Binary{
+            Op: expr.BinarySubtract,
+            Left: $1,
+            Right: $3,
+        }
+    }
+    | expr TKStar expr
+    {
+        $$ = expr.Binary{
+            Op: expr.BinaryMultiply,
+            Left: $1,
+            Right: $3,
+        }
+    }
+    | expr TKSlash expr
+    {
+        $$ = expr.Binary{
+            Op: expr.BinaryDivide,
+            Left: $1,
+            Right: $3,
+        }
+    }
+    | expr TKPercent expr
+    {
+        $$ = expr.Binary{
+            Op: expr.BinaryModulo,
+            Left: $1,
+            Right: $3,
+        }
+    }
+    | expr TKAmpersand expr
+    {
+        $$ = expr.Binary{
+            Op: expr.BinaryBitwiseAnd,
+            Left: $1,
+            Right: $3,
+        }
+    }
+    | expr TKPipe expr
+    {
+        $$ = expr.Binary{
+            Op: expr.BinaryBitwiseOr,
+            Left: $1,
+            Right: $3,
+        }
+    }
+    | expr TKCaret expr
+    {
+        $$ = expr.Binary{
+            Op: expr.BinaryBitwiseXor,
+            Left: $1,
+            Right: $3,
+        }
+    }
+    | expr TKLAngle TKLAngle expr
+    {
+        $$ = expr.Binary{
+            Op: expr.BinaryShiftLeft,
+            Left: $1,
+            Right: $4,
+        }
+    }
+    | expr TKRAngle TKRAngle expr
+    {
+        $$ = expr.Binary{
+            Op: expr.BinaryShiftRight,
+            Left: $1,
+            Right: $4,
+        }
+    }
+    ;
+
+expr_false
+    : TKFalse
+    {
+        $$ = expr.False{}
+    }
+    ;
+
+expr_float
+    : TKFloat
+    {
+        value, err := strconv.ParseFloat($1, 64)
+        if err != nil {
+            yylex.(*lexer).Error(err.Error())
+        }
+
+        $$ = expr.Float{
+            Value: value,
+        }
+    }
+    ;
+
+expr_group
+    : TKLParen expr TKRParen
+    {
+        $$ = expr.Group{
+            Inner: $2,
+        }
+    }
+    ;
+
+expr_ident
+    : TKIdent
+    {
+        $$ = expr.Ident{
+            Name: $1,
+        }
+    }
+    ;
+
+expr_int
+    : TKInt
+    {
+        value, err := strconv.ParseInt($1, 0, 64)
+        if err != nil {
+            yylex.(*lexer).Error(err.Error())
+        }
+
+        $$ = expr.Int{
+            Value: value,
+        }
+    }
+    ;
+
+expr_list
+    : TKLBracket TKRBracket
+    {
+        $$ = expr.List{
+            //
+        }
+    }
+    | TKLBracket exprs_comma_delimited TKRBracket
+    {
+        $$ = expr.List{
+            Items: $2,
+        }
+    }
+    | TKLBracket exprs_comma_delimited TKComma TKRBracket
+    {
+        $$ = expr.List{
+            Items: $2,
+        }
+    }
+    ;
+
+expr_nil
+    : TKNil
+    {
+        $$ = expr.Nil{}
+    }
+    ;
+
+expr_string
+    : TKString
+    {
+        value, err := strconv.Unquote($1)
+        if err != nil {
+            yylex.(*lexer).Error(err.Error())
+        }
+
+        $$ = expr.String{
+            Value: value,
+        }
+    }
+    ;
+
+expr_ternary
+    : expr TKQuestion expr TKColon expr
+    {
+        $$ = expr.Ternary{
+            Condition: $1,
+            Consequence: $3,
+            Alternative: $5,
+        }
+    }
+    ;
+
+expr_true
+    : TKTrue
+    {
+        $$ = expr.True{}
+    }
+    ;
+
+expr_tuple
+    : TKLParen TKRParen
+    {
+        $$ = expr.Tuple{
+            //
+        }
+    }
+    | TKLParen exprs_comma_delimited TKRParen
+    {
+        $$ = expr.Tuple{
+            Items: $2,
+        }
+    }
+    | TKLParen exprs_comma_delimited TKComma TKRParen
+    {
+        $$ = expr.Tuple{
+            Items: $2,
+        }
+    }
+    ;
+
+expr_unary
+    : TKBang expr
+    {
+        $$ = expr.Unary{
+            Op: expr.UnaryNot,
+            Right: $2,
+        }
+    }
+    | TKPlus expr
+    {
+        $$ = expr.Unary{
+            Op: expr.UnaryPlus,
+            Right: $2,
+        }
+    }
+    | TKMinus expr
+    {
+        $$ = expr.Unary{
+            Op: expr.UnaryMinus,
+            Right: $2,
+        }
+    }
+    ;

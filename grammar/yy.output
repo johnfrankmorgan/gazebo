@@ -1,0 +1,3938 @@
+
+0: shift/reduce conflict (shift 33(0), red'n 4(0)) on TKLParen
+0: shift/reduce conflict (shift 13(0), red'n 4(0)) on TKLBrace
+0: shift/reduce conflict (shift 35(0), red'n 4(0)) on TKLBracket
+0: shift/reduce conflict (shift 17(0), red'n 4(0)) on TKIf
+0: shift/reduce conflict (shift 19(0), red'n 4(0)) on TKWhile
+0: shift/reduce conflict (shift 18(0), red'n 4(0)) on TKReturn
+0: shift/reduce conflict (shift 14(0), red'n 4(0)) on TKBreak
+0: shift/reduce conflict (shift 15(0), red'n 4(0)) on TKContinue
+0: shift/reduce conflict (shift 40(0), red'n 4(0)) on TKTrue
+0: shift/reduce conflict (shift 39(0), red'n 4(0)) on TKFalse
+0: shift/reduce conflict (shift 38(0), red'n 4(0)) on TKNil
+0: shift/reduce conflict (shift 41(0), red'n 4(0)) on TKBang
+0: shift/reduce conflict (shift 42(0), red'n 4(0)) on TKPlus
+0: shift/reduce conflict (shift 43(0), red'n 4(0)) on TKMinus
+0: shift/reduce conflict (shift 12(0), red'n 4(0)) on TKIdent
+0: shift/reduce conflict (shift 34(0), red'n 4(0)) on TKInt
+0: shift/reduce conflict (shift 36(0), red'n 4(0)) on TKFloat
+0: shift/reduce conflict (shift 37(0), red'n 4(0)) on TKString
+state 0
+	$accept: .program $end 
+	stmts: .    (4)
+
+	TKLParen  shift 33
+	TKLBrace  shift 13
+	TKLBracket  shift 35
+	TKIf  shift 17
+	TKWhile  shift 19
+	TKReturn  shift 18
+	TKBreak  shift 14
+	TKContinue  shift 15
+	TKTrue  shift 40
+	TKFalse  shift 39
+	TKNil  shift 38
+	TKBang  shift 41
+	TKPlus  shift 42
+	TKMinus  shift 43
+	TKIdent  shift 12
+	TKInt  shift 34
+	TKFloat  shift 36
+	TKString  shift 37
+	.  reduce 4 (src line 155)
+
+	stmt  goto 3
+	stmt_assign  goto 4
+	stmt_block  goto 5
+	stmt_break  goto 6
+	stmt_continue  goto 7
+	stmt_expr  goto 8
+	stmt_if  goto 9
+	stmt_return  goto 10
+	stmt_while  goto 11
+	stmts  goto 2
+	expr  goto 16
+	expr_binary  goto 31
+	expr_false  goto 28
+	expr_float  goto 25
+	expr_group  goto 20
+	expr_ident  goto 22
+	expr_int  goto 23
+	expr_list  goto 24
+	expr_nil  goto 27
+	expr_string  goto 26
+	expr_ternary  goto 21
+	expr_true  goto 29
+	expr_tuple  goto 32
+	expr_unary  goto 30
+	program  goto 1
+
+state 1
+	$accept:  program.$end 
+
+	$end  accept
+	.  error
+
+
+state 2
+	program:  stmts.    (1)
+	stmts:  stmts.stmt 
+
+	TKLParen  shift 33
+	TKLBrace  shift 13
+	TKLBracket  shift 35
+	TKIf  shift 17
+	TKWhile  shift 19
+	TKReturn  shift 18
+	TKBreak  shift 14
+	TKContinue  shift 15
+	TKTrue  shift 40
+	TKFalse  shift 39
+	TKNil  shift 38
+	TKBang  shift 41
+	TKPlus  shift 42
+	TKMinus  shift 43
+	TKIdent  shift 12
+	TKInt  shift 34
+	TKFloat  shift 36
+	TKString  shift 37
+	.  reduce 1 (src line 139)
+
+	stmt  goto 44
+	stmt_assign  goto 4
+	stmt_block  goto 5
+	stmt_break  goto 6
+	stmt_continue  goto 7
+	stmt_expr  goto 8
+	stmt_if  goto 9
+	stmt_return  goto 10
+	stmt_while  goto 11
+	expr  goto 16
+	expr_binary  goto 31
+	expr_false  goto 28
+	expr_float  goto 25
+	expr_group  goto 20
+	expr_ident  goto 22
+	expr_int  goto 23
+	expr_list  goto 24
+	expr_nil  goto 27
+	expr_string  goto 26
+	expr_ternary  goto 21
+	expr_true  goto 29
+	expr_tuple  goto 32
+	expr_unary  goto 30
+
+state 3
+	stmts:  stmt.    (3)
+
+	.  reduce 3 (src line 151)
+
+
+state 4
+	stmt:  stmt_assign.    (5)
+
+	.  reduce 5 (src line 161)
+
+
+state 5
+	stmt:  stmt_block.    (6)
+
+	.  reduce 6 (src line 163)
+
+
+state 6
+	stmt:  stmt_break.    (7)
+
+	.  reduce 7 (src line 164)
+
+
+state 7
+	stmt:  stmt_continue.    (8)
+
+	.  reduce 8 (src line 165)
+
+
+state 8
+	stmt:  stmt_expr.    (9)
+
+	.  reduce 9 (src line 166)
+
+
+state 9
+	stmt:  stmt_if.    (10)
+
+	.  reduce 10 (src line 167)
+
+
+state 10
+	stmt:  stmt_return.    (11)
+
+	.  reduce 11 (src line 168)
+
+
+state 11
+	stmt:  stmt_while.    (12)
+
+	.  reduce 12 (src line 169)
+
+
+12: shift/reduce conflict (shift 45(0), red'n 61(0)) on TKEqual
+state 12
+	stmt_assign:  TKIdent.TKEqual expr 
+	expr_ident:  TKIdent.    (61)
+
+	TKEqual  shift 45
+	.  reduce 61 (src line 481)
+
+
+13: shift/reduce conflict (shift 33(0), red'n 4(0)) on TKLParen
+13: shift/reduce conflict (shift 13(0), red'n 4(0)) on TKLBrace
+13: shift/reduce conflict (shift 35(0), red'n 4(0)) on TKLBracket
+13: shift/reduce conflict (shift 17(0), red'n 4(0)) on TKIf
+13: shift/reduce conflict (shift 19(0), red'n 4(0)) on TKWhile
+13: shift/reduce conflict (shift 18(0), red'n 4(0)) on TKReturn
+13: shift/reduce conflict (shift 14(0), red'n 4(0)) on TKBreak
+13: shift/reduce conflict (shift 15(0), red'n 4(0)) on TKContinue
+13: shift/reduce conflict (shift 40(0), red'n 4(0)) on TKTrue
+13: shift/reduce conflict (shift 39(0), red'n 4(0)) on TKFalse
+13: shift/reduce conflict (shift 38(0), red'n 4(0)) on TKNil
+13: shift/reduce conflict (shift 41(0), red'n 4(0)) on TKBang
+13: shift/reduce conflict (shift 42(0), red'n 4(0)) on TKPlus
+13: shift/reduce conflict (shift 43(0), red'n 4(0)) on TKMinus
+13: shift/reduce conflict (shift 12(0), red'n 4(0)) on TKIdent
+13: shift/reduce conflict (shift 34(0), red'n 4(0)) on TKInt
+13: shift/reduce conflict (shift 36(0), red'n 4(0)) on TKFloat
+13: shift/reduce conflict (shift 37(0), red'n 4(0)) on TKString
+state 13
+	stmt_block:  TKLBrace.stmts TKRBrace 
+	stmts: .    (4)
+
+	TKLParen  shift 33
+	TKLBrace  shift 13
+	TKLBracket  shift 35
+	TKIf  shift 17
+	TKWhile  shift 19
+	TKReturn  shift 18
+	TKBreak  shift 14
+	TKContinue  shift 15
+	TKTrue  shift 40
+	TKFalse  shift 39
+	TKNil  shift 38
+	TKBang  shift 41
+	TKPlus  shift 42
+	TKMinus  shift 43
+	TKIdent  shift 12
+	TKInt  shift 34
+	TKFloat  shift 36
+	TKString  shift 37
+	.  reduce 4 (src line 155)
+
+	stmt  goto 3
+	stmt_assign  goto 4
+	stmt_block  goto 5
+	stmt_break  goto 6
+	stmt_continue  goto 7
+	stmt_expr  goto 8
+	stmt_if  goto 9
+	stmt_return  goto 10
+	stmt_while  goto 11
+	stmts  goto 46
+	expr  goto 16
+	expr_binary  goto 31
+	expr_false  goto 28
+	expr_float  goto 25
+	expr_group  goto 20
+	expr_ident  goto 22
+	expr_int  goto 23
+	expr_list  goto 24
+	expr_nil  goto 27
+	expr_string  goto 26
+	expr_ternary  goto 21
+	expr_true  goto 29
+	expr_tuple  goto 32
+	expr_unary  goto 30
+
+state 14
+	stmt_break:  TKBreak.    (15)
+
+	.  reduce 15 (src line 191)
+
+
+state 15
+	stmt_continue:  TKContinue.    (16)
+
+	.  reduce 16 (src line 200)
+
+
+16: shift/reduce conflict (shift 51(0), red'n 17(0)) on TKBang
+16: shift/reduce conflict (shift 55(0), red'n 17(0)) on TKPlus
+16: shift/reduce conflict (shift 56(0), red'n 17(0)) on TKMinus
+state 16
+	stmt_expr:  expr.    (17)
+	expr_binary:  expr.TKAnd expr 
+	expr_binary:  expr.TKOr expr 
+	expr_binary:  expr.TKIs expr 
+	expr_binary:  expr.TKEqual TKEqual expr 
+	expr_binary:  expr.TKBang TKEqual expr 
+	expr_binary:  expr.TKLAngle expr 
+	expr_binary:  expr.TKLAngle TKEqual expr 
+	expr_binary:  expr.TKRAngle expr 
+	expr_binary:  expr.TKRAngle TKEqual expr 
+	expr_binary:  expr.TKIn expr 
+	expr_binary:  expr.TKPlus expr 
+	expr_binary:  expr.TKMinus expr 
+	expr_binary:  expr.TKStar expr 
+	expr_binary:  expr.TKSlash expr 
+	expr_binary:  expr.TKPercent expr 
+	expr_binary:  expr.TKAmpersand expr 
+	expr_binary:  expr.TKPipe expr 
+	expr_binary:  expr.TKCaret expr 
+	expr_binary:  expr.TKLAngle TKLAngle expr 
+	expr_binary:  expr.TKRAngle TKRAngle expr 
+	expr_ternary:  expr.TKQuestion expr TKColon expr 
+
+	TKAnd  shift 47
+	TKOr  shift 48
+	TKIs  shift 49
+	TKIn  shift 54
+	TKBang  shift 51
+	TKQuestion  shift 63
+	TKEqual  shift 50
+	TKLAngle  shift 52
+	TKRAngle  shift 53
+	TKPlus  shift 55
+	TKMinus  shift 56
+	TKStar  shift 57
+	TKSlash  shift 58
+	TKPercent  shift 59
+	TKAmpersand  shift 60
+	TKPipe  shift 61
+	TKCaret  shift 62
+	.  reduce 17 (src line 209)
+
+
+state 17
+	stmt_if:  TKIf.expr stmt TKElse stmt 
+	stmt_if:  TKIf.expr stmt 
+
+	TKLParen  shift 33
+	TKLBracket  shift 35
+	TKTrue  shift 40
+	TKFalse  shift 39
+	TKNil  shift 38
+	TKBang  shift 41
+	TKPlus  shift 42
+	TKMinus  shift 43
+	TKIdent  shift 65
+	TKInt  shift 34
+	TKFloat  shift 36
+	TKString  shift 37
+	.  error
+
+	expr  goto 64
+	expr_binary  goto 31
+	expr_false  goto 28
+	expr_float  goto 25
+	expr_group  goto 20
+	expr_ident  goto 22
+	expr_int  goto 23
+	expr_list  goto 24
+	expr_nil  goto 27
+	expr_string  goto 26
+	expr_ternary  goto 21
+	expr_true  goto 29
+	expr_tuple  goto 32
+	expr_unary  goto 30
+
+18: shift/reduce conflict (shift 33(0), red'n 20(0)) on TKLParen
+18: shift/reduce conflict (shift 35(0), red'n 20(0)) on TKLBracket
+18: shift/reduce conflict (shift 40(0), red'n 20(0)) on TKTrue
+18: shift/reduce conflict (shift 39(0), red'n 20(0)) on TKFalse
+18: shift/reduce conflict (shift 38(0), red'n 20(0)) on TKNil
+18: shift/reduce conflict (shift 41(0), red'n 20(0)) on TKBang
+18: shift/reduce conflict (shift 42(0), red'n 20(0)) on TKPlus
+18: shift/reduce conflict (shift 43(0), red'n 20(0)) on TKMinus
+18: shift/reduce conflict (shift 65(0), red'n 20(0)) on TKIdent
+18: shift/reduce conflict (shift 34(0), red'n 20(0)) on TKInt
+18: shift/reduce conflict (shift 36(0), red'n 20(0)) on TKFloat
+18: shift/reduce conflict (shift 37(0), red'n 20(0)) on TKString
+state 18
+	stmt_return:  TKReturn.    (20)
+	stmt_return:  TKReturn.expr 
+
+	TKLParen  shift 33
+	TKLBracket  shift 35
+	TKTrue  shift 40
+	TKFalse  shift 39
+	TKNil  shift 38
+	TKBang  shift 41
+	TKPlus  shift 42
+	TKMinus  shift 43
+	TKIdent  shift 65
+	TKInt  shift 34
+	TKFloat  shift 36
+	TKString  shift 37
+	.  reduce 20 (src line 236)
+
+	expr  goto 66
+	expr_binary  goto 31
+	expr_false  goto 28
+	expr_float  goto 25
+	expr_group  goto 20
+	expr_ident  goto 22
+	expr_int  goto 23
+	expr_list  goto 24
+	expr_nil  goto 27
+	expr_string  goto 26
+	expr_ternary  goto 21
+	expr_true  goto 29
+	expr_tuple  goto 32
+	expr_unary  goto 30
+
+state 19
+	stmt_while:  TKWhile.expr stmt 
+
+	TKLParen  shift 33
+	TKLBracket  shift 35
+	TKTrue  shift 40
+	TKFalse  shift 39
+	TKNil  shift 38
+	TKBang  shift 41
+	TKPlus  shift 42
+	TKMinus  shift 43
+	TKIdent  shift 65
+	TKInt  shift 34
+	TKFloat  shift 36
+	TKString  shift 37
+	.  error
+
+	expr  goto 67
+	expr_binary  goto 31
+	expr_false  goto 28
+	expr_float  goto 25
+	expr_group  goto 20
+	expr_ident  goto 22
+	expr_int  goto 23
+	expr_list  goto 24
+	expr_nil  goto 27
+	expr_string  goto 26
+	expr_ternary  goto 21
+	expr_true  goto 29
+	expr_tuple  goto 32
+	expr_unary  goto 30
+
+state 20
+	expr:  expr_group.    (23)
+
+	.  reduce 23 (src line 261)
+
+
+state 21
+	expr:  expr_ternary.    (24)
+
+	.  reduce 24 (src line 263)
+
+
+state 22
+	expr:  expr_ident.    (25)
+
+	.  reduce 25 (src line 264)
+
+
+state 23
+	expr:  expr_int.    (26)
+
+	.  reduce 26 (src line 265)
+
+
+state 24
+	expr:  expr_list.    (27)
+
+	.  reduce 27 (src line 266)
+
+
+state 25
+	expr:  expr_float.    (28)
+
+	.  reduce 28 (src line 267)
+
+
+state 26
+	expr:  expr_string.    (29)
+
+	.  reduce 29 (src line 268)
+
+
+state 27
+	expr:  expr_nil.    (30)
+
+	.  reduce 30 (src line 269)
+
+
+state 28
+	expr:  expr_false.    (31)
+
+	.  reduce 31 (src line 270)
+
+
+state 29
+	expr:  expr_true.    (32)
+
+	.  reduce 32 (src line 271)
+
+
+state 30
+	expr:  expr_unary.    (33)
+
+	.  reduce 33 (src line 272)
+
+
+state 31
+	expr:  expr_binary.    (34)
+
+	.  reduce 34 (src line 273)
+
+
+state 32
+	expr:  expr_tuple.    (35)
+
+	.  reduce 35 (src line 274)
+
+
+state 33
+	expr_group:  TKLParen.expr TKRParen 
+	expr_tuple:  TKLParen.TKRParen 
+	expr_tuple:  TKLParen.exprs_comma_delimited TKRParen 
+	expr_tuple:  TKLParen.exprs_comma_delimited TKComma TKRParen 
+
+	TKLParen  shift 33
+	TKRParen  shift 69
+	TKLBracket  shift 35
+	TKTrue  shift 40
+	TKFalse  shift 39
+	TKNil  shift 38
+	TKBang  shift 41
+	TKPlus  shift 42
+	TKMinus  shift 43
+	TKIdent  shift 65
+	TKInt  shift 34
+	TKFloat  shift 36
+	TKString  shift 37
+	.  error
+
+	expr  goto 68
+	expr_binary  goto 31
+	expr_false  goto 28
+	expr_float  goto 25
+	expr_group  goto 20
+	expr_ident  goto 22
+	expr_int  goto 23
+	expr_list  goto 24
+	expr_nil  goto 27
+	expr_string  goto 26
+	expr_ternary  goto 21
+	expr_true  goto 29
+	expr_tuple  goto 32
+	expr_unary  goto 30
+	exprs_comma_delimited  goto 70
+
+state 34
+	expr_int:  TKInt.    (62)
+
+	.  reduce 62 (src line 490)
+
+
+state 35
+	expr_list:  TKLBracket.TKRBracket 
+	expr_list:  TKLBracket.exprs_comma_delimited TKRBracket 
+	expr_list:  TKLBracket.exprs_comma_delimited TKComma TKRBracket 
+
+	TKLParen  shift 33
+	TKLBracket  shift 35
+	TKRBracket  shift 71
+	TKTrue  shift 40
+	TKFalse  shift 39
+	TKNil  shift 38
+	TKBang  shift 41
+	TKPlus  shift 42
+	TKMinus  shift 43
+	TKIdent  shift 65
+	TKInt  shift 34
+	TKFloat  shift 36
+	TKString  shift 37
+	.  error
+
+	expr  goto 73
+	expr_binary  goto 31
+	expr_false  goto 28
+	expr_float  goto 25
+	expr_group  goto 20
+	expr_ident  goto 22
+	expr_int  goto 23
+	expr_list  goto 24
+	expr_nil  goto 27
+	expr_string  goto 26
+	expr_ternary  goto 21
+	expr_true  goto 29
+	expr_tuple  goto 32
+	expr_unary  goto 30
+	exprs_comma_delimited  goto 72
+
+state 36
+	expr_float:  TKFloat.    (59)
+
+	.  reduce 59 (src line 458)
+
+
+state 37
+	expr_string:  TKString.    (67)
+
+	.  reduce 67 (src line 532)
+
+
+state 38
+	expr_nil:  TKNil.    (66)
+
+	.  reduce 66 (src line 525)
+
+
+state 39
+	expr_false:  TKFalse.    (58)
+
+	.  reduce 58 (src line 451)
+
+
+state 40
+	expr_true:  TKTrue.    (69)
+
+	.  reduce 69 (src line 557)
+
+
+state 41
+	expr_unary:  TKBang.expr 
+
+	TKLParen  shift 33
+	TKLBracket  shift 35
+	TKTrue  shift 40
+	TKFalse  shift 39
+	TKNil  shift 38
+	TKBang  shift 41
+	TKPlus  shift 42
+	TKMinus  shift 43
+	TKIdent  shift 65
+	TKInt  shift 34
+	TKFloat  shift 36
+	TKString  shift 37
+	.  error
+
+	expr  goto 74
+	expr_binary  goto 31
+	expr_false  goto 28
+	expr_float  goto 25
+	expr_group  goto 20
+	expr_ident  goto 22
+	expr_int  goto 23
+	expr_list  goto 24
+	expr_nil  goto 27
+	expr_string  goto 26
+	expr_ternary  goto 21
+	expr_true  goto 29
+	expr_tuple  goto 32
+	expr_unary  goto 30
+
+state 42
+	expr_unary:  TKPlus.expr 
+
+	TKLParen  shift 33
+	TKLBracket  shift 35
+	TKTrue  shift 40
+	TKFalse  shift 39
+	TKNil  shift 38
+	TKBang  shift 41
+	TKPlus  shift 42
+	TKMinus  shift 43
+	TKIdent  shift 65
+	TKInt  shift 34
+	TKFloat  shift 36
+	TKString  shift 37
+	.  error
+
+	expr  goto 75
+	expr_binary  goto 31
+	expr_false  goto 28
+	expr_float  goto 25
+	expr_group  goto 20
+	expr_ident  goto 22
+	expr_int  goto 23
+	expr_list  goto 24
+	expr_nil  goto 27
+	expr_string  goto 26
+	expr_ternary  goto 21
+	expr_true  goto 29
+	expr_tuple  goto 32
+	expr_unary  goto 30
+
+state 43
+	expr_unary:  TKMinus.expr 
+
+	TKLParen  shift 33
+	TKLBracket  shift 35
+	TKTrue  shift 40
+	TKFalse  shift 39
+	TKNil  shift 38
+	TKBang  shift 41
+	TKPlus  shift 42
+	TKMinus  shift 43
+	TKIdent  shift 65
+	TKInt  shift 34
+	TKFloat  shift 36
+	TKString  shift 37
+	.  error
+
+	expr  goto 76
+	expr_binary  goto 31
+	expr_false  goto 28
+	expr_float  goto 25
+	expr_group  goto 20
+	expr_ident  goto 22
+	expr_int  goto 23
+	expr_list  goto 24
+	expr_nil  goto 27
+	expr_string  goto 26
+	expr_ternary  goto 21
+	expr_true  goto 29
+	expr_tuple  goto 32
+	expr_unary  goto 30
+
+state 44
+	stmts:  stmts stmt.    (2)
+
+	.  reduce 2 (src line 146)
+
+
+state 45
+	stmt_assign:  TKIdent TKEqual.expr 
+
+	TKLParen  shift 33
+	TKLBracket  shift 35
+	TKTrue  shift 40
+	TKFalse  shift 39
+	TKNil  shift 38
+	TKBang  shift 41
+	TKPlus  shift 42
+	TKMinus  shift 43
+	TKIdent  shift 65
+	TKInt  shift 34
+	TKFloat  shift 36
+	TKString  shift 37
+	.  error
+
+	expr  goto 77
+	expr_binary  goto 31
+	expr_false  goto 28
+	expr_float  goto 25
+	expr_group  goto 20
+	expr_ident  goto 22
+	expr_int  goto 23
+	expr_list  goto 24
+	expr_nil  goto 27
+	expr_string  goto 26
+	expr_ternary  goto 21
+	expr_true  goto 29
+	expr_tuple  goto 32
+	expr_unary  goto 30
+
+state 46
+	stmts:  stmts.stmt 
+	stmt_block:  TKLBrace stmts.TKRBrace 
+
+	TKLParen  shift 33
+	TKLBrace  shift 13
+	TKRBrace  shift 78
+	TKLBracket  shift 35
+	TKIf  shift 17
+	TKWhile  shift 19
+	TKReturn  shift 18
+	TKBreak  shift 14
+	TKContinue  shift 15
+	TKTrue  shift 40
+	TKFalse  shift 39
+	TKNil  shift 38
+	TKBang  shift 41
+	TKPlus  shift 42
+	TKMinus  shift 43
+	TKIdent  shift 12
+	TKInt  shift 34
+	TKFloat  shift 36
+	TKString  shift 37
+	.  error
+
+	stmt  goto 44
+	stmt_assign  goto 4
+	stmt_block  goto 5
+	stmt_break  goto 6
+	stmt_continue  goto 7
+	stmt_expr  goto 8
+	stmt_if  goto 9
+	stmt_return  goto 10
+	stmt_while  goto 11
+	expr  goto 16
+	expr_binary  goto 31
+	expr_false  goto 28
+	expr_float  goto 25
+	expr_group  goto 20
+	expr_ident  goto 22
+	expr_int  goto 23
+	expr_list  goto 24
+	expr_nil  goto 27
+	expr_string  goto 26
+	expr_ternary  goto 21
+	expr_true  goto 29
+	expr_tuple  goto 32
+	expr_unary  goto 30
+
+state 47
+	expr_binary:  expr TKAnd.expr 
+
+	TKLParen  shift 33
+	TKLBracket  shift 35
+	TKTrue  shift 40
+	TKFalse  shift 39
+	TKNil  shift 38
+	TKBang  shift 41
+	TKPlus  shift 42
+	TKMinus  shift 43
+	TKIdent  shift 65
+	TKInt  shift 34
+	TKFloat  shift 36
+	TKString  shift 37
+	.  error
+
+	expr  goto 79
+	expr_binary  goto 31
+	expr_false  goto 28
+	expr_float  goto 25
+	expr_group  goto 20
+	expr_ident  goto 22
+	expr_int  goto 23
+	expr_list  goto 24
+	expr_nil  goto 27
+	expr_string  goto 26
+	expr_ternary  goto 21
+	expr_true  goto 29
+	expr_tuple  goto 32
+	expr_unary  goto 30
+
+state 48
+	expr_binary:  expr TKOr.expr 
+
+	TKLParen  shift 33
+	TKLBracket  shift 35
+	TKTrue  shift 40
+	TKFalse  shift 39
+	TKNil  shift 38
+	TKBang  shift 41
+	TKPlus  shift 42
+	TKMinus  shift 43
+	TKIdent  shift 65
+	TKInt  shift 34
+	TKFloat  shift 36
+	TKString  shift 37
+	.  error
+
+	expr  goto 80
+	expr_binary  goto 31
+	expr_false  goto 28
+	expr_float  goto 25
+	expr_group  goto 20
+	expr_ident  goto 22
+	expr_int  goto 23
+	expr_list  goto 24
+	expr_nil  goto 27
+	expr_string  goto 26
+	expr_ternary  goto 21
+	expr_true  goto 29
+	expr_tuple  goto 32
+	expr_unary  goto 30
+
+state 49
+	expr_binary:  expr TKIs.expr 
+
+	TKLParen  shift 33
+	TKLBracket  shift 35
+	TKTrue  shift 40
+	TKFalse  shift 39
+	TKNil  shift 38
+	TKBang  shift 41
+	TKPlus  shift 42
+	TKMinus  shift 43
+	TKIdent  shift 65
+	TKInt  shift 34
+	TKFloat  shift 36
+	TKString  shift 37
+	.  error
+
+	expr  goto 81
+	expr_binary  goto 31
+	expr_false  goto 28
+	expr_float  goto 25
+	expr_group  goto 20
+	expr_ident  goto 22
+	expr_int  goto 23
+	expr_list  goto 24
+	expr_nil  goto 27
+	expr_string  goto 26
+	expr_ternary  goto 21
+	expr_true  goto 29
+	expr_tuple  goto 32
+	expr_unary  goto 30
+
+state 50
+	expr_binary:  expr TKEqual.TKEqual expr 
+
+	TKEqual  shift 82
+	.  error
+
+
+state 51
+	expr_binary:  expr TKBang.TKEqual expr 
+
+	TKEqual  shift 83
+	.  error
+
+
+state 52
+	expr_binary:  expr TKLAngle.expr 
+	expr_binary:  expr TKLAngle.TKEqual expr 
+	expr_binary:  expr TKLAngle.TKLAngle expr 
+
+	TKLParen  shift 33
+	TKLBracket  shift 35
+	TKTrue  shift 40
+	TKFalse  shift 39
+	TKNil  shift 38
+	TKBang  shift 41
+	TKEqual  shift 85
+	TKLAngle  shift 86
+	TKPlus  shift 42
+	TKMinus  shift 43
+	TKIdent  shift 65
+	TKInt  shift 34
+	TKFloat  shift 36
+	TKString  shift 37
+	.  error
+
+	expr  goto 84
+	expr_binary  goto 31
+	expr_false  goto 28
+	expr_float  goto 25
+	expr_group  goto 20
+	expr_ident  goto 22
+	expr_int  goto 23
+	expr_list  goto 24
+	expr_nil  goto 27
+	expr_string  goto 26
+	expr_ternary  goto 21
+	expr_true  goto 29
+	expr_tuple  goto 32
+	expr_unary  goto 30
+
+state 53
+	expr_binary:  expr TKRAngle.expr 
+	expr_binary:  expr TKRAngle.TKEqual expr 
+	expr_binary:  expr TKRAngle.TKRAngle expr 
+
+	TKLParen  shift 33
+	TKLBracket  shift 35
+	TKTrue  shift 40
+	TKFalse  shift 39
+	TKNil  shift 38
+	TKBang  shift 41
+	TKEqual  shift 88
+	TKRAngle  shift 89
+	TKPlus  shift 42
+	TKMinus  shift 43
+	TKIdent  shift 65
+	TKInt  shift 34
+	TKFloat  shift 36
+	TKString  shift 37
+	.  error
+
+	expr  goto 87
+	expr_binary  goto 31
+	expr_false  goto 28
+	expr_float  goto 25
+	expr_group  goto 20
+	expr_ident  goto 22
+	expr_int  goto 23
+	expr_list  goto 24
+	expr_nil  goto 27
+	expr_string  goto 26
+	expr_ternary  goto 21
+	expr_true  goto 29
+	expr_tuple  goto 32
+	expr_unary  goto 30
+
+state 54
+	expr_binary:  expr TKIn.expr 
+
+	TKLParen  shift 33
+	TKLBracket  shift 35
+	TKTrue  shift 40
+	TKFalse  shift 39
+	TKNil  shift 38
+	TKBang  shift 41
+	TKPlus  shift 42
+	TKMinus  shift 43
+	TKIdent  shift 65
+	TKInt  shift 34
+	TKFloat  shift 36
+	TKString  shift 37
+	.  error
+
+	expr  goto 90
+	expr_binary  goto 31
+	expr_false  goto 28
+	expr_float  goto 25
+	expr_group  goto 20
+	expr_ident  goto 22
+	expr_int  goto 23
+	expr_list  goto 24
+	expr_nil  goto 27
+	expr_string  goto 26
+	expr_ternary  goto 21
+	expr_true  goto 29
+	expr_tuple  goto 32
+	expr_unary  goto 30
+
+state 55
+	expr_binary:  expr TKPlus.expr 
+
+	TKLParen  shift 33
+	TKLBracket  shift 35
+	TKTrue  shift 40
+	TKFalse  shift 39
+	TKNil  shift 38
+	TKBang  shift 41
+	TKPlus  shift 42
+	TKMinus  shift 43
+	TKIdent  shift 65
+	TKInt  shift 34
+	TKFloat  shift 36
+	TKString  shift 37
+	.  error
+
+	expr  goto 91
+	expr_binary  goto 31
+	expr_false  goto 28
+	expr_float  goto 25
+	expr_group  goto 20
+	expr_ident  goto 22
+	expr_int  goto 23
+	expr_list  goto 24
+	expr_nil  goto 27
+	expr_string  goto 26
+	expr_ternary  goto 21
+	expr_true  goto 29
+	expr_tuple  goto 32
+	expr_unary  goto 30
+
+state 56
+	expr_binary:  expr TKMinus.expr 
+
+	TKLParen  shift 33
+	TKLBracket  shift 35
+	TKTrue  shift 40
+	TKFalse  shift 39
+	TKNil  shift 38
+	TKBang  shift 41
+	TKPlus  shift 42
+	TKMinus  shift 43
+	TKIdent  shift 65
+	TKInt  shift 34
+	TKFloat  shift 36
+	TKString  shift 37
+	.  error
+
+	expr  goto 92
+	expr_binary  goto 31
+	expr_false  goto 28
+	expr_float  goto 25
+	expr_group  goto 20
+	expr_ident  goto 22
+	expr_int  goto 23
+	expr_list  goto 24
+	expr_nil  goto 27
+	expr_string  goto 26
+	expr_ternary  goto 21
+	expr_true  goto 29
+	expr_tuple  goto 32
+	expr_unary  goto 30
+
+state 57
+	expr_binary:  expr TKStar.expr 
+
+	TKLParen  shift 33
+	TKLBracket  shift 35
+	TKTrue  shift 40
+	TKFalse  shift 39
+	TKNil  shift 38
+	TKBang  shift 41
+	TKPlus  shift 42
+	TKMinus  shift 43
+	TKIdent  shift 65
+	TKInt  shift 34
+	TKFloat  shift 36
+	TKString  shift 37
+	.  error
+
+	expr  goto 93
+	expr_binary  goto 31
+	expr_false  goto 28
+	expr_float  goto 25
+	expr_group  goto 20
+	expr_ident  goto 22
+	expr_int  goto 23
+	expr_list  goto 24
+	expr_nil  goto 27
+	expr_string  goto 26
+	expr_ternary  goto 21
+	expr_true  goto 29
+	expr_tuple  goto 32
+	expr_unary  goto 30
+
+state 58
+	expr_binary:  expr TKSlash.expr 
+
+	TKLParen  shift 33
+	TKLBracket  shift 35
+	TKTrue  shift 40
+	TKFalse  shift 39
+	TKNil  shift 38
+	TKBang  shift 41
+	TKPlus  shift 42
+	TKMinus  shift 43
+	TKIdent  shift 65
+	TKInt  shift 34
+	TKFloat  shift 36
+	TKString  shift 37
+	.  error
+
+	expr  goto 94
+	expr_binary  goto 31
+	expr_false  goto 28
+	expr_float  goto 25
+	expr_group  goto 20
+	expr_ident  goto 22
+	expr_int  goto 23
+	expr_list  goto 24
+	expr_nil  goto 27
+	expr_string  goto 26
+	expr_ternary  goto 21
+	expr_true  goto 29
+	expr_tuple  goto 32
+	expr_unary  goto 30
+
+state 59
+	expr_binary:  expr TKPercent.expr 
+
+	TKLParen  shift 33
+	TKLBracket  shift 35
+	TKTrue  shift 40
+	TKFalse  shift 39
+	TKNil  shift 38
+	TKBang  shift 41
+	TKPlus  shift 42
+	TKMinus  shift 43
+	TKIdent  shift 65
+	TKInt  shift 34
+	TKFloat  shift 36
+	TKString  shift 37
+	.  error
+
+	expr  goto 95
+	expr_binary  goto 31
+	expr_false  goto 28
+	expr_float  goto 25
+	expr_group  goto 20
+	expr_ident  goto 22
+	expr_int  goto 23
+	expr_list  goto 24
+	expr_nil  goto 27
+	expr_string  goto 26
+	expr_ternary  goto 21
+	expr_true  goto 29
+	expr_tuple  goto 32
+	expr_unary  goto 30
+
+state 60
+	expr_binary:  expr TKAmpersand.expr 
+
+	TKLParen  shift 33
+	TKLBracket  shift 35
+	TKTrue  shift 40
+	TKFalse  shift 39
+	TKNil  shift 38
+	TKBang  shift 41
+	TKPlus  shift 42
+	TKMinus  shift 43
+	TKIdent  shift 65
+	TKInt  shift 34
+	TKFloat  shift 36
+	TKString  shift 37
+	.  error
+
+	expr  goto 96
+	expr_binary  goto 31
+	expr_false  goto 28
+	expr_float  goto 25
+	expr_group  goto 20
+	expr_ident  goto 22
+	expr_int  goto 23
+	expr_list  goto 24
+	expr_nil  goto 27
+	expr_string  goto 26
+	expr_ternary  goto 21
+	expr_true  goto 29
+	expr_tuple  goto 32
+	expr_unary  goto 30
+
+state 61
+	expr_binary:  expr TKPipe.expr 
+
+	TKLParen  shift 33
+	TKLBracket  shift 35
+	TKTrue  shift 40
+	TKFalse  shift 39
+	TKNil  shift 38
+	TKBang  shift 41
+	TKPlus  shift 42
+	TKMinus  shift 43
+	TKIdent  shift 65
+	TKInt  shift 34
+	TKFloat  shift 36
+	TKString  shift 37
+	.  error
+
+	expr  goto 97
+	expr_binary  goto 31
+	expr_false  goto 28
+	expr_float  goto 25
+	expr_group  goto 20
+	expr_ident  goto 22
+	expr_int  goto 23
+	expr_list  goto 24
+	expr_nil  goto 27
+	expr_string  goto 26
+	expr_ternary  goto 21
+	expr_true  goto 29
+	expr_tuple  goto 32
+	expr_unary  goto 30
+
+state 62
+	expr_binary:  expr TKCaret.expr 
+
+	TKLParen  shift 33
+	TKLBracket  shift 35
+	TKTrue  shift 40
+	TKFalse  shift 39
+	TKNil  shift 38
+	TKBang  shift 41
+	TKPlus  shift 42
+	TKMinus  shift 43
+	TKIdent  shift 65
+	TKInt  shift 34
+	TKFloat  shift 36
+	TKString  shift 37
+	.  error
+
+	expr  goto 98
+	expr_binary  goto 31
+	expr_false  goto 28
+	expr_float  goto 25
+	expr_group  goto 20
+	expr_ident  goto 22
+	expr_int  goto 23
+	expr_list  goto 24
+	expr_nil  goto 27
+	expr_string  goto 26
+	expr_ternary  goto 21
+	expr_true  goto 29
+	expr_tuple  goto 32
+	expr_unary  goto 30
+
+state 63
+	expr_ternary:  expr TKQuestion.expr TKColon expr 
+
+	TKLParen  shift 33
+	TKLBracket  shift 35
+	TKTrue  shift 40
+	TKFalse  shift 39
+	TKNil  shift 38
+	TKBang  shift 41
+	TKPlus  shift 42
+	TKMinus  shift 43
+	TKIdent  shift 65
+	TKInt  shift 34
+	TKFloat  shift 36
+	TKString  shift 37
+	.  error
+
+	expr  goto 99
+	expr_binary  goto 31
+	expr_false  goto 28
+	expr_float  goto 25
+	expr_group  goto 20
+	expr_ident  goto 22
+	expr_int  goto 23
+	expr_list  goto 24
+	expr_nil  goto 27
+	expr_string  goto 26
+	expr_ternary  goto 21
+	expr_true  goto 29
+	expr_tuple  goto 32
+	expr_unary  goto 30
+
+state 64
+	stmt_if:  TKIf expr.stmt TKElse stmt 
+	stmt_if:  TKIf expr.stmt 
+	expr_binary:  expr.TKAnd expr 
+	expr_binary:  expr.TKOr expr 
+	expr_binary:  expr.TKIs expr 
+	expr_binary:  expr.TKEqual TKEqual expr 
+	expr_binary:  expr.TKBang TKEqual expr 
+	expr_binary:  expr.TKLAngle expr 
+	expr_binary:  expr.TKLAngle TKEqual expr 
+	expr_binary:  expr.TKRAngle expr 
+	expr_binary:  expr.TKRAngle TKEqual expr 
+	expr_binary:  expr.TKIn expr 
+	expr_binary:  expr.TKPlus expr 
+	expr_binary:  expr.TKMinus expr 
+	expr_binary:  expr.TKStar expr 
+	expr_binary:  expr.TKSlash expr 
+	expr_binary:  expr.TKPercent expr 
+	expr_binary:  expr.TKAmpersand expr 
+	expr_binary:  expr.TKPipe expr 
+	expr_binary:  expr.TKCaret expr 
+	expr_binary:  expr.TKLAngle TKLAngle expr 
+	expr_binary:  expr.TKRAngle TKRAngle expr 
+	expr_ternary:  expr.TKQuestion expr TKColon expr 
+
+	TKLParen  shift 33
+	TKLBrace  shift 13
+	TKLBracket  shift 35
+	TKAnd  shift 47
+	TKOr  shift 48
+	TKIs  shift 49
+	TKIn  shift 54
+	TKIf  shift 17
+	TKWhile  shift 19
+	TKReturn  shift 18
+	TKBreak  shift 14
+	TKContinue  shift 15
+	TKTrue  shift 40
+	TKFalse  shift 39
+	TKNil  shift 38
+	TKBang  shift 101
+	TKQuestion  shift 63
+	TKEqual  shift 50
+	TKLAngle  shift 52
+	TKRAngle  shift 53
+	TKPlus  shift 102
+	TKMinus  shift 103
+	TKStar  shift 57
+	TKSlash  shift 58
+	TKPercent  shift 59
+	TKAmpersand  shift 60
+	TKPipe  shift 61
+	TKCaret  shift 62
+	TKIdent  shift 12
+	TKInt  shift 34
+	TKFloat  shift 36
+	TKString  shift 37
+	.  error
+
+	stmt  goto 100
+	stmt_assign  goto 4
+	stmt_block  goto 5
+	stmt_break  goto 6
+	stmt_continue  goto 7
+	stmt_expr  goto 8
+	stmt_if  goto 9
+	stmt_return  goto 10
+	stmt_while  goto 11
+	expr  goto 16
+	expr_binary  goto 31
+	expr_false  goto 28
+	expr_float  goto 25
+	expr_group  goto 20
+	expr_ident  goto 22
+	expr_int  goto 23
+	expr_list  goto 24
+	expr_nil  goto 27
+	expr_string  goto 26
+	expr_ternary  goto 21
+	expr_true  goto 29
+	expr_tuple  goto 32
+	expr_unary  goto 30
+
+state 65
+	expr_ident:  TKIdent.    (61)
+
+	.  reduce 61 (src line 481)
+
+
+66: shift/reduce conflict (shift 51(0), red'n 21(0)) on TKBang
+66: shift/reduce conflict (shift 55(0), red'n 21(0)) on TKPlus
+66: shift/reduce conflict (shift 56(0), red'n 21(0)) on TKMinus
+state 66
+	stmt_return:  TKReturn expr.    (21)
+	expr_binary:  expr.TKAnd expr 
+	expr_binary:  expr.TKOr expr 
+	expr_binary:  expr.TKIs expr 
+	expr_binary:  expr.TKEqual TKEqual expr 
+	expr_binary:  expr.TKBang TKEqual expr 
+	expr_binary:  expr.TKLAngle expr 
+	expr_binary:  expr.TKLAngle TKEqual expr 
+	expr_binary:  expr.TKRAngle expr 
+	expr_binary:  expr.TKRAngle TKEqual expr 
+	expr_binary:  expr.TKIn expr 
+	expr_binary:  expr.TKPlus expr 
+	expr_binary:  expr.TKMinus expr 
+	expr_binary:  expr.TKStar expr 
+	expr_binary:  expr.TKSlash expr 
+	expr_binary:  expr.TKPercent expr 
+	expr_binary:  expr.TKAmpersand expr 
+	expr_binary:  expr.TKPipe expr 
+	expr_binary:  expr.TKCaret expr 
+	expr_binary:  expr.TKLAngle TKLAngle expr 
+	expr_binary:  expr.TKRAngle TKRAngle expr 
+	expr_ternary:  expr.TKQuestion expr TKColon expr 
+
+	TKAnd  shift 47
+	TKOr  shift 48
+	TKIs  shift 49
+	TKIn  shift 54
+	TKBang  shift 51
+	TKQuestion  shift 63
+	TKEqual  shift 50
+	TKLAngle  shift 52
+	TKRAngle  shift 53
+	TKPlus  shift 55
+	TKMinus  shift 56
+	TKStar  shift 57
+	TKSlash  shift 58
+	TKPercent  shift 59
+	TKAmpersand  shift 60
+	TKPipe  shift 61
+	TKCaret  shift 62
+	.  reduce 21 (src line 243)
+
+
+state 67
+	stmt_while:  TKWhile expr.stmt 
+	expr_binary:  expr.TKAnd expr 
+	expr_binary:  expr.TKOr expr 
+	expr_binary:  expr.TKIs expr 
+	expr_binary:  expr.TKEqual TKEqual expr 
+	expr_binary:  expr.TKBang TKEqual expr 
+	expr_binary:  expr.TKLAngle expr 
+	expr_binary:  expr.TKLAngle TKEqual expr 
+	expr_binary:  expr.TKRAngle expr 
+	expr_binary:  expr.TKRAngle TKEqual expr 
+	expr_binary:  expr.TKIn expr 
+	expr_binary:  expr.TKPlus expr 
+	expr_binary:  expr.TKMinus expr 
+	expr_binary:  expr.TKStar expr 
+	expr_binary:  expr.TKSlash expr 
+	expr_binary:  expr.TKPercent expr 
+	expr_binary:  expr.TKAmpersand expr 
+	expr_binary:  expr.TKPipe expr 
+	expr_binary:  expr.TKCaret expr 
+	expr_binary:  expr.TKLAngle TKLAngle expr 
+	expr_binary:  expr.TKRAngle TKRAngle expr 
+	expr_ternary:  expr.TKQuestion expr TKColon expr 
+
+	TKLParen  shift 33
+	TKLBrace  shift 13
+	TKLBracket  shift 35
+	TKAnd  shift 47
+	TKOr  shift 48
+	TKIs  shift 49
+	TKIn  shift 54
+	TKIf  shift 17
+	TKWhile  shift 19
+	TKReturn  shift 18
+	TKBreak  shift 14
+	TKContinue  shift 15
+	TKTrue  shift 40
+	TKFalse  shift 39
+	TKNil  shift 38
+	TKBang  shift 101
+	TKQuestion  shift 63
+	TKEqual  shift 50
+	TKLAngle  shift 52
+	TKRAngle  shift 53
+	TKPlus  shift 102
+	TKMinus  shift 103
+	TKStar  shift 57
+	TKSlash  shift 58
+	TKPercent  shift 59
+	TKAmpersand  shift 60
+	TKPipe  shift 61
+	TKCaret  shift 62
+	TKIdent  shift 12
+	TKInt  shift 34
+	TKFloat  shift 36
+	TKString  shift 37
+	.  error
+
+	stmt  goto 104
+	stmt_assign  goto 4
+	stmt_block  goto 5
+	stmt_break  goto 6
+	stmt_continue  goto 7
+	stmt_expr  goto 8
+	stmt_if  goto 9
+	stmt_return  goto 10
+	stmt_while  goto 11
+	expr  goto 16
+	expr_binary  goto 31
+	expr_false  goto 28
+	expr_float  goto 25
+	expr_group  goto 20
+	expr_ident  goto 22
+	expr_int  goto 23
+	expr_list  goto 24
+	expr_nil  goto 27
+	expr_string  goto 26
+	expr_ternary  goto 21
+	expr_true  goto 29
+	expr_tuple  goto 32
+	expr_unary  goto 30
+
+68: shift/reduce conflict (shift 105(0), red'n 37(0)) on TKRParen
+state 68
+	exprs_comma_delimited:  expr.    (37)
+	expr_binary:  expr.TKAnd expr 
+	expr_binary:  expr.TKOr expr 
+	expr_binary:  expr.TKIs expr 
+	expr_binary:  expr.TKEqual TKEqual expr 
+	expr_binary:  expr.TKBang TKEqual expr 
+	expr_binary:  expr.TKLAngle expr 
+	expr_binary:  expr.TKLAngle TKEqual expr 
+	expr_binary:  expr.TKRAngle expr 
+	expr_binary:  expr.TKRAngle TKEqual expr 
+	expr_binary:  expr.TKIn expr 
+	expr_binary:  expr.TKPlus expr 
+	expr_binary:  expr.TKMinus expr 
+	expr_binary:  expr.TKStar expr 
+	expr_binary:  expr.TKSlash expr 
+	expr_binary:  expr.TKPercent expr 
+	expr_binary:  expr.TKAmpersand expr 
+	expr_binary:  expr.TKPipe expr 
+	expr_binary:  expr.TKCaret expr 
+	expr_binary:  expr.TKLAngle TKLAngle expr 
+	expr_binary:  expr.TKRAngle TKRAngle expr 
+	expr_group:  TKLParen expr.TKRParen 
+	expr_ternary:  expr.TKQuestion expr TKColon expr 
+
+	TKRParen  shift 105
+	TKAnd  shift 47
+	TKOr  shift 48
+	TKIs  shift 49
+	TKIn  shift 54
+	TKBang  shift 51
+	TKQuestion  shift 63
+	TKEqual  shift 50
+	TKLAngle  shift 52
+	TKRAngle  shift 53
+	TKPlus  shift 55
+	TKMinus  shift 56
+	TKStar  shift 57
+	TKSlash  shift 58
+	TKPercent  shift 59
+	TKAmpersand  shift 60
+	TKPipe  shift 61
+	TKCaret  shift 62
+	.  reduce 37 (src line 282)
+
+
+state 69
+	expr_tuple:  TKLParen TKRParen.    (70)
+
+	.  reduce 70 (src line 564)
+
+
+state 70
+	exprs_comma_delimited:  exprs_comma_delimited.TKComma expr 
+	expr_tuple:  TKLParen exprs_comma_delimited.TKRParen 
+	expr_tuple:  TKLParen exprs_comma_delimited.TKComma TKRParen 
+
+	TKComma  shift 106
+	TKRParen  shift 107
+	.  error
+
+
+state 71
+	expr_list:  TKLBracket TKRBracket.    (63)
+
+	.  reduce 63 (src line 504)
+
+
+state 72
+	exprs_comma_delimited:  exprs_comma_delimited.TKComma expr 
+	expr_list:  TKLBracket exprs_comma_delimited.TKRBracket 
+	expr_list:  TKLBracket exprs_comma_delimited.TKComma TKRBracket 
+
+	TKComma  shift 108
+	TKRBracket  shift 109
+	.  error
+
+
+state 73
+	exprs_comma_delimited:  expr.    (37)
+	expr_binary:  expr.TKAnd expr 
+	expr_binary:  expr.TKOr expr 
+	expr_binary:  expr.TKIs expr 
+	expr_binary:  expr.TKEqual TKEqual expr 
+	expr_binary:  expr.TKBang TKEqual expr 
+	expr_binary:  expr.TKLAngle expr 
+	expr_binary:  expr.TKLAngle TKEqual expr 
+	expr_binary:  expr.TKRAngle expr 
+	expr_binary:  expr.TKRAngle TKEqual expr 
+	expr_binary:  expr.TKIn expr 
+	expr_binary:  expr.TKPlus expr 
+	expr_binary:  expr.TKMinus expr 
+	expr_binary:  expr.TKStar expr 
+	expr_binary:  expr.TKSlash expr 
+	expr_binary:  expr.TKPercent expr 
+	expr_binary:  expr.TKAmpersand expr 
+	expr_binary:  expr.TKPipe expr 
+	expr_binary:  expr.TKCaret expr 
+	expr_binary:  expr.TKLAngle TKLAngle expr 
+	expr_binary:  expr.TKRAngle TKRAngle expr 
+	expr_ternary:  expr.TKQuestion expr TKColon expr 
+
+	TKAnd  shift 47
+	TKOr  shift 48
+	TKIs  shift 49
+	TKIn  shift 54
+	TKBang  shift 51
+	TKQuestion  shift 63
+	TKEqual  shift 50
+	TKLAngle  shift 52
+	TKRAngle  shift 53
+	TKPlus  shift 55
+	TKMinus  shift 56
+	TKStar  shift 57
+	TKSlash  shift 58
+	TKPercent  shift 59
+	TKAmpersand  shift 60
+	TKPipe  shift 61
+	TKCaret  shift 62
+	.  reduce 37 (src line 282)
+
+
+74: shift/reduce conflict (shift 47(0), red'n 73(0)) on TKAnd
+74: shift/reduce conflict (shift 48(0), red'n 73(0)) on TKOr
+74: shift/reduce conflict (shift 49(0), red'n 73(0)) on TKIs
+74: shift/reduce conflict (shift 54(0), red'n 73(0)) on TKIn
+74: shift/reduce conflict (shift 51(0), red'n 73(0)) on TKBang
+74: shift/reduce conflict (shift 63(0), red'n 73(0)) on TKQuestion
+74: shift/reduce conflict (shift 50(0), red'n 73(0)) on TKEqual
+74: shift/reduce conflict (shift 52(0), red'n 73(0)) on TKLAngle
+74: shift/reduce conflict (shift 53(0), red'n 73(0)) on TKRAngle
+74: shift/reduce conflict (shift 55(0), red'n 73(0)) on TKPlus
+74: shift/reduce conflict (shift 56(0), red'n 73(0)) on TKMinus
+74: shift/reduce conflict (shift 57(0), red'n 73(0)) on TKStar
+74: shift/reduce conflict (shift 58(0), red'n 73(0)) on TKSlash
+74: shift/reduce conflict (shift 59(0), red'n 73(0)) on TKPercent
+74: shift/reduce conflict (shift 60(0), red'n 73(0)) on TKAmpersand
+74: shift/reduce conflict (shift 61(0), red'n 73(0)) on TKPipe
+74: shift/reduce conflict (shift 62(0), red'n 73(0)) on TKCaret
+state 74
+	expr_binary:  expr.TKAnd expr 
+	expr_binary:  expr.TKOr expr 
+	expr_binary:  expr.TKIs expr 
+	expr_binary:  expr.TKEqual TKEqual expr 
+	expr_binary:  expr.TKBang TKEqual expr 
+	expr_binary:  expr.TKLAngle expr 
+	expr_binary:  expr.TKLAngle TKEqual expr 
+	expr_binary:  expr.TKRAngle expr 
+	expr_binary:  expr.TKRAngle TKEqual expr 
+	expr_binary:  expr.TKIn expr 
+	expr_binary:  expr.TKPlus expr 
+	expr_binary:  expr.TKMinus expr 
+	expr_binary:  expr.TKStar expr 
+	expr_binary:  expr.TKSlash expr 
+	expr_binary:  expr.TKPercent expr 
+	expr_binary:  expr.TKAmpersand expr 
+	expr_binary:  expr.TKPipe expr 
+	expr_binary:  expr.TKCaret expr 
+	expr_binary:  expr.TKLAngle TKLAngle expr 
+	expr_binary:  expr.TKRAngle TKRAngle expr 
+	expr_ternary:  expr.TKQuestion expr TKColon expr 
+	expr_unary:  TKBang expr.    (73)
+
+	TKAnd  shift 47
+	TKOr  shift 48
+	TKIs  shift 49
+	TKIn  shift 54
+	TKBang  shift 51
+	TKQuestion  shift 63
+	TKEqual  shift 50
+	TKLAngle  shift 52
+	TKRAngle  shift 53
+	TKPlus  shift 55
+	TKMinus  shift 56
+	TKStar  shift 57
+	TKSlash  shift 58
+	TKPercent  shift 59
+	TKAmpersand  shift 60
+	TKPipe  shift 61
+	TKCaret  shift 62
+	.  reduce 73 (src line 585)
+
+
+75: shift/reduce conflict (shift 47(0), red'n 74(0)) on TKAnd
+75: shift/reduce conflict (shift 48(0), red'n 74(0)) on TKOr
+75: shift/reduce conflict (shift 49(0), red'n 74(0)) on TKIs
+75: shift/reduce conflict (shift 54(0), red'n 74(0)) on TKIn
+75: shift/reduce conflict (shift 51(0), red'n 74(0)) on TKBang
+75: shift/reduce conflict (shift 63(0), red'n 74(0)) on TKQuestion
+75: shift/reduce conflict (shift 50(0), red'n 74(0)) on TKEqual
+75: shift/reduce conflict (shift 52(0), red'n 74(0)) on TKLAngle
+75: shift/reduce conflict (shift 53(0), red'n 74(0)) on TKRAngle
+75: shift/reduce conflict (shift 55(0), red'n 74(0)) on TKPlus
+75: shift/reduce conflict (shift 56(0), red'n 74(0)) on TKMinus
+75: shift/reduce conflict (shift 57(0), red'n 74(0)) on TKStar
+75: shift/reduce conflict (shift 58(0), red'n 74(0)) on TKSlash
+75: shift/reduce conflict (shift 59(0), red'n 74(0)) on TKPercent
+75: shift/reduce conflict (shift 60(0), red'n 74(0)) on TKAmpersand
+75: shift/reduce conflict (shift 61(0), red'n 74(0)) on TKPipe
+75: shift/reduce conflict (shift 62(0), red'n 74(0)) on TKCaret
+state 75
+	expr_binary:  expr.TKAnd expr 
+	expr_binary:  expr.TKOr expr 
+	expr_binary:  expr.TKIs expr 
+	expr_binary:  expr.TKEqual TKEqual expr 
+	expr_binary:  expr.TKBang TKEqual expr 
+	expr_binary:  expr.TKLAngle expr 
+	expr_binary:  expr.TKLAngle TKEqual expr 
+	expr_binary:  expr.TKRAngle expr 
+	expr_binary:  expr.TKRAngle TKEqual expr 
+	expr_binary:  expr.TKIn expr 
+	expr_binary:  expr.TKPlus expr 
+	expr_binary:  expr.TKMinus expr 
+	expr_binary:  expr.TKStar expr 
+	expr_binary:  expr.TKSlash expr 
+	expr_binary:  expr.TKPercent expr 
+	expr_binary:  expr.TKAmpersand expr 
+	expr_binary:  expr.TKPipe expr 
+	expr_binary:  expr.TKCaret expr 
+	expr_binary:  expr.TKLAngle TKLAngle expr 
+	expr_binary:  expr.TKRAngle TKRAngle expr 
+	expr_ternary:  expr.TKQuestion expr TKColon expr 
+	expr_unary:  TKPlus expr.    (74)
+
+	TKAnd  shift 47
+	TKOr  shift 48
+	TKIs  shift 49
+	TKIn  shift 54
+	TKBang  shift 51
+	TKQuestion  shift 63
+	TKEqual  shift 50
+	TKLAngle  shift 52
+	TKRAngle  shift 53
+	TKPlus  shift 55
+	TKMinus  shift 56
+	TKStar  shift 57
+	TKSlash  shift 58
+	TKPercent  shift 59
+	TKAmpersand  shift 60
+	TKPipe  shift 61
+	TKCaret  shift 62
+	.  reduce 74 (src line 593)
+
+
+76: shift/reduce conflict (shift 47(0), red'n 75(0)) on TKAnd
+76: shift/reduce conflict (shift 48(0), red'n 75(0)) on TKOr
+76: shift/reduce conflict (shift 49(0), red'n 75(0)) on TKIs
+76: shift/reduce conflict (shift 54(0), red'n 75(0)) on TKIn
+76: shift/reduce conflict (shift 51(0), red'n 75(0)) on TKBang
+76: shift/reduce conflict (shift 63(0), red'n 75(0)) on TKQuestion
+76: shift/reduce conflict (shift 50(0), red'n 75(0)) on TKEqual
+76: shift/reduce conflict (shift 52(0), red'n 75(0)) on TKLAngle
+76: shift/reduce conflict (shift 53(0), red'n 75(0)) on TKRAngle
+76: shift/reduce conflict (shift 55(0), red'n 75(0)) on TKPlus
+76: shift/reduce conflict (shift 56(0), red'n 75(0)) on TKMinus
+76: shift/reduce conflict (shift 57(0), red'n 75(0)) on TKStar
+76: shift/reduce conflict (shift 58(0), red'n 75(0)) on TKSlash
+76: shift/reduce conflict (shift 59(0), red'n 75(0)) on TKPercent
+76: shift/reduce conflict (shift 60(0), red'n 75(0)) on TKAmpersand
+76: shift/reduce conflict (shift 61(0), red'n 75(0)) on TKPipe
+76: shift/reduce conflict (shift 62(0), red'n 75(0)) on TKCaret
+state 76
+	expr_binary:  expr.TKAnd expr 
+	expr_binary:  expr.TKOr expr 
+	expr_binary:  expr.TKIs expr 
+	expr_binary:  expr.TKEqual TKEqual expr 
+	expr_binary:  expr.TKBang TKEqual expr 
+	expr_binary:  expr.TKLAngle expr 
+	expr_binary:  expr.TKLAngle TKEqual expr 
+	expr_binary:  expr.TKRAngle expr 
+	expr_binary:  expr.TKRAngle TKEqual expr 
+	expr_binary:  expr.TKIn expr 
+	expr_binary:  expr.TKPlus expr 
+	expr_binary:  expr.TKMinus expr 
+	expr_binary:  expr.TKStar expr 
+	expr_binary:  expr.TKSlash expr 
+	expr_binary:  expr.TKPercent expr 
+	expr_binary:  expr.TKAmpersand expr 
+	expr_binary:  expr.TKPipe expr 
+	expr_binary:  expr.TKCaret expr 
+	expr_binary:  expr.TKLAngle TKLAngle expr 
+	expr_binary:  expr.TKRAngle TKRAngle expr 
+	expr_ternary:  expr.TKQuestion expr TKColon expr 
+	expr_unary:  TKMinus expr.    (75)
+
+	TKAnd  shift 47
+	TKOr  shift 48
+	TKIs  shift 49
+	TKIn  shift 54
+	TKBang  shift 51
+	TKQuestion  shift 63
+	TKEqual  shift 50
+	TKLAngle  shift 52
+	TKRAngle  shift 53
+	TKPlus  shift 55
+	TKMinus  shift 56
+	TKStar  shift 57
+	TKSlash  shift 58
+	TKPercent  shift 59
+	TKAmpersand  shift 60
+	TKPipe  shift 61
+	TKCaret  shift 62
+	.  reduce 75 (src line 600)
+
+
+77: shift/reduce conflict (shift 51(0), red'n 13(0)) on TKBang
+77: shift/reduce conflict (shift 55(0), red'n 13(0)) on TKPlus
+77: shift/reduce conflict (shift 56(0), red'n 13(0)) on TKMinus
+state 77
+	stmt_assign:  TKIdent TKEqual expr.    (13)
+	expr_binary:  expr.TKAnd expr 
+	expr_binary:  expr.TKOr expr 
+	expr_binary:  expr.TKIs expr 
+	expr_binary:  expr.TKEqual TKEqual expr 
+	expr_binary:  expr.TKBang TKEqual expr 
+	expr_binary:  expr.TKLAngle expr 
+	expr_binary:  expr.TKLAngle TKEqual expr 
+	expr_binary:  expr.TKRAngle expr 
+	expr_binary:  expr.TKRAngle TKEqual expr 
+	expr_binary:  expr.TKIn expr 
+	expr_binary:  expr.TKPlus expr 
+	expr_binary:  expr.TKMinus expr 
+	expr_binary:  expr.TKStar expr 
+	expr_binary:  expr.TKSlash expr 
+	expr_binary:  expr.TKPercent expr 
+	expr_binary:  expr.TKAmpersand expr 
+	expr_binary:  expr.TKPipe expr 
+	expr_binary:  expr.TKCaret expr 
+	expr_binary:  expr.TKLAngle TKLAngle expr 
+	expr_binary:  expr.TKRAngle TKRAngle expr 
+	expr_ternary:  expr.TKQuestion expr TKColon expr 
+
+	TKAnd  shift 47
+	TKOr  shift 48
+	TKIs  shift 49
+	TKIn  shift 54
+	TKBang  shift 51
+	TKQuestion  shift 63
+	TKEqual  shift 50
+	TKLAngle  shift 52
+	TKRAngle  shift 53
+	TKPlus  shift 55
+	TKMinus  shift 56
+	TKStar  shift 57
+	TKSlash  shift 58
+	TKPercent  shift 59
+	TKAmpersand  shift 60
+	TKPipe  shift 61
+	TKCaret  shift 62
+	.  reduce 13 (src line 172)
+
+
+state 78
+	stmt_block:  TKLBrace stmts TKRBrace.    (14)
+
+	.  reduce 14 (src line 182)
+
+
+79: shift/reduce conflict (shift 47(0), red'n 38(0)) on TKAnd
+79: shift/reduce conflict (shift 48(0), red'n 38(0)) on TKOr
+79: shift/reduce conflict (shift 49(0), red'n 38(0)) on TKIs
+79: shift/reduce conflict (shift 54(0), red'n 38(0)) on TKIn
+79: shift/reduce conflict (shift 51(0), red'n 38(0)) on TKBang
+79: shift/reduce conflict (shift 63(0), red'n 38(0)) on TKQuestion
+79: shift/reduce conflict (shift 50(0), red'n 38(0)) on TKEqual
+79: shift/reduce conflict (shift 52(0), red'n 38(0)) on TKLAngle
+79: shift/reduce conflict (shift 53(0), red'n 38(0)) on TKRAngle
+79: shift/reduce conflict (shift 55(0), red'n 38(0)) on TKPlus
+79: shift/reduce conflict (shift 56(0), red'n 38(0)) on TKMinus
+79: shift/reduce conflict (shift 57(0), red'n 38(0)) on TKStar
+79: shift/reduce conflict (shift 58(0), red'n 38(0)) on TKSlash
+79: shift/reduce conflict (shift 59(0), red'n 38(0)) on TKPercent
+79: shift/reduce conflict (shift 60(0), red'n 38(0)) on TKAmpersand
+79: shift/reduce conflict (shift 61(0), red'n 38(0)) on TKPipe
+79: shift/reduce conflict (shift 62(0), red'n 38(0)) on TKCaret
+state 79
+	expr_binary:  expr.TKAnd expr 
+	expr_binary:  expr TKAnd expr.    (38)
+	expr_binary:  expr.TKOr expr 
+	expr_binary:  expr.TKIs expr 
+	expr_binary:  expr.TKEqual TKEqual expr 
+	expr_binary:  expr.TKBang TKEqual expr 
+	expr_binary:  expr.TKLAngle expr 
+	expr_binary:  expr.TKLAngle TKEqual expr 
+	expr_binary:  expr.TKRAngle expr 
+	expr_binary:  expr.TKRAngle TKEqual expr 
+	expr_binary:  expr.TKIn expr 
+	expr_binary:  expr.TKPlus expr 
+	expr_binary:  expr.TKMinus expr 
+	expr_binary:  expr.TKStar expr 
+	expr_binary:  expr.TKSlash expr 
+	expr_binary:  expr.TKPercent expr 
+	expr_binary:  expr.TKAmpersand expr 
+	expr_binary:  expr.TKPipe expr 
+	expr_binary:  expr.TKCaret expr 
+	expr_binary:  expr.TKLAngle TKLAngle expr 
+	expr_binary:  expr.TKRAngle TKRAngle expr 
+	expr_ternary:  expr.TKQuestion expr TKColon expr 
+
+	TKAnd  shift 47
+	TKOr  shift 48
+	TKIs  shift 49
+	TKIn  shift 54
+	TKBang  shift 51
+	TKQuestion  shift 63
+	TKEqual  shift 50
+	TKLAngle  shift 52
+	TKRAngle  shift 53
+	TKPlus  shift 55
+	TKMinus  shift 56
+	TKStar  shift 57
+	TKSlash  shift 58
+	TKPercent  shift 59
+	TKAmpersand  shift 60
+	TKPipe  shift 61
+	TKCaret  shift 62
+	.  reduce 38 (src line 288)
+
+
+80: shift/reduce conflict (shift 47(0), red'n 39(0)) on TKAnd
+80: shift/reduce conflict (shift 48(0), red'n 39(0)) on TKOr
+80: shift/reduce conflict (shift 49(0), red'n 39(0)) on TKIs
+80: shift/reduce conflict (shift 54(0), red'n 39(0)) on TKIn
+80: shift/reduce conflict (shift 51(0), red'n 39(0)) on TKBang
+80: shift/reduce conflict (shift 63(0), red'n 39(0)) on TKQuestion
+80: shift/reduce conflict (shift 50(0), red'n 39(0)) on TKEqual
+80: shift/reduce conflict (shift 52(0), red'n 39(0)) on TKLAngle
+80: shift/reduce conflict (shift 53(0), red'n 39(0)) on TKRAngle
+80: shift/reduce conflict (shift 55(0), red'n 39(0)) on TKPlus
+80: shift/reduce conflict (shift 56(0), red'n 39(0)) on TKMinus
+80: shift/reduce conflict (shift 57(0), red'n 39(0)) on TKStar
+80: shift/reduce conflict (shift 58(0), red'n 39(0)) on TKSlash
+80: shift/reduce conflict (shift 59(0), red'n 39(0)) on TKPercent
+80: shift/reduce conflict (shift 60(0), red'n 39(0)) on TKAmpersand
+80: shift/reduce conflict (shift 61(0), red'n 39(0)) on TKPipe
+80: shift/reduce conflict (shift 62(0), red'n 39(0)) on TKCaret
+state 80
+	expr_binary:  expr.TKAnd expr 
+	expr_binary:  expr.TKOr expr 
+	expr_binary:  expr TKOr expr.    (39)
+	expr_binary:  expr.TKIs expr 
+	expr_binary:  expr.TKEqual TKEqual expr 
+	expr_binary:  expr.TKBang TKEqual expr 
+	expr_binary:  expr.TKLAngle expr 
+	expr_binary:  expr.TKLAngle TKEqual expr 
+	expr_binary:  expr.TKRAngle expr 
+	expr_binary:  expr.TKRAngle TKEqual expr 
+	expr_binary:  expr.TKIn expr 
+	expr_binary:  expr.TKPlus expr 
+	expr_binary:  expr.TKMinus expr 
+	expr_binary:  expr.TKStar expr 
+	expr_binary:  expr.TKSlash expr 
+	expr_binary:  expr.TKPercent expr 
+	expr_binary:  expr.TKAmpersand expr 
+	expr_binary:  expr.TKPipe expr 
+	expr_binary:  expr.TKCaret expr 
+	expr_binary:  expr.TKLAngle TKLAngle expr 
+	expr_binary:  expr.TKRAngle TKRAngle expr 
+	expr_ternary:  expr.TKQuestion expr TKColon expr 
+
+	TKAnd  shift 47
+	TKOr  shift 48
+	TKIs  shift 49
+	TKIn  shift 54
+	TKBang  shift 51
+	TKQuestion  shift 63
+	TKEqual  shift 50
+	TKLAngle  shift 52
+	TKRAngle  shift 53
+	TKPlus  shift 55
+	TKMinus  shift 56
+	TKStar  shift 57
+	TKSlash  shift 58
+	TKPercent  shift 59
+	TKAmpersand  shift 60
+	TKPipe  shift 61
+	TKCaret  shift 62
+	.  reduce 39 (src line 297)
+
+
+81: shift/reduce conflict (shift 47(0), red'n 40(0)) on TKAnd
+81: shift/reduce conflict (shift 48(0), red'n 40(0)) on TKOr
+81: shift/reduce conflict (shift 49(0), red'n 40(0)) on TKIs
+81: shift/reduce conflict (shift 54(0), red'n 40(0)) on TKIn
+81: shift/reduce conflict (shift 51(0), red'n 40(0)) on TKBang
+81: shift/reduce conflict (shift 63(0), red'n 40(0)) on TKQuestion
+81: shift/reduce conflict (shift 50(0), red'n 40(0)) on TKEqual
+81: shift/reduce conflict (shift 52(0), red'n 40(0)) on TKLAngle
+81: shift/reduce conflict (shift 53(0), red'n 40(0)) on TKRAngle
+81: shift/reduce conflict (shift 55(0), red'n 40(0)) on TKPlus
+81: shift/reduce conflict (shift 56(0), red'n 40(0)) on TKMinus
+81: shift/reduce conflict (shift 57(0), red'n 40(0)) on TKStar
+81: shift/reduce conflict (shift 58(0), red'n 40(0)) on TKSlash
+81: shift/reduce conflict (shift 59(0), red'n 40(0)) on TKPercent
+81: shift/reduce conflict (shift 60(0), red'n 40(0)) on TKAmpersand
+81: shift/reduce conflict (shift 61(0), red'n 40(0)) on TKPipe
+81: shift/reduce conflict (shift 62(0), red'n 40(0)) on TKCaret
+state 81
+	expr_binary:  expr.TKAnd expr 
+	expr_binary:  expr.TKOr expr 
+	expr_binary:  expr.TKIs expr 
+	expr_binary:  expr TKIs expr.    (40)
+	expr_binary:  expr.TKEqual TKEqual expr 
+	expr_binary:  expr.TKBang TKEqual expr 
+	expr_binary:  expr.TKLAngle expr 
+	expr_binary:  expr.TKLAngle TKEqual expr 
+	expr_binary:  expr.TKRAngle expr 
+	expr_binary:  expr.TKRAngle TKEqual expr 
+	expr_binary:  expr.TKIn expr 
+	expr_binary:  expr.TKPlus expr 
+	expr_binary:  expr.TKMinus expr 
+	expr_binary:  expr.TKStar expr 
+	expr_binary:  expr.TKSlash expr 
+	expr_binary:  expr.TKPercent expr 
+	expr_binary:  expr.TKAmpersand expr 
+	expr_binary:  expr.TKPipe expr 
+	expr_binary:  expr.TKCaret expr 
+	expr_binary:  expr.TKLAngle TKLAngle expr 
+	expr_binary:  expr.TKRAngle TKRAngle expr 
+	expr_ternary:  expr.TKQuestion expr TKColon expr 
+
+	TKAnd  shift 47
+	TKOr  shift 48
+	TKIs  shift 49
+	TKIn  shift 54
+	TKBang  shift 51
+	TKQuestion  shift 63
+	TKEqual  shift 50
+	TKLAngle  shift 52
+	TKRAngle  shift 53
+	TKPlus  shift 55
+	TKMinus  shift 56
+	TKStar  shift 57
+	TKSlash  shift 58
+	TKPercent  shift 59
+	TKAmpersand  shift 60
+	TKPipe  shift 61
+	TKCaret  shift 62
+	.  reduce 40 (src line 305)
+
+
+state 82
+	expr_binary:  expr TKEqual TKEqual.expr 
+
+	TKLParen  shift 33
+	TKLBracket  shift 35
+	TKTrue  shift 40
+	TKFalse  shift 39
+	TKNil  shift 38
+	TKBang  shift 41
+	TKPlus  shift 42
+	TKMinus  shift 43
+	TKIdent  shift 65
+	TKInt  shift 34
+	TKFloat  shift 36
+	TKString  shift 37
+	.  error
+
+	expr  goto 110
+	expr_binary  goto 31
+	expr_false  goto 28
+	expr_float  goto 25
+	expr_group  goto 20
+	expr_ident  goto 22
+	expr_int  goto 23
+	expr_list  goto 24
+	expr_nil  goto 27
+	expr_string  goto 26
+	expr_ternary  goto 21
+	expr_true  goto 29
+	expr_tuple  goto 32
+	expr_unary  goto 30
+
+state 83
+	expr_binary:  expr TKBang TKEqual.expr 
+
+	TKLParen  shift 33
+	TKLBracket  shift 35
+	TKTrue  shift 40
+	TKFalse  shift 39
+	TKNil  shift 38
+	TKBang  shift 41
+	TKPlus  shift 42
+	TKMinus  shift 43
+	TKIdent  shift 65
+	TKInt  shift 34
+	TKFloat  shift 36
+	TKString  shift 37
+	.  error
+
+	expr  goto 111
+	expr_binary  goto 31
+	expr_false  goto 28
+	expr_float  goto 25
+	expr_group  goto 20
+	expr_ident  goto 22
+	expr_int  goto 23
+	expr_list  goto 24
+	expr_nil  goto 27
+	expr_string  goto 26
+	expr_ternary  goto 21
+	expr_true  goto 29
+	expr_tuple  goto 32
+	expr_unary  goto 30
+
+84: shift/reduce conflict (shift 47(0), red'n 43(0)) on TKAnd
+84: shift/reduce conflict (shift 48(0), red'n 43(0)) on TKOr
+84: shift/reduce conflict (shift 49(0), red'n 43(0)) on TKIs
+84: shift/reduce conflict (shift 54(0), red'n 43(0)) on TKIn
+84: shift/reduce conflict (shift 51(0), red'n 43(0)) on TKBang
+84: shift/reduce conflict (shift 63(0), red'n 43(0)) on TKQuestion
+84: shift/reduce conflict (shift 50(0), red'n 43(0)) on TKEqual
+84: shift/reduce conflict (shift 52(0), red'n 43(0)) on TKLAngle
+84: shift/reduce conflict (shift 53(0), red'n 43(0)) on TKRAngle
+84: shift/reduce conflict (shift 55(0), red'n 43(0)) on TKPlus
+84: shift/reduce conflict (shift 56(0), red'n 43(0)) on TKMinus
+84: shift/reduce conflict (shift 57(0), red'n 43(0)) on TKStar
+84: shift/reduce conflict (shift 58(0), red'n 43(0)) on TKSlash
+84: shift/reduce conflict (shift 59(0), red'n 43(0)) on TKPercent
+84: shift/reduce conflict (shift 60(0), red'n 43(0)) on TKAmpersand
+84: shift/reduce conflict (shift 61(0), red'n 43(0)) on TKPipe
+84: shift/reduce conflict (shift 62(0), red'n 43(0)) on TKCaret
+state 84
+	expr_binary:  expr.TKAnd expr 
+	expr_binary:  expr.TKOr expr 
+	expr_binary:  expr.TKIs expr 
+	expr_binary:  expr.TKEqual TKEqual expr 
+	expr_binary:  expr.TKBang TKEqual expr 
+	expr_binary:  expr.TKLAngle expr 
+	expr_binary:  expr TKLAngle expr.    (43)
+	expr_binary:  expr.TKLAngle TKEqual expr 
+	expr_binary:  expr.TKRAngle expr 
+	expr_binary:  expr.TKRAngle TKEqual expr 
+	expr_binary:  expr.TKIn expr 
+	expr_binary:  expr.TKPlus expr 
+	expr_binary:  expr.TKMinus expr 
+	expr_binary:  expr.TKStar expr 
+	expr_binary:  expr.TKSlash expr 
+	expr_binary:  expr.TKPercent expr 
+	expr_binary:  expr.TKAmpersand expr 
+	expr_binary:  expr.TKPipe expr 
+	expr_binary:  expr.TKCaret expr 
+	expr_binary:  expr.TKLAngle TKLAngle expr 
+	expr_binary:  expr.TKRAngle TKRAngle expr 
+	expr_ternary:  expr.TKQuestion expr TKColon expr 
+
+	TKAnd  shift 47
+	TKOr  shift 48
+	TKIs  shift 49
+	TKIn  shift 54
+	TKBang  shift 51
+	TKQuestion  shift 63
+	TKEqual  shift 50
+	TKLAngle  shift 52
+	TKRAngle  shift 53
+	TKPlus  shift 55
+	TKMinus  shift 56
+	TKStar  shift 57
+	TKSlash  shift 58
+	TKPercent  shift 59
+	TKAmpersand  shift 60
+	TKPipe  shift 61
+	TKCaret  shift 62
+	.  reduce 43 (src line 329)
+
+
+state 85
+	expr_binary:  expr TKLAngle TKEqual.expr 
+
+	TKLParen  shift 33
+	TKLBracket  shift 35
+	TKTrue  shift 40
+	TKFalse  shift 39
+	TKNil  shift 38
+	TKBang  shift 41
+	TKPlus  shift 42
+	TKMinus  shift 43
+	TKIdent  shift 65
+	TKInt  shift 34
+	TKFloat  shift 36
+	TKString  shift 37
+	.  error
+
+	expr  goto 112
+	expr_binary  goto 31
+	expr_false  goto 28
+	expr_float  goto 25
+	expr_group  goto 20
+	expr_ident  goto 22
+	expr_int  goto 23
+	expr_list  goto 24
+	expr_nil  goto 27
+	expr_string  goto 26
+	expr_ternary  goto 21
+	expr_true  goto 29
+	expr_tuple  goto 32
+	expr_unary  goto 30
+
+state 86
+	expr_binary:  expr TKLAngle TKLAngle.expr 
+
+	TKLParen  shift 33
+	TKLBracket  shift 35
+	TKTrue  shift 40
+	TKFalse  shift 39
+	TKNil  shift 38
+	TKBang  shift 41
+	TKPlus  shift 42
+	TKMinus  shift 43
+	TKIdent  shift 65
+	TKInt  shift 34
+	TKFloat  shift 36
+	TKString  shift 37
+	.  error
+
+	expr  goto 113
+	expr_binary  goto 31
+	expr_false  goto 28
+	expr_float  goto 25
+	expr_group  goto 20
+	expr_ident  goto 22
+	expr_int  goto 23
+	expr_list  goto 24
+	expr_nil  goto 27
+	expr_string  goto 26
+	expr_ternary  goto 21
+	expr_true  goto 29
+	expr_tuple  goto 32
+	expr_unary  goto 30
+
+87: shift/reduce conflict (shift 47(0), red'n 45(0)) on TKAnd
+87: shift/reduce conflict (shift 48(0), red'n 45(0)) on TKOr
+87: shift/reduce conflict (shift 49(0), red'n 45(0)) on TKIs
+87: shift/reduce conflict (shift 54(0), red'n 45(0)) on TKIn
+87: shift/reduce conflict (shift 51(0), red'n 45(0)) on TKBang
+87: shift/reduce conflict (shift 63(0), red'n 45(0)) on TKQuestion
+87: shift/reduce conflict (shift 50(0), red'n 45(0)) on TKEqual
+87: shift/reduce conflict (shift 52(0), red'n 45(0)) on TKLAngle
+87: shift/reduce conflict (shift 53(0), red'n 45(0)) on TKRAngle
+87: shift/reduce conflict (shift 55(0), red'n 45(0)) on TKPlus
+87: shift/reduce conflict (shift 56(0), red'n 45(0)) on TKMinus
+87: shift/reduce conflict (shift 57(0), red'n 45(0)) on TKStar
+87: shift/reduce conflict (shift 58(0), red'n 45(0)) on TKSlash
+87: shift/reduce conflict (shift 59(0), red'n 45(0)) on TKPercent
+87: shift/reduce conflict (shift 60(0), red'n 45(0)) on TKAmpersand
+87: shift/reduce conflict (shift 61(0), red'n 45(0)) on TKPipe
+87: shift/reduce conflict (shift 62(0), red'n 45(0)) on TKCaret
+state 87
+	expr_binary:  expr.TKAnd expr 
+	expr_binary:  expr.TKOr expr 
+	expr_binary:  expr.TKIs expr 
+	expr_binary:  expr.TKEqual TKEqual expr 
+	expr_binary:  expr.TKBang TKEqual expr 
+	expr_binary:  expr.TKLAngle expr 
+	expr_binary:  expr.TKLAngle TKEqual expr 
+	expr_binary:  expr.TKRAngle expr 
+	expr_binary:  expr TKRAngle expr.    (45)
+	expr_binary:  expr.TKRAngle TKEqual expr 
+	expr_binary:  expr.TKIn expr 
+	expr_binary:  expr.TKPlus expr 
+	expr_binary:  expr.TKMinus expr 
+	expr_binary:  expr.TKStar expr 
+	expr_binary:  expr.TKSlash expr 
+	expr_binary:  expr.TKPercent expr 
+	expr_binary:  expr.TKAmpersand expr 
+	expr_binary:  expr.TKPipe expr 
+	expr_binary:  expr.TKCaret expr 
+	expr_binary:  expr.TKLAngle TKLAngle expr 
+	expr_binary:  expr.TKRAngle TKRAngle expr 
+	expr_ternary:  expr.TKQuestion expr TKColon expr 
+
+	TKAnd  shift 47
+	TKOr  shift 48
+	TKIs  shift 49
+	TKIn  shift 54
+	TKBang  shift 51
+	TKQuestion  shift 63
+	TKEqual  shift 50
+	TKLAngle  shift 52
+	TKRAngle  shift 53
+	TKPlus  shift 55
+	TKMinus  shift 56
+	TKStar  shift 57
+	TKSlash  shift 58
+	TKPercent  shift 59
+	TKAmpersand  shift 60
+	TKPipe  shift 61
+	TKCaret  shift 62
+	.  reduce 45 (src line 345)
+
+
+state 88
+	expr_binary:  expr TKRAngle TKEqual.expr 
+
+	TKLParen  shift 33
+	TKLBracket  shift 35
+	TKTrue  shift 40
+	TKFalse  shift 39
+	TKNil  shift 38
+	TKBang  shift 41
+	TKPlus  shift 42
+	TKMinus  shift 43
+	TKIdent  shift 65
+	TKInt  shift 34
+	TKFloat  shift 36
+	TKString  shift 37
+	.  error
+
+	expr  goto 114
+	expr_binary  goto 31
+	expr_false  goto 28
+	expr_float  goto 25
+	expr_group  goto 20
+	expr_ident  goto 22
+	expr_int  goto 23
+	expr_list  goto 24
+	expr_nil  goto 27
+	expr_string  goto 26
+	expr_ternary  goto 21
+	expr_true  goto 29
+	expr_tuple  goto 32
+	expr_unary  goto 30
+
+state 89
+	expr_binary:  expr TKRAngle TKRAngle.expr 
+
+	TKLParen  shift 33
+	TKLBracket  shift 35
+	TKTrue  shift 40
+	TKFalse  shift 39
+	TKNil  shift 38
+	TKBang  shift 41
+	TKPlus  shift 42
+	TKMinus  shift 43
+	TKIdent  shift 65
+	TKInt  shift 34
+	TKFloat  shift 36
+	TKString  shift 37
+	.  error
+
+	expr  goto 115
+	expr_binary  goto 31
+	expr_false  goto 28
+	expr_float  goto 25
+	expr_group  goto 20
+	expr_ident  goto 22
+	expr_int  goto 23
+	expr_list  goto 24
+	expr_nil  goto 27
+	expr_string  goto 26
+	expr_ternary  goto 21
+	expr_true  goto 29
+	expr_tuple  goto 32
+	expr_unary  goto 30
+
+90: shift/reduce conflict (shift 47(0), red'n 47(0)) on TKAnd
+90: shift/reduce conflict (shift 48(0), red'n 47(0)) on TKOr
+90: shift/reduce conflict (shift 49(0), red'n 47(0)) on TKIs
+90: shift/reduce conflict (shift 54(0), red'n 47(0)) on TKIn
+90: shift/reduce conflict (shift 51(0), red'n 47(0)) on TKBang
+90: shift/reduce conflict (shift 63(0), red'n 47(0)) on TKQuestion
+90: shift/reduce conflict (shift 50(0), red'n 47(0)) on TKEqual
+90: shift/reduce conflict (shift 52(0), red'n 47(0)) on TKLAngle
+90: shift/reduce conflict (shift 53(0), red'n 47(0)) on TKRAngle
+90: shift/reduce conflict (shift 55(0), red'n 47(0)) on TKPlus
+90: shift/reduce conflict (shift 56(0), red'n 47(0)) on TKMinus
+90: shift/reduce conflict (shift 57(0), red'n 47(0)) on TKStar
+90: shift/reduce conflict (shift 58(0), red'n 47(0)) on TKSlash
+90: shift/reduce conflict (shift 59(0), red'n 47(0)) on TKPercent
+90: shift/reduce conflict (shift 60(0), red'n 47(0)) on TKAmpersand
+90: shift/reduce conflict (shift 61(0), red'n 47(0)) on TKPipe
+90: shift/reduce conflict (shift 62(0), red'n 47(0)) on TKCaret
+state 90
+	expr_binary:  expr.TKAnd expr 
+	expr_binary:  expr.TKOr expr 
+	expr_binary:  expr.TKIs expr 
+	expr_binary:  expr.TKEqual TKEqual expr 
+	expr_binary:  expr.TKBang TKEqual expr 
+	expr_binary:  expr.TKLAngle expr 
+	expr_binary:  expr.TKLAngle TKEqual expr 
+	expr_binary:  expr.TKRAngle expr 
+	expr_binary:  expr.TKRAngle TKEqual expr 
+	expr_binary:  expr.TKIn expr 
+	expr_binary:  expr TKIn expr.    (47)
+	expr_binary:  expr.TKPlus expr 
+	expr_binary:  expr.TKMinus expr 
+	expr_binary:  expr.TKStar expr 
+	expr_binary:  expr.TKSlash expr 
+	expr_binary:  expr.TKPercent expr 
+	expr_binary:  expr.TKAmpersand expr 
+	expr_binary:  expr.TKPipe expr 
+	expr_binary:  expr.TKCaret expr 
+	expr_binary:  expr.TKLAngle TKLAngle expr 
+	expr_binary:  expr.TKRAngle TKRAngle expr 
+	expr_ternary:  expr.TKQuestion expr TKColon expr 
+
+	TKAnd  shift 47
+	TKOr  shift 48
+	TKIs  shift 49
+	TKIn  shift 54
+	TKBang  shift 51
+	TKQuestion  shift 63
+	TKEqual  shift 50
+	TKLAngle  shift 52
+	TKRAngle  shift 53
+	TKPlus  shift 55
+	TKMinus  shift 56
+	TKStar  shift 57
+	TKSlash  shift 58
+	TKPercent  shift 59
+	TKAmpersand  shift 60
+	TKPipe  shift 61
+	TKCaret  shift 62
+	.  reduce 47 (src line 361)
+
+
+91: shift/reduce conflict (shift 47(0), red'n 48(0)) on TKAnd
+91: shift/reduce conflict (shift 48(0), red'n 48(0)) on TKOr
+91: shift/reduce conflict (shift 49(0), red'n 48(0)) on TKIs
+91: shift/reduce conflict (shift 54(0), red'n 48(0)) on TKIn
+91: shift/reduce conflict (shift 51(0), red'n 48(0)) on TKBang
+91: shift/reduce conflict (shift 63(0), red'n 48(0)) on TKQuestion
+91: shift/reduce conflict (shift 50(0), red'n 48(0)) on TKEqual
+91: shift/reduce conflict (shift 52(0), red'n 48(0)) on TKLAngle
+91: shift/reduce conflict (shift 53(0), red'n 48(0)) on TKRAngle
+91: shift/reduce conflict (shift 55(0), red'n 48(0)) on TKPlus
+91: shift/reduce conflict (shift 56(0), red'n 48(0)) on TKMinus
+91: shift/reduce conflict (shift 57(0), red'n 48(0)) on TKStar
+91: shift/reduce conflict (shift 58(0), red'n 48(0)) on TKSlash
+91: shift/reduce conflict (shift 59(0), red'n 48(0)) on TKPercent
+91: shift/reduce conflict (shift 60(0), red'n 48(0)) on TKAmpersand
+91: shift/reduce conflict (shift 61(0), red'n 48(0)) on TKPipe
+91: shift/reduce conflict (shift 62(0), red'n 48(0)) on TKCaret
+state 91
+	expr_binary:  expr.TKAnd expr 
+	expr_binary:  expr.TKOr expr 
+	expr_binary:  expr.TKIs expr 
+	expr_binary:  expr.TKEqual TKEqual expr 
+	expr_binary:  expr.TKBang TKEqual expr 
+	expr_binary:  expr.TKLAngle expr 
+	expr_binary:  expr.TKLAngle TKEqual expr 
+	expr_binary:  expr.TKRAngle expr 
+	expr_binary:  expr.TKRAngle TKEqual expr 
+	expr_binary:  expr.TKIn expr 
+	expr_binary:  expr.TKPlus expr 
+	expr_binary:  expr TKPlus expr.    (48)
+	expr_binary:  expr.TKMinus expr 
+	expr_binary:  expr.TKStar expr 
+	expr_binary:  expr.TKSlash expr 
+	expr_binary:  expr.TKPercent expr 
+	expr_binary:  expr.TKAmpersand expr 
+	expr_binary:  expr.TKPipe expr 
+	expr_binary:  expr.TKCaret expr 
+	expr_binary:  expr.TKLAngle TKLAngle expr 
+	expr_binary:  expr.TKRAngle TKRAngle expr 
+	expr_ternary:  expr.TKQuestion expr TKColon expr 
+
+	TKAnd  shift 47
+	TKOr  shift 48
+	TKIs  shift 49
+	TKIn  shift 54
+	TKBang  shift 51
+	TKQuestion  shift 63
+	TKEqual  shift 50
+	TKLAngle  shift 52
+	TKRAngle  shift 53
+	TKPlus  shift 55
+	TKMinus  shift 56
+	TKStar  shift 57
+	TKSlash  shift 58
+	TKPercent  shift 59
+	TKAmpersand  shift 60
+	TKPipe  shift 61
+	TKCaret  shift 62
+	.  reduce 48 (src line 369)
+
+
+92: shift/reduce conflict (shift 47(0), red'n 49(0)) on TKAnd
+92: shift/reduce conflict (shift 48(0), red'n 49(0)) on TKOr
+92: shift/reduce conflict (shift 49(0), red'n 49(0)) on TKIs
+92: shift/reduce conflict (shift 54(0), red'n 49(0)) on TKIn
+92: shift/reduce conflict (shift 51(0), red'n 49(0)) on TKBang
+92: shift/reduce conflict (shift 63(0), red'n 49(0)) on TKQuestion
+92: shift/reduce conflict (shift 50(0), red'n 49(0)) on TKEqual
+92: shift/reduce conflict (shift 52(0), red'n 49(0)) on TKLAngle
+92: shift/reduce conflict (shift 53(0), red'n 49(0)) on TKRAngle
+92: shift/reduce conflict (shift 55(0), red'n 49(0)) on TKPlus
+92: shift/reduce conflict (shift 56(0), red'n 49(0)) on TKMinus
+92: shift/reduce conflict (shift 57(0), red'n 49(0)) on TKStar
+92: shift/reduce conflict (shift 58(0), red'n 49(0)) on TKSlash
+92: shift/reduce conflict (shift 59(0), red'n 49(0)) on TKPercent
+92: shift/reduce conflict (shift 60(0), red'n 49(0)) on TKAmpersand
+92: shift/reduce conflict (shift 61(0), red'n 49(0)) on TKPipe
+92: shift/reduce conflict (shift 62(0), red'n 49(0)) on TKCaret
+state 92
+	expr_binary:  expr.TKAnd expr 
+	expr_binary:  expr.TKOr expr 
+	expr_binary:  expr.TKIs expr 
+	expr_binary:  expr.TKEqual TKEqual expr 
+	expr_binary:  expr.TKBang TKEqual expr 
+	expr_binary:  expr.TKLAngle expr 
+	expr_binary:  expr.TKLAngle TKEqual expr 
+	expr_binary:  expr.TKRAngle expr 
+	expr_binary:  expr.TKRAngle TKEqual expr 
+	expr_binary:  expr.TKIn expr 
+	expr_binary:  expr.TKPlus expr 
+	expr_binary:  expr.TKMinus expr 
+	expr_binary:  expr TKMinus expr.    (49)
+	expr_binary:  expr.TKStar expr 
+	expr_binary:  expr.TKSlash expr 
+	expr_binary:  expr.TKPercent expr 
+	expr_binary:  expr.TKAmpersand expr 
+	expr_binary:  expr.TKPipe expr 
+	expr_binary:  expr.TKCaret expr 
+	expr_binary:  expr.TKLAngle TKLAngle expr 
+	expr_binary:  expr.TKRAngle TKRAngle expr 
+	expr_ternary:  expr.TKQuestion expr TKColon expr 
+
+	TKAnd  shift 47
+	TKOr  shift 48
+	TKIs  shift 49
+	TKIn  shift 54
+	TKBang  shift 51
+	TKQuestion  shift 63
+	TKEqual  shift 50
+	TKLAngle  shift 52
+	TKRAngle  shift 53
+	TKPlus  shift 55
+	TKMinus  shift 56
+	TKStar  shift 57
+	TKSlash  shift 58
+	TKPercent  shift 59
+	TKAmpersand  shift 60
+	TKPipe  shift 61
+	TKCaret  shift 62
+	.  reduce 49 (src line 377)
+
+
+93: shift/reduce conflict (shift 47(0), red'n 50(0)) on TKAnd
+93: shift/reduce conflict (shift 48(0), red'n 50(0)) on TKOr
+93: shift/reduce conflict (shift 49(0), red'n 50(0)) on TKIs
+93: shift/reduce conflict (shift 54(0), red'n 50(0)) on TKIn
+93: shift/reduce conflict (shift 51(0), red'n 50(0)) on TKBang
+93: shift/reduce conflict (shift 63(0), red'n 50(0)) on TKQuestion
+93: shift/reduce conflict (shift 50(0), red'n 50(0)) on TKEqual
+93: shift/reduce conflict (shift 52(0), red'n 50(0)) on TKLAngle
+93: shift/reduce conflict (shift 53(0), red'n 50(0)) on TKRAngle
+93: shift/reduce conflict (shift 55(0), red'n 50(0)) on TKPlus
+93: shift/reduce conflict (shift 56(0), red'n 50(0)) on TKMinus
+93: shift/reduce conflict (shift 57(0), red'n 50(0)) on TKStar
+93: shift/reduce conflict (shift 58(0), red'n 50(0)) on TKSlash
+93: shift/reduce conflict (shift 59(0), red'n 50(0)) on TKPercent
+93: shift/reduce conflict (shift 60(0), red'n 50(0)) on TKAmpersand
+93: shift/reduce conflict (shift 61(0), red'n 50(0)) on TKPipe
+93: shift/reduce conflict (shift 62(0), red'n 50(0)) on TKCaret
+state 93
+	expr_binary:  expr.TKAnd expr 
+	expr_binary:  expr.TKOr expr 
+	expr_binary:  expr.TKIs expr 
+	expr_binary:  expr.TKEqual TKEqual expr 
+	expr_binary:  expr.TKBang TKEqual expr 
+	expr_binary:  expr.TKLAngle expr 
+	expr_binary:  expr.TKLAngle TKEqual expr 
+	expr_binary:  expr.TKRAngle expr 
+	expr_binary:  expr.TKRAngle TKEqual expr 
+	expr_binary:  expr.TKIn expr 
+	expr_binary:  expr.TKPlus expr 
+	expr_binary:  expr.TKMinus expr 
+	expr_binary:  expr.TKStar expr 
+	expr_binary:  expr TKStar expr.    (50)
+	expr_binary:  expr.TKSlash expr 
+	expr_binary:  expr.TKPercent expr 
+	expr_binary:  expr.TKAmpersand expr 
+	expr_binary:  expr.TKPipe expr 
+	expr_binary:  expr.TKCaret expr 
+	expr_binary:  expr.TKLAngle TKLAngle expr 
+	expr_binary:  expr.TKRAngle TKRAngle expr 
+	expr_ternary:  expr.TKQuestion expr TKColon expr 
+
+	TKAnd  shift 47
+	TKOr  shift 48
+	TKIs  shift 49
+	TKIn  shift 54
+	TKBang  shift 51
+	TKQuestion  shift 63
+	TKEqual  shift 50
+	TKLAngle  shift 52
+	TKRAngle  shift 53
+	TKPlus  shift 55
+	TKMinus  shift 56
+	TKStar  shift 57
+	TKSlash  shift 58
+	TKPercent  shift 59
+	TKAmpersand  shift 60
+	TKPipe  shift 61
+	TKCaret  shift 62
+	.  reduce 50 (src line 385)
+
+
+94: shift/reduce conflict (shift 47(0), red'n 51(0)) on TKAnd
+94: shift/reduce conflict (shift 48(0), red'n 51(0)) on TKOr
+94: shift/reduce conflict (shift 49(0), red'n 51(0)) on TKIs
+94: shift/reduce conflict (shift 54(0), red'n 51(0)) on TKIn
+94: shift/reduce conflict (shift 51(0), red'n 51(0)) on TKBang
+94: shift/reduce conflict (shift 63(0), red'n 51(0)) on TKQuestion
+94: shift/reduce conflict (shift 50(0), red'n 51(0)) on TKEqual
+94: shift/reduce conflict (shift 52(0), red'n 51(0)) on TKLAngle
+94: shift/reduce conflict (shift 53(0), red'n 51(0)) on TKRAngle
+94: shift/reduce conflict (shift 55(0), red'n 51(0)) on TKPlus
+94: shift/reduce conflict (shift 56(0), red'n 51(0)) on TKMinus
+94: shift/reduce conflict (shift 57(0), red'n 51(0)) on TKStar
+94: shift/reduce conflict (shift 58(0), red'n 51(0)) on TKSlash
+94: shift/reduce conflict (shift 59(0), red'n 51(0)) on TKPercent
+94: shift/reduce conflict (shift 60(0), red'n 51(0)) on TKAmpersand
+94: shift/reduce conflict (shift 61(0), red'n 51(0)) on TKPipe
+94: shift/reduce conflict (shift 62(0), red'n 51(0)) on TKCaret
+state 94
+	expr_binary:  expr.TKAnd expr 
+	expr_binary:  expr.TKOr expr 
+	expr_binary:  expr.TKIs expr 
+	expr_binary:  expr.TKEqual TKEqual expr 
+	expr_binary:  expr.TKBang TKEqual expr 
+	expr_binary:  expr.TKLAngle expr 
+	expr_binary:  expr.TKLAngle TKEqual expr 
+	expr_binary:  expr.TKRAngle expr 
+	expr_binary:  expr.TKRAngle TKEqual expr 
+	expr_binary:  expr.TKIn expr 
+	expr_binary:  expr.TKPlus expr 
+	expr_binary:  expr.TKMinus expr 
+	expr_binary:  expr.TKStar expr 
+	expr_binary:  expr.TKSlash expr 
+	expr_binary:  expr TKSlash expr.    (51)
+	expr_binary:  expr.TKPercent expr 
+	expr_binary:  expr.TKAmpersand expr 
+	expr_binary:  expr.TKPipe expr 
+	expr_binary:  expr.TKCaret expr 
+	expr_binary:  expr.TKLAngle TKLAngle expr 
+	expr_binary:  expr.TKRAngle TKRAngle expr 
+	expr_ternary:  expr.TKQuestion expr TKColon expr 
+
+	TKAnd  shift 47
+	TKOr  shift 48
+	TKIs  shift 49
+	TKIn  shift 54
+	TKBang  shift 51
+	TKQuestion  shift 63
+	TKEqual  shift 50
+	TKLAngle  shift 52
+	TKRAngle  shift 53
+	TKPlus  shift 55
+	TKMinus  shift 56
+	TKStar  shift 57
+	TKSlash  shift 58
+	TKPercent  shift 59
+	TKAmpersand  shift 60
+	TKPipe  shift 61
+	TKCaret  shift 62
+	.  reduce 51 (src line 393)
+
+
+95: shift/reduce conflict (shift 47(0), red'n 52(0)) on TKAnd
+95: shift/reduce conflict (shift 48(0), red'n 52(0)) on TKOr
+95: shift/reduce conflict (shift 49(0), red'n 52(0)) on TKIs
+95: shift/reduce conflict (shift 54(0), red'n 52(0)) on TKIn
+95: shift/reduce conflict (shift 51(0), red'n 52(0)) on TKBang
+95: shift/reduce conflict (shift 63(0), red'n 52(0)) on TKQuestion
+95: shift/reduce conflict (shift 50(0), red'n 52(0)) on TKEqual
+95: shift/reduce conflict (shift 52(0), red'n 52(0)) on TKLAngle
+95: shift/reduce conflict (shift 53(0), red'n 52(0)) on TKRAngle
+95: shift/reduce conflict (shift 55(0), red'n 52(0)) on TKPlus
+95: shift/reduce conflict (shift 56(0), red'n 52(0)) on TKMinus
+95: shift/reduce conflict (shift 57(0), red'n 52(0)) on TKStar
+95: shift/reduce conflict (shift 58(0), red'n 52(0)) on TKSlash
+95: shift/reduce conflict (shift 59(0), red'n 52(0)) on TKPercent
+95: shift/reduce conflict (shift 60(0), red'n 52(0)) on TKAmpersand
+95: shift/reduce conflict (shift 61(0), red'n 52(0)) on TKPipe
+95: shift/reduce conflict (shift 62(0), red'n 52(0)) on TKCaret
+state 95
+	expr_binary:  expr.TKAnd expr 
+	expr_binary:  expr.TKOr expr 
+	expr_binary:  expr.TKIs expr 
+	expr_binary:  expr.TKEqual TKEqual expr 
+	expr_binary:  expr.TKBang TKEqual expr 
+	expr_binary:  expr.TKLAngle expr 
+	expr_binary:  expr.TKLAngle TKEqual expr 
+	expr_binary:  expr.TKRAngle expr 
+	expr_binary:  expr.TKRAngle TKEqual expr 
+	expr_binary:  expr.TKIn expr 
+	expr_binary:  expr.TKPlus expr 
+	expr_binary:  expr.TKMinus expr 
+	expr_binary:  expr.TKStar expr 
+	expr_binary:  expr.TKSlash expr 
+	expr_binary:  expr.TKPercent expr 
+	expr_binary:  expr TKPercent expr.    (52)
+	expr_binary:  expr.TKAmpersand expr 
+	expr_binary:  expr.TKPipe expr 
+	expr_binary:  expr.TKCaret expr 
+	expr_binary:  expr.TKLAngle TKLAngle expr 
+	expr_binary:  expr.TKRAngle TKRAngle expr 
+	expr_ternary:  expr.TKQuestion expr TKColon expr 
+
+	TKAnd  shift 47
+	TKOr  shift 48
+	TKIs  shift 49
+	TKIn  shift 54
+	TKBang  shift 51
+	TKQuestion  shift 63
+	TKEqual  shift 50
+	TKLAngle  shift 52
+	TKRAngle  shift 53
+	TKPlus  shift 55
+	TKMinus  shift 56
+	TKStar  shift 57
+	TKSlash  shift 58
+	TKPercent  shift 59
+	TKAmpersand  shift 60
+	TKPipe  shift 61
+	TKCaret  shift 62
+	.  reduce 52 (src line 401)
+
+
+96: shift/reduce conflict (shift 47(0), red'n 53(0)) on TKAnd
+96: shift/reduce conflict (shift 48(0), red'n 53(0)) on TKOr
+96: shift/reduce conflict (shift 49(0), red'n 53(0)) on TKIs
+96: shift/reduce conflict (shift 54(0), red'n 53(0)) on TKIn
+96: shift/reduce conflict (shift 51(0), red'n 53(0)) on TKBang
+96: shift/reduce conflict (shift 63(0), red'n 53(0)) on TKQuestion
+96: shift/reduce conflict (shift 50(0), red'n 53(0)) on TKEqual
+96: shift/reduce conflict (shift 52(0), red'n 53(0)) on TKLAngle
+96: shift/reduce conflict (shift 53(0), red'n 53(0)) on TKRAngle
+96: shift/reduce conflict (shift 55(0), red'n 53(0)) on TKPlus
+96: shift/reduce conflict (shift 56(0), red'n 53(0)) on TKMinus
+96: shift/reduce conflict (shift 57(0), red'n 53(0)) on TKStar
+96: shift/reduce conflict (shift 58(0), red'n 53(0)) on TKSlash
+96: shift/reduce conflict (shift 59(0), red'n 53(0)) on TKPercent
+96: shift/reduce conflict (shift 60(0), red'n 53(0)) on TKAmpersand
+96: shift/reduce conflict (shift 61(0), red'n 53(0)) on TKPipe
+96: shift/reduce conflict (shift 62(0), red'n 53(0)) on TKCaret
+state 96
+	expr_binary:  expr.TKAnd expr 
+	expr_binary:  expr.TKOr expr 
+	expr_binary:  expr.TKIs expr 
+	expr_binary:  expr.TKEqual TKEqual expr 
+	expr_binary:  expr.TKBang TKEqual expr 
+	expr_binary:  expr.TKLAngle expr 
+	expr_binary:  expr.TKLAngle TKEqual expr 
+	expr_binary:  expr.TKRAngle expr 
+	expr_binary:  expr.TKRAngle TKEqual expr 
+	expr_binary:  expr.TKIn expr 
+	expr_binary:  expr.TKPlus expr 
+	expr_binary:  expr.TKMinus expr 
+	expr_binary:  expr.TKStar expr 
+	expr_binary:  expr.TKSlash expr 
+	expr_binary:  expr.TKPercent expr 
+	expr_binary:  expr.TKAmpersand expr 
+	expr_binary:  expr TKAmpersand expr.    (53)
+	expr_binary:  expr.TKPipe expr 
+	expr_binary:  expr.TKCaret expr 
+	expr_binary:  expr.TKLAngle TKLAngle expr 
+	expr_binary:  expr.TKRAngle TKRAngle expr 
+	expr_ternary:  expr.TKQuestion expr TKColon expr 
+
+	TKAnd  shift 47
+	TKOr  shift 48
+	TKIs  shift 49
+	TKIn  shift 54
+	TKBang  shift 51
+	TKQuestion  shift 63
+	TKEqual  shift 50
+	TKLAngle  shift 52
+	TKRAngle  shift 53
+	TKPlus  shift 55
+	TKMinus  shift 56
+	TKStar  shift 57
+	TKSlash  shift 58
+	TKPercent  shift 59
+	TKAmpersand  shift 60
+	TKPipe  shift 61
+	TKCaret  shift 62
+	.  reduce 53 (src line 409)
+
+
+97: shift/reduce conflict (shift 47(0), red'n 54(0)) on TKAnd
+97: shift/reduce conflict (shift 48(0), red'n 54(0)) on TKOr
+97: shift/reduce conflict (shift 49(0), red'n 54(0)) on TKIs
+97: shift/reduce conflict (shift 54(0), red'n 54(0)) on TKIn
+97: shift/reduce conflict (shift 51(0), red'n 54(0)) on TKBang
+97: shift/reduce conflict (shift 63(0), red'n 54(0)) on TKQuestion
+97: shift/reduce conflict (shift 50(0), red'n 54(0)) on TKEqual
+97: shift/reduce conflict (shift 52(0), red'n 54(0)) on TKLAngle
+97: shift/reduce conflict (shift 53(0), red'n 54(0)) on TKRAngle
+97: shift/reduce conflict (shift 55(0), red'n 54(0)) on TKPlus
+97: shift/reduce conflict (shift 56(0), red'n 54(0)) on TKMinus
+97: shift/reduce conflict (shift 57(0), red'n 54(0)) on TKStar
+97: shift/reduce conflict (shift 58(0), red'n 54(0)) on TKSlash
+97: shift/reduce conflict (shift 59(0), red'n 54(0)) on TKPercent
+97: shift/reduce conflict (shift 60(0), red'n 54(0)) on TKAmpersand
+97: shift/reduce conflict (shift 61(0), red'n 54(0)) on TKPipe
+97: shift/reduce conflict (shift 62(0), red'n 54(0)) on TKCaret
+state 97
+	expr_binary:  expr.TKAnd expr 
+	expr_binary:  expr.TKOr expr 
+	expr_binary:  expr.TKIs expr 
+	expr_binary:  expr.TKEqual TKEqual expr 
+	expr_binary:  expr.TKBang TKEqual expr 
+	expr_binary:  expr.TKLAngle expr 
+	expr_binary:  expr.TKLAngle TKEqual expr 
+	expr_binary:  expr.TKRAngle expr 
+	expr_binary:  expr.TKRAngle TKEqual expr 
+	expr_binary:  expr.TKIn expr 
+	expr_binary:  expr.TKPlus expr 
+	expr_binary:  expr.TKMinus expr 
+	expr_binary:  expr.TKStar expr 
+	expr_binary:  expr.TKSlash expr 
+	expr_binary:  expr.TKPercent expr 
+	expr_binary:  expr.TKAmpersand expr 
+	expr_binary:  expr.TKPipe expr 
+	expr_binary:  expr TKPipe expr.    (54)
+	expr_binary:  expr.TKCaret expr 
+	expr_binary:  expr.TKLAngle TKLAngle expr 
+	expr_binary:  expr.TKRAngle TKRAngle expr 
+	expr_ternary:  expr.TKQuestion expr TKColon expr 
+
+	TKAnd  shift 47
+	TKOr  shift 48
+	TKIs  shift 49
+	TKIn  shift 54
+	TKBang  shift 51
+	TKQuestion  shift 63
+	TKEqual  shift 50
+	TKLAngle  shift 52
+	TKRAngle  shift 53
+	TKPlus  shift 55
+	TKMinus  shift 56
+	TKStar  shift 57
+	TKSlash  shift 58
+	TKPercent  shift 59
+	TKAmpersand  shift 60
+	TKPipe  shift 61
+	TKCaret  shift 62
+	.  reduce 54 (src line 417)
+
+
+98: shift/reduce conflict (shift 47(0), red'n 55(0)) on TKAnd
+98: shift/reduce conflict (shift 48(0), red'n 55(0)) on TKOr
+98: shift/reduce conflict (shift 49(0), red'n 55(0)) on TKIs
+98: shift/reduce conflict (shift 54(0), red'n 55(0)) on TKIn
+98: shift/reduce conflict (shift 51(0), red'n 55(0)) on TKBang
+98: shift/reduce conflict (shift 63(0), red'n 55(0)) on TKQuestion
+98: shift/reduce conflict (shift 50(0), red'n 55(0)) on TKEqual
+98: shift/reduce conflict (shift 52(0), red'n 55(0)) on TKLAngle
+98: shift/reduce conflict (shift 53(0), red'n 55(0)) on TKRAngle
+98: shift/reduce conflict (shift 55(0), red'n 55(0)) on TKPlus
+98: shift/reduce conflict (shift 56(0), red'n 55(0)) on TKMinus
+98: shift/reduce conflict (shift 57(0), red'n 55(0)) on TKStar
+98: shift/reduce conflict (shift 58(0), red'n 55(0)) on TKSlash
+98: shift/reduce conflict (shift 59(0), red'n 55(0)) on TKPercent
+98: shift/reduce conflict (shift 60(0), red'n 55(0)) on TKAmpersand
+98: shift/reduce conflict (shift 61(0), red'n 55(0)) on TKPipe
+98: shift/reduce conflict (shift 62(0), red'n 55(0)) on TKCaret
+state 98
+	expr_binary:  expr.TKAnd expr 
+	expr_binary:  expr.TKOr expr 
+	expr_binary:  expr.TKIs expr 
+	expr_binary:  expr.TKEqual TKEqual expr 
+	expr_binary:  expr.TKBang TKEqual expr 
+	expr_binary:  expr.TKLAngle expr 
+	expr_binary:  expr.TKLAngle TKEqual expr 
+	expr_binary:  expr.TKRAngle expr 
+	expr_binary:  expr.TKRAngle TKEqual expr 
+	expr_binary:  expr.TKIn expr 
+	expr_binary:  expr.TKPlus expr 
+	expr_binary:  expr.TKMinus expr 
+	expr_binary:  expr.TKStar expr 
+	expr_binary:  expr.TKSlash expr 
+	expr_binary:  expr.TKPercent expr 
+	expr_binary:  expr.TKAmpersand expr 
+	expr_binary:  expr.TKPipe expr 
+	expr_binary:  expr.TKCaret expr 
+	expr_binary:  expr TKCaret expr.    (55)
+	expr_binary:  expr.TKLAngle TKLAngle expr 
+	expr_binary:  expr.TKRAngle TKRAngle expr 
+	expr_ternary:  expr.TKQuestion expr TKColon expr 
+
+	TKAnd  shift 47
+	TKOr  shift 48
+	TKIs  shift 49
+	TKIn  shift 54
+	TKBang  shift 51
+	TKQuestion  shift 63
+	TKEqual  shift 50
+	TKLAngle  shift 52
+	TKRAngle  shift 53
+	TKPlus  shift 55
+	TKMinus  shift 56
+	TKStar  shift 57
+	TKSlash  shift 58
+	TKPercent  shift 59
+	TKAmpersand  shift 60
+	TKPipe  shift 61
+	TKCaret  shift 62
+	.  reduce 55 (src line 425)
+
+
+state 99
+	expr_binary:  expr.TKAnd expr 
+	expr_binary:  expr.TKOr expr 
+	expr_binary:  expr.TKIs expr 
+	expr_binary:  expr.TKEqual TKEqual expr 
+	expr_binary:  expr.TKBang TKEqual expr 
+	expr_binary:  expr.TKLAngle expr 
+	expr_binary:  expr.TKLAngle TKEqual expr 
+	expr_binary:  expr.TKRAngle expr 
+	expr_binary:  expr.TKRAngle TKEqual expr 
+	expr_binary:  expr.TKIn expr 
+	expr_binary:  expr.TKPlus expr 
+	expr_binary:  expr.TKMinus expr 
+	expr_binary:  expr.TKStar expr 
+	expr_binary:  expr.TKSlash expr 
+	expr_binary:  expr.TKPercent expr 
+	expr_binary:  expr.TKAmpersand expr 
+	expr_binary:  expr.TKPipe expr 
+	expr_binary:  expr.TKCaret expr 
+	expr_binary:  expr.TKLAngle TKLAngle expr 
+	expr_binary:  expr.TKRAngle TKRAngle expr 
+	expr_ternary:  expr.TKQuestion expr TKColon expr 
+	expr_ternary:  expr TKQuestion expr.TKColon expr 
+
+	TKColon  shift 116
+	TKAnd  shift 47
+	TKOr  shift 48
+	TKIs  shift 49
+	TKIn  shift 54
+	TKBang  shift 51
+	TKQuestion  shift 63
+	TKEqual  shift 50
+	TKLAngle  shift 52
+	TKRAngle  shift 53
+	TKPlus  shift 55
+	TKMinus  shift 56
+	TKStar  shift 57
+	TKSlash  shift 58
+	TKPercent  shift 59
+	TKAmpersand  shift 60
+	TKPipe  shift 61
+	TKCaret  shift 62
+	.  error
+
+
+100: shift/reduce conflict (shift 117(0), red'n 19(0)) on TKElse
+state 100
+	stmt_if:  TKIf expr stmt.TKElse stmt 
+	stmt_if:  TKIf expr stmt.    (19)
+
+	TKElse  shift 117
+	.  reduce 19 (src line 227)
+
+
+state 101
+	expr_binary:  expr TKBang.TKEqual expr 
+	expr_unary:  TKBang.expr 
+
+	TKLParen  shift 33
+	TKLBracket  shift 35
+	TKTrue  shift 40
+	TKFalse  shift 39
+	TKNil  shift 38
+	TKBang  shift 41
+	TKEqual  shift 83
+	TKPlus  shift 42
+	TKMinus  shift 43
+	TKIdent  shift 65
+	TKInt  shift 34
+	TKFloat  shift 36
+	TKString  shift 37
+	.  error
+
+	expr  goto 74
+	expr_binary  goto 31
+	expr_false  goto 28
+	expr_float  goto 25
+	expr_group  goto 20
+	expr_ident  goto 22
+	expr_int  goto 23
+	expr_list  goto 24
+	expr_nil  goto 27
+	expr_string  goto 26
+	expr_ternary  goto 21
+	expr_true  goto 29
+	expr_tuple  goto 32
+	expr_unary  goto 30
+
+state 102
+	expr_binary:  expr TKPlus.expr 
+	expr_unary:  TKPlus.expr 
+
+	TKLParen  shift 33
+	TKLBracket  shift 35
+	TKTrue  shift 40
+	TKFalse  shift 39
+	TKNil  shift 38
+	TKBang  shift 41
+	TKPlus  shift 42
+	TKMinus  shift 43
+	TKIdent  shift 65
+	TKInt  shift 34
+	TKFloat  shift 36
+	TKString  shift 37
+	.  error
+
+	expr  goto 118
+	expr_binary  goto 31
+	expr_false  goto 28
+	expr_float  goto 25
+	expr_group  goto 20
+	expr_ident  goto 22
+	expr_int  goto 23
+	expr_list  goto 24
+	expr_nil  goto 27
+	expr_string  goto 26
+	expr_ternary  goto 21
+	expr_true  goto 29
+	expr_tuple  goto 32
+	expr_unary  goto 30
+
+state 103
+	expr_binary:  expr TKMinus.expr 
+	expr_unary:  TKMinus.expr 
+
+	TKLParen  shift 33
+	TKLBracket  shift 35
+	TKTrue  shift 40
+	TKFalse  shift 39
+	TKNil  shift 38
+	TKBang  shift 41
+	TKPlus  shift 42
+	TKMinus  shift 43
+	TKIdent  shift 65
+	TKInt  shift 34
+	TKFloat  shift 36
+	TKString  shift 37
+	.  error
+
+	expr  goto 119
+	expr_binary  goto 31
+	expr_false  goto 28
+	expr_float  goto 25
+	expr_group  goto 20
+	expr_ident  goto 22
+	expr_int  goto 23
+	expr_list  goto 24
+	expr_nil  goto 27
+	expr_string  goto 26
+	expr_ternary  goto 21
+	expr_true  goto 29
+	expr_tuple  goto 32
+	expr_unary  goto 30
+
+state 104
+	stmt_while:  TKWhile expr stmt.    (22)
+
+	.  reduce 22 (src line 251)
+
+
+state 105
+	expr_group:  TKLParen expr TKRParen.    (60)
+
+	.  reduce 60 (src line 472)
+
+
+state 106
+	exprs_comma_delimited:  exprs_comma_delimited TKComma.expr 
+	expr_tuple:  TKLParen exprs_comma_delimited TKComma.TKRParen 
+
+	TKLParen  shift 33
+	TKRParen  shift 121
+	TKLBracket  shift 35
+	TKTrue  shift 40
+	TKFalse  shift 39
+	TKNil  shift 38
+	TKBang  shift 41
+	TKPlus  shift 42
+	TKMinus  shift 43
+	TKIdent  shift 65
+	TKInt  shift 34
+	TKFloat  shift 36
+	TKString  shift 37
+	.  error
+
+	expr  goto 120
+	expr_binary  goto 31
+	expr_false  goto 28
+	expr_float  goto 25
+	expr_group  goto 20
+	expr_ident  goto 22
+	expr_int  goto 23
+	expr_list  goto 24
+	expr_nil  goto 27
+	expr_string  goto 26
+	expr_ternary  goto 21
+	expr_true  goto 29
+	expr_tuple  goto 32
+	expr_unary  goto 30
+
+state 107
+	expr_tuple:  TKLParen exprs_comma_delimited TKRParen.    (71)
+
+	.  reduce 71 (src line 571)
+
+
+state 108
+	exprs_comma_delimited:  exprs_comma_delimited TKComma.expr 
+	expr_list:  TKLBracket exprs_comma_delimited TKComma.TKRBracket 
+
+	TKLParen  shift 33
+	TKLBracket  shift 35
+	TKRBracket  shift 122
+	TKTrue  shift 40
+	TKFalse  shift 39
+	TKNil  shift 38
+	TKBang  shift 41
+	TKPlus  shift 42
+	TKMinus  shift 43
+	TKIdent  shift 65
+	TKInt  shift 34
+	TKFloat  shift 36
+	TKString  shift 37
+	.  error
+
+	expr  goto 120
+	expr_binary  goto 31
+	expr_false  goto 28
+	expr_float  goto 25
+	expr_group  goto 20
+	expr_ident  goto 22
+	expr_int  goto 23
+	expr_list  goto 24
+	expr_nil  goto 27
+	expr_string  goto 26
+	expr_ternary  goto 21
+	expr_true  goto 29
+	expr_tuple  goto 32
+	expr_unary  goto 30
+
+state 109
+	expr_list:  TKLBracket exprs_comma_delimited TKRBracket.    (64)
+
+	.  reduce 64 (src line 511)
+
+
+110: shift/reduce conflict (shift 47(0), red'n 41(0)) on TKAnd
+110: shift/reduce conflict (shift 48(0), red'n 41(0)) on TKOr
+110: shift/reduce conflict (shift 49(0), red'n 41(0)) on TKIs
+110: shift/reduce conflict (shift 54(0), red'n 41(0)) on TKIn
+110: shift/reduce conflict (shift 51(0), red'n 41(0)) on TKBang
+110: shift/reduce conflict (shift 63(0), red'n 41(0)) on TKQuestion
+110: shift/reduce conflict (shift 50(0), red'n 41(0)) on TKEqual
+110: shift/reduce conflict (shift 52(0), red'n 41(0)) on TKLAngle
+110: shift/reduce conflict (shift 53(0), red'n 41(0)) on TKRAngle
+110: shift/reduce conflict (shift 55(0), red'n 41(0)) on TKPlus
+110: shift/reduce conflict (shift 56(0), red'n 41(0)) on TKMinus
+110: shift/reduce conflict (shift 57(0), red'n 41(0)) on TKStar
+110: shift/reduce conflict (shift 58(0), red'n 41(0)) on TKSlash
+110: shift/reduce conflict (shift 59(0), red'n 41(0)) on TKPercent
+110: shift/reduce conflict (shift 60(0), red'n 41(0)) on TKAmpersand
+110: shift/reduce conflict (shift 61(0), red'n 41(0)) on TKPipe
+110: shift/reduce conflict (shift 62(0), red'n 41(0)) on TKCaret
+state 110
+	expr_binary:  expr.TKAnd expr 
+	expr_binary:  expr.TKOr expr 
+	expr_binary:  expr.TKIs expr 
+	expr_binary:  expr.TKEqual TKEqual expr 
+	expr_binary:  expr TKEqual TKEqual expr.    (41)
+	expr_binary:  expr.TKBang TKEqual expr 
+	expr_binary:  expr.TKLAngle expr 
+	expr_binary:  expr.TKLAngle TKEqual expr 
+	expr_binary:  expr.TKRAngle expr 
+	expr_binary:  expr.TKRAngle TKEqual expr 
+	expr_binary:  expr.TKIn expr 
+	expr_binary:  expr.TKPlus expr 
+	expr_binary:  expr.TKMinus expr 
+	expr_binary:  expr.TKStar expr 
+	expr_binary:  expr.TKSlash expr 
+	expr_binary:  expr.TKPercent expr 
+	expr_binary:  expr.TKAmpersand expr 
+	expr_binary:  expr.TKPipe expr 
+	expr_binary:  expr.TKCaret expr 
+	expr_binary:  expr.TKLAngle TKLAngle expr 
+	expr_binary:  expr.TKRAngle TKRAngle expr 
+	expr_ternary:  expr.TKQuestion expr TKColon expr 
+
+	TKAnd  shift 47
+	TKOr  shift 48
+	TKIs  shift 49
+	TKIn  shift 54
+	TKBang  shift 51
+	TKQuestion  shift 63
+	TKEqual  shift 50
+	TKLAngle  shift 52
+	TKRAngle  shift 53
+	TKPlus  shift 55
+	TKMinus  shift 56
+	TKStar  shift 57
+	TKSlash  shift 58
+	TKPercent  shift 59
+	TKAmpersand  shift 60
+	TKPipe  shift 61
+	TKCaret  shift 62
+	.  reduce 41 (src line 313)
+
+
+111: shift/reduce conflict (shift 47(0), red'n 42(0)) on TKAnd
+111: shift/reduce conflict (shift 48(0), red'n 42(0)) on TKOr
+111: shift/reduce conflict (shift 49(0), red'n 42(0)) on TKIs
+111: shift/reduce conflict (shift 54(0), red'n 42(0)) on TKIn
+111: shift/reduce conflict (shift 51(0), red'n 42(0)) on TKBang
+111: shift/reduce conflict (shift 63(0), red'n 42(0)) on TKQuestion
+111: shift/reduce conflict (shift 50(0), red'n 42(0)) on TKEqual
+111: shift/reduce conflict (shift 52(0), red'n 42(0)) on TKLAngle
+111: shift/reduce conflict (shift 53(0), red'n 42(0)) on TKRAngle
+111: shift/reduce conflict (shift 55(0), red'n 42(0)) on TKPlus
+111: shift/reduce conflict (shift 56(0), red'n 42(0)) on TKMinus
+111: shift/reduce conflict (shift 57(0), red'n 42(0)) on TKStar
+111: shift/reduce conflict (shift 58(0), red'n 42(0)) on TKSlash
+111: shift/reduce conflict (shift 59(0), red'n 42(0)) on TKPercent
+111: shift/reduce conflict (shift 60(0), red'n 42(0)) on TKAmpersand
+111: shift/reduce conflict (shift 61(0), red'n 42(0)) on TKPipe
+111: shift/reduce conflict (shift 62(0), red'n 42(0)) on TKCaret
+state 111
+	expr_binary:  expr.TKAnd expr 
+	expr_binary:  expr.TKOr expr 
+	expr_binary:  expr.TKIs expr 
+	expr_binary:  expr.TKEqual TKEqual expr 
+	expr_binary:  expr.TKBang TKEqual expr 
+	expr_binary:  expr TKBang TKEqual expr.    (42)
+	expr_binary:  expr.TKLAngle expr 
+	expr_binary:  expr.TKLAngle TKEqual expr 
+	expr_binary:  expr.TKRAngle expr 
+	expr_binary:  expr.TKRAngle TKEqual expr 
+	expr_binary:  expr.TKIn expr 
+	expr_binary:  expr.TKPlus expr 
+	expr_binary:  expr.TKMinus expr 
+	expr_binary:  expr.TKStar expr 
+	expr_binary:  expr.TKSlash expr 
+	expr_binary:  expr.TKPercent expr 
+	expr_binary:  expr.TKAmpersand expr 
+	expr_binary:  expr.TKPipe expr 
+	expr_binary:  expr.TKCaret expr 
+	expr_binary:  expr.TKLAngle TKLAngle expr 
+	expr_binary:  expr.TKRAngle TKRAngle expr 
+	expr_ternary:  expr.TKQuestion expr TKColon expr 
+
+	TKAnd  shift 47
+	TKOr  shift 48
+	TKIs  shift 49
+	TKIn  shift 54
+	TKBang  shift 51
+	TKQuestion  shift 63
+	TKEqual  shift 50
+	TKLAngle  shift 52
+	TKRAngle  shift 53
+	TKPlus  shift 55
+	TKMinus  shift 56
+	TKStar  shift 57
+	TKSlash  shift 58
+	TKPercent  shift 59
+	TKAmpersand  shift 60
+	TKPipe  shift 61
+	TKCaret  shift 62
+	.  reduce 42 (src line 321)
+
+
+112: shift/reduce conflict (shift 47(0), red'n 44(0)) on TKAnd
+112: shift/reduce conflict (shift 48(0), red'n 44(0)) on TKOr
+112: shift/reduce conflict (shift 49(0), red'n 44(0)) on TKIs
+112: shift/reduce conflict (shift 54(0), red'n 44(0)) on TKIn
+112: shift/reduce conflict (shift 51(0), red'n 44(0)) on TKBang
+112: shift/reduce conflict (shift 63(0), red'n 44(0)) on TKQuestion
+112: shift/reduce conflict (shift 50(0), red'n 44(0)) on TKEqual
+112: shift/reduce conflict (shift 52(0), red'n 44(0)) on TKLAngle
+112: shift/reduce conflict (shift 53(0), red'n 44(0)) on TKRAngle
+112: shift/reduce conflict (shift 55(0), red'n 44(0)) on TKPlus
+112: shift/reduce conflict (shift 56(0), red'n 44(0)) on TKMinus
+112: shift/reduce conflict (shift 57(0), red'n 44(0)) on TKStar
+112: shift/reduce conflict (shift 58(0), red'n 44(0)) on TKSlash
+112: shift/reduce conflict (shift 59(0), red'n 44(0)) on TKPercent
+112: shift/reduce conflict (shift 60(0), red'n 44(0)) on TKAmpersand
+112: shift/reduce conflict (shift 61(0), red'n 44(0)) on TKPipe
+112: shift/reduce conflict (shift 62(0), red'n 44(0)) on TKCaret
+state 112
+	expr_binary:  expr.TKAnd expr 
+	expr_binary:  expr.TKOr expr 
+	expr_binary:  expr.TKIs expr 
+	expr_binary:  expr.TKEqual TKEqual expr 
+	expr_binary:  expr.TKBang TKEqual expr 
+	expr_binary:  expr.TKLAngle expr 
+	expr_binary:  expr.TKLAngle TKEqual expr 
+	expr_binary:  expr TKLAngle TKEqual expr.    (44)
+	expr_binary:  expr.TKRAngle expr 
+	expr_binary:  expr.TKRAngle TKEqual expr 
+	expr_binary:  expr.TKIn expr 
+	expr_binary:  expr.TKPlus expr 
+	expr_binary:  expr.TKMinus expr 
+	expr_binary:  expr.TKStar expr 
+	expr_binary:  expr.TKSlash expr 
+	expr_binary:  expr.TKPercent expr 
+	expr_binary:  expr.TKAmpersand expr 
+	expr_binary:  expr.TKPipe expr 
+	expr_binary:  expr.TKCaret expr 
+	expr_binary:  expr.TKLAngle TKLAngle expr 
+	expr_binary:  expr.TKRAngle TKRAngle expr 
+	expr_ternary:  expr.TKQuestion expr TKColon expr 
+
+	TKAnd  shift 47
+	TKOr  shift 48
+	TKIs  shift 49
+	TKIn  shift 54
+	TKBang  shift 51
+	TKQuestion  shift 63
+	TKEqual  shift 50
+	TKLAngle  shift 52
+	TKRAngle  shift 53
+	TKPlus  shift 55
+	TKMinus  shift 56
+	TKStar  shift 57
+	TKSlash  shift 58
+	TKPercent  shift 59
+	TKAmpersand  shift 60
+	TKPipe  shift 61
+	TKCaret  shift 62
+	.  reduce 44 (src line 337)
+
+
+113: shift/reduce conflict (shift 47(0), red'n 56(0)) on TKAnd
+113: shift/reduce conflict (shift 48(0), red'n 56(0)) on TKOr
+113: shift/reduce conflict (shift 49(0), red'n 56(0)) on TKIs
+113: shift/reduce conflict (shift 54(0), red'n 56(0)) on TKIn
+113: shift/reduce conflict (shift 51(0), red'n 56(0)) on TKBang
+113: shift/reduce conflict (shift 63(0), red'n 56(0)) on TKQuestion
+113: shift/reduce conflict (shift 50(0), red'n 56(0)) on TKEqual
+113: shift/reduce conflict (shift 52(0), red'n 56(0)) on TKLAngle
+113: shift/reduce conflict (shift 53(0), red'n 56(0)) on TKRAngle
+113: shift/reduce conflict (shift 55(0), red'n 56(0)) on TKPlus
+113: shift/reduce conflict (shift 56(0), red'n 56(0)) on TKMinus
+113: shift/reduce conflict (shift 57(0), red'n 56(0)) on TKStar
+113: shift/reduce conflict (shift 58(0), red'n 56(0)) on TKSlash
+113: shift/reduce conflict (shift 59(0), red'n 56(0)) on TKPercent
+113: shift/reduce conflict (shift 60(0), red'n 56(0)) on TKAmpersand
+113: shift/reduce conflict (shift 61(0), red'n 56(0)) on TKPipe
+113: shift/reduce conflict (shift 62(0), red'n 56(0)) on TKCaret
+state 113
+	expr_binary:  expr.TKAnd expr 
+	expr_binary:  expr.TKOr expr 
+	expr_binary:  expr.TKIs expr 
+	expr_binary:  expr.TKEqual TKEqual expr 
+	expr_binary:  expr.TKBang TKEqual expr 
+	expr_binary:  expr.TKLAngle expr 
+	expr_binary:  expr.TKLAngle TKEqual expr 
+	expr_binary:  expr.TKRAngle expr 
+	expr_binary:  expr.TKRAngle TKEqual expr 
+	expr_binary:  expr.TKIn expr 
+	expr_binary:  expr.TKPlus expr 
+	expr_binary:  expr.TKMinus expr 
+	expr_binary:  expr.TKStar expr 
+	expr_binary:  expr.TKSlash expr 
+	expr_binary:  expr.TKPercent expr 
+	expr_binary:  expr.TKAmpersand expr 
+	expr_binary:  expr.TKPipe expr 
+	expr_binary:  expr.TKCaret expr 
+	expr_binary:  expr.TKLAngle TKLAngle expr 
+	expr_binary:  expr TKLAngle TKLAngle expr.    (56)
+	expr_binary:  expr.TKRAngle TKRAngle expr 
+	expr_ternary:  expr.TKQuestion expr TKColon expr 
+
+	TKAnd  shift 47
+	TKOr  shift 48
+	TKIs  shift 49
+	TKIn  shift 54
+	TKBang  shift 51
+	TKQuestion  shift 63
+	TKEqual  shift 50
+	TKLAngle  shift 52
+	TKRAngle  shift 53
+	TKPlus  shift 55
+	TKMinus  shift 56
+	TKStar  shift 57
+	TKSlash  shift 58
+	TKPercent  shift 59
+	TKAmpersand  shift 60
+	TKPipe  shift 61
+	TKCaret  shift 62
+	.  reduce 56 (src line 433)
+
+
+114: shift/reduce conflict (shift 47(0), red'n 46(0)) on TKAnd
+114: shift/reduce conflict (shift 48(0), red'n 46(0)) on TKOr
+114: shift/reduce conflict (shift 49(0), red'n 46(0)) on TKIs
+114: shift/reduce conflict (shift 54(0), red'n 46(0)) on TKIn
+114: shift/reduce conflict (shift 51(0), red'n 46(0)) on TKBang
+114: shift/reduce conflict (shift 63(0), red'n 46(0)) on TKQuestion
+114: shift/reduce conflict (shift 50(0), red'n 46(0)) on TKEqual
+114: shift/reduce conflict (shift 52(0), red'n 46(0)) on TKLAngle
+114: shift/reduce conflict (shift 53(0), red'n 46(0)) on TKRAngle
+114: shift/reduce conflict (shift 55(0), red'n 46(0)) on TKPlus
+114: shift/reduce conflict (shift 56(0), red'n 46(0)) on TKMinus
+114: shift/reduce conflict (shift 57(0), red'n 46(0)) on TKStar
+114: shift/reduce conflict (shift 58(0), red'n 46(0)) on TKSlash
+114: shift/reduce conflict (shift 59(0), red'n 46(0)) on TKPercent
+114: shift/reduce conflict (shift 60(0), red'n 46(0)) on TKAmpersand
+114: shift/reduce conflict (shift 61(0), red'n 46(0)) on TKPipe
+114: shift/reduce conflict (shift 62(0), red'n 46(0)) on TKCaret
+state 114
+	expr_binary:  expr.TKAnd expr 
+	expr_binary:  expr.TKOr expr 
+	expr_binary:  expr.TKIs expr 
+	expr_binary:  expr.TKEqual TKEqual expr 
+	expr_binary:  expr.TKBang TKEqual expr 
+	expr_binary:  expr.TKLAngle expr 
+	expr_binary:  expr.TKLAngle TKEqual expr 
+	expr_binary:  expr.TKRAngle expr 
+	expr_binary:  expr.TKRAngle TKEqual expr 
+	expr_binary:  expr TKRAngle TKEqual expr.    (46)
+	expr_binary:  expr.TKIn expr 
+	expr_binary:  expr.TKPlus expr 
+	expr_binary:  expr.TKMinus expr 
+	expr_binary:  expr.TKStar expr 
+	expr_binary:  expr.TKSlash expr 
+	expr_binary:  expr.TKPercent expr 
+	expr_binary:  expr.TKAmpersand expr 
+	expr_binary:  expr.TKPipe expr 
+	expr_binary:  expr.TKCaret expr 
+	expr_binary:  expr.TKLAngle TKLAngle expr 
+	expr_binary:  expr.TKRAngle TKRAngle expr 
+	expr_ternary:  expr.TKQuestion expr TKColon expr 
+
+	TKAnd  shift 47
+	TKOr  shift 48
+	TKIs  shift 49
+	TKIn  shift 54
+	TKBang  shift 51
+	TKQuestion  shift 63
+	TKEqual  shift 50
+	TKLAngle  shift 52
+	TKRAngle  shift 53
+	TKPlus  shift 55
+	TKMinus  shift 56
+	TKStar  shift 57
+	TKSlash  shift 58
+	TKPercent  shift 59
+	TKAmpersand  shift 60
+	TKPipe  shift 61
+	TKCaret  shift 62
+	.  reduce 46 (src line 353)
+
+
+115: shift/reduce conflict (shift 47(0), red'n 57(0)) on TKAnd
+115: shift/reduce conflict (shift 48(0), red'n 57(0)) on TKOr
+115: shift/reduce conflict (shift 49(0), red'n 57(0)) on TKIs
+115: shift/reduce conflict (shift 54(0), red'n 57(0)) on TKIn
+115: shift/reduce conflict (shift 51(0), red'n 57(0)) on TKBang
+115: shift/reduce conflict (shift 63(0), red'n 57(0)) on TKQuestion
+115: shift/reduce conflict (shift 50(0), red'n 57(0)) on TKEqual
+115: shift/reduce conflict (shift 52(0), red'n 57(0)) on TKLAngle
+115: shift/reduce conflict (shift 53(0), red'n 57(0)) on TKRAngle
+115: shift/reduce conflict (shift 55(0), red'n 57(0)) on TKPlus
+115: shift/reduce conflict (shift 56(0), red'n 57(0)) on TKMinus
+115: shift/reduce conflict (shift 57(0), red'n 57(0)) on TKStar
+115: shift/reduce conflict (shift 58(0), red'n 57(0)) on TKSlash
+115: shift/reduce conflict (shift 59(0), red'n 57(0)) on TKPercent
+115: shift/reduce conflict (shift 60(0), red'n 57(0)) on TKAmpersand
+115: shift/reduce conflict (shift 61(0), red'n 57(0)) on TKPipe
+115: shift/reduce conflict (shift 62(0), red'n 57(0)) on TKCaret
+state 115
+	expr_binary:  expr.TKAnd expr 
+	expr_binary:  expr.TKOr expr 
+	expr_binary:  expr.TKIs expr 
+	expr_binary:  expr.TKEqual TKEqual expr 
+	expr_binary:  expr.TKBang TKEqual expr 
+	expr_binary:  expr.TKLAngle expr 
+	expr_binary:  expr.TKLAngle TKEqual expr 
+	expr_binary:  expr.TKRAngle expr 
+	expr_binary:  expr.TKRAngle TKEqual expr 
+	expr_binary:  expr.TKIn expr 
+	expr_binary:  expr.TKPlus expr 
+	expr_binary:  expr.TKMinus expr 
+	expr_binary:  expr.TKStar expr 
+	expr_binary:  expr.TKSlash expr 
+	expr_binary:  expr.TKPercent expr 
+	expr_binary:  expr.TKAmpersand expr 
+	expr_binary:  expr.TKPipe expr 
+	expr_binary:  expr.TKCaret expr 
+	expr_binary:  expr.TKLAngle TKLAngle expr 
+	expr_binary:  expr.TKRAngle TKRAngle expr 
+	expr_binary:  expr TKRAngle TKRAngle expr.    (57)
+	expr_ternary:  expr.TKQuestion expr TKColon expr 
+
+	TKAnd  shift 47
+	TKOr  shift 48
+	TKIs  shift 49
+	TKIn  shift 54
+	TKBang  shift 51
+	TKQuestion  shift 63
+	TKEqual  shift 50
+	TKLAngle  shift 52
+	TKRAngle  shift 53
+	TKPlus  shift 55
+	TKMinus  shift 56
+	TKStar  shift 57
+	TKSlash  shift 58
+	TKPercent  shift 59
+	TKAmpersand  shift 60
+	TKPipe  shift 61
+	TKCaret  shift 62
+	.  reduce 57 (src line 441)
+
+
+state 116
+	expr_ternary:  expr TKQuestion expr TKColon.expr 
+
+	TKLParen  shift 33
+	TKLBracket  shift 35
+	TKTrue  shift 40
+	TKFalse  shift 39
+	TKNil  shift 38
+	TKBang  shift 41
+	TKPlus  shift 42
+	TKMinus  shift 43
+	TKIdent  shift 65
+	TKInt  shift 34
+	TKFloat  shift 36
+	TKString  shift 37
+	.  error
+
+	expr  goto 123
+	expr_binary  goto 31
+	expr_false  goto 28
+	expr_float  goto 25
+	expr_group  goto 20
+	expr_ident  goto 22
+	expr_int  goto 23
+	expr_list  goto 24
+	expr_nil  goto 27
+	expr_string  goto 26
+	expr_ternary  goto 21
+	expr_true  goto 29
+	expr_tuple  goto 32
+	expr_unary  goto 30
+
+state 117
+	stmt_if:  TKIf expr stmt TKElse.stmt 
+
+	TKLParen  shift 33
+	TKLBrace  shift 13
+	TKLBracket  shift 35
+	TKIf  shift 17
+	TKWhile  shift 19
+	TKReturn  shift 18
+	TKBreak  shift 14
+	TKContinue  shift 15
+	TKTrue  shift 40
+	TKFalse  shift 39
+	TKNil  shift 38
+	TKBang  shift 41
+	TKPlus  shift 42
+	TKMinus  shift 43
+	TKIdent  shift 12
+	TKInt  shift 34
+	TKFloat  shift 36
+	TKString  shift 37
+	.  error
+
+	stmt  goto 124
+	stmt_assign  goto 4
+	stmt_block  goto 5
+	stmt_break  goto 6
+	stmt_continue  goto 7
+	stmt_expr  goto 8
+	stmt_if  goto 9
+	stmt_return  goto 10
+	stmt_while  goto 11
+	expr  goto 16
+	expr_binary  goto 31
+	expr_false  goto 28
+	expr_float  goto 25
+	expr_group  goto 20
+	expr_ident  goto 22
+	expr_int  goto 23
+	expr_list  goto 24
+	expr_nil  goto 27
+	expr_string  goto 26
+	expr_ternary  goto 21
+	expr_true  goto 29
+	expr_tuple  goto 32
+	expr_unary  goto 30
+
+118: shift/reduce conflict (shift 47(0), red'n 48(0)) on TKAnd
+118: shift/reduce conflict (shift 48(0), red'n 48(0)) on TKOr
+118: shift/reduce conflict (shift 49(0), red'n 48(0)) on TKIs
+118: shift/reduce conflict (shift 54(0), red'n 48(0)) on TKIn
+118: shift/reduce conflict (shift 51(0), red'n 48(0)) on TKBang
+118: shift/reduce conflict (shift 63(0), red'n 48(0)) on TKQuestion
+118: shift/reduce conflict (shift 50(0), red'n 48(0)) on TKEqual
+118: shift/reduce conflict (shift 52(0), red'n 48(0)) on TKLAngle
+118: shift/reduce conflict (shift 53(0), red'n 48(0)) on TKRAngle
+118: shift/reduce conflict (shift 55(0), red'n 48(0)) on TKPlus
+118: shift/reduce conflict (shift 56(0), red'n 48(0)) on TKMinus
+118: shift/reduce conflict (shift 57(0), red'n 48(0)) on TKStar
+118: shift/reduce conflict (shift 58(0), red'n 48(0)) on TKSlash
+118: shift/reduce conflict (shift 59(0), red'n 48(0)) on TKPercent
+118: shift/reduce conflict (shift 60(0), red'n 48(0)) on TKAmpersand
+118: shift/reduce conflict (shift 61(0), red'n 48(0)) on TKPipe
+118: shift/reduce conflict (shift 62(0), red'n 48(0)) on TKCaret
+ 118: reduce/reduce conflict  (red'ns 48 and 74) on TKLParen
+ 118: reduce/reduce conflict  (red'ns 48 and 74) on TKLBrace
+ 118: reduce/reduce conflict  (red'ns 48 and 74) on TKLBracket
+118: shift/reduce conflict (shift 47(0), red'n 74(0)) on TKAnd
+118: shift/reduce conflict (shift 48(0), red'n 74(0)) on TKOr
+118: shift/reduce conflict (shift 49(0), red'n 74(0)) on TKIs
+118: shift/reduce conflict (shift 54(0), red'n 74(0)) on TKIn
+ 118: reduce/reduce conflict  (red'ns 48 and 74) on TKIf
+ 118: reduce/reduce conflict  (red'ns 48 and 74) on TKWhile
+ 118: reduce/reduce conflict  (red'ns 48 and 74) on TKReturn
+ 118: reduce/reduce conflict  (red'ns 48 and 74) on TKBreak
+ 118: reduce/reduce conflict  (red'ns 48 and 74) on TKContinue
+ 118: reduce/reduce conflict  (red'ns 48 and 74) on TKTrue
+ 118: reduce/reduce conflict  (red'ns 48 and 74) on TKFalse
+ 118: reduce/reduce conflict  (red'ns 48 and 74) on TKNil
+118: shift/reduce conflict (shift 51(0), red'n 74(0)) on TKBang
+118: shift/reduce conflict (shift 63(0), red'n 74(0)) on TKQuestion
+118: shift/reduce conflict (shift 50(0), red'n 74(0)) on TKEqual
+118: shift/reduce conflict (shift 52(0), red'n 74(0)) on TKLAngle
+118: shift/reduce conflict (shift 53(0), red'n 74(0)) on TKRAngle
+118: shift/reduce conflict (shift 55(0), red'n 74(0)) on TKPlus
+118: shift/reduce conflict (shift 56(0), red'n 74(0)) on TKMinus
+118: shift/reduce conflict (shift 57(0), red'n 74(0)) on TKStar
+118: shift/reduce conflict (shift 58(0), red'n 74(0)) on TKSlash
+118: shift/reduce conflict (shift 59(0), red'n 74(0)) on TKPercent
+118: shift/reduce conflict (shift 60(0), red'n 74(0)) on TKAmpersand
+118: shift/reduce conflict (shift 61(0), red'n 74(0)) on TKPipe
+118: shift/reduce conflict (shift 62(0), red'n 74(0)) on TKCaret
+ 118: reduce/reduce conflict  (red'ns 48 and 74) on TKIdent
+ 118: reduce/reduce conflict  (red'ns 48 and 74) on TKInt
+ 118: reduce/reduce conflict  (red'ns 48 and 74) on TKFloat
+ 118: reduce/reduce conflict  (red'ns 48 and 74) on TKString
+state 118
+	expr_binary:  expr.TKAnd expr 
+	expr_binary:  expr.TKOr expr 
+	expr_binary:  expr.TKIs expr 
+	expr_binary:  expr.TKEqual TKEqual expr 
+	expr_binary:  expr.TKBang TKEqual expr 
+	expr_binary:  expr.TKLAngle expr 
+	expr_binary:  expr.TKLAngle TKEqual expr 
+	expr_binary:  expr.TKRAngle expr 
+	expr_binary:  expr.TKRAngle TKEqual expr 
+	expr_binary:  expr.TKIn expr 
+	expr_binary:  expr.TKPlus expr 
+	expr_binary:  expr TKPlus expr.    (48)
+	expr_binary:  expr.TKMinus expr 
+	expr_binary:  expr.TKStar expr 
+	expr_binary:  expr.TKSlash expr 
+	expr_binary:  expr.TKPercent expr 
+	expr_binary:  expr.TKAmpersand expr 
+	expr_binary:  expr.TKPipe expr 
+	expr_binary:  expr.TKCaret expr 
+	expr_binary:  expr.TKLAngle TKLAngle expr 
+	expr_binary:  expr.TKRAngle TKRAngle expr 
+	expr_ternary:  expr.TKQuestion expr TKColon expr 
+	expr_unary:  TKPlus expr.    (74)
+
+	$end  reduce 74 (src line 593)
+	TKRBrace  reduce 74 (src line 593)
+	TKAnd  shift 47
+	TKOr  shift 48
+	TKIs  shift 49
+	TKIn  shift 54
+	TKElse  reduce 74 (src line 593)
+	TKBang  shift 51
+	TKQuestion  shift 63
+	TKEqual  shift 50
+	TKLAngle  shift 52
+	TKRAngle  shift 53
+	TKPlus  shift 55
+	TKMinus  shift 56
+	TKStar  shift 57
+	TKSlash  shift 58
+	TKPercent  shift 59
+	TKAmpersand  shift 60
+	TKPipe  shift 61
+	TKCaret  shift 62
+	.  reduce 48 (src line 369)
+
+
+119: shift/reduce conflict (shift 47(0), red'n 49(0)) on TKAnd
+119: shift/reduce conflict (shift 48(0), red'n 49(0)) on TKOr
+119: shift/reduce conflict (shift 49(0), red'n 49(0)) on TKIs
+119: shift/reduce conflict (shift 54(0), red'n 49(0)) on TKIn
+119: shift/reduce conflict (shift 51(0), red'n 49(0)) on TKBang
+119: shift/reduce conflict (shift 63(0), red'n 49(0)) on TKQuestion
+119: shift/reduce conflict (shift 50(0), red'n 49(0)) on TKEqual
+119: shift/reduce conflict (shift 52(0), red'n 49(0)) on TKLAngle
+119: shift/reduce conflict (shift 53(0), red'n 49(0)) on TKRAngle
+119: shift/reduce conflict (shift 55(0), red'n 49(0)) on TKPlus
+119: shift/reduce conflict (shift 56(0), red'n 49(0)) on TKMinus
+119: shift/reduce conflict (shift 57(0), red'n 49(0)) on TKStar
+119: shift/reduce conflict (shift 58(0), red'n 49(0)) on TKSlash
+119: shift/reduce conflict (shift 59(0), red'n 49(0)) on TKPercent
+119: shift/reduce conflict (shift 60(0), red'n 49(0)) on TKAmpersand
+119: shift/reduce conflict (shift 61(0), red'n 49(0)) on TKPipe
+119: shift/reduce conflict (shift 62(0), red'n 49(0)) on TKCaret
+ 119: reduce/reduce conflict  (red'ns 49 and 75) on TKLParen
+ 119: reduce/reduce conflict  (red'ns 49 and 75) on TKLBrace
+ 119: reduce/reduce conflict  (red'ns 49 and 75) on TKLBracket
+119: shift/reduce conflict (shift 47(0), red'n 75(0)) on TKAnd
+119: shift/reduce conflict (shift 48(0), red'n 75(0)) on TKOr
+119: shift/reduce conflict (shift 49(0), red'n 75(0)) on TKIs
+119: shift/reduce conflict (shift 54(0), red'n 75(0)) on TKIn
+ 119: reduce/reduce conflict  (red'ns 49 and 75) on TKIf
+ 119: reduce/reduce conflict  (red'ns 49 and 75) on TKWhile
+ 119: reduce/reduce conflict  (red'ns 49 and 75) on TKReturn
+ 119: reduce/reduce conflict  (red'ns 49 and 75) on TKBreak
+ 119: reduce/reduce conflict  (red'ns 49 and 75) on TKContinue
+ 119: reduce/reduce conflict  (red'ns 49 and 75) on TKTrue
+ 119: reduce/reduce conflict  (red'ns 49 and 75) on TKFalse
+ 119: reduce/reduce conflict  (red'ns 49 and 75) on TKNil
+119: shift/reduce conflict (shift 51(0), red'n 75(0)) on TKBang
+119: shift/reduce conflict (shift 63(0), red'n 75(0)) on TKQuestion
+119: shift/reduce conflict (shift 50(0), red'n 75(0)) on TKEqual
+119: shift/reduce conflict (shift 52(0), red'n 75(0)) on TKLAngle
+119: shift/reduce conflict (shift 53(0), red'n 75(0)) on TKRAngle
+119: shift/reduce conflict (shift 55(0), red'n 75(0)) on TKPlus
+119: shift/reduce conflict (shift 56(0), red'n 75(0)) on TKMinus
+119: shift/reduce conflict (shift 57(0), red'n 75(0)) on TKStar
+119: shift/reduce conflict (shift 58(0), red'n 75(0)) on TKSlash
+119: shift/reduce conflict (shift 59(0), red'n 75(0)) on TKPercent
+119: shift/reduce conflict (shift 60(0), red'n 75(0)) on TKAmpersand
+119: shift/reduce conflict (shift 61(0), red'n 75(0)) on TKPipe
+119: shift/reduce conflict (shift 62(0), red'n 75(0)) on TKCaret
+ 119: reduce/reduce conflict  (red'ns 49 and 75) on TKIdent
+ 119: reduce/reduce conflict  (red'ns 49 and 75) on TKInt
+ 119: reduce/reduce conflict  (red'ns 49 and 75) on TKFloat
+ 119: reduce/reduce conflict  (red'ns 49 and 75) on TKString
+state 119
+	expr_binary:  expr.TKAnd expr 
+	expr_binary:  expr.TKOr expr 
+	expr_binary:  expr.TKIs expr 
+	expr_binary:  expr.TKEqual TKEqual expr 
+	expr_binary:  expr.TKBang TKEqual expr 
+	expr_binary:  expr.TKLAngle expr 
+	expr_binary:  expr.TKLAngle TKEqual expr 
+	expr_binary:  expr.TKRAngle expr 
+	expr_binary:  expr.TKRAngle TKEqual expr 
+	expr_binary:  expr.TKIn expr 
+	expr_binary:  expr.TKPlus expr 
+	expr_binary:  expr.TKMinus expr 
+	expr_binary:  expr TKMinus expr.    (49)
+	expr_binary:  expr.TKStar expr 
+	expr_binary:  expr.TKSlash expr 
+	expr_binary:  expr.TKPercent expr 
+	expr_binary:  expr.TKAmpersand expr 
+	expr_binary:  expr.TKPipe expr 
+	expr_binary:  expr.TKCaret expr 
+	expr_binary:  expr.TKLAngle TKLAngle expr 
+	expr_binary:  expr.TKRAngle TKRAngle expr 
+	expr_ternary:  expr.TKQuestion expr TKColon expr 
+	expr_unary:  TKMinus expr.    (75)
+
+	$end  reduce 75 (src line 600)
+	TKRBrace  reduce 75 (src line 600)
+	TKAnd  shift 47
+	TKOr  shift 48
+	TKIs  shift 49
+	TKIn  shift 54
+	TKElse  reduce 75 (src line 600)
+	TKBang  shift 51
+	TKQuestion  shift 63
+	TKEqual  shift 50
+	TKLAngle  shift 52
+	TKRAngle  shift 53
+	TKPlus  shift 55
+	TKMinus  shift 56
+	TKStar  shift 57
+	TKSlash  shift 58
+	TKPercent  shift 59
+	TKAmpersand  shift 60
+	TKPipe  shift 61
+	TKCaret  shift 62
+	.  reduce 49 (src line 377)
+
+
+state 120
+	exprs_comma_delimited:  exprs_comma_delimited TKComma expr.    (36)
+	expr_binary:  expr.TKAnd expr 
+	expr_binary:  expr.TKOr expr 
+	expr_binary:  expr.TKIs expr 
+	expr_binary:  expr.TKEqual TKEqual expr 
+	expr_binary:  expr.TKBang TKEqual expr 
+	expr_binary:  expr.TKLAngle expr 
+	expr_binary:  expr.TKLAngle TKEqual expr 
+	expr_binary:  expr.TKRAngle expr 
+	expr_binary:  expr.TKRAngle TKEqual expr 
+	expr_binary:  expr.TKIn expr 
+	expr_binary:  expr.TKPlus expr 
+	expr_binary:  expr.TKMinus expr 
+	expr_binary:  expr.TKStar expr 
+	expr_binary:  expr.TKSlash expr 
+	expr_binary:  expr.TKPercent expr 
+	expr_binary:  expr.TKAmpersand expr 
+	expr_binary:  expr.TKPipe expr 
+	expr_binary:  expr.TKCaret expr 
+	expr_binary:  expr.TKLAngle TKLAngle expr 
+	expr_binary:  expr.TKRAngle TKRAngle expr 
+	expr_ternary:  expr.TKQuestion expr TKColon expr 
+
+	TKAnd  shift 47
+	TKOr  shift 48
+	TKIs  shift 49
+	TKIn  shift 54
+	TKBang  shift 51
+	TKQuestion  shift 63
+	TKEqual  shift 50
+	TKLAngle  shift 52
+	TKRAngle  shift 53
+	TKPlus  shift 55
+	TKMinus  shift 56
+	TKStar  shift 57
+	TKSlash  shift 58
+	TKPercent  shift 59
+	TKAmpersand  shift 60
+	TKPipe  shift 61
+	TKCaret  shift 62
+	.  reduce 36 (src line 277)
+
+
+state 121
+	expr_tuple:  TKLParen exprs_comma_delimited TKComma TKRParen.    (72)
+
+	.  reduce 72 (src line 577)
+
+
+state 122
+	expr_list:  TKLBracket exprs_comma_delimited TKComma TKRBracket.    (65)
+
+	.  reduce 65 (src line 517)
+
+
+123: shift/reduce conflict (shift 47(0), red'n 68(0)) on TKAnd
+123: shift/reduce conflict (shift 48(0), red'n 68(0)) on TKOr
+123: shift/reduce conflict (shift 49(0), red'n 68(0)) on TKIs
+123: shift/reduce conflict (shift 54(0), red'n 68(0)) on TKIn
+123: shift/reduce conflict (shift 51(0), red'n 68(0)) on TKBang
+123: shift/reduce conflict (shift 63(0), red'n 68(0)) on TKQuestion
+123: shift/reduce conflict (shift 50(0), red'n 68(0)) on TKEqual
+123: shift/reduce conflict (shift 52(0), red'n 68(0)) on TKLAngle
+123: shift/reduce conflict (shift 53(0), red'n 68(0)) on TKRAngle
+123: shift/reduce conflict (shift 55(0), red'n 68(0)) on TKPlus
+123: shift/reduce conflict (shift 56(0), red'n 68(0)) on TKMinus
+123: shift/reduce conflict (shift 57(0), red'n 68(0)) on TKStar
+123: shift/reduce conflict (shift 58(0), red'n 68(0)) on TKSlash
+123: shift/reduce conflict (shift 59(0), red'n 68(0)) on TKPercent
+123: shift/reduce conflict (shift 60(0), red'n 68(0)) on TKAmpersand
+123: shift/reduce conflict (shift 61(0), red'n 68(0)) on TKPipe
+123: shift/reduce conflict (shift 62(0), red'n 68(0)) on TKCaret
+state 123
+	expr_binary:  expr.TKAnd expr 
+	expr_binary:  expr.TKOr expr 
+	expr_binary:  expr.TKIs expr 
+	expr_binary:  expr.TKEqual TKEqual expr 
+	expr_binary:  expr.TKBang TKEqual expr 
+	expr_binary:  expr.TKLAngle expr 
+	expr_binary:  expr.TKLAngle TKEqual expr 
+	expr_binary:  expr.TKRAngle expr 
+	expr_binary:  expr.TKRAngle TKEqual expr 
+	expr_binary:  expr.TKIn expr 
+	expr_binary:  expr.TKPlus expr 
+	expr_binary:  expr.TKMinus expr 
+	expr_binary:  expr.TKStar expr 
+	expr_binary:  expr.TKSlash expr 
+	expr_binary:  expr.TKPercent expr 
+	expr_binary:  expr.TKAmpersand expr 
+	expr_binary:  expr.TKPipe expr 
+	expr_binary:  expr.TKCaret expr 
+	expr_binary:  expr.TKLAngle TKLAngle expr 
+	expr_binary:  expr.TKRAngle TKRAngle expr 
+	expr_ternary:  expr.TKQuestion expr TKColon expr 
+	expr_ternary:  expr TKQuestion expr TKColon expr.    (68)
+
+	TKAnd  shift 47
+	TKOr  shift 48
+	TKIs  shift 49
+	TKIn  shift 54
+	TKBang  shift 51
+	TKQuestion  shift 63
+	TKEqual  shift 50
+	TKLAngle  shift 52
+	TKRAngle  shift 53
+	TKPlus  shift 55
+	TKMinus  shift 56
+	TKStar  shift 57
+	TKSlash  shift 58
+	TKPercent  shift 59
+	TKAmpersand  shift 60
+	TKPipe  shift 61
+	TKCaret  shift 62
+	.  reduce 68 (src line 546)
+
+
+state 124
+	stmt_if:  TKIf expr stmt TKElse stmt.    (18)
+
+	.  reduce 18 (src line 218)
+
+
+45 terminals, 27 nonterminals
+76 grammar rules, 125/16000 states
+536 shift/reduce, 30 reduce/reduce conflicts reported
+126 working sets used
+memory: parser 623/240000
+115 extra closures
+1167 shift entries, 7 exceptions
+69 goto entries
+601 entries saved by goto default
+Optimizer space used: output 463/240000
+463 table entries, 159 zero
+maximum spread: 45, maximum offset: 117
