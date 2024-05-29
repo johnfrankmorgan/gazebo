@@ -30,11 +30,11 @@ func (vm *VM) Exec(module *compile.Module) runtime.Object {
 
 		switch op {
 		case opcode.Jump:
-			pc = arg
+			pc = arg - 1
 
 		case opcode.JumpIfTrue:
 			if runtime.Truthy(vm.Stack.Pop()) {
-				pc = arg
+				pc = arg - 1
 			}
 
 		case opcode.LoadLiteral:
