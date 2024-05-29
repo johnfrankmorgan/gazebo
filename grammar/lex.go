@@ -65,12 +65,12 @@ var rules = []struct {
 	{TKPipe, lit("|")},
 	{TKPipe, lit("^")},
 
+	{TKString, exp(`"[^"]*"`)},
+	{TKFloat, exp(`[0-9]+\.[0-9]+`)},
 	{TKInt, exp(`0b[01]+`)},
 	{TKInt, exp(`0o[0-7]+`)},
 	{TKInt, exp(`0x[0-9a-fA-F]+`)},
 	{TKInt, exp(`[0-9]+`)},
-	{TKFloat, exp(`[0-9]+\.[0-9]+`)},
-	{TKString, exp(`"[^"]*"`)},
 
 	{TKIdent, exp(`[a-zA-Z_][a-zA-Z0-9_]*`)},
 }

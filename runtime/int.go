@@ -49,65 +49,102 @@ func (i Int) String() String {
 	return Stringf("%d", i)
 }
 
+func (i Int) Float() Float {
+	return Float(i)
+}
+
 func (i Int) Equal(other Object) Bool {
-	if other, ok := other.(Int); ok {
+	switch other := other.(type) {
+	case Int:
 		return i == other
+
+	case Float:
+		return i.Float().Equal(other)
 	}
 
 	panic(ErrUnimplemented)
+
 }
 
 func (i Int) Less(other Object) Bool {
-	if other, ok := other.(Int); ok {
+	switch other := other.(type) {
+	case Int:
 		return i < other
+
+	case Float:
+		return i.Float().Less(other)
 	}
 
 	panic(ErrUnimplemented)
 }
 
 func (i Int) Greater(other Object) Bool {
-	if other, ok := other.(Int); ok {
+	switch other := other.(type) {
+	case Int:
 		return i > other
+
+	case Float:
+		return i.Float().Greater(other)
 	}
 
 	panic(ErrUnimplemented)
 }
 
 func (i Int) Add(other Object) Object {
-	if other, ok := other.(Int); ok {
+	switch other := other.(type) {
+	case Int:
 		return i + other
+
+	case Float:
+		return i.Float().Add(other)
 	}
 
 	panic(ErrUnimplemented)
 }
 
 func (i Int) Subtract(other Object) Object {
-	if other, ok := other.(Int); ok {
+	switch other := other.(type) {
+	case Int:
 		return i - other
+
+	case Float:
+		return i.Float().Subtract(other)
 	}
 
 	panic(ErrUnimplemented)
 }
 
 func (i Int) Multiply(other Object) Object {
-	if other, ok := other.(Int); ok {
+	switch other := other.(type) {
+	case Int:
 		return i * other
+
+	case Float:
+		return i.Float().Multiply(other)
 	}
 
 	panic(ErrUnimplemented)
 }
 
 func (i Int) Divide(other Object) Object {
-	if other, ok := other.(Int); ok {
+	switch other := other.(type) {
+	case Int:
 		return i / other
+
+	case Float:
+		return i.Float().Divide(other)
 	}
 
 	panic(ErrUnimplemented)
 }
 
 func (i Int) Modulo(other Object) Object {
-	if other, ok := other.(Int); ok {
+	switch other := other.(type) {
+	case Int:
 		return i % other
+
+	case Float:
+		return i.Float().Modulo(other)
 	}
 
 	panic(ErrUnimplemented)
