@@ -5,6 +5,7 @@ import (
     "fmt"
     "errors"
     "strconv"
+    "strings"
 
     "github.com/johnfrankmorgan/gazebo/ast"
     "github.com/johnfrankmorgan/gazebo/ast/expr"
@@ -490,7 +491,17 @@ expr_ident
 expr_int
     : TKInt
     {
-        value, err := strconv.ParseInt($1, 0, 64)
+        lexeme := $1
+
+        switch {
+        case strings.HasPrefix(lexeme, "0b"):
+        case strings.HasPrefix(lexeme, "0o"):
+        case strings.HasPrefix(lexeme, "0x"):
+        default:
+            lexeme = strings.TrimLeft(lexeme, "0")
+        }
+
+        value, err := strconv.ParseInt(lexeme, 0, 64)
         if err != nil {
             yylex.(*lexer).Error(err.Error())
         }

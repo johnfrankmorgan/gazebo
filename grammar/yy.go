@@ -11,6 +11,7 @@ import (
 	"errors"
 	"fmt"
 	"strconv"
+	"strings"
 
 	"github.com/johnfrankmorgan/gazebo/ast"
 	"github.com/johnfrankmorgan/gazebo/ast/expr"
@@ -42,7 +43,7 @@ func (l *lexer) Error(err string) {
 	l.err = errors.Join(l.err, fmt.Errorf("%w: %q: %s", ErrParse, l.prev.Lexeme, err))
 }
 
-//line grammar/yy.go.y:93
+//line grammar/yy.go.y:94
 type yySymType struct {
 	yys    int
 	Lexeme string
@@ -654,31 +655,31 @@ yydefault:
 
 	case 1:
 		yyDollar = yyS[yypt-1 : yypt+1]
-//line grammar/yy.go.y:141
+//line grammar/yy.go.y:142
 		{
 			yylex.(*lexer).program.Statements = yyDollar[1].Stmts
 		}
 	case 2:
 		yyDollar = yyS[yypt-2 : yypt+1]
-//line grammar/yy.go.y:148
+//line grammar/yy.go.y:149
 		{
 			yyVAL.Stmts = append(yyVAL.Stmts, yyDollar[2].Stmt)
 		}
 	case 3:
 		yyDollar = yyS[yypt-1 : yypt+1]
-//line grammar/yy.go.y:152
+//line grammar/yy.go.y:153
 		{
 			yyVAL.Stmts = append(yyVAL.Stmts, yyDollar[1].Stmt)
 		}
 	case 4:
 		yyDollar = yyS[yypt-0 : yypt+1]
-//line grammar/yy.go.y:156
+//line grammar/yy.go.y:157
 		{
 			yyVAL.Stmts = nil
 		}
 	case 13:
 		yyDollar = yyS[yypt-3 : yypt+1]
-//line grammar/yy.go.y:174
+//line grammar/yy.go.y:175
 		{
 			yyVAL.Stmt = stmt.Assign{
 				Identifier: yyDollar[1].Lexeme,
@@ -687,7 +688,7 @@ yydefault:
 		}
 	case 14:
 		yyDollar = yyS[yypt-3 : yypt+1]
-//line grammar/yy.go.y:184
+//line grammar/yy.go.y:185
 		{
 			yyVAL.Stmt = stmt.Block{
 				Statements: yyDollar[2].Stmts,
@@ -695,7 +696,7 @@ yydefault:
 		}
 	case 15:
 		yyDollar = yyS[yypt-1 : yypt+1]
-//line grammar/yy.go.y:193
+//line grammar/yy.go.y:194
 		{
 			yyVAL.Stmt = stmt.Break{
 				//
@@ -703,7 +704,7 @@ yydefault:
 		}
 	case 16:
 		yyDollar = yyS[yypt-1 : yypt+1]
-//line grammar/yy.go.y:202
+//line grammar/yy.go.y:203
 		{
 			yyVAL.Stmt = stmt.Continue{
 				//
@@ -711,7 +712,7 @@ yydefault:
 		}
 	case 17:
 		yyDollar = yyS[yypt-1 : yypt+1]
-//line grammar/yy.go.y:211
+//line grammar/yy.go.y:212
 		{
 			yyVAL.Stmt = stmt.Expr{
 				Inner: yyDollar[1].Expr,
@@ -719,7 +720,7 @@ yydefault:
 		}
 	case 18:
 		yyDollar = yyS[yypt-5 : yypt+1]
-//line grammar/yy.go.y:220
+//line grammar/yy.go.y:221
 		{
 			yyVAL.Stmt = stmt.If{
 				Condition:   yyDollar[2].Expr,
@@ -729,7 +730,7 @@ yydefault:
 		}
 	case 19:
 		yyDollar = yyS[yypt-3 : yypt+1]
-//line grammar/yy.go.y:228
+//line grammar/yy.go.y:229
 		{
 			yyVAL.Stmt = stmt.If{
 				Condition:   yyDollar[2].Expr,
@@ -738,7 +739,7 @@ yydefault:
 		}
 	case 20:
 		yyDollar = yyS[yypt-1 : yypt+1]
-//line grammar/yy.go.y:238
+//line grammar/yy.go.y:239
 		{
 			yyVAL.Stmt = stmt.Return{
 				//
@@ -746,7 +747,7 @@ yydefault:
 		}
 	case 21:
 		yyDollar = yyS[yypt-2 : yypt+1]
-//line grammar/yy.go.y:244
+//line grammar/yy.go.y:245
 		{
 			yyVAL.Stmt = stmt.Return{
 				Expression: yyDollar[2].Expr,
@@ -754,7 +755,7 @@ yydefault:
 		}
 	case 22:
 		yyDollar = yyS[yypt-3 : yypt+1]
-//line grammar/yy.go.y:253
+//line grammar/yy.go.y:254
 		{
 			yyVAL.Stmt = stmt.While{
 				Condition: yyDollar[2].Expr,
@@ -763,19 +764,19 @@ yydefault:
 		}
 	case 36:
 		yyDollar = yyS[yypt-3 : yypt+1]
-//line grammar/yy.go.y:279
+//line grammar/yy.go.y:280
 		{
 			yyVAL.Exprs = append(yyDollar[1].Exprs, yyDollar[3].Expr)
 		}
 	case 37:
 		yyDollar = yyS[yypt-1 : yypt+1]
-//line grammar/yy.go.y:283
+//line grammar/yy.go.y:284
 		{
 			yyVAL.Exprs = []ast.Expr{yyDollar[1].Expr}
 		}
 	case 38:
 		yyDollar = yyS[yypt-3 : yypt+1]
-//line grammar/yy.go.y:290
+//line grammar/yy.go.y:291
 		{
 			yyVAL.Expr = expr.Binary{
 				Op:    expr.BinaryAnd,
@@ -785,7 +786,7 @@ yydefault:
 		}
 	case 39:
 		yyDollar = yyS[yypt-3 : yypt+1]
-//line grammar/yy.go.y:298
+//line grammar/yy.go.y:299
 		{
 			yyVAL.Expr = expr.Binary{
 				Op:    expr.BinaryOr,
@@ -795,7 +796,7 @@ yydefault:
 		}
 	case 40:
 		yyDollar = yyS[yypt-3 : yypt+1]
-//line grammar/yy.go.y:306
+//line grammar/yy.go.y:307
 		{
 			yyVAL.Expr = expr.Binary{
 				Op:    expr.BinaryIs,
@@ -805,7 +806,7 @@ yydefault:
 		}
 	case 41:
 		yyDollar = yyS[yypt-4 : yypt+1]
-//line grammar/yy.go.y:314
+//line grammar/yy.go.y:315
 		{
 			yyVAL.Expr = expr.Binary{
 				Op:    expr.BinaryEqual,
@@ -815,7 +816,7 @@ yydefault:
 		}
 	case 42:
 		yyDollar = yyS[yypt-4 : yypt+1]
-//line grammar/yy.go.y:322
+//line grammar/yy.go.y:323
 		{
 			yyVAL.Expr = expr.Binary{
 				Op:    expr.BinaryNotEqual,
@@ -825,7 +826,7 @@ yydefault:
 		}
 	case 43:
 		yyDollar = yyS[yypt-3 : yypt+1]
-//line grammar/yy.go.y:330
+//line grammar/yy.go.y:331
 		{
 			yyVAL.Expr = expr.Binary{
 				Op:    expr.BinaryLessThan,
@@ -835,7 +836,7 @@ yydefault:
 		}
 	case 44:
 		yyDollar = yyS[yypt-4 : yypt+1]
-//line grammar/yy.go.y:338
+//line grammar/yy.go.y:339
 		{
 			yyVAL.Expr = expr.Binary{
 				Op:    expr.BinaryLessThanOrEqual,
@@ -845,7 +846,7 @@ yydefault:
 		}
 	case 45:
 		yyDollar = yyS[yypt-3 : yypt+1]
-//line grammar/yy.go.y:346
+//line grammar/yy.go.y:347
 		{
 			yyVAL.Expr = expr.Binary{
 				Op:    expr.BinaryGreaterThan,
@@ -855,7 +856,7 @@ yydefault:
 		}
 	case 46:
 		yyDollar = yyS[yypt-4 : yypt+1]
-//line grammar/yy.go.y:354
+//line grammar/yy.go.y:355
 		{
 			yyVAL.Expr = expr.Binary{
 				Op:    expr.BinaryGreaterThanOrEqual,
@@ -865,7 +866,7 @@ yydefault:
 		}
 	case 47:
 		yyDollar = yyS[yypt-3 : yypt+1]
-//line grammar/yy.go.y:362
+//line grammar/yy.go.y:363
 		{
 			yyVAL.Expr = expr.Binary{
 				Op:    expr.BinaryIn,
@@ -875,7 +876,7 @@ yydefault:
 		}
 	case 48:
 		yyDollar = yyS[yypt-3 : yypt+1]
-//line grammar/yy.go.y:370
+//line grammar/yy.go.y:371
 		{
 			yyVAL.Expr = expr.Binary{
 				Op:    expr.BinaryAdd,
@@ -885,7 +886,7 @@ yydefault:
 		}
 	case 49:
 		yyDollar = yyS[yypt-3 : yypt+1]
-//line grammar/yy.go.y:378
+//line grammar/yy.go.y:379
 		{
 			yyVAL.Expr = expr.Binary{
 				Op:    expr.BinarySubtract,
@@ -895,7 +896,7 @@ yydefault:
 		}
 	case 50:
 		yyDollar = yyS[yypt-3 : yypt+1]
-//line grammar/yy.go.y:386
+//line grammar/yy.go.y:387
 		{
 			yyVAL.Expr = expr.Binary{
 				Op:    expr.BinaryMultiply,
@@ -905,7 +906,7 @@ yydefault:
 		}
 	case 51:
 		yyDollar = yyS[yypt-3 : yypt+1]
-//line grammar/yy.go.y:394
+//line grammar/yy.go.y:395
 		{
 			yyVAL.Expr = expr.Binary{
 				Op:    expr.BinaryDivide,
@@ -915,7 +916,7 @@ yydefault:
 		}
 	case 52:
 		yyDollar = yyS[yypt-3 : yypt+1]
-//line grammar/yy.go.y:402
+//line grammar/yy.go.y:403
 		{
 			yyVAL.Expr = expr.Binary{
 				Op:    expr.BinaryModulo,
@@ -925,7 +926,7 @@ yydefault:
 		}
 	case 53:
 		yyDollar = yyS[yypt-3 : yypt+1]
-//line grammar/yy.go.y:410
+//line grammar/yy.go.y:411
 		{
 			yyVAL.Expr = expr.Binary{
 				Op:    expr.BinaryBitwiseAnd,
@@ -935,7 +936,7 @@ yydefault:
 		}
 	case 54:
 		yyDollar = yyS[yypt-3 : yypt+1]
-//line grammar/yy.go.y:418
+//line grammar/yy.go.y:419
 		{
 			yyVAL.Expr = expr.Binary{
 				Op:    expr.BinaryBitwiseOr,
@@ -945,7 +946,7 @@ yydefault:
 		}
 	case 55:
 		yyDollar = yyS[yypt-3 : yypt+1]
-//line grammar/yy.go.y:426
+//line grammar/yy.go.y:427
 		{
 			yyVAL.Expr = expr.Binary{
 				Op:    expr.BinaryBitwiseXor,
@@ -955,7 +956,7 @@ yydefault:
 		}
 	case 56:
 		yyDollar = yyS[yypt-4 : yypt+1]
-//line grammar/yy.go.y:434
+//line grammar/yy.go.y:435
 		{
 			yyVAL.Expr = expr.Binary{
 				Op:    expr.BinaryShiftLeft,
@@ -965,7 +966,7 @@ yydefault:
 		}
 	case 57:
 		yyDollar = yyS[yypt-4 : yypt+1]
-//line grammar/yy.go.y:442
+//line grammar/yy.go.y:443
 		{
 			yyVAL.Expr = expr.Binary{
 				Op:    expr.BinaryShiftRight,
@@ -975,13 +976,13 @@ yydefault:
 		}
 	case 58:
 		yyDollar = yyS[yypt-1 : yypt+1]
-//line grammar/yy.go.y:453
+//line grammar/yy.go.y:454
 		{
 			yyVAL.Expr = expr.False{}
 		}
 	case 59:
 		yyDollar = yyS[yypt-1 : yypt+1]
-//line grammar/yy.go.y:460
+//line grammar/yy.go.y:461
 		{
 			value, err := strconv.ParseFloat(yyDollar[1].Lexeme, 64)
 			if err != nil {
@@ -994,7 +995,7 @@ yydefault:
 		}
 	case 60:
 		yyDollar = yyS[yypt-3 : yypt+1]
-//line grammar/yy.go.y:474
+//line grammar/yy.go.y:475
 		{
 			yyVAL.Expr = expr.Group{
 				Inner: yyDollar[2].Expr,
@@ -1002,7 +1003,7 @@ yydefault:
 		}
 	case 61:
 		yyDollar = yyS[yypt-1 : yypt+1]
-//line grammar/yy.go.y:483
+//line grammar/yy.go.y:484
 		{
 			yyVAL.Expr = expr.Ident{
 				Name: yyDollar[1].Lexeme,
@@ -1010,9 +1011,19 @@ yydefault:
 		}
 	case 62:
 		yyDollar = yyS[yypt-1 : yypt+1]
-//line grammar/yy.go.y:492
+//line grammar/yy.go.y:493
 		{
-			value, err := strconv.ParseInt(yyDollar[1].Lexeme, 0, 64)
+			lexeme := yyDollar[1].Lexeme
+
+			switch {
+			case strings.HasPrefix(lexeme, "0b"):
+			case strings.HasPrefix(lexeme, "0o"):
+			case strings.HasPrefix(lexeme, "0x"):
+			default:
+				lexeme = strings.TrimLeft(lexeme, "0")
+			}
+
+			value, err := strconv.ParseInt(lexeme, 0, 64)
 			if err != nil {
 				yylex.(*lexer).Error(err.Error())
 			}
@@ -1023,7 +1034,7 @@ yydefault:
 		}
 	case 63:
 		yyDollar = yyS[yypt-2 : yypt+1]
-//line grammar/yy.go.y:506
+//line grammar/yy.go.y:517
 		{
 			yyVAL.Expr = expr.List{
 				//
@@ -1031,7 +1042,7 @@ yydefault:
 		}
 	case 64:
 		yyDollar = yyS[yypt-3 : yypt+1]
-//line grammar/yy.go.y:512
+//line grammar/yy.go.y:523
 		{
 			yyVAL.Expr = expr.List{
 				Items: yyDollar[2].Exprs,
@@ -1039,7 +1050,7 @@ yydefault:
 		}
 	case 65:
 		yyDollar = yyS[yypt-4 : yypt+1]
-//line grammar/yy.go.y:518
+//line grammar/yy.go.y:529
 		{
 			yyVAL.Expr = expr.List{
 				Items: yyDollar[2].Exprs,
@@ -1047,13 +1058,13 @@ yydefault:
 		}
 	case 66:
 		yyDollar = yyS[yypt-1 : yypt+1]
-//line grammar/yy.go.y:527
+//line grammar/yy.go.y:538
 		{
 			yyVAL.Expr = expr.Nil{}
 		}
 	case 67:
 		yyDollar = yyS[yypt-1 : yypt+1]
-//line grammar/yy.go.y:534
+//line grammar/yy.go.y:545
 		{
 			value, err := strconv.Unquote(yyDollar[1].Lexeme)
 			if err != nil {
@@ -1066,7 +1077,7 @@ yydefault:
 		}
 	case 68:
 		yyDollar = yyS[yypt-5 : yypt+1]
-//line grammar/yy.go.y:548
+//line grammar/yy.go.y:559
 		{
 			yyVAL.Expr = expr.Ternary{
 				Condition:   yyDollar[1].Expr,
@@ -1076,13 +1087,13 @@ yydefault:
 		}
 	case 69:
 		yyDollar = yyS[yypt-1 : yypt+1]
-//line grammar/yy.go.y:559
+//line grammar/yy.go.y:570
 		{
 			yyVAL.Expr = expr.True{}
 		}
 	case 70:
 		yyDollar = yyS[yypt-2 : yypt+1]
-//line grammar/yy.go.y:566
+//line grammar/yy.go.y:577
 		{
 			yyVAL.Expr = expr.Tuple{
 				//
@@ -1090,7 +1101,7 @@ yydefault:
 		}
 	case 71:
 		yyDollar = yyS[yypt-3 : yypt+1]
-//line grammar/yy.go.y:572
+//line grammar/yy.go.y:583
 		{
 			yyVAL.Expr = expr.Tuple{
 				Items: yyDollar[2].Exprs,
@@ -1098,7 +1109,7 @@ yydefault:
 		}
 	case 72:
 		yyDollar = yyS[yypt-4 : yypt+1]
-//line grammar/yy.go.y:578
+//line grammar/yy.go.y:589
 		{
 			yyVAL.Expr = expr.Tuple{
 				Items: yyDollar[2].Exprs,
@@ -1106,7 +1117,7 @@ yydefault:
 		}
 	case 73:
 		yyDollar = yyS[yypt-2 : yypt+1]
-//line grammar/yy.go.y:587
+//line grammar/yy.go.y:598
 		{
 			yyVAL.Expr = expr.Unary{
 				Op:    expr.UnaryNot,
@@ -1115,7 +1126,7 @@ yydefault:
 		}
 	case 74:
 		yyDollar = yyS[yypt-2 : yypt+1]
-//line grammar/yy.go.y:594
+//line grammar/yy.go.y:605
 		{
 			yyVAL.Expr = expr.Unary{
 				Op:    expr.UnaryPlus,
@@ -1124,7 +1135,7 @@ yydefault:
 		}
 	case 75:
 		yyDollar = yyS[yypt-2 : yypt+1]
-//line grammar/yy.go.y:601
+//line grammar/yy.go.y:612
 		{
 			yyVAL.Expr = expr.Unary{
 				Op:    expr.UnaryMinus,
