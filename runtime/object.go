@@ -112,10 +112,10 @@ func binop[T Object](op string, off uintptr, a, b Object) (result T) {
 	if err != nil {
 		// FIXME: add support for noncommutative operations
 		if errors.Is(err, ErrUnimplemented) && isCommutative(off) {
-			result, err = _binop[T](op, off, b, a)
+			if result, err = _binop[T](op, off, b, a); err != nil {
+				panic(err)
+			}
 		}
-
-		panic(err)
 	}
 
 	return result

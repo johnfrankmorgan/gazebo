@@ -12,6 +12,7 @@ import (
 	"github.com/chzyer/readline"
 	"github.com/johnfrankmorgan/gazebo/compile"
 	"github.com/johnfrankmorgan/gazebo/grammar"
+	"github.com/johnfrankmorgan/gazebo/runtime"
 	"github.com/johnfrankmorgan/gazebo/vm"
 )
 
@@ -63,9 +64,9 @@ func repl() error {
 			repr.Println(module)
 		}
 
-		result := vm.Exec(module)
-
-		repr.New(rl.Stdout()).Println(result)
+		if result := vm.Exec(module); !runtime.Equal(result, runtime.Nil) {
+			repr.New(rl.Stdout()).Println(result)
+		}
 	}
 
 	return nil

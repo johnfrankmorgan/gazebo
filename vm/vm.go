@@ -9,11 +9,14 @@ import (
 )
 
 type VM struct {
-	Stack Stack
+	Stack     Stack
+	Variables *Variables
 }
 
 func New() *VM {
-	return new(VM)
+	return &VM{
+		Variables: new(Variables),
+	}
 }
 
 func (vm *VM) Exec(module *compile.Module) runtime.Object {
@@ -40,8 +43,16 @@ func (vm *VM) Exec(module *compile.Module) runtime.Object {
 		case opcode.LoadLiteral:
 			vm.Stack.Push(code.Literals[arg])
 
-		// case opcode.LoadName:
-		// case opcode.StoreName:
+		case opcode.LoadName:
+			value, ok := vm.Variables.Get(code.Idents[arg])
+			if !ok {
+				panic(fmt.Errorf("runtime: undefined variable: %v", code.Idents[arg]))
+			}
+
+			vm.Stack.Push(value)
+
+		case opcode.StoreName:
+			vm.Variables.Set(code.Idents[arg], vm.Stack.Pop())
 
 		case opcode.MakeList:
 			result := runtime.NewListWithLength(arg)
