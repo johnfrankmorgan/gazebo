@@ -587,13 +587,13 @@ state 36
 state 37
 	expr_string:  TKString.    (67)
 
-	.  reduce 67 (src line 543)
+	.  reduce 67 (src line 554)
 
 
 state 38
 	expr_nil:  TKNil.    (66)
 
-	.  reduce 66 (src line 536)
+	.  reduce 66 (src line 547)
 
 
 state 39
@@ -605,7 +605,7 @@ state 39
 state 40
 	expr_true:  TKTrue.    (69)
 
-	.  reduce 69 (src line 568)
+	.  reduce 69 (src line 579)
 
 
 state 41
@@ -1561,7 +1561,7 @@ state 68
 state 69
 	expr_tuple:  TKLParen TKRParen.    (70)
 
-	.  reduce 70 (src line 575)
+	.  reduce 70 (src line 586)
 
 
 state 70
@@ -1577,7 +1577,7 @@ state 70
 state 71
 	expr_list:  TKLBracket TKRBracket.    (63)
 
-	.  reduce 63 (src line 515)
+	.  reduce 63 (src line 526)
 
 
 state 72
@@ -1692,7 +1692,7 @@ state 74
 	TKAmpersand  shift 60
 	TKPipe  shift 61
 	TKCaret  shift 62
-	.  reduce 73 (src line 596)
+	.  reduce 73 (src line 607)
 
 
 75: shift/reduce conflict (shift 47(0), red'n 74(0)) on TKAnd
@@ -1753,7 +1753,7 @@ state 75
 	TKAmpersand  shift 60
 	TKPipe  shift 61
 	TKCaret  shift 62
-	.  reduce 74 (src line 604)
+	.  reduce 74 (src line 615)
 
 
 76: shift/reduce conflict (shift 47(0), red'n 75(0)) on TKAnd
@@ -1814,7 +1814,7 @@ state 76
 	TKAmpersand  shift 60
 	TKPipe  shift 61
 	TKCaret  shift 62
-	.  reduce 75 (src line 611)
+	.  reduce 75 (src line 622)
 
 
 77: shift/reduce conflict (shift 51(0), red'n 13(0)) on TKBang
@@ -3119,7 +3119,7 @@ state 106
 state 107
 	expr_tuple:  TKLParen exprs_comma_delimited TKRParen.    (71)
 
-	.  reduce 71 (src line 582)
+	.  reduce 71 (src line 593)
 
 
 state 108
@@ -3159,7 +3159,7 @@ state 108
 state 109
 	expr_list:  TKLBracket exprs_comma_delimited TKRBracket.    (64)
 
-	.  reduce 64 (src line 522)
+	.  reduce 64 (src line 533)
 
 
 110: shift/reduce conflict (shift 47(0), red'n 41(0)) on TKAnd
@@ -3681,13 +3681,13 @@ state 118
 	expr_ternary:  expr.TKQuestion expr TKColon expr 
 	expr_unary:  TKPlus expr.    (74)
 
-	$end  reduce 74 (src line 604)
-	TKRBrace  reduce 74 (src line 604)
+	$end  reduce 74 (src line 615)
+	TKRBrace  reduce 74 (src line 615)
 	TKAnd  shift 47
 	TKOr  shift 48
 	TKIs  shift 49
 	TKIn  shift 54
-	TKElse  reduce 74 (src line 604)
+	TKElse  reduce 74 (src line 615)
 	TKBang  shift 51
 	TKQuestion  shift 63
 	TKEqual  shift 50
@@ -3778,13 +3778,13 @@ state 119
 	expr_ternary:  expr.TKQuestion expr TKColon expr 
 	expr_unary:  TKMinus expr.    (75)
 
-	$end  reduce 75 (src line 611)
-	TKRBrace  reduce 75 (src line 611)
+	$end  reduce 75 (src line 622)
+	TKRBrace  reduce 75 (src line 622)
 	TKAnd  shift 47
 	TKOr  shift 48
 	TKIs  shift 49
 	TKIn  shift 54
-	TKElse  reduce 75 (src line 611)
+	TKElse  reduce 75 (src line 622)
 	TKBang  shift 51
 	TKQuestion  shift 63
 	TKEqual  shift 50
@@ -3848,13 +3848,13 @@ state 120
 state 121
 	expr_tuple:  TKLParen exprs_comma_delimited TKComma TKRParen.    (72)
 
-	.  reduce 72 (src line 588)
+	.  reduce 72 (src line 599)
 
 
 state 122
 	expr_list:  TKLBracket exprs_comma_delimited TKComma TKRBracket.    (65)
 
-	.  reduce 65 (src line 528)
+	.  reduce 65 (src line 539)
 
 
 123: shift/reduce conflict (shift 47(0), red'n 68(0)) on TKAnd
@@ -3915,7 +3915,7 @@ state 123
 	TKAmpersand  shift 60
 	TKPipe  shift 61
 	TKCaret  shift 62
-	.  reduce 68 (src line 557)
+	.  reduce 68 (src line 568)
 
 
 state 124

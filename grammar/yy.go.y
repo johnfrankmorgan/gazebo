@@ -492,21 +492,32 @@ expr_int
     : TKInt
     {
         lexeme := $1
+        base := 10
 
         switch {
         case strings.HasPrefix(lexeme, "0b"):
+            base = 2
+            lexeme = lexeme[2:]
+
         case strings.HasPrefix(lexeme, "0o"):
+            base = 8
+            lexeme = lexeme[2:]
+
         case strings.HasPrefix(lexeme, "0x"):
+            base = 16
+            lexeme = lexeme[2:]
+
         default:
             lexeme = strings.TrimLeft(lexeme, "0")
         }
 
-        value, err := strconv.ParseInt(lexeme, 0, 64)
+        value, err := strconv.ParseInt(lexeme, base, 64)
         if err != nil {
             yylex.(*lexer).Error(err.Error())
         }
 
         $$ = expr.Int{
+            Base: base,
             Value: value,
         }
     }
