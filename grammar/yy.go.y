@@ -508,7 +508,9 @@ expr_int
             lexeme = lexeme[2:]
 
         default:
-            lexeme = strings.TrimLeft(lexeme, "0")
+            if lexeme = strings.TrimLeft(lexeme, "0"); lexeme == "" {
+                lexeme = "0"
+            }
         }
 
         value, err := strconv.ParseInt(lexeme, base, 64)
