@@ -21,6 +21,11 @@ var ListType = &Type{
 		GetIndex: func(self, index Object) Object { return self.(*List).GetIndex(index) },
 		SetIndex: func(self, index, value Object) { self.(*List).SetIndex(index, value) },
 	},
+	Attributes: TypeAttributes{
+		"len": Attribute{
+			Get: func(self Object) Object { return self.(*List).Len() },
+		},
+	},
 }
 
 func NewList(items ...Object) *List {

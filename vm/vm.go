@@ -84,6 +84,19 @@ func (vm *VM) Exec(module *compile.Module) runtime.Object {
 
 			vm.Stack.Push(result)
 
+		case opcode.GetAttribute:
+			self := vm.Stack.Pop()
+			name := code.Idents[arg]
+
+			vm.Stack.Push(runtime.GetAttribute(self, runtime.String(name)))
+
+		case opcode.SetAttribute:
+			self := vm.Stack.Pop()
+			name := code.Idents[arg]
+			value := vm.Stack.Pop()
+
+			runtime.SetAttribute(self, runtime.String(name), value)
+
 		case opcode.GetIndex:
 			index := vm.Stack.Pop()
 			self := vm.Stack.Pop()

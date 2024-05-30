@@ -1,10 +1,11 @@
 package runtime
 
 type Type struct {
-	Name      string
-	Parent    *Type
-	Protocols TypeProtocols
-	Ops       TypeOps
+	Name       string
+	Parent     *Type
+	Protocols  TypeProtocols
+	Ops        TypeOps
+	Attributes TypeAttributes
 }
 
 type TypeProtocols struct {
@@ -16,6 +17,9 @@ type TypeProtocols struct {
 type TypeOps struct {
 	Positive func(self Object) Object
 	Negative func(self Object) Object
+
+	GetAttribute func(self Object, name String) Object
+	SetAttribute func(self Object, name String, value Object)
 
 	Equal   func(self, other Object) Bool
 	Less    func(self, other Object) Bool
@@ -40,9 +44,32 @@ type TypeOps struct {
 	SetIndex func(self, index, value Object)
 }
 
+type TypeAttributes map[String]Attribute
+
+type Attribute struct {
+	Get func(self Object) Object
+	Set func(self, value Object)
+}
+
 var TypeType = &Type{
 	Name:   "Type",
 	Parent: ObjectType,
+	Attributes: TypeAttributes{
+		"name": Attribute{
+			Get: func(self Object) Object { return String(self.(*Type).Name) },
+			Set: func(self, value Object) { self.(*Type).Name = string(value.(String)) },
+		},
+
+		"parent": Attribute{
+			Get: func(self Object) Object {
+				if parent := self.(*Type).Parent; parent != nil {
+					return parent
+				}
+
+				return Nil
+			},
+		},
+	},
 }
 
 func (t *Type) Type() *Type {

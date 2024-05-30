@@ -121,6 +121,7 @@ func (l *lexer) Error(err string) {
 
 %type <Expr>
     expr
+    expr_attr
     expr_binary
     expr_false
     expr_float
@@ -190,6 +191,13 @@ stmt_assign
         }
     }
     | expr_ident TKEqual expr
+    {
+        $$ = stmt.Assign{
+            Left: $1,
+            Right: $3,
+        }
+    }
+    | expr_attr TKEqual expr
     {
         $$ = stmt.Assign{
             Left: $1,
@@ -291,6 +299,7 @@ expr
     | expr_unary
     | expr_binary
     | expr_tuple
+    | expr_attr
     | expr_index
     | expr_map
     ;
@@ -303,6 +312,16 @@ exprs_comma_delimited
     | expr
     {
         $$ = []ast.Expr{ $1 }
+    }
+    ;
+
+expr_attr
+    : expr TKDot TKIdent
+    {
+        $$ = expr.Attr{
+            Inner: $1,
+            Name: $3,
+        }
     }
     ;
 

@@ -24,6 +24,11 @@ var StringType = &Type{
 		Multiply: func(self, other Object) Object { return self.(String).Multiply(other) },
 		GetIndex: func(self, index Object) Object { return self.(String).GetIndex(index) },
 	},
+	Attributes: TypeAttributes{
+		"len": Attribute{
+			Get: func(self Object) Object { return self.(String).Len() },
+		},
+	},
 }
 
 func Stringf(format string, args ...any) String {
@@ -44,6 +49,10 @@ func (s String) Bool() Bool {
 
 func (s String) String() String {
 	return s
+}
+
+func (s String) Len() Int {
+	return Int(len(s))
 }
 
 func (s String) Equal(other Object) Bool {

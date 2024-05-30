@@ -12,6 +12,10 @@ func (c *compiler) compileStmtAssign(node stmt.Assign) {
 	c.compileExpr(node.Right)
 
 	switch left := node.Left.(type) {
+	case expr.Attr:
+		c.compileExpr(left.Inner)
+		c.emit(opcode.SetAttribute, c.ident(left.Name))
+
 	case expr.Ident:
 		c.emit(opcode.StoreName, c.ident(left.Name))
 

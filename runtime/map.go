@@ -1,5 +1,7 @@
 package runtime
 
+import "errors"
+
 type Map struct {
 	ht ht
 }
@@ -15,6 +17,29 @@ var MapType = &Type{
 		Contains: func(self, other Object) Bool { return self.(*Map).Contains(other) },
 		GetIndex: func(self, index Object) Object { return self.(*Map).GetIndex(index) },
 		SetIndex: func(self, index, value Object) { self.(*Map).Set(index, value) },
+		GetAttribute: func(self Object, name String) (value Object) {
+			defer func() {
+				if err := recover(); err != nil && errors.Is(err.(error), ErrInvalidAttribute) {
+					value = self.(*Map).GetIndex(name)
+				}
+			}()
+
+			return ObjectType.Ops.GetAttribute(self, name)
+		},
+		SetAttribute: func(self Object, name String, value Object) {
+			defer func() {
+				if err := recover(); err != nil && errors.Is(err.(error), ErrInvalidAttribute) {
+					self.(*Map).Set(name, value)
+				}
+			}()
+
+			ObjectType.Ops.SetAttribute(self, name, value)
+		},
+	},
+	Attributes: TypeAttributes{
+		"len": Attribute{
+			Get: func(self Object) Object { return self.(*Map).Len() },
+		},
 	},
 }
 

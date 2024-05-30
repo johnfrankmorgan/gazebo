@@ -13,12 +13,51 @@ type Object interface {
 
 var ObjectType = &Type{
 	Name: "Object",
+
 	Protocols: TypeProtocols{
 		Bool:   func(Object) Bool { return True },
 		String: func(self Object) String { return Stringf("%v", self) },
 	},
+
 	Ops: TypeOps{
 		Equal: Is,
+
+		GetAttribute: func(self Object, name String) Object {
+			for t := self.Type(); t != nil; t = t.Parent {
+				attr, ok := t.Attributes[name]
+				if !ok {
+					continue
+				}
+
+				if attr.Get != nil {
+					return attr.Get(self)
+				}
+			}
+
+			panic(fmt.Errorf("%w: can't get %q", ErrInvalidAttribute, name))
+		},
+
+		SetAttribute: func(self Object, name String, value Object) {
+			for t := self.Type(); t != nil; t = t.Parent {
+				attr, ok := t.Attributes[name]
+				if !ok {
+					continue
+				}
+
+				if attr.Set != nil {
+					attr.Set(self, value)
+					return
+				}
+			}
+
+			panic(fmt.Errorf("%w: can't set %q", ErrInvalidAttribute, name))
+		},
+	},
+
+	Attributes: TypeAttributes{
+		"type": Attribute{
+			Get: func(self Object) Object { return self.Type() },
+		},
 	},
 }
 
@@ -26,7 +65,10 @@ func Is(a, b Object) Bool {
 	return a == b
 }
 
-var ErrUnimplemented = errors.New("runtime: unimplemented")
+var (
+	ErrUnimplemented    = errors.New("runtime: unimplemented")
+	ErrInvalidAttribute = errors.New("runtime: invalid attribute")
+)
 
 func unimplemented(op, kind string, t *Type) error {
 	return fmt.Errorf("%w: %s %s not implemented for type %s", ErrUnimplemented, op, kind, t.Name)
@@ -70,6 +112,27 @@ func Positive(a Object) Object {
 
 func Negative(a Object) Object {
 	return unop[Object]("negative", unsafe.Offsetof(TypeOps{}.Negative), a)
+}
+
+func GetAttribute(a Object, name String) Object {
+	for t := a.Type(); t != nil; t = t.Parent {
+		if t.Ops.GetAttribute != nil {
+			return t.Ops.GetAttribute(a, name)
+		}
+	}
+
+	panic(unimplemented("get attribute", "operation", a.Type()))
+}
+
+func SetAttribute(a Object, name String, value Object) {
+	for t := a.Type(); t != nil; t = t.Parent {
+		if t.Ops.SetAttribute != nil {
+			t.Ops.SetAttribute(a, name, value)
+			return
+		}
+	}
+
+	panic(unimplemented("set attribute", "operation", a.Type()))
 }
 
 func _binop[T Object](op string, off uintptr, a, b Object) (result T, err error) {
