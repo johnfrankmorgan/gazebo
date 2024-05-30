@@ -466,6 +466,7 @@ expr_float
 
         $$ = expr.Float{
             Value: value,
+            Lexeme: $1,
         }
     }
     ;
@@ -521,6 +522,7 @@ expr_int
         $$ = expr.Int{
             Base: base,
             Value: value,
+            Lexeme: $1,
         }
     }
     ;
@@ -563,6 +565,7 @@ expr_string
 
         $$ = expr.String{
             Value: value,
+            Lexeme: $1,
         }
     }
     ;
