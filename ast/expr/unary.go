@@ -3,6 +3,8 @@ package expr
 import "github.com/johnfrankmorgan/gazebo/ast"
 
 type Unary struct {
+	base
+
 	Op    UnaryOp
 	Right ast.Expr
 }

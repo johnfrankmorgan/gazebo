@@ -5,6 +5,8 @@ import (
 )
 
 type Binary struct {
+	base
+
 	Op    BinaryOp
 	Left  ast.Expr
 	Right ast.Expr
