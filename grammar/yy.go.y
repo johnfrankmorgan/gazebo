@@ -100,6 +100,9 @@ func (l *lexer) Error(err string) {
 
     Expr ast.Expr
     Exprs []ast.Expr
+
+    MapPair expr.MapPair
+    MapPairs []expr.MapPair
 }
 
 %type <Stmt>
@@ -126,6 +129,7 @@ func (l *lexer) Error(err string) {
     expr_index
     expr_int
     expr_list
+    expr_map
     expr_nil
     expr_string
     expr_ternary
@@ -135,6 +139,12 @@ func (l *lexer) Error(err string) {
 
 %type <Exprs>
     exprs_comma_delimited
+
+%type <MapPairs>
+    expr_map_pairs
+
+%type <MapPair>
+    expr_map_pair
 
 %%
 
@@ -282,6 +292,7 @@ expr
     | expr_binary
     | expr_tuple
     | expr_index
+    | expr_map
     ;
 
 exprs_comma_delimited
@@ -562,6 +573,48 @@ expr_list
     {
         $$ = expr.List{
             Items: $2,
+        }
+    }
+    ;
+
+expr_map
+    : TKLBrace TKRBrace
+    {
+        $$ = expr.Map{
+            //
+        }
+    }
+    | TKLBrace expr_map_pairs TKRBrace
+    {
+        $$ = expr.Map{
+            Items: $2,
+        }
+    }
+    | TKLBrace expr_map_pairs TKComma TKRBrace
+    {
+        $$ = expr.Map{
+            Items: $2,
+        }
+    }
+    ;
+
+expr_map_pairs
+    : expr_map_pairs TKComma expr_map_pair
+    {
+        $$ = append($1, $3)
+    }
+    | expr_map_pair
+    {
+        $$ = []expr.MapPair{ $1 }
+    }
+    ;
+
+expr_map_pair
+    : expr TKColon expr
+    {
+        $$ = expr.MapPair{
+            Key: $1,
+            Value: $3,
         }
     }
     ;

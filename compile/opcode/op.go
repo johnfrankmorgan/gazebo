@@ -52,6 +52,7 @@ const (
 	StoreName
 
 	MakeList
+	MakeMap
 	MakeTuple
 
 	_HasArgumentEnd
