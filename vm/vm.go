@@ -72,6 +72,19 @@ func (vm *VM) Exec(module *compile.Module) runtime.Object {
 
 			vm.Stack.Push(result)
 
+		case opcode.GetIndex:
+			index := vm.Stack.Pop()
+			self := vm.Stack.Pop()
+
+			vm.Stack.Push(runtime.GetIndex(self, index))
+
+		case opcode.SetIndex:
+			index := vm.Stack.Pop()
+			self := vm.Stack.Pop()
+			value := vm.Stack.Pop()
+
+			runtime.SetIndex(self, index, value)
+
 		case opcode.LoadNil:
 			vm.Stack.Push(runtime.Nil)
 

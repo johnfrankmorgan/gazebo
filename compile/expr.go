@@ -24,6 +24,9 @@ func (c *compiler) compileExpr(node ast.Expr) {
 	case expr.Ident:
 		c.compileExprIdent(node)
 
+	case expr.Index:
+		c.compileExprIndex(node)
+
 	case expr.Int:
 		c.compileExprInt(node)
 

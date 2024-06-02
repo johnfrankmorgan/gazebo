@@ -123,6 +123,7 @@ func (l *lexer) Error(err string) {
     expr_float
     expr_group 
     expr_ident
+    expr_index
     expr_int
     expr_list
     expr_nil
@@ -171,11 +172,18 @@ stmt
     ;
 
 stmt_assign
-    : TKIdent TKEqual expr
+    : expr_index TKEqual expr
     {
         $$ = stmt.Assign{
-            Identifier: $1,
-            Expression: $3,
+            Left: $1,
+            Right: $3,
+        }
+    }
+    | expr_ident TKEqual expr
+    {
+        $$ = stmt.Assign{
+            Left: $1,
+            Right: $3,
         }
     }
     ;
@@ -273,6 +281,7 @@ expr
     | expr_unary
     | expr_binary
     | expr_tuple
+    | expr_index
     ;
 
 exprs_comma_delimited
@@ -488,6 +497,15 @@ expr_ident
         }
     }
     ;
+
+expr_index
+    : expr TKLBracket expr TKRBracket
+    {
+        $$ = expr.Index{
+            Inner: $1,
+            Key: $3,
+        }
+    }
 
 expr_int
     : TKInt

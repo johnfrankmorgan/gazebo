@@ -18,6 +18,8 @@ var ListType = &Type{
 		Contains: func(self, other Object) Bool { return self.(*List).Contains(other) },
 		Add:      func(self, other Object) Object { return self.(*List).Add(other) },
 		Multiply: func(self, other Object) Object { return self.(*List).Multiply(other) },
+		GetIndex: func(self, index Object) Object { return self.(*List).GetIndex(index) },
+		SetIndex: func(self, index, value Object) { self.(*List).SetIndex(index, value) },
 	},
 }
 
@@ -65,6 +67,21 @@ func (l *List) Get(index Int) Object {
 
 func (l *List) Set(index Int, value Object) {
 	l._items[index] = value
+}
+
+func (l *List) GetIndex(index Object) Object {
+	if index, ok := index.(Int); ok {
+		return l.Get(index)
+	}
+
+	panic(ErrUnimplemented)
+}
+
+func (l *List) SetIndex(index, value Object) {
+	if index, ok := index.(Int); ok {
+		l.Set(index, value)
+		return
+	}
 }
 
 func (l *List) Equal(other Object) Bool {
