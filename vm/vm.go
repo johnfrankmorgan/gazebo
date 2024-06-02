@@ -63,6 +63,18 @@ func (vm *VM) Exec(module *compile.Module) runtime.Object {
 
 			vm.Stack.Push(result)
 
+		case opcode.MakeMap:
+			result := runtime.NewMap()
+
+			for range arg {
+				value := vm.Stack.Pop()
+				key := vm.Stack.Pop()
+
+				result.Set(key, value)
+			}
+
+			vm.Stack.Push(result)
+
 		case opcode.MakeTuple:
 			result := make(runtime.Tuple, arg)
 

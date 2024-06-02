@@ -33,6 +33,9 @@ func (c *compiler) compileExpr(node ast.Expr) {
 	case expr.List:
 		c.compileExprList(node)
 
+	case expr.Map:
+		c.compileExprMap(node)
+
 	case expr.Nil:
 		c.compileExprNil(node)
 
