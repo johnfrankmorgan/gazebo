@@ -15,6 +15,7 @@ var TupleType = &Type{
 		Contains: func(self, other Object) Bool { return self.(Tuple).Contains(other) },
 		Add:      func(self, other Object) Object { return self.(Tuple).Add(other) },
 		Multiply: func(self, other Object) Object { return self.(Tuple).Multiply(other) },
+		GetIndex: func(self, index Object) Object { return self.(Tuple).GetIndex(index) },
 	},
 }
 
@@ -92,6 +93,14 @@ func (t Tuple) Multiply(other Object) Object {
 		}
 
 		return result
+	}
+
+	panic(ErrUnimplemented)
+}
+
+func (t Tuple) GetIndex(index Object) Object {
+	if index, ok := index.(Int); ok {
+		return t[index]
 	}
 
 	panic(ErrUnimplemented)

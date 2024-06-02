@@ -56,6 +56,9 @@ const (
 
 	_HasArgumentEnd
 
+	GetIndex
+	SetIndex
+
 	LoadNil
 	LoadFalse
 	LoadTrue

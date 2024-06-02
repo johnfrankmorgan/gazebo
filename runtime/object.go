@@ -192,3 +192,25 @@ func LeftShift(a, b Object) Object {
 func RightShift(a, b Object) Object {
 	return binop[Object]("right shift", unsafe.Offsetof(TypeOps{}.RightShift), a, b)
 }
+
+func GetIndex(object, index Object) Object {
+	for t := object.Type(); t != nil; t = t.Parent {
+		if t.Ops.GetIndex != nil {
+			return t.Ops.GetIndex(object, index)
+		}
+	}
+
+	panic(unimplemented("get index", "operation", object.Type()))
+}
+
+func SetIndex(object, index, value Object) {
+	for t := object.Type(); t != nil; t = t.Parent {
+		if t.Ops.SetIndex != nil {
+			t.Ops.SetIndex(object, index, value)
+			return
+		}
+	}
+
+	panic(unimplemented("set index", "operation", object.Type()))
+
+}

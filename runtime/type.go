@@ -35,6 +35,9 @@ type TypeOps struct {
 
 	LeftShift  func(self, other Object) Object
 	RightShift func(self, other Object) Object
+
+	GetIndex func(self, index Object) Object
+	SetIndex func(self, index, value Object)
 }
 
 var TypeType = &Type{
