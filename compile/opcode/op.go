@@ -55,6 +55,9 @@ const (
 	MakeMap
 	MakeTuple
 
+	GetAttribute
+	SetAttribute
+
 	_HasArgumentEnd
 
 	GetIndex

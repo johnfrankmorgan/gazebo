@@ -9,6 +9,9 @@ import (
 
 func (c *compiler) compileExpr(node ast.Expr) {
 	switch node := node.(type) {
+	case expr.Attr:
+		c.compileExprAttr(node)
+
 	case expr.Binary:
 		c.compileExprBinary(node)
 

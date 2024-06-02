@@ -17,6 +17,11 @@ var TupleType = &Type{
 		Multiply: func(self, other Object) Object { return self.(Tuple).Multiply(other) },
 		GetIndex: func(self, index Object) Object { return self.(Tuple).GetIndex(index) },
 	},
+	Attributes: TypeAttributes{
+		"len": Attribute{
+			Get: func(self Object) Object { return self.(Tuple).Len() },
+		},
+	},
 }
 
 func (t Tuple) Type() *Type {
