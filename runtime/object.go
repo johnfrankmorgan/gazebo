@@ -1,279 +1,557 @@
 package runtime
 
-import (
-	"errors"
-	"fmt"
-	"slices"
-	"unsafe"
-)
-
 type Object interface {
 	Type() *Type
 }
 
-var ObjectType = &Type{
-	Name: "Object",
+type (
+	_objects struct {
+		Attribute _attribute
+		Index     _index
+		Unary     _unary
+		Binary    _binary
+	}
 
-	Protocols: TypeProtocols{
-		Bool:   func(Object) Bool { return True },
-		String: func(self Object) String { return Stringf("%v", self) },
-	},
+	_attribute struct{}
+	_index     struct{}
+	_unary     struct{}
+	_rbinary   struct{}
 
-	Ops: TypeOps{
-		Equal: Is,
-
-		GetAttribute: func(self Object, name String) Object {
-			for t := self.Type(); t != nil; t = t.Parent {
-				attr, ok := t.Attributes[name]
-				if !ok {
-					continue
-				}
-
-				if attr.Get != nil {
-					return attr.Get(self)
-				}
-			}
-
-			panic(fmt.Errorf("%w: can't get %q", ErrInvalidAttribute, name))
-		},
-
-		SetAttribute: func(self Object, name String, value Object) {
-			for t := self.Type(); t != nil; t = t.Parent {
-				attr, ok := t.Attributes[name]
-				if !ok {
-					continue
-				}
-
-				if attr.Set != nil {
-					attr.Set(self, value)
-					return
-				}
-			}
-
-			panic(fmt.Errorf("%w: can't set %q", ErrInvalidAttribute, name))
-		},
-	},
-
-	Attributes: TypeAttributes{
-		"type": Attribute{
-			Get: func(self Object) Object { return self.Type() },
-		},
-	},
-}
-
-func Is(a, b Object) Bool {
-	return a == b
-}
-
-var (
-	ErrUnimplemented    = errors.New("runtime: unimplemented")
-	ErrInvalidAttribute = errors.New("runtime: invalid attribute")
+	_binary struct {
+		Right _rbinary
+	}
 )
 
-func unimplemented(op, kind string, t *Type) error {
-	return fmt.Errorf("%w: %s %s not implemented for type %s", ErrUnimplemented, op, kind, t.Name)
+var Objects _objects
+
+func (_objects) Is(self, other Object) Bool {
+	return self == other
 }
 
-func Truthy(a Object) Bool {
-	for t := a.Type(); t != nil; t = t.Parent {
-		if t.Protocols.Bool != nil {
-			return t.Protocols.Bool(a)
+func (_objects) IsInstance(self Object, typ *Type) Bool {
+	for t := self.Type(); t != nil; t = t.Parent {
+		if Objects.Is(t, typ) {
+			return True
 		}
 	}
 
-	panic(unimplemented("bool", "protocol", a.Type()))
+	return False
 }
 
-func Hash(a Object) uint64 {
-	for t := a.Type(); t != nil; t = t.Parent {
+func (_objects) Hash(self Object) uint64 {
+	for t := self.Type(); t != nil; t = t.Parent {
 		if t.Protocols.Hash != nil {
-			return t.Protocols.Hash(a)
+			return t.Protocols.Hash(self)
 		}
 	}
 
-	panic(unimplemented("hash", "protocol", a.Type()))
+	panic(Exc.NewUnimplemented("hash", self.Type()))
 }
 
-func unop[T Object](op string, off uintptr, a Object) T {
-	for t := a.Type(); t != nil; t = t.Parent {
-		op := unsafe.Pointer(uintptr(unsafe.Pointer(&t.Ops)) + off)
-
-		if fn := *(*func(Object) T)(op); fn != nil {
-			return fn(a)
+func (_objects) Bool(self Object) Bool {
+	for t := self.Type(); t != nil; t = t.Parent {
+		if t.Protocols.Bool != nil {
+			return t.Protocols.Bool(self)
 		}
 	}
 
-	panic(unimplemented(op, "operation", a.Type()))
+	panic(Exc.NewUnimplemented("bool", self.Type()))
 }
 
-func Positive(a Object) Object {
-	return unop[Object]("positive", unsafe.Offsetof(TypeOps{}.Positive), a)
-}
-
-func Negative(a Object) Object {
-	return unop[Object]("negative", unsafe.Offsetof(TypeOps{}.Negative), a)
-}
-
-func GetAttribute(a Object, name String) Object {
-	for t := a.Type(); t != nil; t = t.Parent {
-		if t.Ops.GetAttribute != nil {
-			return t.Ops.GetAttribute(a, name)
+func (_objects) Repr(self Object) String {
+	for t := self.Type(); t != nil; t = t.Parent {
+		if t.Protocols.Repr != nil {
+			return t.Protocols.Repr(self)
 		}
 	}
 
-	panic(unimplemented("get attribute", "operation", a.Type()))
+	panic(Exc.NewUnimplemented("repr", self.Type()))
 }
 
-func SetAttribute(a Object, name String, value Object) {
-	for t := a.Type(); t != nil; t = t.Parent {
-		if t.Ops.SetAttribute != nil {
-			t.Ops.SetAttribute(a, name, value)
+func (_objects) String(self Object) String {
+	for t := self.Type(); t != nil; t = t.Parent {
+		if t.Protocols.String != nil {
+			return t.Protocols.String(self)
+		}
+	}
+
+	panic(Exc.NewUnimplemented("string", self.Type()))
+}
+
+func (_attribute) Get(self Object, name String) Object {
+	for t := self.Type(); t != nil; t = t.Parent {
+		if t.Protocols.Attribute.Get != nil {
+			return t.Protocols.Attribute.Get(self, name)
+		}
+	}
+
+	panic(Exc.NewUnimplemented("get attribute", self.Type()))
+}
+
+func (_attribute) Set(self Object, name String, value Object) {
+	for t := self.Type(); t != nil; t = t.Parent {
+		if t.Protocols.Attribute.Set != nil {
+			t.Protocols.Attribute.Set(self, name, value)
 			return
 		}
 	}
 
-	panic(unimplemented("set attribute", "operation", a.Type()))
+	panic(Exc.NewUnimplemented("set attribute", self.Type()))
 }
 
-func _binop[T Object](op string, off uintptr, a, b Object) (result T, err error) {
-	defer func() {
-		if rerr := recover(); rerr != nil {
-			if rerr, ok := rerr.(error); ok && errors.Is(rerr, ErrUnimplemented) {
-				err = rerr
-				return
-			}
-
-			panic(err)
-		}
-	}()
-
-	for t := a.Type(); t != nil; t = t.Parent {
-		op := unsafe.Pointer(uintptr(unsafe.Pointer(&t.Ops)) + off)
-
-		if fn := *(*func(Object, Object) T)(op); fn != nil {
-			return fn(a, b), nil
+func (_index) Get(self, index Object) Object {
+	for t := self.Type(); t != nil; t = t.Parent {
+		if t.Protocols.Index.Get != nil {
+			return t.Protocols.Index.Get(self, index)
 		}
 	}
 
-	return result, unimplemented(op, "operation", a.Type())
+	panic(Exc.NewUnimplemented("get index", self.Type()))
 }
 
-func binop[T Object](op string, off uintptr, a, b Object) (result T) {
-	isCommutative := func(off uintptr) bool {
-		return slices.Contains([]uintptr{
-			unsafe.Offsetof(TypeOps{}.Equal),
-			unsafe.Offsetof(TypeOps{}.Add),
-			unsafe.Offsetof(TypeOps{}.Multiply),
-			unsafe.Offsetof(TypeOps{}.BitwiseAnd),
-			unsafe.Offsetof(TypeOps{}.BitwiseOr),
-			unsafe.Offsetof(TypeOps{}.BitwiseXor),
-		}, off)
-	}
-
-	result, err := _binop[T](op, off, a, b)
-
-	if err != nil {
-		// FIXME: add support for noncommutative operations
-		if errors.Is(err, ErrUnimplemented) && isCommutative(off) {
-			if result, err = _binop[T](op, off, b, a); err != nil {
-				panic(err)
-			}
+func (_index) Set(self, index, value Object) {
+	for t := self.Type(); t != nil; t = t.Parent {
+		if t.Protocols.Index.Set != nil {
+			t.Protocols.Index.Set(self, index, value)
+			return
 		}
 	}
 
-	return result
+	panic(Exc.NewUnimplemented("set index", self.Type()))
 }
 
-func Equal(a, b Object) Bool {
-	if Is(a, b) {
+func (_unary) Positive(self Object) Object {
+	for t := self.Type(); t != nil; t = t.Parent {
+		if t.Protocols.Unary.Positive != nil {
+			return t.Protocols.Unary.Positive(self)
+		}
+	}
+
+	panic(Exc.NewUnimplementedUnary(UnaryProtocolPositive, self.Type()))
+}
+
+func (_unary) Negative(self Object) Object {
+	for t := self.Type(); t != nil; t = t.Parent {
+		if t.Protocols.Unary.Negative != nil {
+			return t.Protocols.Unary.Negative(self)
+		}
+	}
+
+	panic(Exc.NewUnimplementedUnary(UnaryProtocolNegative, self.Type()))
+}
+
+func (_binary) Equal(self, other Object) (result Bool) {
+	if Objects.Is(self, other) {
 		return True
 	}
 
-	return binop[Bool]("equal", unsafe.Offsetof(TypeOps{}.Equal), a, b)
-}
+	defer func() {
+		if r := recover(); r != nil {
+			if exc, ok := r.(*Exception); Bool(ok) && Objects.IsInstance(exc, Types.Exc.Unimplemented) {
+				result = Objects.Binary.Right.Equal(other, self)
+			} else {
+				panic(r)
+			}
+		}
+	}()
 
-func NotEqual(a, b Object) Bool {
-	return !Equal(a, b)
-}
-
-func Less(a, b Object) Bool {
-	return binop[Bool]("less", unsafe.Offsetof(TypeOps{}.Less), a, b)
-}
-
-func LessOrEqual(a, b Object) Bool {
-	return Less(a, b) || Equal(a, b)
-}
-
-func Greater(a, b Object) Bool {
-	return binop[Bool]("greater", unsafe.Offsetof(TypeOps{}.Greater), a, b)
-}
-
-func GreaterOrEqual(a, b Object) Bool {
-	return Greater(a, b) || Equal(a, b)
-}
-
-func Contains(a, b Object) Bool {
-	return binop[Bool]("contains", unsafe.Offsetof(TypeOps{}.Contains), a, b)
-}
-
-func Add(a, b Object) Object {
-	return binop[Object]("add", unsafe.Offsetof(TypeOps{}.Add), a, b)
-}
-
-func Subtract(a, b Object) Object {
-	return binop[Object]("subtract", unsafe.Offsetof(TypeOps{}.Subtract), a, b)
-}
-
-func Multiply(a, b Object) Object {
-	return binop[Object]("multiply", unsafe.Offsetof(TypeOps{}.Multiply), a, b)
-}
-
-func Divide(a, b Object) Object {
-	return binop[Object]("divide", unsafe.Offsetof(TypeOps{}.Divide), a, b)
-}
-
-func Modulo(a, b Object) Object {
-	return binop[Object]("modulo", unsafe.Offsetof(TypeOps{}.Modulo), a, b)
-}
-
-func BitwiseAnd(a, b Object) Object {
-	return binop[Object]("bitwise and", unsafe.Offsetof(TypeOps{}.BitwiseAnd), a, b)
-}
-
-func BitwiseOr(a, b Object) Object {
-	return binop[Object]("bitwise or", unsafe.Offsetof(TypeOps{}.BitwiseOr), a, b)
-}
-
-func BitwiseXor(a, b Object) Object {
-	return binop[Object]("bitwise xor", unsafe.Offsetof(TypeOps{}.BitwiseXor), a, b)
-}
-
-func LeftShift(a, b Object) Object {
-	return binop[Object]("left shift", unsafe.Offsetof(TypeOps{}.LeftShift), a, b)
-}
-
-func RightShift(a, b Object) Object {
-	return binop[Object]("right shift", unsafe.Offsetof(TypeOps{}.RightShift), a, b)
-}
-
-func GetIndex(object, index Object) Object {
-	for t := object.Type(); t != nil; t = t.Parent {
-		if t.Ops.GetIndex != nil {
-			return t.Ops.GetIndex(object, index)
+	for t := self.Type(); t != nil; t = t.Parent {
+		if t.Protocols.Binary.Equal != nil {
+			return t.Protocols.Binary.Equal(self, other)
 		}
 	}
 
-	panic(unimplemented("get index", "operation", object.Type()))
+	panic(Exc.NewUnimplementedBinary(BinaryProtocolEqual, self.Type(), other.Type()))
 }
 
-func SetIndex(object, index, value Object) {
-	for t := object.Type(); t != nil; t = t.Parent {
-		if t.Ops.SetIndex != nil {
-			t.Ops.SetIndex(object, index, value)
-			return
+func (_binary) NotEqual(self, other Object) Bool {
+	return !Objects.Binary.Equal(self, other)
+}
+
+func (_binary) Less(self, other Object) (result Bool) {
+	defer func() {
+		if r := recover(); r != nil {
+			if exc, ok := r.(*Exception); Bool(ok) && Objects.IsInstance(exc, Types.Exc.Unimplemented) {
+				result = Objects.Binary.Right.Less(other, self)
+			} else {
+				panic(r)
+			}
+		}
+	}()
+
+	for t := self.Type(); t != nil; t = t.Parent {
+		if t.Protocols.Binary.Less != nil {
+			return t.Protocols.Binary.Less(self, other)
 		}
 	}
 
-	panic(unimplemented("set index", "operation", object.Type()))
+	panic(Exc.NewUnimplementedBinary(BinaryProtocolLess, self.Type(), other.Type()))
+}
 
+func (_binary) LessOrEqual(self, other Object) Bool {
+	return Objects.Binary.Less(self, other) || Objects.Binary.Equal(self, other)
+}
+
+func (_binary) Greater(self, other Object) (result Bool) {
+	defer func() {
+		if r := recover(); r != nil {
+			if exc, ok := r.(*Exception); Bool(ok) && Objects.IsInstance(exc, Types.Exc.Unimplemented) {
+				result = Objects.Binary.Right.Greater(other, self)
+			} else {
+				panic(r)
+			}
+		}
+	}()
+
+	for t := self.Type(); t != nil; t = t.Parent {
+		if t.Protocols.Binary.Greater != nil {
+			return t.Protocols.Binary.Greater(self, other)
+		}
+	}
+
+	panic(Exc.NewUnimplementedBinary(BinaryProtocolGreater, self.Type(), other.Type()))
+}
+
+func (_binary) GreaterOrEqual(self, other Object) Bool {
+	return Objects.Binary.Greater(self, other) || Objects.Binary.Equal(self, other)
+}
+
+func (_binary) Contains(self, other Object) Bool {
+	for t := self.Type(); t != nil; t = t.Parent {
+		if t.Protocols.Binary.Contains != nil {
+			return t.Protocols.Binary.Contains(self, other)
+		}
+	}
+
+	panic(Exc.NewUnimplementedBinary(BinaryProtocolContains, self.Type(), other.Type()))
+}
+
+func (_binary) Add(self, other Object) (result Object) {
+	defer func() {
+		if r := recover(); r != nil {
+			if exc, ok := r.(*Exception); Bool(ok) && Objects.IsInstance(exc, Types.Exc.Unimplemented) {
+				result = Objects.Binary.Right.Add(other, self)
+			} else {
+				panic(r)
+			}
+		}
+	}()
+
+	for t := self.Type(); t != nil; t = t.Parent {
+		if t.Protocols.Binary.Add != nil {
+			return t.Protocols.Binary.Add(self, other)
+		}
+	}
+
+	panic(Exc.NewUnimplementedBinary(BinaryProtocolAdd, self.Type(), other.Type()))
+}
+
+func (_binary) Subtract(self, other Object) (result Object) {
+	defer func() {
+		if r := recover(); r != nil {
+			if exc, ok := r.(*Exception); Bool(ok) && Objects.IsInstance(exc, Types.Exc.Unimplemented) {
+				result = Objects.Binary.Right.Subtract(other, self)
+			} else {
+				panic(r)
+			}
+		}
+	}()
+
+	for t := self.Type(); t != nil; t = t.Parent {
+		if t.Protocols.Binary.Subtract != nil {
+			return t.Protocols.Binary.Subtract(self, other)
+		}
+	}
+
+	panic(Exc.NewUnimplementedBinary(BinaryProtocolSubtract, self.Type(), other.Type()))
+}
+
+func (_binary) Multiply(self, other Object) (result Object) {
+	defer func() {
+		if r := recover(); r != nil {
+			if exc, ok := r.(*Exception); Bool(ok) && Objects.IsInstance(exc, Types.Exc.Unimplemented) {
+				result = Objects.Binary.Right.Multiply(other, self)
+			} else {
+				panic(r)
+			}
+		}
+	}()
+
+	for t := self.Type(); t != nil; t = t.Parent {
+		if t.Protocols.Binary.Multiply != nil {
+			return t.Protocols.Binary.Multiply(self, other)
+		}
+	}
+
+	panic(Exc.NewUnimplementedBinary(BinaryProtocolMultiply, self.Type(), other.Type()))
+}
+
+func (_binary) Divide(self, other Object) (result Object) {
+	defer func() {
+		if r := recover(); r != nil {
+			if exc, ok := r.(*Exception); Bool(ok) && Objects.IsInstance(exc, Types.Exc.Unimplemented) {
+				result = Objects.Binary.Right.Divide(other, self)
+			} else {
+				panic(r)
+			}
+		}
+	}()
+
+	for t := self.Type(); t != nil; t = t.Parent {
+		if t.Protocols.Binary.Divide != nil {
+			return t.Protocols.Binary.Divide(self, other)
+		}
+	}
+
+	panic(Exc.NewUnimplementedBinary(BinaryProtocolDivide, self.Type(), other.Type()))
+}
+
+func (_binary) Modulo(self, other Object) (result Object) {
+	defer func() {
+		if r := recover(); r != nil {
+			if exc, ok := r.(*Exception); Bool(ok) && Objects.IsInstance(exc, Types.Exc.Unimplemented) {
+				result = Objects.Binary.Right.Modulo(other, self)
+			} else {
+				panic(r)
+			}
+		}
+	}()
+
+	for t := self.Type(); t != nil; t = t.Parent {
+		if t.Protocols.Binary.Modulo != nil {
+			return t.Protocols.Binary.Modulo(self, other)
+		}
+	}
+
+	panic(Exc.NewUnimplementedBinary(BinaryProtocolModulo, self.Type(), other.Type()))
+}
+
+func (_binary) BitwiseAnd(self, other Object) (result Object) {
+	defer func() {
+		if r := recover(); r != nil {
+			if exc, ok := r.(*Exception); Bool(ok) && Objects.IsInstance(exc, Types.Exc.Unimplemented) {
+				result = Objects.Binary.Right.BitwiseAnd(other, self)
+			} else {
+				panic(r)
+			}
+		}
+	}()
+
+	for t := self.Type(); t != nil; t = t.Parent {
+		if t.Protocols.Binary.BitwiseAnd != nil {
+			return t.Protocols.Binary.BitwiseAnd(self, other)
+		}
+	}
+
+	panic(Exc.NewUnimplementedBinary(BinaryProtocolBitwiseAnd, self.Type(), other.Type()))
+}
+
+func (_binary) BitwiseOr(self, other Object) (result Object) {
+	defer func() {
+		if r := recover(); r != nil {
+			if exc, ok := r.(*Exception); Bool(ok) && Objects.IsInstance(exc, Types.Exc.Unimplemented) {
+				result = Objects.Binary.Right.BitwiseOr(other, self)
+			} else {
+				panic(r)
+			}
+		}
+	}()
+
+	for t := self.Type(); t != nil; t = t.Parent {
+		if t.Protocols.Binary.BitwiseOr != nil {
+			return t.Protocols.Binary.BitwiseOr(self, other)
+		}
+	}
+
+	panic(Exc.NewUnimplementedBinary(BinaryProtocolBitwiseOr, self.Type(), other.Type()))
+}
+
+func (_binary) BitwiseXor(self, other Object) (result Object) {
+	defer func() {
+		if r := recover(); r != nil {
+			if exc, ok := r.(*Exception); Bool(ok) && Objects.IsInstance(exc, Types.Exc.Unimplemented) {
+				result = Objects.Binary.Right.BitwiseXor(other, self)
+			} else {
+				panic(r)
+			}
+		}
+	}()
+
+	for t := self.Type(); t != nil; t = t.Parent {
+		if t.Protocols.Binary.BitwiseXor != nil {
+			return t.Protocols.Binary.BitwiseXor(self, other)
+		}
+	}
+
+	panic(Exc.NewUnimplementedBinary(BinaryProtocolBitwiseXor, self.Type(), other.Type()))
+}
+
+func (_binary) ShiftLeft(self, other Object) (result Object) {
+	defer func() {
+		if r := recover(); r != nil {
+			if exc, ok := r.(*Exception); Bool(ok) && Objects.IsInstance(exc, Types.Exc.Unimplemented) {
+				result = Objects.Binary.Right.ShiftLeft(other, self)
+			} else {
+				panic(r)
+			}
+		}
+	}()
+
+	for t := self.Type(); t != nil; t = t.Parent {
+		if t.Protocols.Binary.ShiftLeft != nil {
+			return t.Protocols.Binary.ShiftLeft(self, other)
+		}
+	}
+
+	panic(Exc.NewUnimplementedBinary(BinaryProtocolShiftLeft, self.Type(), other.Type()))
+}
+
+func (_binary) ShiftRight(self, other Object) (result Object) {
+	defer func() {
+		if r := recover(); r != nil {
+			if exc, ok := r.(*Exception); Bool(ok) && Objects.IsInstance(exc, Types.Exc.Unimplemented) {
+				result = Objects.Binary.Right.ShiftRight(other, self)
+			} else {
+				panic(r)
+			}
+		}
+	}()
+
+	for t := self.Type(); t != nil; t = t.Parent {
+		if t.Protocols.Binary.ShiftRight != nil {
+			return t.Protocols.Binary.ShiftRight(self, other)
+		}
+	}
+
+	panic(Exc.NewUnimplementedBinary(BinaryProtocolShiftRight, self.Type(), other.Type()))
+}
+
+func (_rbinary) Equal(self, other Object) Bool {
+	for t := self.Type(); t != nil; t = t.Parent {
+		if t.Protocols.Binary.Right.Equal != nil {
+			return t.Protocols.Binary.Right.Equal(self, other)
+		}
+	}
+
+	return False
+}
+
+func (_rbinary) Less(self, other Object) Bool {
+	for t := self.Type(); t != nil; t = t.Parent {
+		if t.Protocols.Binary.Right.Less != nil {
+			return t.Protocols.Binary.Right.Less(self, other)
+		}
+	}
+
+	panic(Exc.NewUnimplementedBinary(BinaryProtocolLess, other.Type(), self.Type()))
+}
+
+func (_rbinary) Greater(self, other Object) Bool {
+	for t := self.Type(); t != nil; t = t.Parent {
+		if t.Protocols.Binary.Right.Greater != nil {
+			return t.Protocols.Binary.Right.Greater(self, other)
+		}
+	}
+
+	panic(Exc.NewUnimplementedBinary(BinaryProtocolGreater, other.Type(), self.Type()))
+}
+
+func (_rbinary) Add(self, other Object) Object {
+	for t := self.Type(); t != nil; t = t.Parent {
+		if t.Protocols.Binary.Right.Add != nil {
+			return t.Protocols.Binary.Right.Add(self, other)
+		}
+	}
+
+	panic(Exc.NewUnimplementedBinary(BinaryProtocolAdd, other.Type(), self.Type()))
+}
+
+func (_rbinary) Subtract(self, other Object) Object {
+	for t := self.Type(); t != nil; t = t.Parent {
+		if t.Protocols.Binary.Right.Subtract != nil {
+			return t.Protocols.Binary.Right.Subtract(self, other)
+		}
+	}
+
+	panic(Exc.NewUnimplementedBinary(BinaryProtocolSubtract, other.Type(), self.Type()))
+}
+
+func (_rbinary) Multiply(self, other Object) Object {
+	for t := self.Type(); t != nil; t = t.Parent {
+		if t.Protocols.Binary.Right.Multiply != nil {
+			return t.Protocols.Binary.Right.Multiply(self, other)
+		}
+	}
+
+	panic(Exc.NewUnimplementedBinary(BinaryProtocolMultiply, other.Type(), self.Type()))
+}
+
+func (_rbinary) Divide(self, other Object) Object {
+	for t := self.Type(); t != nil; t = t.Parent {
+		if t.Protocols.Binary.Right.Divide != nil {
+			return t.Protocols.Binary.Right.Divide(self, other)
+		}
+	}
+
+	panic(Exc.NewUnimplementedBinary(BinaryProtocolDivide, other.Type(), self.Type()))
+}
+
+func (_rbinary) Modulo(self, other Object) Object {
+	for t := self.Type(); t != nil; t = t.Parent {
+		if t.Protocols.Binary.Right.Modulo != nil {
+			return t.Protocols.Binary.Right.Modulo(self, other)
+		}
+	}
+
+	panic(Exc.NewUnimplementedBinary(BinaryProtocolModulo, other.Type(), self.Type()))
+}
+
+func (_rbinary) BitwiseAnd(self, other Object) Object {
+	for t := self.Type(); t != nil; t = t.Parent {
+		if t.Protocols.Binary.Right.BitwiseAnd != nil {
+			return t.Protocols.Binary.Right.BitwiseAnd(self, other)
+		}
+	}
+
+	panic(Exc.NewUnimplementedBinary(BinaryProtocolBitwiseAnd, other.Type(), self.Type()))
+}
+
+func (_rbinary) BitwiseOr(self, other Object) Object {
+	for t := self.Type(); t != nil; t = t.Parent {
+		if t.Protocols.Binary.Right.BitwiseOr != nil {
+			return t.Protocols.Binary.Right.BitwiseOr(self, other)
+		}
+	}
+
+	panic(Exc.NewUnimplementedBinary(BinaryProtocolBitwiseOr, other.Type(), self.Type()))
+}
+
+func (_rbinary) BitwiseXor(self, other Object) Object {
+	for t := self.Type(); t != nil; t = t.Parent {
+		if t.Protocols.Binary.Right.BitwiseXor != nil {
+			return t.Protocols.Binary.Right.BitwiseXor(self, other)
+		}
+	}
+
+	panic(Exc.NewUnimplementedBinary(BinaryProtocolBitwiseXor, other.Type(), self.Type()))
+}
+
+func (_rbinary) ShiftLeft(self, other Object) Object {
+	for t := self.Type(); t != nil; t = t.Parent {
+		if t.Protocols.Binary.Right.ShiftLeft != nil {
+			return t.Protocols.Binary.Right.ShiftLeft(self, other)
+		}
+	}
+
+	panic(Exc.NewUnimplementedBinary(BinaryProtocolShiftLeft, other.Type(), self.Type()))
+}
+
+func (_rbinary) ShiftRight(self, other Object) Object {
+	for t := self.Type(); t != nil; t = t.Parent {
+		if t.Protocols.Binary.Right.ShiftRight != nil {
+			return t.Protocols.Binary.Right.ShiftRight(self, other)
+		}
+	}
+
+	panic(Exc.NewUnimplementedBinary(BinaryProtocolShiftRight, other.Type(), self.Type()))
 }

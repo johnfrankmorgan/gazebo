@@ -54,11 +54,11 @@ func (ht *ht) get(key Object) (Object, Bool) {
 		return Nil, False
 	}
 
-	hash := Hash(key)
+	hash := Objects.Hash(key)
 	index := hash % uint64(len(ht.entries))
 
 	for entry := &ht.entries[index]; entry != nil; entry = entry.chain {
-		if entry.hash == hash && Equal(entry.key, key) {
+		if entry.hash == hash && Objects.Binary.Equal(entry.key, key) {
 			return entry.value, True
 		}
 	}
@@ -71,13 +71,13 @@ func (ht *ht) set(key, value Object) {
 		ht.grow()
 	}
 
-	hash := Hash(key)
+	hash := Objects.Hash(key)
 	index := hash % uint64(len(ht.entries))
 
 	insert := (*htentry)(nil)
 
 	for entry := &ht.entries[index]; entry != nil; entry = entry.chain {
-		if entry.hash == hash && Equal(entry.key, key) {
+		if entry.hash == hash && Objects.Binary.Equal(entry.key, key) {
 			entry.key = key
 			entry.value = value
 			return

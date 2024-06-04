@@ -7,18 +7,8 @@ const (
 	True  = Bool(true)
 )
 
-var BoolType = &Type{
-	Name:   "Bool",
-	Parent: ObjectType,
-	Protocols: TypeProtocols{
-		Hash:   func(self Object) uint64 { return self.(Bool).Hash() },
-		Bool:   func(self Object) Bool { return self.(Bool).Bool() },
-		String: func(self Object) String { return self.(Bool).String() },
-	},
-}
-
 func (b Bool) Type() *Type {
-	return BoolType
+	return Types.Bool
 }
 
 func (b Bool) Hash() uint64 {
@@ -33,7 +23,7 @@ func (b Bool) Bool() Bool {
 	return b
 }
 
-func (b Bool) String() String {
+func (b Bool) Repr() String {
 	if b {
 		return "true"
 	}

@@ -2,37 +2,15 @@ package runtime
 
 type Tuple []Object
 
-var TupleType = &Type{
-	Name:   "Tuple",
-	Parent: ObjectType,
-	Protocols: TypeProtocols{
-		Hash:   func(self Object) uint64 { return self.(Tuple).Hash() },
-		Bool:   func(self Object) Bool { return self.(Tuple).Bool() },
-		String: func(self Object) String { return self.(Tuple).String() },
-	},
-	Ops: TypeOps{
-		Equal:    func(self, other Object) Bool { return self.(Tuple).Equal(other) },
-		Contains: func(self, other Object) Bool { return self.(Tuple).Contains(other) },
-		Add:      func(self, other Object) Object { return self.(Tuple).Add(other) },
-		Multiply: func(self, other Object) Object { return self.(Tuple).Multiply(other) },
-		GetIndex: func(self, index Object) Object { return self.(Tuple).GetIndex(index) },
-	},
-	Attributes: TypeAttributes{
-		"len": Attribute{
-			Get: func(self Object) Object { return self.(Tuple).Len() },
-		},
-	},
-}
-
 func (t Tuple) Type() *Type {
-	return TupleType
+	return Types.Tuple
 }
 
 func (t Tuple) Hash() uint64 {
 	hash := uint64(0)
 
 	for _, item := range t {
-		hash ^= Hash(item)
+		hash ^= Objects.Hash(item)
 	}
 
 	return hash
@@ -40,10 +18,6 @@ func (t Tuple) Hash() uint64 {
 
 func (t Tuple) Bool() Bool {
 	return t.Len() != 0
-}
-
-func (t Tuple) String() String {
-	panic("todo")
 }
 
 func (t Tuple) Len() Int {
@@ -57,7 +31,7 @@ func (t Tuple) Equal(other Object) Bool {
 		}
 
 		for i, item := range t {
-			if !Equal(item, other[i]) {
+			if !Objects.Binary.Equal(item, other[i]) {
 				return False
 			}
 		}
@@ -65,12 +39,12 @@ func (t Tuple) Equal(other Object) Bool {
 		return True
 	}
 
-	panic(ErrUnimplemented)
+	panic(Exc.NewUnimplemented("equal", t.Type()))
 }
 
 func (t Tuple) Contains(other Object) Bool {
 	for _, item := range t {
-		if Equal(item, other) {
+		if Objects.Binary.Equal(item, other) {
 			return True
 		}
 	}
@@ -86,7 +60,7 @@ func (t Tuple) Add(other Object) Object {
 		return result
 	}
 
-	panic(ErrUnimplemented)
+	panic(Exc.NewUnimplemented("add", t.Type()))
 }
 
 func (t Tuple) Multiply(other Object) Object {
@@ -100,7 +74,7 @@ func (t Tuple) Multiply(other Object) Object {
 		return result
 	}
 
-	panic(ErrUnimplemented)
+	panic(Exc.NewUnimplemented("multiply", t.Type()))
 }
 
 func (t Tuple) GetIndex(index Object) Object {
@@ -108,5 +82,5 @@ func (t Tuple) GetIndex(index Object) Object {
 		return t[index]
 	}
 
-	panic(ErrUnimplemented)
+	panic(Exc.NewUnimplemented("get index", t.Type()))
 }
