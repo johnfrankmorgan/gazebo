@@ -64,10 +64,25 @@ func repl() error {
 			repr.Println(module)
 		}
 
-		if result := vm.Exec(module); !runtime.Equal(result, runtime.Nil) {
-			repr.New(rl.Stdout()).Println(result)
+		if result := exec(vm, module); result != nil && !runtime.Objects.Is(result, runtime.Nil) {
+			fmt.Println(runtime.Objects.String(result))
 		}
 	}
 
 	return nil
+}
+
+func exec(vm *vm.VM, program *compile.Module) (result runtime.Object) {
+	defer func() {
+		if r := recover(); r != nil {
+			if exc, ok := r.(*runtime.Exception); ok {
+				result = exc
+				return
+			}
+
+			panic(r)
+		}
+	}()
+
+	return vm.Exec(program)
 }

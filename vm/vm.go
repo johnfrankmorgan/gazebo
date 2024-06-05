@@ -36,7 +36,7 @@ func (vm *VM) Exec(module *compile.Module) runtime.Object {
 			pc = arg - 1
 
 		case opcode.JumpIfTrue:
-			if runtime.Truthy(vm.Stack.Pop()) {
+			if runtime.Objects.Bool(vm.Stack.Pop()) {
 				pc = arg - 1
 			}
 
@@ -46,7 +46,7 @@ func (vm *VM) Exec(module *compile.Module) runtime.Object {
 		case opcode.LoadName:
 			value, ok := vm.Variables.Get(code.Idents[arg])
 			if !ok {
-				panic(fmt.Errorf("runtime: undefined variable: %v", code.Idents[arg]))
+				panic(runtime.Exc.NewUndefinedVariable(runtime.String(code.Idents[arg])))
 			}
 
 			vm.Stack.Push(value)
@@ -88,27 +88,27 @@ func (vm *VM) Exec(module *compile.Module) runtime.Object {
 			self := vm.Stack.Pop()
 			name := code.Idents[arg]
 
-			vm.Stack.Push(runtime.GetAttribute(self, runtime.String(name)))
+			vm.Stack.Push(runtime.Objects.Attribute.Get(self, runtime.String(name)))
 
 		case opcode.SetAttribute:
 			self := vm.Stack.Pop()
 			name := code.Idents[arg]
 			value := vm.Stack.Pop()
 
-			runtime.SetAttribute(self, runtime.String(name), value)
+			runtime.Objects.Attribute.Set(self, runtime.String(name), value)
 
 		case opcode.GetIndex:
 			index := vm.Stack.Pop()
 			self := vm.Stack.Pop()
 
-			vm.Stack.Push(runtime.GetIndex(self, index))
+			vm.Stack.Push(runtime.Objects.Index.Get(self, index))
 
 		case opcode.SetIndex:
 			index := vm.Stack.Pop()
 			self := vm.Stack.Pop()
 			value := vm.Stack.Pop()
 
-			runtime.SetIndex(self, index, value)
+			runtime.Objects.Index.Set(self, index, value)
 
 		case opcode.LoadNil:
 			vm.Stack.Push(runtime.Nil)
@@ -123,7 +123,7 @@ func (vm *VM) Exec(module *compile.Module) runtime.Object {
 
 		case opcode.UnaryNot:
 			self := vm.Stack.Pop()
-			vm.Stack.Push(!runtime.Truthy(self))
+			vm.Stack.Push(!runtime.Objects.Bool(self))
 
 		case opcode.UnaryPlus:
 			self := vm.Stack.Pop()
@@ -131,13 +131,13 @@ func (vm *VM) Exec(module *compile.Module) runtime.Object {
 
 		case opcode.UnaryMinus:
 			self := vm.Stack.Pop()
-			vm.Stack.Push(runtime.Negative(self))
+			vm.Stack.Push(runtime.Objects.Unary.Negative(self))
 
 		case opcode.BinaryAnd:
 			other := vm.Stack.Pop()
 			self := vm.Stack.Pop()
 
-			result := runtime.Truthy(self) && runtime.Truthy(other)
+			result := runtime.Objects.Bool(self) && runtime.Objects.Bool(other)
 
 			vm.Stack.Push(result)
 
@@ -147,7 +147,7 @@ func (vm *VM) Exec(module *compile.Module) runtime.Object {
 
 			result := other
 
-			if runtime.Truthy(self) {
+			if runtime.Objects.Bool(self) {
 				result = self
 			}
 
@@ -157,109 +157,109 @@ func (vm *VM) Exec(module *compile.Module) runtime.Object {
 			other := vm.Stack.Pop()
 			self := vm.Stack.Pop()
 
-			vm.Stack.Push(runtime.Is(self, other))
+			vm.Stack.Push(runtime.Objects.Is(self, other))
 
 		case opcode.BinaryEqual:
 			other := vm.Stack.Pop()
 			self := vm.Stack.Pop()
 
-			vm.Stack.Push(runtime.Equal(self, other))
+			vm.Stack.Push(runtime.Objects.Binary.Equal(self, other))
 
 		case opcode.BinaryNotEqual:
 			other := vm.Stack.Pop()
 			self := vm.Stack.Pop()
 
-			vm.Stack.Push(runtime.NotEqual(self, other))
+			vm.Stack.Push(runtime.Objects.Binary.NotEqual(self, other))
 
 		case opcode.BinaryLessThan:
 			other := vm.Stack.Pop()
 			self := vm.Stack.Pop()
 
-			vm.Stack.Push(runtime.Less(self, other))
+			vm.Stack.Push(runtime.Objects.Binary.Less(self, other))
 
 		case opcode.BinaryLessThanOrEqual:
 			other := vm.Stack.Pop()
 			self := vm.Stack.Pop()
 
-			vm.Stack.Push(runtime.LessOrEqual(self, other))
+			vm.Stack.Push(runtime.Objects.Binary.LessOrEqual(self, other))
 
 		case opcode.BinaryGreaterThan:
 			other := vm.Stack.Pop()
 			self := vm.Stack.Pop()
 
-			vm.Stack.Push(runtime.Greater(self, other))
+			vm.Stack.Push(runtime.Objects.Binary.Greater(self, other))
 
 		case opcode.BinaryGreaterThanOrEqual:
 			other := vm.Stack.Pop()
 			self := vm.Stack.Pop()
 
-			vm.Stack.Push(runtime.GreaterOrEqual(self, other))
+			vm.Stack.Push(runtime.Objects.Binary.GreaterOrEqual(self, other))
 
 		case opcode.BinaryIn:
 			self := vm.Stack.Pop()
 			other := vm.Stack.Pop()
 
-			vm.Stack.Push(runtime.Contains(self, other))
+			vm.Stack.Push(runtime.Objects.Binary.Contains(self, other))
 
 		case opcode.BinaryAdd:
 			other := vm.Stack.Pop()
 			self := vm.Stack.Pop()
 
-			vm.Stack.Push(runtime.Add(self, other))
+			vm.Stack.Push(runtime.Objects.Binary.Add(self, other))
 
 		case opcode.BinarySubtract:
 			other := vm.Stack.Pop()
 			self := vm.Stack.Pop()
 
-			vm.Stack.Push(runtime.Subtract(self, other))
+			vm.Stack.Push(runtime.Objects.Binary.Subtract(self, other))
 
 		case opcode.BinaryMultiply:
 			other := vm.Stack.Pop()
 			self := vm.Stack.Pop()
 
-			vm.Stack.Push(runtime.Multiply(self, other))
+			vm.Stack.Push(runtime.Objects.Binary.Multiply(self, other))
 
 		case opcode.BinaryDivide:
 			other := vm.Stack.Pop()
 			self := vm.Stack.Pop()
 
-			vm.Stack.Push(runtime.Divide(self, other))
+			vm.Stack.Push(runtime.Objects.Binary.Divide(self, other))
 
 		case opcode.BinaryModulo:
 			other := vm.Stack.Pop()
 			self := vm.Stack.Pop()
 
-			vm.Stack.Push(runtime.Modulo(self, other))
+			vm.Stack.Push(runtime.Objects.Binary.Modulo(self, other))
 
 		case opcode.BinaryBitwiseAnd:
 			other := vm.Stack.Pop()
 			self := vm.Stack.Pop()
 
-			vm.Stack.Push(runtime.BitwiseAnd(self, other))
+			vm.Stack.Push(runtime.Objects.Binary.BitwiseAnd(self, other))
 
 		case opcode.BinaryBitwiseOr:
 			other := vm.Stack.Pop()
 			self := vm.Stack.Pop()
 
-			vm.Stack.Push(runtime.BitwiseAnd(self, other))
+			vm.Stack.Push(runtime.Objects.Binary.BitwiseOr(self, other))
 
 		case opcode.BinaryBitwiseXor:
 			other := vm.Stack.Pop()
 			self := vm.Stack.Pop()
 
-			vm.Stack.Push(runtime.BitwiseAnd(self, other))
+			vm.Stack.Push(runtime.Objects.Binary.BitwiseXor(self, other))
 
 		case opcode.BinaryShiftLeft:
 			other := vm.Stack.Pop()
 			self := vm.Stack.Pop()
 
-			vm.Stack.Push(runtime.LeftShift(self, other))
+			vm.Stack.Push(runtime.Objects.Binary.ShiftLeft(self, other))
 
 		case opcode.BinaryShiftRight:
 			other := vm.Stack.Pop()
 			self := vm.Stack.Pop()
 
-			vm.Stack.Push(runtime.RightShift(self, other))
+			vm.Stack.Push(runtime.Objects.Binary.ShiftRight(self, other))
 
 		default:
 			panic(fmt.Errorf("runtime: unimplemented opcode: %v", op))
