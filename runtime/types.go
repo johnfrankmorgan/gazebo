@@ -193,6 +193,7 @@ func init() {
 
 					return Objects.Index.Get(self, name)
 				},
+
 				Set: func(self Object, name String, value Object) {
 					if attr, ok := self.Type().Attribute(name); ok && attr.Set != nil {
 						attr.Set(self, value)
@@ -201,6 +202,19 @@ func init() {
 
 					Objects.Index.Set(self, name, value)
 				},
+			},
+
+			Index: IndexProtocols{
+				Get: func(self, key Object) Object {
+					value, ok := self.(*Map).Get(key)
+					if !ok {
+						panic(Exc.NewKeyNotFound(key))
+					}
+
+					return value
+				},
+
+				Set: func(self, key, value Object) { self.(*Map).Set(key, value) },
 			},
 		},
 		Attributes: Attributes{
