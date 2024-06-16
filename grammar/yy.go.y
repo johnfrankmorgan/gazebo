@@ -123,6 +123,7 @@ func (l *lexer) Error(err string) {
     expr
     expr_attr
     expr_binary
+    expr_call
     expr_false
     expr_float
     expr_group 
@@ -302,6 +303,7 @@ expr
     | expr_attr
     | expr_index
     | expr_map
+    | expr_call
     ;
 
 exprs_comma_delimited
@@ -484,6 +486,29 @@ expr_binary
             Op: expr.BinaryShiftRight,
             Left: $1,
             Right: $4,
+        }
+    }
+    ;
+
+expr_call
+    : expr TKLParen TKRParen
+    {
+        $$ = expr.Call{
+            Target: $1,
+        }
+    }
+    | expr TKLParen exprs_comma_delimited TKRParen
+    {
+        $$ = expr.Call{
+            Target: $1,
+            Arguments: $3,
+        }
+    }
+    | expr TKLParen exprs_comma_delimited TKComma TKRParen
+    {
+        $$ = expr.Call{
+            Target: $1,
+            Arguments: $3,
         }
     }
     ;

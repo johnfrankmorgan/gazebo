@@ -5,6 +5,7 @@ type Protocols struct {
 	Bool   func(self Object) Bool
 	Repr   func(self Object) String
 	String func(self Object) String
+	Call   func(self Object, args Tuple) Object
 
 	Unary     UnaryProtocols
 	Binary    BinaryProtocols

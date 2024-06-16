@@ -4,6 +4,7 @@ type _types struct {
 	Bool          *Type
 	Exception     *Type
 	Float         *Type
+	Func          *Type
 	Int           *Type
 	List          *Type
 	Map           *Type
@@ -112,6 +113,22 @@ func init() {
 		},
 	}
 
+	Types.Func = &Type{
+		Name:   "Func",
+		Parent: Types.Object,
+
+		Protocols: Protocols{
+			Repr: func(self Object) String { return self.(*Func).Repr() },
+			Call: func(self Object, args Tuple) Object { return self.(*Func).Call(args) },
+		},
+
+		Attributes: Attributes{
+			"name": Attribute{
+				Get: func(self Object) Object { return self.(*Func).Name() },
+			},
+		},
+	}
+
 	Types.Int = &Type{
 		Name:   "Int",
 		Parent: Types.Object,
@@ -173,6 +190,15 @@ func init() {
 			"len": Attribute{
 				Get: func(self Object) Object { return self.(*List).Len() },
 			},
+		},
+		New: func(args Tuple) Object {
+			l := NewListWithLength(len(args))
+
+			for _, arg := range args {
+				l.Append(arg)
+			}
+
+			return l
 		},
 	}
 
@@ -264,6 +290,19 @@ func init() {
 				Get: func(self Object) Object { return self.(String).Len() },
 			},
 		},
+		New: func(args Tuple) Object {
+			s := String("")
+
+			for i, arg := range args {
+				if i > 0 {
+					s += " "
+				}
+
+				s += Objects.String(arg)
+			}
+
+			return s
+		},
 	}
 
 	Types.Tuple = &Type{
@@ -289,11 +328,17 @@ func init() {
 				Get: func(self Object) Object { return self.(Tuple).Len() },
 			},
 		},
+		New: func(args Tuple) Object {
+			return append(Tuple(nil), args...)
+		},
 	}
 
 	Types.Type = &Type{
 		Name:   "Type",
 		Parent: Types.Object,
+		Protocols: Protocols{
+			Repr: func(self Object) String { return self.(*Type).Repr() },
+		},
 		Attributes: Attributes{
 			"name": Attribute{
 				Get: func(self Object) Object { return self.(*Type).Name },

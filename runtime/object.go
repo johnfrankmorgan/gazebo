@@ -78,6 +78,16 @@ func (_objects) String(self Object) String {
 	panic(Exc.NewUnimplemented("string", self.Type()))
 }
 
+func (_objects) Call(self Object, args Tuple) Object {
+	for t := self.Type(); t != nil; t = t.Parent {
+		if t.Protocols.Call != nil {
+			return t.Protocols.Call(self, args)
+		}
+	}
+
+	panic(Exc.NewUnimplemented("call", self.Type()))
+}
+
 func (_attribute) Get(self Object, name String) Object {
 	for t := self.Type(); t != nil; t = t.Parent {
 		if t.Protocols.Attribute.Get != nil {
