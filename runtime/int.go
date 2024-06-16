@@ -22,41 +22,40 @@ func (i Int) Float() Float {
 	return Float(i)
 }
 
-func (i Int) Equal(other Object) Bool {
+func (i Int) Equal(other Object) Object {
 	switch other := other.(type) {
 	case Int:
-		return i == other
+		return Bool(i == other)
 
 	case Float:
 		return i.Float().Equal(other)
 	}
 
-	panic(Exc.NewUnimplementedBinary(BinaryProtocolEqual, i.Type(), other.Type()))
-
+	return Unimplemented
 }
 
-func (i Int) Less(other Object) Bool {
+func (i Int) Less(other Object) Object {
 	switch other := other.(type) {
 	case Int:
-		return i < other
+		return Bool(i < other)
 
 	case Float:
 		return i.Float().Less(other)
 	}
 
-	panic(Exc.NewUnimplementedBinary(BinaryProtocolLess, i.Type(), other.Type()))
+	return Unimplemented
 }
 
-func (i Int) Greater(other Object) Bool {
+func (i Int) Greater(other Object) Object {
 	switch other := other.(type) {
 	case Int:
-		return i > other
+		return Bool(i > other)
 
 	case Float:
 		return i.Float().Greater(other)
 	}
 
-	panic(Exc.NewUnimplementedBinary(BinaryProtocolGreater, i.Type(), other.Type()))
+	return Unimplemented
 }
 
 func (i Int) Add(other Object) Object {
@@ -68,7 +67,7 @@ func (i Int) Add(other Object) Object {
 		return i.Float().Add(other)
 	}
 
-	panic(Exc.NewUnimplementedBinary(BinaryProtocolAdd, i.Type(), other.Type()))
+	return Unimplemented
 }
 
 func (i Int) Subtract(other Object) Object {
@@ -80,7 +79,7 @@ func (i Int) Subtract(other Object) Object {
 		return i.Float().Subtract(other)
 	}
 
-	panic(Exc.NewUnimplementedBinary(BinaryProtocolSubtract, i.Type(), other.Type()))
+	return Unimplemented
 }
 
 func (i Int) Multiply(other Object) Object {
@@ -92,7 +91,7 @@ func (i Int) Multiply(other Object) Object {
 		return i.Float().Multiply(other)
 	}
 
-	panic(Exc.NewUnimplementedBinary(BinaryProtocolMultiply, i.Type(), other.Type()))
+	return Unimplemented
 }
 
 func (i Int) Divide(other Object) Object {
@@ -104,7 +103,7 @@ func (i Int) Divide(other Object) Object {
 		return i.Float().Divide(other)
 	}
 
-	panic(Exc.NewUnimplementedBinary(BinaryProtocolDivide, i.Type(), other.Type()))
+	return Unimplemented
 }
 
 func (i Int) Modulo(other Object) Object {
@@ -116,7 +115,7 @@ func (i Int) Modulo(other Object) Object {
 		return i.Float().Modulo(other)
 	}
 
-	panic(Exc.NewUnimplementedBinary(BinaryProtocolModulo, i.Type(), other.Type()))
+	return Unimplemented
 }
 
 func (i Int) BitwiseAnd(other Object) Object {
@@ -124,7 +123,7 @@ func (i Int) BitwiseAnd(other Object) Object {
 		return i & other
 	}
 
-	panic(Exc.NewUnimplementedBinary(BinaryProtocolBitwiseAnd, i.Type(), other.Type()))
+	return Unimplemented
 }
 
 func (i Int) BitwiseOr(other Object) Object {
@@ -132,7 +131,7 @@ func (i Int) BitwiseOr(other Object) Object {
 		return i | other
 	}
 
-	panic(Exc.NewUnimplementedBinary(BinaryProtocolBitwiseOr, i.Type(), other.Type()))
+	return Unimplemented
 }
 
 func (i Int) BitwiseXor(other Object) Object {
@@ -140,7 +139,7 @@ func (i Int) BitwiseXor(other Object) Object {
 		return i ^ other
 	}
 
-	panic(Exc.NewUnimplementedBinary(BinaryProtocolBitwiseXor, i.Type(), other.Type()))
+	return Unimplemented
 }
 
 func (i Int) ShiftLeft(other Object) Object {
@@ -148,7 +147,7 @@ func (i Int) ShiftLeft(other Object) Object {
 		return i << other
 	}
 
-	panic(Exc.NewUnimplementedBinary(BinaryProtocolShiftLeft, i.Type(), other.Type()))
+	return Unimplemented
 }
 
 func (i Int) ShiftRight(other Object) Object {
@@ -156,5 +155,5 @@ func (i Int) ShiftRight(other Object) Object {
 		return i >> other
 	}
 
-	panic(Exc.NewUnimplementedBinary(BinaryProtocolShiftRight, i.Type(), other.Type()))
+	return Unimplemented
 }

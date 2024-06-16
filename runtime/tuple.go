@@ -24,7 +24,7 @@ func (t Tuple) Len() Int {
 	return Int(len(t))
 }
 
-func (t Tuple) Equal(other Object) Bool {
+func (t Tuple) Equal(other Object) Object {
 	if other, ok := other.(Tuple); ok {
 		if t.Len() != other.Len() {
 			return False
@@ -39,7 +39,7 @@ func (t Tuple) Equal(other Object) Bool {
 		return True
 	}
 
-	panic(Exc.NewUnimplemented("equal", t.Type()))
+	return Unimplemented
 }
 
 func (t Tuple) Contains(other Object) Bool {
@@ -60,7 +60,7 @@ func (t Tuple) Add(other Object) Object {
 		return result
 	}
 
-	panic(Exc.NewUnimplemented("add", t.Type()))
+	return Unimplemented
 }
 
 func (t Tuple) Multiply(other Object) Object {
@@ -74,7 +74,7 @@ func (t Tuple) Multiply(other Object) Object {
 		return result
 	}
 
-	panic(Exc.NewUnimplemented("multiply", t.Type()))
+	return Unimplemented
 }
 
 func (t Tuple) GetIndex(index Object) Object {
@@ -82,5 +82,5 @@ func (t Tuple) GetIndex(index Object) Object {
 		return t[index]
 	}
 
-	panic(Exc.NewUnimplemented("get index", t.Type()))
+	panic(Exc.NewInvalidType(index.Type(), Types.Int))
 }

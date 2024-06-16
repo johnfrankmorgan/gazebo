@@ -36,28 +36,28 @@ func (s String) Len() Int {
 	return Int(len(s))
 }
 
-func (s String) Equal(other Object) Bool {
+func (s String) Equal(other Object) Object {
 	if other, ok := other.(String); ok {
-		return s == other
+		return Bool(s == other)
 	}
 
-	panic(Exc.NewUnimplemented("equal", s.Type()))
+	return Unimplemented
 }
 
-func (s String) Less(other Object) Bool {
+func (s String) Less(other Object) Object {
 	if other, ok := other.(String); ok {
-		return s < other
+		return Bool(s < other)
 	}
 
-	panic(Exc.NewUnimplemented("less", s.Type()))
+	return Unimplemented
 }
 
-func (s String) Greater(other Object) Bool {
+func (s String) Greater(other Object) Object {
 	if other, ok := other.(String); ok {
-		return s > other
+		return Bool(s > other)
 	}
 
-	panic(Exc.NewUnimplemented("greater", s.Type()))
+	return Unimplemented
 }
 
 func (s String) Add(other Object) Object {
@@ -65,7 +65,7 @@ func (s String) Add(other Object) Object {
 		return s + other
 	}
 
-	panic(Exc.NewUnimplemented("add", s.Type()))
+	return Unimplemented
 }
 
 func (s String) Multiply(other Object) Object {
@@ -73,7 +73,7 @@ func (s String) Multiply(other Object) Object {
 		return String(strings.Repeat(string(s), int(other)))
 	}
 
-	panic(Exc.NewUnimplemented("multiply", s.Type()))
+	return Unimplemented
 }
 
 func (s String) GetIndex(index Object) Object {
