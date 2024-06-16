@@ -1,17 +1,18 @@
 package runtime
 
 type _types struct {
-	Bool      *Type
-	Exception *Type
-	Float     *Type
-	Int       *Type
-	List      *Type
-	Map       *Type
-	Nil       *Type
-	Object    *Type
-	String    *Type
-	Tuple     *Type
-	Type      *Type
+	Bool          *Type
+	Exception     *Type
+	Float         *Type
+	Int           *Type
+	List          *Type
+	Map           *Type
+	Nil           *Type
+	Object        *Type
+	String        *Type
+	Tuple         *Type
+	Type          *Type
+	Unimplemented *Type
 
 	Exc struct {
 		Unimplemented     *Type
@@ -36,7 +37,7 @@ func init() {
 			String: func(self Object) String { return Objects.Repr(self) },
 
 			Binary: BinaryProtocols{
-				Equal: Objects.Is,
+				Equal: func(self, other Object) Object { return Objects.Is(self, other) },
 			},
 
 			Attribute: AttributeProtocols{
@@ -99,9 +100,9 @@ func init() {
 			},
 
 			Binary: BinaryProtocols{
-				Equal:   func(self, other Object) Bool { return self.(Float).Equal(other) },
-				Less:    func(self, other Object) Bool { return self.(Float).Less(other) },
-				Greater: func(self, other Object) Bool { return self.(Float).Greater(other) },
+				Equal:   func(self, other Object) Object { return self.(Float).Equal(other) },
+				Less:    func(self, other Object) Object { return self.(Float).Less(other) },
+				Greater: func(self, other Object) Object { return self.(Float).Greater(other) },
 
 				Add:      func(self, other Object) Object { return self.(Float).Add(other) },
 				Subtract: func(self, other Object) Object { return self.(Float).Subtract(other) },
@@ -125,9 +126,9 @@ func init() {
 			},
 
 			Binary: BinaryProtocols{
-				Equal:   func(self, other Object) Bool { return self.(Int).Equal(other) },
-				Less:    func(self, other Object) Bool { return self.(Int).Less(other) },
-				Greater: func(self, other Object) Bool { return self.(Int).Greater(other) },
+				Equal:   func(self, other Object) Object { return self.(Int).Equal(other) },
+				Less:    func(self, other Object) Object { return self.(Int).Less(other) },
+				Greater: func(self, other Object) Object { return self.(Int).Greater(other) },
 
 				Add:      func(self, other Object) Object { return self.(Int).Add(other) },
 				Subtract: func(self, other Object) Object { return self.(Int).Subtract(other) },
@@ -153,8 +154,8 @@ func init() {
 			Repr: func(self Object) String { return self.(*List).Repr() },
 
 			Binary: BinaryProtocols{
-				Equal:    func(self, other Object) Bool { return self.(*List).Equal(other) },
-				Contains: func(self, other Object) Bool { return self.(*List).Contains(other) },
+				Equal:    func(self, other Object) Object { return self.(*List).Equal(other) },
+				Contains: func(self, other Object) Object { return self.(*List).Contains(other) },
 				Add:      func(self, other Object) Object { return self.(*List).Add(other) },
 				Multiply: func(self, other Object) Object { return self.(*List).Multiply(other) },
 
@@ -182,7 +183,7 @@ func init() {
 			Bool: func(self Object) Bool { return self.(*Map).Bool() },
 
 			Binary: BinaryProtocols{
-				Contains: func(self, other Object) Bool { return self.(*Map).Contains(other) },
+				Contains: func(self, other Object) Object { return self.(*Map).Contains(other) },
 			},
 
 			Attribute: AttributeProtocols{
@@ -243,9 +244,9 @@ func init() {
 			String: func(self Object) String { return self.(String).String() },
 
 			Binary: BinaryProtocols{
-				Equal:    func(self, other Object) Bool { return self.(String).Equal(other) },
-				Less:     func(self, other Object) Bool { return self.(String).Less(other) },
-				Greater:  func(self, other Object) Bool { return self.(String).Greater(other) },
+				Equal:    func(self, other Object) Object { return self.(String).Equal(other) },
+				Less:     func(self, other Object) Object { return self.(String).Less(other) },
+				Greater:  func(self, other Object) Object { return self.(String).Greater(other) },
 				Add:      func(self, other Object) Object { return self.(String).Add(other) },
 				Multiply: func(self, other Object) Object { return self.(String).Multiply(other) },
 
@@ -273,8 +274,8 @@ func init() {
 			Bool: func(self Object) Bool { return self.(Tuple).Bool() },
 
 			Binary: BinaryProtocols{
-				Equal:    func(self, other Object) Bool { return self.(Tuple).Equal(other) },
-				Contains: func(self, other Object) Bool { return self.(Tuple).Contains(other) },
+				Equal:    func(self, other Object) Object { return self.(Tuple).Equal(other) },
+				Contains: func(self, other Object) Object { return self.(Tuple).Contains(other) },
 				Add:      func(self, other Object) Object { return self.(Tuple).Add(other) },
 				Multiply: func(self, other Object) Object { return self.(Tuple).Multiply(other) },
 			},
@@ -309,6 +310,11 @@ func init() {
 				},
 			},
 		},
+	}
+
+	Types.Unimplemented = &Type{
+		Name:   "Unimplemented",
+		Parent: Types.Object,
 	}
 
 	Types.Exc.Unimplemented = &Type{

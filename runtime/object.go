@@ -140,25 +140,26 @@ func (_unary) Negative(self Object) Object {
 	panic(Exc.NewUnimplementedUnary(UnaryProtocolNegative, self.Type()))
 }
 
-func (_binary) Equal(self, other Object) (result Bool) {
+func (_binary) Equal(self, other Object) Bool {
 	if Objects.Is(self, other) {
 		return True
 	}
 
-	defer func() {
-		if r := recover(); r != nil {
-			if exc, ok := r.(*Exception); Bool(ok) && Objects.IsInstance(exc, Types.Exc.Unimplemented) {
-				result = Objects.Binary.Right.Equal(other, self)
-			} else {
-				panic(r)
-			}
-		}
-	}()
-
 	for t := self.Type(); t != nil; t = t.Parent {
-		if t.Protocols.Binary.Equal != nil {
-			return t.Protocols.Binary.Equal(self, other)
+		if t.Protocols.Binary.Equal == nil {
+			continue
 		}
+
+		result := t.Protocols.Binary.Equal(self, other)
+		if Objects.IsUnimplemented(result) {
+			break
+		}
+
+		return result.(Bool)
+	}
+
+	if result := Objects.Binary.Right.Equal(other, self); !Objects.IsUnimplemented(result) {
+		return result.(Bool)
 	}
 
 	panic(Exc.NewUnimplementedBinary(BinaryProtocolEqual, self.Type(), other.Type()))
@@ -168,21 +169,22 @@ func (_binary) NotEqual(self, other Object) Bool {
 	return !Objects.Binary.Equal(self, other)
 }
 
-func (_binary) Less(self, other Object) (result Bool) {
-	defer func() {
-		if r := recover(); r != nil {
-			if exc, ok := r.(*Exception); Bool(ok) && Objects.IsInstance(exc, Types.Exc.Unimplemented) {
-				result = Objects.Binary.Right.Less(other, self)
-			} else {
-				panic(r)
-			}
-		}
-	}()
-
+func (_binary) Less(self, other Object) Bool {
 	for t := self.Type(); t != nil; t = t.Parent {
-		if t.Protocols.Binary.Less != nil {
-			return t.Protocols.Binary.Less(self, other)
+		if t.Protocols.Binary.Less == nil {
+			continue
 		}
+
+		result := t.Protocols.Binary.Less(self, other)
+		if Objects.IsUnimplemented(result) {
+			break
+		}
+
+		return result.(Bool)
+	}
+
+	if result := Objects.Binary.Right.Greater(other, self); !Objects.IsUnimplemented(result) {
+		return result.(Bool)
 	}
 
 	panic(Exc.NewUnimplementedBinary(BinaryProtocolLess, self.Type(), other.Type()))
@@ -192,21 +194,22 @@ func (_binary) LessOrEqual(self, other Object) Bool {
 	return Objects.Binary.Less(self, other) || Objects.Binary.Equal(self, other)
 }
 
-func (_binary) Greater(self, other Object) (result Bool) {
-	defer func() {
-		if r := recover(); r != nil {
-			if exc, ok := r.(*Exception); Bool(ok) && Objects.IsInstance(exc, Types.Exc.Unimplemented) {
-				result = Objects.Binary.Right.Greater(other, self)
-			} else {
-				panic(r)
-			}
-		}
-	}()
-
+func (_binary) Greater(self, other Object) Bool {
 	for t := self.Type(); t != nil; t = t.Parent {
-		if t.Protocols.Binary.Greater != nil {
-			return t.Protocols.Binary.Greater(self, other)
+		if t.Protocols.Binary.Greater == nil {
+			continue
 		}
+
+		result := t.Protocols.Binary.Greater(self, other)
+		if Objects.IsUnimplemented(result) {
+			break
+		}
+
+		return result.(Bool)
+	}
+
+	if result := Objects.Binary.Right.Less(other, self); !Objects.IsUnimplemented(result) {
+		return result.(Bool)
 	}
 
 	panic(Exc.NewUnimplementedBinary(BinaryProtocolGreater, self.Type(), other.Type()))
@@ -218,242 +221,259 @@ func (_binary) GreaterOrEqual(self, other Object) Bool {
 
 func (_binary) Contains(self, other Object) Bool {
 	for t := self.Type(); t != nil; t = t.Parent {
-		if t.Protocols.Binary.Contains != nil {
-			return t.Protocols.Binary.Contains(self, other)
+		if t.Protocols.Binary.Contains == nil {
+			continue
 		}
+
+		result := t.Protocols.Binary.Contains(self, other)
+		if Objects.IsUnimplemented(result) {
+			break
+		}
+
+		return result.(Bool)
 	}
 
 	panic(Exc.NewUnimplementedBinary(BinaryProtocolContains, self.Type(), other.Type()))
 }
 
-func (_binary) Add(self, other Object) (result Object) {
-	defer func() {
-		if r := recover(); r != nil {
-			if exc, ok := r.(*Exception); Bool(ok) && Objects.IsInstance(exc, Types.Exc.Unimplemented) {
-				result = Objects.Binary.Right.Add(other, self)
-			} else {
-				panic(r)
-			}
-		}
-	}()
-
+func (_binary) Add(self, other Object) Object {
 	for t := self.Type(); t != nil; t = t.Parent {
-		if t.Protocols.Binary.Add != nil {
-			return t.Protocols.Binary.Add(self, other)
+		if t.Protocols.Binary.Add == nil {
+			continue
 		}
+
+		result := t.Protocols.Binary.Add(self, other)
+		if Objects.IsUnimplemented(result) {
+			break
+		}
+
+		return result
+	}
+
+	if result := Objects.Binary.Right.Add(other, self); !Objects.IsUnimplemented(result) {
+		return result
 	}
 
 	panic(Exc.NewUnimplementedBinary(BinaryProtocolAdd, self.Type(), other.Type()))
 }
 
-func (_binary) Subtract(self, other Object) (result Object) {
-	defer func() {
-		if r := recover(); r != nil {
-			if exc, ok := r.(*Exception); Bool(ok) && Objects.IsInstance(exc, Types.Exc.Unimplemented) {
-				result = Objects.Binary.Right.Subtract(other, self)
-			} else {
-				panic(r)
-			}
-		}
-	}()
-
+func (_binary) Subtract(self, other Object) Object {
 	for t := self.Type(); t != nil; t = t.Parent {
-		if t.Protocols.Binary.Subtract != nil {
-			return t.Protocols.Binary.Subtract(self, other)
+		if t.Protocols.Binary.Subtract == nil {
+			continue
 		}
+
+		result := t.Protocols.Binary.Subtract(self, other)
+		if Objects.IsUnimplemented(result) {
+			break
+		}
+
+		return result
+	}
+
+	if result := Objects.Binary.Right.Subtract(other, self); !Objects.IsUnimplemented(result) {
+		return result
 	}
 
 	panic(Exc.NewUnimplementedBinary(BinaryProtocolSubtract, self.Type(), other.Type()))
 }
 
-func (_binary) Multiply(self, other Object) (result Object) {
-	defer func() {
-		if r := recover(); r != nil {
-			if exc, ok := r.(*Exception); Bool(ok) && Objects.IsInstance(exc, Types.Exc.Unimplemented) {
-				result = Objects.Binary.Right.Multiply(other, self)
-			} else {
-				panic(r)
-			}
-		}
-	}()
-
+func (_binary) Multiply(self, other Object) Object {
 	for t := self.Type(); t != nil; t = t.Parent {
-		if t.Protocols.Binary.Multiply != nil {
-			return t.Protocols.Binary.Multiply(self, other)
+		if t.Protocols.Binary.Multiply == nil {
+			continue
 		}
+
+		result := t.Protocols.Binary.Multiply(self, other)
+		if Objects.IsUnimplemented(result) {
+			break
+		}
+
+		return result
+	}
+
+	if result := Objects.Binary.Right.Multiply(other, self); !Objects.IsUnimplemented(result) {
+		return result
 	}
 
 	panic(Exc.NewUnimplementedBinary(BinaryProtocolMultiply, self.Type(), other.Type()))
 }
 
-func (_binary) Divide(self, other Object) (result Object) {
-	defer func() {
-		if r := recover(); r != nil {
-			if exc, ok := r.(*Exception); Bool(ok) && Objects.IsInstance(exc, Types.Exc.Unimplemented) {
-				result = Objects.Binary.Right.Divide(other, self)
-			} else {
-				panic(r)
-			}
-		}
-	}()
-
+func (_binary) Divide(self, other Object) Object {
 	for t := self.Type(); t != nil; t = t.Parent {
-		if t.Protocols.Binary.Divide != nil {
-			return t.Protocols.Binary.Divide(self, other)
+		if t.Protocols.Binary.Divide == nil {
+			continue
 		}
+
+		result := t.Protocols.Binary.Divide(self, other)
+		if Objects.IsUnimplemented(result) {
+			break
+		}
+
+		return result
+	}
+
+	if result := Objects.Binary.Right.Divide(other, self); !Objects.IsUnimplemented(result) {
+		return result
 	}
 
 	panic(Exc.NewUnimplementedBinary(BinaryProtocolDivide, self.Type(), other.Type()))
 }
 
-func (_binary) Modulo(self, other Object) (result Object) {
-	defer func() {
-		if r := recover(); r != nil {
-			if exc, ok := r.(*Exception); Bool(ok) && Objects.IsInstance(exc, Types.Exc.Unimplemented) {
-				result = Objects.Binary.Right.Modulo(other, self)
-			} else {
-				panic(r)
-			}
-		}
-	}()
-
+func (_binary) Modulo(self, other Object) Object {
 	for t := self.Type(); t != nil; t = t.Parent {
-		if t.Protocols.Binary.Modulo != nil {
-			return t.Protocols.Binary.Modulo(self, other)
+		if t.Protocols.Binary.Modulo == nil {
+			continue
 		}
+
+		result := t.Protocols.Binary.Modulo(self, other)
+		if Objects.IsUnimplemented(result) {
+			break
+		}
+
+		return result
+	}
+
+	if result := Objects.Binary.Right.Modulo(other, self); !Objects.IsUnimplemented(result) {
+		return result
 	}
 
 	panic(Exc.NewUnimplementedBinary(BinaryProtocolModulo, self.Type(), other.Type()))
 }
 
-func (_binary) BitwiseAnd(self, other Object) (result Object) {
-	defer func() {
-		if r := recover(); r != nil {
-			if exc, ok := r.(*Exception); Bool(ok) && Objects.IsInstance(exc, Types.Exc.Unimplemented) {
-				result = Objects.Binary.Right.BitwiseAnd(other, self)
-			} else {
-				panic(r)
-			}
-		}
-	}()
-
+func (_binary) BitwiseAnd(self, other Object) Object {
 	for t := self.Type(); t != nil; t = t.Parent {
-		if t.Protocols.Binary.BitwiseAnd != nil {
-			return t.Protocols.Binary.BitwiseAnd(self, other)
+		if t.Protocols.Binary.BitwiseAnd == nil {
+			continue
 		}
+
+		result := t.Protocols.Binary.BitwiseAnd(self, other)
+		if Objects.IsUnimplemented(result) {
+			break
+		}
+
+		return result
+	}
+
+	if result := Objects.Binary.Right.BitwiseAnd(other, self); !Objects.IsUnimplemented(result) {
+		return result
 	}
 
 	panic(Exc.NewUnimplementedBinary(BinaryProtocolBitwiseAnd, self.Type(), other.Type()))
 }
 
-func (_binary) BitwiseOr(self, other Object) (result Object) {
-	defer func() {
-		if r := recover(); r != nil {
-			if exc, ok := r.(*Exception); Bool(ok) && Objects.IsInstance(exc, Types.Exc.Unimplemented) {
-				result = Objects.Binary.Right.BitwiseOr(other, self)
-			} else {
-				panic(r)
-			}
-		}
-	}()
-
+func (_binary) BitwiseOr(self, other Object) Object {
 	for t := self.Type(); t != nil; t = t.Parent {
-		if t.Protocols.Binary.BitwiseOr != nil {
-			return t.Protocols.Binary.BitwiseOr(self, other)
+		if t.Protocols.Binary.BitwiseOr == nil {
+			continue
 		}
+
+		result := t.Protocols.Binary.BitwiseOr(self, other)
+		if Objects.IsUnimplemented(result) {
+			break
+		}
+
+		return result
+	}
+
+	if result := Objects.Binary.Right.BitwiseOr(other, self); !Objects.IsUnimplemented(result) {
+		return result
 	}
 
 	panic(Exc.NewUnimplementedBinary(BinaryProtocolBitwiseOr, self.Type(), other.Type()))
 }
 
-func (_binary) BitwiseXor(self, other Object) (result Object) {
-	defer func() {
-		if r := recover(); r != nil {
-			if exc, ok := r.(*Exception); Bool(ok) && Objects.IsInstance(exc, Types.Exc.Unimplemented) {
-				result = Objects.Binary.Right.BitwiseXor(other, self)
-			} else {
-				panic(r)
-			}
-		}
-	}()
-
+func (_binary) BitwiseXor(self, other Object) Object {
 	for t := self.Type(); t != nil; t = t.Parent {
-		if t.Protocols.Binary.BitwiseXor != nil {
-			return t.Protocols.Binary.BitwiseXor(self, other)
+		if t.Protocols.Binary.BitwiseXor == nil {
+			continue
 		}
+
+		result := t.Protocols.Binary.BitwiseXor(self, other)
+		if Objects.IsUnimplemented(result) {
+			break
+		}
+
+		return result
+	}
+
+	if result := Objects.Binary.Right.BitwiseXor(other, self); !Objects.IsUnimplemented(result) {
+		return result
 	}
 
 	panic(Exc.NewUnimplementedBinary(BinaryProtocolBitwiseXor, self.Type(), other.Type()))
 }
 
-func (_binary) ShiftLeft(self, other Object) (result Object) {
-	defer func() {
-		if r := recover(); r != nil {
-			if exc, ok := r.(*Exception); Bool(ok) && Objects.IsInstance(exc, Types.Exc.Unimplemented) {
-				result = Objects.Binary.Right.ShiftLeft(other, self)
-			} else {
-				panic(r)
-			}
-		}
-	}()
-
+func (_binary) ShiftLeft(self, other Object) Object {
 	for t := self.Type(); t != nil; t = t.Parent {
-		if t.Protocols.Binary.ShiftLeft != nil {
-			return t.Protocols.Binary.ShiftLeft(self, other)
+		if t.Protocols.Binary.ShiftLeft == nil {
+			continue
 		}
+
+		result := t.Protocols.Binary.ShiftLeft(self, other)
+		if Objects.IsUnimplemented(result) {
+			break
+		}
+
+		return result
+	}
+
+	if result := Objects.Binary.Right.ShiftLeft(other, self); !Objects.IsUnimplemented(result) {
+		return result
 	}
 
 	panic(Exc.NewUnimplementedBinary(BinaryProtocolShiftLeft, self.Type(), other.Type()))
 }
 
-func (_binary) ShiftRight(self, other Object) (result Object) {
-	defer func() {
-		if r := recover(); r != nil {
-			if exc, ok := r.(*Exception); Bool(ok) && Objects.IsInstance(exc, Types.Exc.Unimplemented) {
-				result = Objects.Binary.Right.ShiftRight(other, self)
-			} else {
-				panic(r)
-			}
-		}
-	}()
-
+func (_binary) ShiftRight(self, other Object) Object {
 	for t := self.Type(); t != nil; t = t.Parent {
-		if t.Protocols.Binary.ShiftRight != nil {
-			return t.Protocols.Binary.ShiftRight(self, other)
+		if t.Protocols.Binary.ShiftRight == nil {
+			continue
 		}
+
+		result := t.Protocols.Binary.ShiftRight(self, other)
+		if Objects.IsUnimplemented(result) {
+			break
+		}
+
+		return result
 	}
 
-	panic(Exc.NewUnimplementedBinary(BinaryProtocolShiftRight, self.Type(), other.Type()))
+	if result := Objects.Binary.Right.ShiftRight(other, self); !Objects.IsUnimplemented(result) {
+		return result
+	}
+
+	return Unimplemented
 }
 
-func (_rbinary) Equal(self, other Object) Bool {
+func (_rbinary) Equal(self, other Object) Object {
 	for t := self.Type(); t != nil; t = t.Parent {
 		if t.Protocols.Binary.Right.Equal != nil {
 			return t.Protocols.Binary.Right.Equal(self, other)
 		}
 	}
 
-	return False
+	return Unimplemented
 }
 
-func (_rbinary) Less(self, other Object) Bool {
+func (_rbinary) Less(self, other Object) Object {
 	for t := self.Type(); t != nil; t = t.Parent {
 		if t.Protocols.Binary.Right.Less != nil {
 			return t.Protocols.Binary.Right.Less(self, other)
 		}
 	}
 
-	panic(Exc.NewUnimplementedBinary(BinaryProtocolLess, other.Type(), self.Type()))
+	return Unimplemented
 }
 
-func (_rbinary) Greater(self, other Object) Bool {
+func (_rbinary) Greater(self, other Object) Object {
 	for t := self.Type(); t != nil; t = t.Parent {
 		if t.Protocols.Binary.Right.Greater != nil {
 			return t.Protocols.Binary.Right.Greater(self, other)
 		}
 	}
 
-	panic(Exc.NewUnimplementedBinary(BinaryProtocolGreater, other.Type(), self.Type()))
+	return Unimplemented
 }
 
 func (_rbinary) Add(self, other Object) Object {
@@ -463,7 +483,7 @@ func (_rbinary) Add(self, other Object) Object {
 		}
 	}
 
-	panic(Exc.NewUnimplementedBinary(BinaryProtocolAdd, other.Type(), self.Type()))
+	return Unimplemented
 }
 
 func (_rbinary) Subtract(self, other Object) Object {
@@ -473,7 +493,7 @@ func (_rbinary) Subtract(self, other Object) Object {
 		}
 	}
 
-	panic(Exc.NewUnimplementedBinary(BinaryProtocolSubtract, other.Type(), self.Type()))
+	return Unimplemented
 }
 
 func (_rbinary) Multiply(self, other Object) Object {
@@ -483,7 +503,7 @@ func (_rbinary) Multiply(self, other Object) Object {
 		}
 	}
 
-	panic(Exc.NewUnimplementedBinary(BinaryProtocolMultiply, other.Type(), self.Type()))
+	return Unimplemented
 }
 
 func (_rbinary) Divide(self, other Object) Object {
@@ -493,7 +513,7 @@ func (_rbinary) Divide(self, other Object) Object {
 		}
 	}
 
-	panic(Exc.NewUnimplementedBinary(BinaryProtocolDivide, other.Type(), self.Type()))
+	return Unimplemented
 }
 
 func (_rbinary) Modulo(self, other Object) Object {
@@ -503,7 +523,7 @@ func (_rbinary) Modulo(self, other Object) Object {
 		}
 	}
 
-	panic(Exc.NewUnimplementedBinary(BinaryProtocolModulo, other.Type(), self.Type()))
+	return Unimplemented
 }
 
 func (_rbinary) BitwiseAnd(self, other Object) Object {
@@ -513,7 +533,7 @@ func (_rbinary) BitwiseAnd(self, other Object) Object {
 		}
 	}
 
-	panic(Exc.NewUnimplementedBinary(BinaryProtocolBitwiseAnd, other.Type(), self.Type()))
+	return Unimplemented
 }
 
 func (_rbinary) BitwiseOr(self, other Object) Object {
@@ -523,7 +543,7 @@ func (_rbinary) BitwiseOr(self, other Object) Object {
 		}
 	}
 
-	panic(Exc.NewUnimplementedBinary(BinaryProtocolBitwiseOr, other.Type(), self.Type()))
+	return Unimplemented
 }
 
 func (_rbinary) BitwiseXor(self, other Object) Object {
@@ -533,7 +553,7 @@ func (_rbinary) BitwiseXor(self, other Object) Object {
 		}
 	}
 
-	panic(Exc.NewUnimplementedBinary(BinaryProtocolBitwiseXor, other.Type(), self.Type()))
+	return Unimplemented
 }
 
 func (_rbinary) ShiftLeft(self, other Object) Object {
@@ -543,7 +563,7 @@ func (_rbinary) ShiftLeft(self, other Object) Object {
 		}
 	}
 
-	panic(Exc.NewUnimplementedBinary(BinaryProtocolShiftLeft, other.Type(), self.Type()))
+	return Unimplemented
 }
 
 func (_rbinary) ShiftRight(self, other Object) Object {
@@ -553,5 +573,5 @@ func (_rbinary) ShiftRight(self, other Object) Object {
 		}
 	}
 
-	panic(Exc.NewUnimplementedBinary(BinaryProtocolShiftRight, other.Type(), self.Type()))
+	return Unimplemented
 }

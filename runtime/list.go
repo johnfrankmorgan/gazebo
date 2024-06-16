@@ -83,7 +83,7 @@ func (l *List) SetIndex(index, value Object) {
 	panic(Exc.NewInvalidType(index.Type(), Types.Int))
 }
 
-func (l *List) Equal(other Object) Bool {
+func (l *List) Equal(other Object) Object {
 	if other, ok := other.(*List); ok {
 		if l.Len() != other.Len() {
 			return False
@@ -98,7 +98,7 @@ func (l *List) Equal(other Object) Bool {
 		return False
 	}
 
-	panic(Exc.NewUnimplementedBinary(BinaryProtocolEqual, l.Type(), other.Type()))
+	return Unimplemented
 }
 
 func (l *List) Contains(other Object) Bool {
@@ -119,7 +119,7 @@ func (l *List) Add(other Object) Object {
 		return result
 	}
 
-	panic(Exc.NewUnimplementedBinary(BinaryProtocolAdd, l.Type(), other.Type()))
+	return Unimplemented
 }
 
 func (l *List) Multiply(other Object) Object {
@@ -133,5 +133,5 @@ func (l *List) Multiply(other Object) Object {
 		return result
 	}
 
-	panic(Exc.NewUnimplementedBinary(BinaryProtocolMultiply, l.Type(), other.Type()))
+	return Unimplemented
 }

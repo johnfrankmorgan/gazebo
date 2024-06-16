@@ -25,11 +25,11 @@ const (
 )
 
 type BinaryProtocols struct {
-	Equal   func(self, other Object) Bool
-	Less    func(self, other Object) Bool
-	Greater func(self, other Object) Bool
+	Equal   func(self, other Object) Object
+	Less    func(self, other Object) Object
+	Greater func(self, other Object) Object
 
-	Contains func(self, other Object) Bool
+	Contains func(self, other Object) Object
 
 	Add      func(self, other Object) Object
 	Subtract func(self, other Object) Object
@@ -71,11 +71,11 @@ const (
 )
 
 type RBinaryProtocols struct {
-	Equal   func(self, other Object) Bool
-	Less    func(self, other Object) Bool
-	Greater func(self, other Object) Bool
+	Equal   func(self, other Object) Object
+	Less    func(self, other Object) Object
+	Greater func(self, other Object) Object
 
-	Contains func(self, other Object) Bool
+	Contains func(self, other Object) Object
 
 	Add      func(self, other Object) Object
 	Subtract func(self, other Object) Object

@@ -22,7 +22,7 @@ func (f Float) Repr() String {
 
 var epsilon = math.Nextafter(1, 2) - 1
 
-func (f Float) Equal(other Object) Bool {
+func (f Float) Equal(other Object) Object {
 	otherf := Float(0)
 
 	switch other := other.(type) {
@@ -33,34 +33,34 @@ func (f Float) Equal(other Object) Bool {
 		otherf = other.Float()
 
 	default:
-		panic(Exc.NewUnimplementedBinary(BinaryProtocolEqual, f.Type(), other.Type()))
+		return Unimplemented
 	}
 
-	return math.Abs(float64(f-otherf)) < epsilon
+	return Bool(math.Abs(float64(f-otherf)) < epsilon)
 }
 
-func (f Float) Less(other Object) Bool {
+func (f Float) Less(other Object) Object {
 	switch other := other.(type) {
 	case Float:
-		return f < other
+		return Bool(f < other)
 
 	case Int:
-		return f < other.Float()
+		return Bool(f < other.Float())
 	}
 
-	panic(Exc.NewUnimplementedBinary(BinaryProtocolLess, f.Type(), other.Type()))
+	return Unimplemented
 }
 
-func (f Float) Greater(other Object) Bool {
+func (f Float) Greater(other Object) Object {
 	switch other := other.(type) {
 	case Float:
-		return f > other
+		return Bool(f > other)
 
 	case Int:
-		return f > other.Float()
+		return Bool(f > other.Float())
 	}
 
-	panic(Exc.NewUnimplementedBinary(BinaryProtocolGreater, f.Type(), other.Type()))
+	return Unimplemented
 }
 
 func (f Float) Add(other Object) Object {
@@ -72,7 +72,7 @@ func (f Float) Add(other Object) Object {
 		return f + other.Float()
 	}
 
-	panic(Exc.NewUnimplementedBinary(BinaryProtocolAdd, f.Type(), other.Type()))
+	return Unimplemented
 }
 
 func (f Float) Subtract(other Object) Object {
@@ -84,7 +84,7 @@ func (f Float) Subtract(other Object) Object {
 		return f - other.Float()
 	}
 
-	panic(Exc.NewUnimplementedBinary(BinaryProtocolSubtract, f.Type(), other.Type()))
+	return Unimplemented
 }
 
 func (f Float) Multiply(other Object) Object {
@@ -96,7 +96,7 @@ func (f Float) Multiply(other Object) Object {
 		return f * other.Float()
 	}
 
-	panic(Exc.NewUnimplementedBinary(BinaryProtocolMultiply, f.Type(), other.Type()))
+	return Unimplemented
 }
 
 func (f Float) Divide(other Object) Object {
@@ -108,7 +108,7 @@ func (f Float) Divide(other Object) Object {
 		return f / other.Float()
 	}
 
-	panic(Exc.NewUnimplementedBinary(BinaryProtocolDivide, f.Type(), other.Type()))
+	return Unimplemented
 }
 
 func (f Float) Modulo(other Object) Object {
@@ -120,5 +120,5 @@ func (f Float) Modulo(other Object) Object {
 		return Float(math.Mod(float64(f), float64(other.Float())))
 	}
 
-	panic(Exc.NewUnimplementedBinary(BinaryProtocolModulo, f.Type(), other.Type()))
+	return Unimplemented
 }
