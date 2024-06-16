@@ -15,6 +15,9 @@ func (c *compiler) compileExpr(node ast.Expr) {
 	case expr.Binary:
 		c.compileExprBinary(node)
 
+	case expr.Call:
+		c.compileExprCall(node)
+
 	case expr.False:
 		c.compileExprFalse(node)
 

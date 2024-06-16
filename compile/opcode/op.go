@@ -58,6 +58,8 @@ const (
 	GetAttribute
 	SetAttribute
 
+	Call
+
 	_HasArgumentEnd
 
 	GetIndex

@@ -2,6 +2,7 @@ package vm
 
 import (
 	"fmt"
+	"reflect"
 
 	"github.com/johnfrankmorgan/gazebo/compile"
 	"github.com/johnfrankmorgan/gazebo/compile/opcode"
@@ -14,8 +15,23 @@ type VM struct {
 }
 
 func New() *VM {
+	variables := new(Variables)
+
+	for _, builtin := range runtime.Builtins {
+		variables.Set(string(builtin.Name()), builtin)
+	}
+
+	types := reflect.ValueOf(runtime.Types)
+	for i := 0; i < types.NumField(); i++ {
+		if field := types.Field(i); field.Type() == reflect.TypeOf((*runtime.Type)(nil)) {
+			t := field.Interface().(*runtime.Type)
+
+			variables.Set(string(t.Name), t)
+		}
+	}
+
 	return &VM{
-		Variables: new(Variables),
+		Variables: variables,
 	}
 }
 
@@ -96,6 +112,17 @@ func (vm *VM) Exec(module *compile.Module) runtime.Object {
 			value := vm.Stack.Pop()
 
 			runtime.Objects.Attribute.Set(self, runtime.String(name), value)
+
+		case opcode.Call:
+			args := make(runtime.Tuple, arg)
+
+			for i := range args {
+				args[arg-i-1] = vm.Stack.Pop()
+			}
+
+			self := vm.Stack.Pop()
+
+			vm.Stack.Push(runtime.Objects.Call(self, args))
 
 		case opcode.GetIndex:
 			index := vm.Stack.Pop()
